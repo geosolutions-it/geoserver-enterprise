@@ -15,12 +15,16 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;
 import org.geoserver.catalog.FeatureTypeInfo;
+
+import org.geoserver.catalog.MetadataLinkInfo;
 import org.geoserver.data.test.MockData;
+
 import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.wfs.WFSGetFeatureOutputFormat;
 import org.geoserver.wfs.WFSTestSupport;
 import org.geotools.wfs.v2_0.WFSConfiguration;
 import org.geotools.xml.Parser;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -28,7 +32,7 @@ import org.w3c.dom.NodeList;
 import com.mockrunner.mock.web.MockHttpServletResponse;
 
 public class GetCapabilitiesTest extends WFS20TestSupport {
-    
+
     /**
      * This is a READ ONLY TEST so we can use one time setup
      */
@@ -272,5 +276,21 @@ public class GetCapabilitiesTest extends WFS20TestSupport {
 
         response = getAsServletResponse("wfs?request=GetCapabilities&version=2.0.0&acceptformats=text/xml");
         assertEquals("text/xml", response.getContentType());
+    }
+
+    public void testMetadataLinks() throws Exception {
+        FeatureTypeInfo mpolys = getCatalog().getFeatureTypeByName(getLayerId(MockData.MPOLYGONS));
+        MetadataLinkInfo ml = getCatalog().getFactory().createMetadataLink();
+        ml.setMetadataType("FGDC");
+        ml.setType("text/html");
+        ml.setContent("http://www.geoserver.org");
+        mpolys.getMetadataLinks().add(ml);
+        getCatalog().save(mpolys);
+        
+        Document doc = getAsDOM("wfs?service=WFS&version=2.0.0&request=getCapabilities");
+        // print(doc);
+        XpathEngine xpath = XMLUnit.newXpathEngine();
+        assertEquals(1, xpath.getMatchingNodes("//wfs:FeatureType[wfs:Name='cgf:MPolygons']/wfs:MetadataURL", doc).getLength());
+        assertEquals(1, xpath.getMatchingNodes("//wfs:FeatureType[wfs:Name='cgf:MPolygons']/wfs:MetadataURL[@xlink:href='http://www.geoserver.org']", doc).getLength());
     }
 }
