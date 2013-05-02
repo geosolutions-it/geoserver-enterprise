@@ -5,11 +5,11 @@
   <parent>
     <artifactId>extension</artifactId>
     <groupId>org.geoserver</groupId>
-    <version>8-ENTERPRISE-SNAPSHOT</version>
+    <version>2.2-ENTERPRISE-SNAPSHOT</version>
   </parent>
   <groupId>org.geoserver.extension</groupId>
   <artifactId>control-flow</artifactId>
-  <version>8-ENTERPRISE-SNAPSHOT</version>
+  <version>2.2-ENTERPRISE-SNAPSHOT</version>
   <name>OWS request flow controller</name>
   <dependencies>
     <dependency>

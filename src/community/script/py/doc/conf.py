@@ -49,7 +49,7 @@ copyright = u'2012, GeoServer'
 # built documents.
 #
 # The short X.Y version.
-version = '8-ENTERPRISE-SNAPSHOT'
+version = '2.2-ENTERPRISE-SNAPSHOT'
 # The full version, including alpha/beta/rc tags.
 release = '2.2'
 

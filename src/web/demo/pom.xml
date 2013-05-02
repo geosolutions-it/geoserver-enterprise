@@ -10,13 +10,13 @@
   <parent>
     <groupId>org.geoserver</groupId>    
     <artifactId>web</artifactId>
-    <version>8-ENTERPRISE-SNAPSHOT</version>
+    <version>2.2-ENTERPRISE-SNAPSHOT</version>
   </parent>
 
   <groupId>org.geoserver.web</groupId>
   <artifactId>web-demo</artifactId>
   <packaging>jar</packaging>
-  <version>8-ENTERPRISE-SNAPSHOT</version>
+  <version>2.2-ENTERPRISE-SNAPSHOT</version>
   <name>Demoes Module</name>
   
   <dependencies>
