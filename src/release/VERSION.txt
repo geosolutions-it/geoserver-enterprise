@@ -1,0 +1,7 @@
+version = ${project.version}
+git revision = ${build.revision}
+git branch = ${build.branch}
+build date = ${build.timestamp}
+geotools version = ${gt.version}
+geotools revision = ${gt.revision}
+hudson build = ${build.hudsonId}

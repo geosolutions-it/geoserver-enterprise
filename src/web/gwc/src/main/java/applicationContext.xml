@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="GWCCapabilitiesHomePageProvider" class="org.geoserver.gwc.web.GWCCapabilitiesHomePageProvider">
+    <constructor-arg ref="gwcFacade"/>
+  </bean>
+
+  <bean id="gwcCategory" class="org.geoserver.web.Category">
+    <property name="nameKey" value="category.tilecaching" />
+    <property name="order" value="180" />
+  </bean>
+  
+  <bean id="cachedLayersMenuPage" class="org.geoserver.web.MenuPageInfo">
+    <property name="id" value="gwc.layers"/>
+    <property name="titleKey" value="CachedLayersPage.title"/>
+    <property name="descriptionKey" value="CachedLayersPage.description"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.layer.CachedLayersPage"/>
+    <property name="category" ref="gwcCategory"/>
+    <property name="icon" value="../tilelayer.png"/>
+    <property name="order" value="1"/>
+  </bean>
+  
+  <bean id="gwcSettingsMenuPage" class="org.geoserver.web.MenuPageInfo">
+    <property name="id" value="gwc.settings"/>
+    <property name="titleKey" value="GWCSettingsPage.menuTitle"/>
+    <property name="descriptionKey" value="GWCSettingsPage.description"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.GWCSettingsPage"/>
+    <property name="category" ref="gwcCategory"/>
+    <property name="icon" value="geowebcache-16.png"/>
+    <property name="order" value="2"/>
+  </bean>
+  
+  <bean id="gridsetsMenuPage" class="org.geoserver.web.MenuPageInfo">
+    <property name="id" value="gwc.gridsets"/>
+    <property name="titleKey" value="GridSetsPage.title"/>
+    <property name="descriptionKey" value="GridSetsPage.description"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.gridset.GridSetsPage"/>
+    <property name="category" ref="gwcCategory"/>
+    <property name="icon" value="../gridset.png"/>
+    <property name="order" value="3"/>
+  </bean>  
+  
+  <bean id="diskQuotaMenuPage" class="org.geoserver.web.MenuPageInfo">
+    <property name="id" value="gwc.diskQuota"/>
+    <property name="titleKey" value="DiskQuotaSettingsPage.title"/>
+    <property name="descriptionKey" value="DiskQuotaSettingsPage.description"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.diskquota.DiskQuotaSettingsPage"/>
+    <property name="category" ref="gwcCategory"/>
+    <property name="icon" value="../diskquota.png"/>
+    <property name="order" value="4"/>
+  </bean>
+  
+  <bean id="layerCacheEditTabPanelInfo" class="org.geoserver.gwc.web.layer.LayerEditCacheOptionsTabPanelInfo">
+    <property name="id" value="layerCacheEditTabPanelInfo"/>
+    <property name="titleKey" value="LayerCacheOptionsTabPanel.title"/>
+    <property name="descriptionKey" value="LayerCacheOptionsTabPanel.shortDescription"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.layer.LayerCacheOptionsTabPanel"/>
+    <property name="order" value="200"/>
+  </bean>
+    
+  <bean id="layerGroupCacheEditPanelInfo" class="org.geoserver.web.publish.LayerGroupConfigurationPanelInfo">
+    <property name="id" value="layerGroupCacheEditTabPanelInfo"/>
+    <property name="titleKey" value="LayerGroupCacheOptionsPanel.title"/>
+    <property name="descriptionKey" value="LayerGroupCacheOptionsPanel.shortDescription"/>
+    <property name="componentClass" value="org.geoserver.gwc.web.layer.LayerGroupCacheOptionsPanel"/>
+  </bean>
+</beans>
