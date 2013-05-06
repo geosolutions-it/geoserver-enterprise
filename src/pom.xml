@@ -45,14 +45,6 @@
   </ciManagement>
 
  <repositories>
-  <repository>
-   <id>opengeo</id>
-   <name>OpenGeo Maven Repository</name>
-   <url>http://repo.opengeo.org/</url>
-   <snapshots>
-     <enabled>true</enabled>
-   </snapshots>
-  </repository>
   
   <repository>
    <id>geosolutions</id>
@@ -1539,7 +1531,7 @@
     <build>
     <plugins>
 
-      <!-- grab a geotools dependnecy to figure out its version -->
+      <!-- grab a geotools dependency to figure out its version -->
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>

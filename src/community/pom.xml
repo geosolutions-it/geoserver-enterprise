@@ -28,16 +28,8 @@
       <configuration>
         <descriptors>
           <descriptor>release/ext-authkey.xml</descriptor>
-          <descriptor>release/ext-css.xml</descriptor>
-          <descriptor>release/ext-ftp.xml</descriptor>
           <descriptor>release/ext-printing.xml</descriptor>
-          <descriptor>release/ext-python.xml</descriptor>
-          <descriptor>release/ext-javascript.xml</descriptor>
-          <!--descriptor>release/ext-spatialite.xml</descriptor-->
-          <descriptor>release/ext-dbconfig.xml</descriptor>
           <descriptor>release/ext-inspire.xml</descriptor>
-          <descriptor>release/ext-sfs.xml</descriptor>
-       	  <descriptor>release/ext-dds.xml</descriptor>
           <descriptor>release/ext-aggregate.xml</descriptor>
           <descriptor>release/ext-libjpeg-turbo.xml</descriptor>
         </descriptors>
@@ -76,53 +68,11 @@
   <!-- profiles for individual modules -->
   <profiles>
     <profile>
-      <id>proxy</id>
-      <modules>
-        <module>proxy</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>rest</id>
-      <modules> 
-        <module>rest</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>sldService</id>
-      <modules> 
-        <module>sldService</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>dds</id>
-      <modules>
-        <module>dds</module>
-      </modules>
-    </profile>
-    <profile>
       <id>printing</id>
       <modules>
         <module>printing</module>
       </modules>
     </profile>
-    <profile>
-      <id>dxf</id>
-      <modules>
-        <module>dxf</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>dbconfig</id>
-      <modules>
-        <module>dbconfig</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>istyler</id>
-      <modules>
-        <module>istyler</module>
-      </modules>
-    </profile>    
     <profile>      
       <id>webservice</id>
       <modules>
@@ -140,16 +90,9 @@
       <modules>
         <module>authkey</module>
         <module>css</module>
-	<module>dds</module>
         <module>printing</module>
         <module>release</module>
-        <module>ftp</module>
-        <!--module>spatialite</module-->
-        <module>dbconfig</module>
-        <module>inspire</module>
-        <module>sfs</module>
         <module>feature-aggregate</module>
-        <module>script</module>
         <module>libjpeg-turbo</module>
       </modules>
     </profile>
@@ -157,30 +100,6 @@
       <id>css</id>
       <modules>
         <module>css</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>gss</id>
-      <modules>
-        <module>gss</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>ftp</id>
-      <modules>
-        <module>ftp</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>spatialite</id>
-      <modules>
-        <module>spatialite</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>sextante</id>
-      <modules>
-        <module>wps-sextante</module>
       </modules>
     </profile>
     <profile>
@@ -201,31 +120,10 @@
         <module>feature-aggregate</module>
       </modules>
     </profile>
-    <profile>
-     <id>wfsv</id>
-     <modules>
-       <module>wfsv</module>
-     </modules>
-    </profile>
     <profile>      
       <id>authkey</id>
       <modules>
         <module>authkey</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>script</id>
-      <activation>
-        <property><name>script</name></property>
-      </activation> 
-      <modules>
-        <module>script</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>w3ds</id>
-      <modules>
-        <module>w3ds</module>
       </modules>
     </profile>
 		<profile>
