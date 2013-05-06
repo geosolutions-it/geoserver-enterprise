@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- set parent pom to community pom -->
+	<parent>
+    <groupId>org.geoserver.community</groupId>
+    <version>2.2-ENTERPRISE-SNAPSHOT</version>
+		<artifactId>importer</artifactId>
+	</parent>
+	
+  <groupId>org.geoserver.community</groupId>
+  <version>2.2-ENTERPRISE-SNAPSHOT</version>
+	<artifactId>importer-web</artifactId>
+	<packaging>jar</packaging>
+	<name>GeoServer Data Importer Web Interface</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.geoserver.community</groupId>
+			<artifactId>importer-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>web-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>web-demo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<!-- This dependency has been added to allow the module to compile the 
+				Oracle panels without requiring too much reflection, but the plug-in won't 
+				be there at runtime unless the user chose it in the GUI -->
+			<groupId>org.geotools.jdbc</groupId>
+			<artifactId>gt-jdbc-oracle</artifactId>
+			<version>${gt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- This dependency has been added to allow the module to compile the 
+				Sql Server panels without requiring too much reflection, but the plug-in 
+				won't be there at runtime unless the user chose it in the GUI -->
+			<groupId>org.geotools.jdbc</groupId>
+			<artifactId>gt-jdbc-sqlserver</artifactId>
+			<version>${gt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- This dependency has been added to allow the module to compile the 
+				SDE panels without requiring too much reflection, but the plug-in won't be 
+				there at runtime unless the user chose it in the GUI -->
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-arcsde</artifactId>
+			<version>${gt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geoserver</groupId>
+			<artifactId>main</artifactId>
+			<version>${project.version}</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mockrunner</groupId>
+			<artifactId>mockrunner</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>web-core</artifactId>
+			<version>${project.version}</version>
+			<classifier>tests</classifier>
+		</dependency>
+	</dependencies>
+
+</project>

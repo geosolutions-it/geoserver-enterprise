@@ -1,0 +1,27 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+<wicket:extend>
+    <div>
+        <p>Importing project <span wicket:id="project"></span></p>
+    </div>
+    <div wicket:id="info">
+        <div class="progress-bar">
+            <span class="bar" style="width: 0;" wicket:id="overallBar"></span>
+            <span wicket:id="overallPercentage"></span>%
+       </div>
+       <div>
+              <span wicket:id="processingMessage"></span> 
+              (<span wicket:id="currentFile"></span>)
+       </div>
+        <div class="progress-bar">
+              <span class="bar" style="width: 0;" wicket:id="layerBar"></span>
+              <span wicket:id="layerPercentage"></span>%
+       </div>
+       <div class="button-group selfclear">
+            <a href="#" wicket:id="cancel"><wicket:message key="cancel">Cancel</wicket:message></a> 
+        </div>
+    </div>
+    
+</wicket:extend>
+</body>
+</html>

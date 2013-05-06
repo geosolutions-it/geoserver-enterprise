@@ -81,11 +81,6 @@
   </dependency>
   <dependency>
    <groupId>org.geotools</groupId>
-   <artifactId>gt-vpf</artifactId>
-   <version>${gt.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geotools</groupId>
    <artifactId>gt-arcsde-common</artifactId>
    <version>${gt.version}</version>
   </dependency>
@@ -131,11 +126,6 @@
   </dependency>
   <dependency>
    <groupId>org.geoserver.extension</groupId>
-   <artifactId>mysql</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
    <artifactId>imagemap</artifactId>
    <version>${project.version}</version>
   </dependency>
@@ -151,22 +141,12 @@
   </dependency>
   <dependency>
    <groupId>org.geoserver.extension</groupId>
-   <artifactId>geosearch</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
    <artifactId>charts</artifactId>
    <version>${project.version}</version>
   </dependency> 
   <dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>feature-pregeneralized</artifactId>
-   <version>${project.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>imagemosaic-jdbc</artifactId>
    <version>${project.version}</version>
   </dependency> 
   <dependency>

@@ -134,6 +134,18 @@
 			<modules>
 				<module>libjpeg-turbo</module>
 			</modules>
-		</profile>    
+		</profile>
+		<profile>
+			<id>importer</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>importer</module>
+			</modules>
+		</profile>		
   </profiles>
 </project>

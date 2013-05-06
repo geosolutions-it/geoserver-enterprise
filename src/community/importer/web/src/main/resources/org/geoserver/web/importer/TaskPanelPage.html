@@ -1,0 +1,46 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+  <wicket:extend>
+    <div class="button-group selfclear">
+      <a href="#" wicket:id="clear">
+        <wicket:message key="clear">Clear</wicket:message>
+      </a>
+    </div>
+    <br/>
+    <div wicket:id="importers"></div>
+    <br/>
+    <div class="button-group selfclear">
+      <a href="#" wicket:id="refresh">
+        <wicket:message key="refresh">Refresh</wicket:message>
+      </a>
+    </div>
+  </wicket:extend>
+</body>
+<!--
+  <body>
+    <wicket:extend>
+      <wicket:message key="importTaskPanel">Running import tasks/wicket:message</wicket:message>
+        <table >
+        <div wicket:id="importers">
+          <tr>
+            <td>
+              <label for="importerId">
+                <wicket:message key="importerId">ID of importer task</wicket:message>
+                <span id="importerId" wicket:id="importerId"></span>
+              </label>
+            </td>
+            <td>
+              <span wicket:id="importStatus"></span>
+            </td>
+            <td>
+                <a href="#" wicket:id="progressPageLink">
+                  <wicket:message key="progressPageLink">Progress page</wicket:message>
+                </a> 
+            </td>
+          </tr>
+        </div>
+      </table>
+    </wicket:extend>
+  </body>
+-->
+</html>
