@@ -72,14 +72,6 @@
         <module>arcsde</module>
       </modules>
     </profile>
-
-    <profile>
-      <id>h2</id>
-      <modules>
-        <module>h2</module>
-      </modules>
-    </profile>
-
     <profile>
       <id>sqlserver</id>
       <modules>
@@ -184,13 +176,6 @@
     </profile>
 
     <profile>
-      <id>security</id>
-      <modules>
-        <module>security</module>
-      </modules>
-    </profile>
-
-    <profile>
       <id>xslt</id>
       <modules>
         <module>xslt</module>
@@ -203,7 +188,6 @@
       <modules>
         <module>app-schema</module>
         <module>arcsde</module>
-        <module>h2</module>
         <module>sqlserver</module>
         <module>oracle</module>
         <module>db2</module>
@@ -219,7 +203,6 @@
         <module>querylayer</module>
         <module>teradata</module>
         <module>monitor</module>
-        <module>security</module>
         <module>xslt</module>
       </modules>
     </profile>
@@ -230,7 +213,6 @@
       <modules>
         <module>app-schema</module>
         <module>arcsde</module>
-        <module>h2</module>
         <module>sqlserver</module>
         <module>oracle</module>
         <module>db2</module>
@@ -246,7 +228,6 @@
         <module>querylayer</module>
         <module>teradata</module>
         <module>monitor</module>
-        <module>security</module>
         <module>xslt</module>
       </modules>
     </profile>
