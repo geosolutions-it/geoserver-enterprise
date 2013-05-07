@@ -20,9 +20,9 @@
    </dependency>
    <dependency>
      <groupId>org.geoserver.community</groupId>
-     <artifactId>importer</artifactId>
+     <artifactId>importer-web</artifactId>
      <version>${project.version}</version>
-   </dependency>   
+   </dependency>    
    <dependency>
      <groupId>org.geoserver.community</groupId>
      <artifactId>css</artifactId>
