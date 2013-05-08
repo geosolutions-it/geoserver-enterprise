@@ -94,6 +94,7 @@
         <module>release</module>
         <module>feature-aggregate</module>
         <module>libjpeg-turbo</module>
+        <module>importer</module>
       </modules>
     </profile>
     <profile>

@@ -354,11 +354,6 @@
    </dependency>
    <dependency>
     <groupId>org.geotools.jdbc</groupId>
-    <artifactId>gt-jdbc-db2</artifactId>
-    <version>${gt.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geotools.jdbc</groupId>
     <artifactId>gt-jdbc-mysql</artifactId>
     <version>${gt.version}</version>
    </dependency>
@@ -1178,7 +1173,6 @@
       <descriptor>release/war.xml</descriptor>
       <descriptor>release/javadoc.xml</descriptor>
       <descriptor>release/bin.xml</descriptor>
-      <descriptor>release/ext-db2.xml</descriptor>
       <descriptor>release/ext-feature-pregeneralized.xml</descriptor>
       <descriptor>release/ext-imagemosaic-jdbc.xml</descriptor>
       <descriptor>release/ext-jp2k.xml</descriptor>

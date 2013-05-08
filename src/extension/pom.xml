@@ -190,7 +190,6 @@
         <module>arcsde</module>
         <module>sqlserver</module>
         <module>oracle</module>
-        <module>db2</module>
         <module>imagemap</module>
         <module>gdal</module>
         <module>jp2k</module>
@@ -215,7 +214,6 @@
         <module>arcsde</module>
         <module>sqlserver</module>
         <module>oracle</module>
-        <module>db2</module>
         <module>imagemap</module>
         <module>gdal</module>
         <module>jp2k</module>
