@@ -1174,21 +1174,11 @@
       <descriptor>release/javadoc.xml</descriptor>
       <descriptor>release/bin.xml</descriptor>
       <descriptor>release/ext-feature-pregeneralized.xml</descriptor>
-      <descriptor>release/ext-imagemosaic-jdbc.xml</descriptor>
-      <descriptor>release/ext-jp2k.xml</descriptor>
-      <descriptor>release/ext-oracle.xml</descriptor>
       <descriptor>release/ext-arcsde.xml</descriptor>
-      <descriptor>release/ext-pyramid.xml</descriptor>
-      <descriptor>release/ext-gdal.xml</descriptor>
-      <descriptor>release/ext-sqlserver.xml</descriptor>
       <descriptor>release/ext-imagemap.xml</descriptor>
       <descriptor>release/ext-ogr.xml</descriptor>
       <descriptor>release/ext-excel.xml</descriptor>
-      <descriptor>release/ext-charts.xml</descriptor>
       <descriptor>release/ext-app-schema.xml</descriptor>
-      <descriptor>release/ext-control-flow.xml</descriptor>
-      <descriptor>release/ext-wps.xml</descriptor>
-      <descriptor>release/ext-querylayer.xml</descriptor>
       <descriptor>release/ext-teradata.xml</descriptor>
       <descriptor>release/ext-monitor.xml</descriptor>
       <descriptor>release/ext-monitor-hibernate.xml</descriptor>
