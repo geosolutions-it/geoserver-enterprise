@@ -12,7 +12,7 @@
         <include>*importer*.jar</include>
         <include>gt-coveragetools*.jar</include>
         <include>*importer*.jar</include>
-        <include>commons-cli-2.0-gt2-pre1</include>
+        <include>commons-cli-2.0-gt2-pre1.jar</include>
       </includes>
     </fileSet>
   </fileSets>
