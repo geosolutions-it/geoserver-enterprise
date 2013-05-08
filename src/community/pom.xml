@@ -29,9 +29,7 @@
         <descriptors>
           <descriptor>release/ext-authkey.xml</descriptor>
           <descriptor>release/ext-printing.xml</descriptor>
-          <descriptor>release/ext-inspire.xml</descriptor>
           <descriptor>release/ext-aggregate.xml</descriptor>
-          <descriptor>release/ext-libjpeg-turbo.xml</descriptor>
           <descriptor>release/ext-importer.xml</descriptor>
         </descriptors>
       </configuration>
@@ -93,14 +91,7 @@
         <module>printing</module>
         <module>release</module>
         <module>feature-aggregate</module>
-        <module>libjpeg-turbo</module>
         <module>importer</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>inspire</id>
-      <modules>
-        <module>inspire</module>
       </modules>
     </profile>
     <profile>      
@@ -121,15 +112,7 @@
         <module>authkey</module>
       </modules>
     </profile>
-		<profile>
-			<id>libjpeg-turbo</id>
-      <activation>
-        <property><name>libjpeg-turbo</name></property>
-      </activation> 
-			<modules>
-				<module>libjpeg-turbo</module>
-			</modules>
-		</profile>
+
 		<profile>
 			<id>importer</id>
 			<activation>

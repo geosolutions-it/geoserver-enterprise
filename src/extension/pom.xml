@@ -85,7 +85,25 @@
         <module>oracle</module>
       </modules>
     </profile>
-        
+    
+    
+    <profile>
+      <id>inspire</id>
+      <modules>
+        <module>inspire</module>
+      </modules>
+    </profile>
+    
+		<profile>
+			<id>libjpeg-turbo</id>
+      <activation>
+        <property><name>libjpeg-turbo</name></property>
+      </activation> 
+			<modules>
+				<module>libjpeg-turbo</module>
+			</modules>
+		</profile>
+		        
     <profile>
       <id>jp2k</id>
       <modules>
@@ -203,6 +221,8 @@
         <module>teradata</module>
         <module>monitor</module>
         <module>xslt</module>
+        <module>inspire</module>
+        <module>libjpeg-turbo</module>
       </modules>
     </profile>
 
@@ -227,6 +247,8 @@
         <module>teradata</module>
         <module>monitor</module>
         <module>xslt</module>
+        <module>inspire</module>
+        <module>libjpeg-turbo</module>
       </modules>
     </profile>
 
