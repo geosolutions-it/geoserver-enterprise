@@ -32,6 +32,7 @@
           <descriptor>release/ext-inspire.xml</descriptor>
           <descriptor>release/ext-aggregate.xml</descriptor>
           <descriptor>release/ext-libjpeg-turbo.xml</descriptor>
+          <descriptor>release/ext-importer.xml</descriptor>
         </descriptors>
       </configuration>
      </plugin>
@@ -89,18 +90,11 @@
       <id>communityRelease</id>
       <modules>
         <module>authkey</module>
-        <module>css</module>
         <module>printing</module>
         <module>release</module>
         <module>feature-aggregate</module>
         <module>libjpeg-turbo</module>
         <module>importer</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>css</id>
-      <modules>
-        <module>css</module>
       </modules>
     </profile>
     <profile>
