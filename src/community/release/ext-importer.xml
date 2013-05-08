@@ -10,6 +10,8 @@
       <outputDirectory></outputDirectory>
       <includes>
         <include>*importer*.jar</include>
+        <include>gt-coveragetools*.jar</include>
+        <include>*importer*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
