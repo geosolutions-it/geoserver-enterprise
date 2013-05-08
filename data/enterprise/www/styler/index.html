@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Styler</title>
+        <link rel="shortcut icon" href="theme/img/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="externals/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="externals/ux/colorpicker/color-picker.ux.css" />
+        <link rel="stylesheet" type="text/css" href="externals/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" type="text/css" href="externals/openlayers/theme/default/style.css" />
+        <link rel="stylesheet" type="text/css" href="theme/css/styler.css" />
+        
+        <script src="script/OpenLayers.js"></script>
+        <script src="externals/ext/adapter/ext/ext-base.js"></script>
+        <script src="externals/ext/ext-all.js"></script>
+        <script src="script/GeoExt.js"></script>
+        <script src="script/gxp.js"></script>
+        <script src="script/Styler.js"></script>
+        <script src="externals/ux/colorpicker/color-picker.ux.js"></script>
+        <script>
+            Ext.BLANK_IMAGE_URL = "theme/img/blank.gif";
+            Ext.onReady(function() {
+                window.styler = new Styler({
+                    baseLayers: [
+                        new OpenLayers.Layer.OSM(
+                            "Open Street Map",
+                            "http://tile.openstreetmap.org/${z}/${x}/${y}.png",
+                            {numZoomLevels: 19}
+                        )
+                    ]
+                });
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

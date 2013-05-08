@@ -1,0 +1,124 @@
+<StyledLayerDescriptor version="1.0.0" xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
+<NamedLayer>
+<Name>AAA319</Name>
+<UserStyle>
+<FeatureTypeStyle>
+<Rule>
+<Name>Limburg</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Limburg</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#7af57a</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Noord-Brabant</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Noord-Brabant</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#d1bdff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Zeeland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Zeeland</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#73ceff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Zuid-Holland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Zuid-Holland</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#bfe673</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Utrecht</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Utrecht</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffb7a8</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Oost-Nederland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Oost-Nederland</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffd280</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>IJsselmeergebied</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>IJsselmeergebied</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#f4bdff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Noord-Holland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Noord-Holland</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffff73</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#ffffff</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Noord-Nederland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Noord-Nederland</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00cccc</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>Noordzee</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>DIENSTNAAM</ogc:PropertyName><ogc:Literal>Noordzee</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#f2faff</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+</FeatureTypeStyle>
+</UserStyle>
+</NamedLayer>
+</StyledLayerDescriptor>
+

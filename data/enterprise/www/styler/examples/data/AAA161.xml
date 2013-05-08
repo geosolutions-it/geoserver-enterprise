@@ -1,0 +1,2732 @@
+<StyledLayerDescriptor version="1.0.0" xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
+<NamedLayer>
+<Name>AAA161</Name>
+<UserStyle>
+<FeatureTypeStyle>
+<Rule>
+<Name>stortsteen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>steenbekleding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>betonbekleding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V030301</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bitumenbekleding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V030101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>onverhard</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>half verhard</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V010307</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>groensteenverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V010305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>betonelementverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103031</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>natuursteenverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103032</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#686868</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tegelverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103015</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#686868</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>koperslakblokverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103014</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffbe</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>klinkerverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103013</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#686868</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>keiverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103012</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#e1e1e1</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>houtverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V0103011</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>betonverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V010103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffffff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bitumenverharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V010101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>houtwal</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>T0303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>schutting</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>T0107</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>muur</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>T0103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>verdrijfstrepen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R910519</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>puntstuk</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R910517</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>oversteekplaats voetgangers</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R910305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#9c9c9c</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>vonder</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R88</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>trap</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R83</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>steiger</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R81</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>spoorbaan</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R75</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a06632</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>schakelstation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R69</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>ponton</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R59</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>plankier</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R57</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>perron</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R55</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>loopbrug</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R39</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kademuur</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R3107</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>goot</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R27</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>goot</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R27</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>geluidswering</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R2503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#c955fd</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>geluidswering</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R2503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#c955fd</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rooster</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R2107</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>veetunnel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R210303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rimob</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R030303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>uitkijktoren</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q65</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>ornament</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q39</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kast/huis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q29</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kast/huis algemeen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q29V</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>dok</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q19</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bloembak</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q05</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>ark</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q01</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tuinachtige grond</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N07</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>groenvoorziening</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N05</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bomen en struiken</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>boomgroep</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503051</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>struiken</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503036</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>hakhout</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503033</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>griend</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503032</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bos</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0503031</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>perk</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0501091</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rietland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0501053</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>moeras</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0501051</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>heide</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N050103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff00ff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>grasachtige begroeiing</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0501091</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>agrarische grond</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N03</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#cdaa66</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tuinbouwgrond</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0309</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kwekerij</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0307</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bloembollenveld</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>boomgaard</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>grasland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N030103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bouwland/akkerland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N030101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#cdaa66</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>niet- of halfingerichte grond</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N01</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fdd000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>werk in uitvoering</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0109</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#c955fd</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>werk in uitvoering</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N010907</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#c955fd</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>braak</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N010903</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#820000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>zand</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fdd000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>strand</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N010503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fdd000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>aanwas</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>opnamegebied</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD8</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>sluisdeur</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD16</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>brandstofpompeiland</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD1</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ffa5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>talud</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>H07</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>talud winterdijk</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>H07W</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>zwembad</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F83</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>woonwagencentrum</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F81</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#770081</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>waterleidingbedrijf</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F77</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>vuilstortplaats</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F75</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#770081</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>volkstuinen (complex)</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F73</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#018200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>viaduct</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F71</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>flyover</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F7101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tunnel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F67</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>transformatorstation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F65</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>sportterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F63</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#02db00</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>spoorwegstation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F6105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>metrostation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F6103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>busstation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F6101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>speeltuin</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F59</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ca00dc</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>scheepswerf</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F57</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff00ff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rioolwaterzuiveringsinstallatie</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F55</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>recreatieterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F53</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff00ff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>plantsoen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F51</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>picknickplaats</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F49</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>parkeerterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F47</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>park</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F43</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>opslagplaats</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F41</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>militair terrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F35</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>luchtvaartterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F31</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>leidingenstraat</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F25</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff00ff</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>landhoofd</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F23</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>industrieterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F21</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bushalte</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F1901</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>fabrieksterrein</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F17</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>camping</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F13</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bungalowpark</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F09</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>brug</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F07</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>benzinestation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F05</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>begraafplaats</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F03</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>lift</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD35</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>niet te zien</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD30</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#c955fd</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>vloeistofdichte verharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD37</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>zonnepaneel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD34</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>verkeersdrempel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>MD33</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>alg. bekleding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V03</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>alg. verharding</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>V01</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#a5a5a5</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>windscherm</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R93</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>verblindingswering</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R85</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>trafoput</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R6315</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>vuurtoren (navigatielicht)</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R4705</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>seinvierkant</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R4117</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>grensmerkbaken</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R4109</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>stuifscherm</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q61</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>duiker</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>Q23</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>delfstofwinning</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>N0107</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>los- en laadplaats</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F29</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>erf</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F15</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7200</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>overige bebouwing</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B05</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>stuw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0349</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>uitwaterinssluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034513</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tijsluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034511</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>spuisluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034509</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>schutsluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034507</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>keersluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034505</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>inundatiesluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>inlaatsluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B034501</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>oliepomp</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0331</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kabelbaan</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0319</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>damwand</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R3105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>beschoeiing</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>R3101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>wiel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0707</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>vijver</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0705</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>ven</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0703</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>plas</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0701</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>meer</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0505</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>zee</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0501</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>sloot</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W030703</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>gracht</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kanaal</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0301</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>beek</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rivier</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>W0101</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#00d1d1</CssParameter>
+</Fill>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>aquaduct</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>F01</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>toiletgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0545</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>stal</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0541</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>schuur</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0539</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>ruïne</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0437</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>rijwielstalling</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0535</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>paviljoen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0533</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>muziektent</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0531</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>loods</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0529</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kiosk</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0527</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kas</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0523</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>hok</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0521</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>hangar</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0519</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>garage</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0517</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>elektriciteitsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0515</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bunker</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0511</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>botenhuis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0509</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bedieningsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0507</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>barak</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0505</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>afdak</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>abri</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0501</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kunstwerk/installatie</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B03</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>weegbrug</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0359</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>watertoren</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0357</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tank</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0351</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>sluis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0345</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>silo</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0341</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>schoorsteen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0339</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>pijler</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0335</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#ff0000</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>pompstation</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0333</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>molen</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0329</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>luchtkoker</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0327</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>hooiberg</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0315</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>gashouder</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0311</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>brandstofpomp</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0309</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bewegingswerktuig</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0307</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>watermolen/bemalingsinstallatie</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>gemaal</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B030501</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>bassin</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>antenne</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B0301</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>tv-toren</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B030113</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>radarpost</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B030105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>gebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B01</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>winkelhuis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010503</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>boerderij</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010501</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>elektriciteitsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010319</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>verzorgingsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010317</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>recreatiegebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010315</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>onderwijsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010313</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kantoorgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010311</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>industriegebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010309</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>horecagebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010307</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>handelsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010305</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>gebedshuis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010303</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>dienstverleningsgebouw</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010301</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>flat</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010111</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>pastorie</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010109</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>klooster</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010107</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>kasteel</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010105</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+<Rule>
+<Name>huis</Name>
+<ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>CTE</ogc:PropertyName><ogc:Literal>B010103</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+<MaxScaleDenominator>50000.000000</MaxScaleDenominator>
+<PolygonSymbolizer>
+<Fill>
+<CssParameter name="fill">#fe7100</CssParameter>
+</Fill>
+<Stroke>
+<CssParameter name="stroke">#000000</CssParameter>
+</Stroke>
+</PolygonSymbolizer>
+</Rule>
+</FeatureTypeStyle>
+</UserStyle>
+</NamedLayer>
+</StyledLayerDescriptor>
+
