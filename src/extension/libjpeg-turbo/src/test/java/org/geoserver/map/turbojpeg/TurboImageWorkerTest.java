@@ -13,13 +13,10 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import junit.framework.Assert;
+import junit.framework.TestCase;
 
-import org.geoserver.map.turbojpeg.TurboJpegImageWorker;
 import org.geotools.image.ImageWorker;
 import org.geotools.test.TestData;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  * Testing directly the {@link TurboJpegImageWorker}.
@@ -27,7 +24,7 @@ import org.junit.Test;
  * @author Simone Giannecchini, GeoSolutions SAS
  * 
  */
-public class TurboImageWorkerTest extends Assert {
+public class TurboImageWorkerTest extends TestCase {
 
     static final String ERROR_LIB_MESSAGE = "The TurboJpeg native library hasn't been loaded: Skipping test";
 
@@ -35,13 +32,11 @@ public class TurboImageWorkerTest extends Assert {
 
     static final Logger LOGGER = Logger.getLogger(TurboImageWorkerTest.class.toString());
 
-    @BeforeClass
-    public static void setup() {
+    static{
         SKIP_TESTS = !TurboJpegUtilities.isTurboJpegAvailable();
     }
 
-    @Test
-    public void errors() throws IOException {
+    public void testErrors() throws IOException {
         if (SKIP_TESTS) {
             LOGGER.warning(ERROR_LIB_MESSAGE);
             return;
@@ -70,9 +65,8 @@ public class TurboImageWorkerTest extends Assert {
         }
 
     }
-
-    @Test
-    public void writer() throws IOException {
+ 
+    public void testWriter() throws IOException {
         if (SKIP_TESTS) {
             LOGGER.warning(ERROR_LIB_MESSAGE);
             return;

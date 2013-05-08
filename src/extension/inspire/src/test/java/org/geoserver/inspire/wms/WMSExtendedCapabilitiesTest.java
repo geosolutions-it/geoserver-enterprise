@@ -1,24 +1,14 @@
-/* Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
- * This code is licensed under the GPL 2.0 license, available at the root
- * application directory.
- */
 package org.geoserver.inspire.wms;
 
 import static org.geoserver.inspire.wms.WMSExtendedCapabilitiesProvider.NAMESPACE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-import org.geoserver.inspire.InspireMetadata;
 import org.geoserver.test.GeoServerTestSupport;
-import org.geoserver.test.GeoServerSystemTestSupport;
 import org.geoserver.wms.WMSInfo;
-import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class WMSExtendedCapabilitiesTest extends GeoServerSystemTestSupport {
+public class WMSExtendedCapabilitiesTest extends GeoServerTestSupport {
 
-    @Test
     public void testExtendedCaps() throws Exception {
         WMSInfo wms = getGeoServer().getService(WMSInfo.class);
         wms.getSRS().add("EPSG:4326");
@@ -56,7 +46,6 @@ public class WMSExtendedCapabilitiesTest extends GeoServerSystemTestSupport {
         assertEquals("fre", respLangVal.getFirstChild().getNodeValue());
     }
 
-    @Test
     public void testChangeMediaType() throws Exception {
         WMSInfo wms = getGeoServer().getService(WMSInfo.class);
         wms.getSRS().add("EPSG:4326");

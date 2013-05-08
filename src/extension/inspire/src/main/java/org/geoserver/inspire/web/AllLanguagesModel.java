@@ -1,7 +1,3 @@
-/* Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
- * This code is licensed under the GPL 2.0 license, available at the root
- * application directory.
- */
 package org.geoserver.inspire.web;
 
 import java.io.IOException;
@@ -14,7 +10,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.wicket.model.IModel;
-import org.geoserver.inspire.InspireInitializer;
 
 /**
  * Model for the list of INSPIRE supported languages.
@@ -24,7 +19,7 @@ import org.geoserver.inspire.InspireInitializer;
  * </p>
  */
 public class AllLanguagesModel implements IModel<List<String>> {
-    private static final String LANGUAGES_FILE = "/org/geoserver/inspire/available_languages.properties";
+    private static final String LANGUAGES_FILE = "/org/geoserver/inspire/wms/available_languages.properties";
 
     private static final long serialVersionUID = -6324842325783657135L;
 
@@ -61,7 +56,7 @@ public class AllLanguagesModel implements IModel<List<String>> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     List<String> getAvailableLanguages() throws IOException {
         List<String> langs = new ArrayList<String>();
-        URL resource = InspireInitializer.class.getResource(LANGUAGES_FILE);
+        URL resource = getClass().getResource(LANGUAGES_FILE);
         InputStream inStream = resource.openStream();
         try {
             Properties list = new Properties();
