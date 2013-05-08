@@ -117,14 +117,7 @@
         <module>gdal</module>
       </modules>
     </profile>
-
-    <profile>
-      <id>feature-pregeneralized</id>
-      <modules>
-        <module>feature-pregeneralized</module>
-      </modules>
-    </profile>
-
+    
     <profile>
       <id>imagemap</id>
       <modules>
@@ -174,12 +167,6 @@
       </modules>
     </profile>
 
-    <profile>
-      <id>teradata</id>
-      <modules>
-        <module>teradata</module>
-      </modules>
-    </profile>
 
     <profile>
       <id>monitor</id>
@@ -214,11 +201,9 @@
         <module>ogr</module>
         <module>excel</module>
         <module>charts</module>
-        <module>feature-pregeneralized</module>
         <module>control-flow</module>
         <module>wps</module>
         <module>querylayer</module>
-        <module>teradata</module>
         <module>monitor</module>
         <module>xslt</module>
         <module>inspire</module>
@@ -240,11 +225,9 @@
         <module>ogr</module>
         <module>excel</module>
         <module>charts</module>
-        <module>feature-pregeneralized</module>
         <module>control-flow</module>
         <module>wps</module>
         <module>querylayer</module>
-        <module>teradata</module>
         <module>monitor</module>
         <module>xslt</module>
         <module>inspire</module>

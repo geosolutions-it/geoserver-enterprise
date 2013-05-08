@@ -1173,17 +1173,13 @@
       <descriptor>release/war.xml</descriptor>
       <descriptor>release/javadoc.xml</descriptor>
       <descriptor>release/bin.xml</descriptor>
-      <descriptor>release/ext-feature-pregeneralized.xml</descriptor>
       <descriptor>release/ext-arcsde.xml</descriptor>
       <descriptor>release/ext-imagemap.xml</descriptor>
       <descriptor>release/ext-ogr.xml</descriptor>
       <descriptor>release/ext-excel.xml</descriptor>
       <descriptor>release/ext-app-schema.xml</descriptor>
-      <descriptor>release/ext-teradata.xml</descriptor>
       <descriptor>release/ext-monitor.xml</descriptor>
       <descriptor>release/ext-monitor-hibernate.xml</descriptor>
-      <descriptor>release/ext-inspire.xml</descriptor>
-      <descriptor>release/ext-libjpeg-turbo.xml</descriptor>
      </descriptors>
      <finalName>geoserver-2.2-ENTERPRISE-SNAPSHOT</finalName>
      <outputDirectory>${project.build.directory}/release</outputDirectory>

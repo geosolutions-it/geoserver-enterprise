@@ -1,5 +1,5 @@
 <assembly>
-  <id>inpsire-plugin</id>
+  <id>inspire-plugin</id>
   <formats>
     <format>zip</format>
   </formats>

@@ -141,11 +141,6 @@
   </dependency> 
   <dependency>
    <groupId>org.geoserver.extension</groupId>
-   <artifactId>feature-pregeneralized</artifactId>
-   <version>${project.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
    <artifactId>jp2k</artifactId>
    <version>${project.version}</version>
   </dependency> 
@@ -177,11 +172,6 @@
   <dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>querylayer</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>teradata</artifactId>
    <version>${project.version}</version>
   </dependency>
   <dependency>
