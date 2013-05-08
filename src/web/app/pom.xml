@@ -297,7 +297,7 @@
       <id>release</id>
       <properties>
         <configDirectory>${basedir}/../../../data</configDirectory>
-        <configId>release</configId>
+        <configId>enterprise</configId>
       </properties>
     </profile>
     <profile>
