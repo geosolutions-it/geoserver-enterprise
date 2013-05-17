@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="brManagerResource" class="org.geoserver.bkprst.rest.BrManagerResource">
+    <constructor-arg index="0" ref="brmanager"/>
+  </bean>
+
+  <bean id="brManagerBackupResource" class="org.geoserver.bkprst.rest.BrManagerBackupResource">
+    <constructor-arg index="0" ref="brmanager"/>
+  </bean>
+
+  <bean id="brManagerRestoreResource" class="org.geoserver.bkprst.rest.BrManagerRestoreResource">
+    <constructor-arg index="0" ref="brmanager"/>
+  </bean>
+
+  <bean id="brTaskResource" class="org.geoserver.bkprst.rest.BrTaskResource">
+    <constructor-arg index="0" ref="brmanager"/>
+  </bean>
+
+  <bean id="restBkprstMapping" class="org.geoserver.rest.RESTMapping">
+    <property name="routes">
+      <map>
+        <entry>
+          <key><value>/bkprst/backup/{id}</value></key>
+          <value>brManagerBackupResource</value>
+        </entry>
+        <entry>
+          <key><value>/bkprst/backup</value></key>
+          <value>brManagerBackupResource</value>
+        </entry>
+        <entry>
+          <key><value>/bkprst/restore/{id}</value></key>
+          <value>brManagerRestoreResource</value>
+        </entry>
+        <entry>
+          <key><value>/bkprst/restore</value></key>
+          <value>brManagerRestoreResource</value>
+        </entry>
+        <entry>
+          <key><value>/bkprst/{id}</value></key>
+          <value>brTaskResource</value>
+        </entry>
+        <entry>
+          <key><value>/bkprst</value></key>
+          <value>brManagerResource</value>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+</beans>

@@ -352,4 +352,9 @@ public class GeoToolsCoverageTransformer implements CoverageTransformer {
         }
     }
 
+    @Override
+    public boolean isAvailable() {
+        return true;
+    }
+
 }

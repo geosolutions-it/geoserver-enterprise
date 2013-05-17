@@ -56,6 +56,18 @@ public class Wcs10GetCoverageResponse extends Response {
         super(GridCoverage[].class);
         this.catalog = catalog;
     }
+    
+    @Override
+    public String getAttachmentFileName(Object value, Operation operation) {
+        if (!(operation.getParameters()[0] instanceof GetCoverageType))
+            throw new WcsException("Cannot handle object of type: "
+                    + operation.getParameters()[0].getClass());
+
+        GetCoverageType getCoverage = (GetCoverageType) operation.getParameters()[0];
+        String outputFormat = getCoverage.getOutput().getFormat().getValue();
+        CoverageResponseDelegate delegate = CoverageResponseDelegateFactory.encoderFor(outputFormat);
+        return getCoverage.getSourceCoverage() + "." + delegate.getFileExtension();
+    }
 
     @Override
     public String getMimeType(Object value, Operation operation) throws ServiceException {

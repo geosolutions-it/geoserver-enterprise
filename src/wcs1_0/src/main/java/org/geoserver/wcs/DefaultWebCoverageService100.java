@@ -54,6 +54,7 @@ import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
+import org.geotools.gce.imagemosaic.ImageMosaicFormat;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.parameter.DefaultParameterDescriptor;
 import org.geotools.referencing.CRS;
@@ -163,11 +164,11 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
             // acquire coverage info
             meta = catalog.getCoverageByName(request.getSourceCoverage());
             if (meta == null)
-                throw new WcsException("Cannot find sourceCoverage on the catalog!");
+                throw new WcsException("Cannot find sourceCoverage " + request.getSourceCoverage() + " in the catalog!");
 
             // first let's run some sanity checks on the inputs
             checkRangeSubset(meta, request.getRangeSubset());
-            checkInterpolationMethod(meta, request.getInterpolationMethod());
+            final Interpolation interpolation=checkInterpolationMethod(meta, request.getInterpolationMethod());
             checkOutput(meta, request.getOutput());
 
             //
@@ -265,9 +266,10 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
                 destinationG2W = new AffineTransform2D(resX, 0d, 0d, resY, (Double) origin_
                         .getValue().get(0), (Double) origin_.getValue().get(1));
 
-            } else
+            } else {
                 throw new WcsException("Invalid Grid value:" + grid.toString(),
                         InvalidParameterValue, null);
+            }
 
             //
             // SETTING COVERAGE READING PARAMS
@@ -405,12 +407,27 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
             // Check we're not going to read too much data
             WCSUtils.checkInputLimits(wcs, meta, reader, requestedGridGeometry);
 
+
+            //
+            // Checking for supported Interpolation Methods
+            //
+            readParameters = CoverageUtils.mergeParameter(parameterDescriptors,readParameters, interpolation, "interpolation");
+            if(meta.getStore().getFormat() instanceof ImageMosaicFormat){
+                GeneralParameterValue[] temp = new GeneralParameterValue[readParameters.length+1];
+                System.arraycopy(readParameters, 0, temp, 0, readParameters.length);
+                temp[temp.length-1]=ImageMosaicFormat.INTERPOLATION.createValue();
+                ((ParameterValue)temp[temp.length-1]).setValue(interpolation);
+                readParameters=temp;
+            }
+            
             //
             // perform read
             //
             coverage = (GridCoverage2D) reader.read(readParameters);
             if ((coverage == null) || !(coverage instanceof GridCoverage2D)) {
-                throw new IOException("The requested coverage could not be found.");
+                throw new IOException("No raster data found in the request (it may be that " +
+                		"the request bbox is outside of the coverage area, or that the filters used " +
+                		"match no portions of it.");
             }
 
             // double check what we have loaded
@@ -421,13 +438,10 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
             //
             GridCoverage2D bandSelectedCoverage = coverage;
             // ImageIOUtilities.visualize(coverage.getRenderedImage());
-            String interpolationType = null;
             if (request.getRangeSubset() != null) {
                 // if (request.getRangeSubset().getAxisSubset().size() > 1) {
                 // throw new WcsException("Multi field coverages are not supported yet");
                 // }
-
-                interpolationType = request.getInterpolationMethod().getLiteral();
 
                 // extract the band indexes
                 EList axisSubset = request.getRangeSubset().getAxisSubset();
@@ -471,21 +485,6 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
                 }
             }
 
-            //
-            // Checking for supported Interpolation Methods
-            //
-            Interpolation interpolation = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
-            if (interpolationType != null) {
-                if (interpolationType.equalsIgnoreCase("bilinear")) {
-                    interpolation = Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
-                } else if (interpolationType.equalsIgnoreCase("bicubic")) {
-                    interpolation = Interpolation.getInstance(Interpolation.INTERP_BICUBIC);
-                } else if (interpolationType.equalsIgnoreCase("nearest neighbor")) {
-                    interpolation = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
-                }
-            }
-
-            //
             // final step for the requested coverage
             //
             // compute intersection envelope to be used
@@ -726,7 +725,7 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
     // }
     // }
 
-    private static void checkInterpolationMethod(CoverageInfo info,
+    private static Interpolation checkInterpolationMethod(CoverageInfo info,
             InterpolationMethodType interpolationMethod) {
         // check interpolation method
         String interpolation = interpolationMethod.getLiteral();
@@ -736,6 +735,7 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
             if (interpolation.startsWith("nearest")) {
                 interpolation = "nearest neighbor";
             }
+            // is it supported for this coverage?
             if (interpolation.equals("nearest neighbor")
                     || (info.getDefaultInterpolationMethod() != null && info
                             .getDefaultInterpolationMethod().equalsIgnoreCase(interpolation))) {
@@ -751,6 +751,24 @@ public class DefaultWebCoverageService100 implements WebCoverageService100 {
                 throw new WcsException(
                         "The requested Interpolation method is not supported by this Coverage.",
                         InvalidParameterValue, "RangeSubset");
+            
+            // let's instantiate it
+            //
+            // Checking for supported Interpolation Methods
+            //                   
+            if (interpolation.equalsIgnoreCase("bilinear")) {
+                return Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
+            } else if (interpolation.equalsIgnoreCase("bicubic")) {
+                return Interpolation.getInstance(Interpolation.INTERP_BICUBIC);
+            } else if (interpolation.equalsIgnoreCase("nearest neighbor")) {
+                return Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+            } else {
+                throw new WcsException(
+                        "The requested Interpolation method is not supported by this Coverage.",
+                        InvalidParameterValue, "Interpolation");
+            }
+        } else {
+            return Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         }
     }
 

@@ -112,7 +112,9 @@
         <module>authkey</module>
       </modules>
     </profile>
-
+		<!-- ======================================== -->
+		<!-- IMPORTER -->
+		<!-- ======================================== -->
 		<profile>
 			<id>importer</id>
 			<activation>
@@ -125,5 +127,20 @@
 				<module>importer</module>
 			</modules>
 		</profile>		
+		<!-- ======================================== -->
+		<!-- BACKUP-RESTORE -->
+		<!-- ======================================== -->
+		<profile>
+			<id>bkprst</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>bkprst</module>
+			</modules>
+		</profile>
   </profiles>
 </project>

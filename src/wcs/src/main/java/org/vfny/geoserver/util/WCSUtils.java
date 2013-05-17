@@ -350,15 +350,16 @@ public class WCSUtils {
      * @return
      */
     static long getCoverageSize(GridEnvelope2D envelope, SampleModel sm) {
-        long pixels = 1;
-        for(int i = 0; i < envelope.getDimension(); i++) {
-            pixels *= envelope.getSpan(i);
-        }
+        // === compute the coverage memory usage and compare with limit
+        final long pixelsNumber = computePixelsNumber(envelope);
+        
+        
         long pixelSize = 0;
-        for (int i = 0; i < sm.getNumBands(); i++) {
+        final int numBands=sm.getNumBands();
+        for (int i = 0; i < numBands; i++) {
             pixelSize += sm.getSampleSize(i);
         }
-        return pixels * pixelSize / 8;
+        return pixelsNumber * pixelSize / 8;
     }
 
     /**
@@ -540,5 +541,20 @@ public class WCSUtils {
         } else {
             return null;
         }
+    }
+    /**
+     * Computes the number of pixels for this {@link GridEnvelope2D}.
+     * 
+     * @param rasterEnvelope the {@link GridEnvelope2D} to compute the number of pixels for
+     * @return the number of pixels for the provided {@link GridEnvelope2D}
+     */
+    private static long computePixelsNumber(GridEnvelope2D rasterEnvelope){
+        // pixels
+        long pixelsNumber=1;
+        final int dimensions= rasterEnvelope.getDimension();
+        for(int i = 0; i <dimensions; i++) {
+            pixelsNumber *= rasterEnvelope.getSpan(i);
+        }
+        return pixelsNumber;
     }
 }
