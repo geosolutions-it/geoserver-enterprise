@@ -35,9 +35,14 @@
    </dependency>
    <dependency>
       <groupId>org.geoserver.community</groupId>
-      <artifactId>bkprst</artifactId>
+      <artifactId>bkprst-core</artifactId>
      <version>${project.version}</version>
-   </dependency>   
+   </dependency>  
+       <dependency>
+      <groupId>org.geoserver.community</groupId>
+      <artifactId>bkprst-rest</artifactId>
+     <version>${project.version}</version>
+   </dependency>
  </dependencies>
  <build>
   <plugins>
