@@ -11,6 +11,16 @@ import org.opengis.util.ProgressListener;
  * @author Andrea Aime - GeoSolutions
  */
 public interface CoverageTransformer {
+    
+    /** It tells me whether or not this {@link CoverageTransformer} is available.
+     * <p> 
+     * Generally speaking a {@link CoverageTransformer} can require some dependencies to work, which might not be 
+     * always avail.
+     * 
+     * @return <code>true</code> in case this {@link CoverageTransformer} can be use <code>false</code> otherwise.
+     * 
+     */
+    public boolean isAvailable();
 
     /**
      * Returns true if the file can be processed with this transformer

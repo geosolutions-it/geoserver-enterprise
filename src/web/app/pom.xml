@@ -401,6 +401,27 @@
         </dependency>
       </dependencies>
     </profile>
+	<profile>
+		<id>bkprst</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<dependencies>
+			<dependency>
+        <groupId>org.geoserver.community</groupId>
+				<artifactId>bkprst-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geoserver.community</groupId>
+				<artifactId>bkprst-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</profile>    
     <profile>
      <id>h2</id>
      <dependencies>

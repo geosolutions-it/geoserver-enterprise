@@ -48,6 +48,8 @@
   <bean id="wcs100AxisSubsetKvpParser" class="org.geoserver.wcs.kvp.AxisSubsetKvpParser" />
 
   <bean id="wcs100BBoxKvpParser" class="org.geoserver.wcs.kvp.BBoxKvpParser" />
+  
+  <bean id="wcs100InterpolationKvpParser" class="org.geoserver.wcs.kvp.InterpolationMethodKvpParser" />
 
   <bean id="wcs100CoverageKvpParser" class="org.geoserver.wcs.kvp.CoverageKvpParser">
     <constructor-arg ref="catalog" />
