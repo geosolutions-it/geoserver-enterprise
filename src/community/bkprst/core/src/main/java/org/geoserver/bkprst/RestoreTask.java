@@ -138,7 +138,7 @@ public class RestoreTask extends BrTask {
             // In case of errors, rollback
             this.trans.rollback();
         } finally {
-            this.trans= null;
+            haltSemaphore.release();
         }
     }
     

@@ -69,7 +69,7 @@ public abstract class BrTask implements Runnable, Serializable {
     
     protected static String BACKUPEXT= ".backup";
     
-    protected volatile boolean haltRequested=false;
+    private volatile boolean haltRequested=false;
     
     protected final Semaphore haltSemaphore= new Semaphore(1);
 

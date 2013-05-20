@@ -152,7 +152,9 @@ public class BackupTask extends BrTask {
             LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
             // In case of errors, rollbacks
             this.trans.rollback();
-        } 
+        } finally{
+            haltSemaphore.release();
+        }
     }
 
 }
