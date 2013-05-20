@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -105,7 +106,11 @@ public class WMSLifecycleHandler implements GeoServerLifecycleHandler, Applicati
     List<Font> loadFontsFromDataDirectory() {
         List<Font> result = new ArrayList<Font>();
         try {
-            Collection<File> files = FileUtils.listFiles(data.findStyleDir(), new String[] { "ttf",
+            final File findStyleDir = data.findStyleDir();
+            if(findStyleDir==null||!findStyleDir.exists()){
+                return Collections.emptyList();
+            }
+            Collection<File> files = FileUtils.listFiles(findStyleDir, new String[] { "ttf",
                     "TTF" }, true);
             for (File file : files) {
                 try {
