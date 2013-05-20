@@ -6,24 +6,17 @@
 
 package org.geoserver.bkprst.rest;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathConstants;
 
-import org.geoserver.bkprst.BackupTask;
 import org.geoserver.bkprst.BrManager;
-import org.geoserver.bkprst.BrTask;
-import org.geoserver.bkprst.RestoreTask;
 import org.geotools.util.logging.Logging;
 import org.restlet.data.MediaType;
-import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.data.Status;
 import org.restlet.resource.Resource;
 import org.restlet.resource.SaxRepresentation;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * 
@@ -34,7 +27,7 @@ import com.thoughtworks.xstream.XStream;
  */
 public class BrManagerResource extends Resource {
 
-    static Logger LOGGER = Logging.getLogger("org.geoserver.catalog.rest");
+    private final static Logger LOGGER = Logging.getLogger(BrManagerResource.class);
 
     protected BrManager br;
 
@@ -48,7 +41,6 @@ public class BrManagerResource extends Resource {
     @Override
     public void handleGet() {
 
-        Request request = getRequest();
         Response response = getResponse();
 
         String xml = this.br.toXML(this.br);

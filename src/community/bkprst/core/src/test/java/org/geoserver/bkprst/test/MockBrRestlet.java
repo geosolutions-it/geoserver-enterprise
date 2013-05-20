@@ -10,20 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.geoserver.catalog.Catalog;
-import org.geoserver.catalog.rest.AbstractCatalogResource;
 import org.geoserver.rest.AbstractResource;
-import org.geoserver.rest.RestletException;
 import org.geoserver.rest.format.DataFormat;
 import org.geoserver.rest.format.StringFormat;
 import org.geotools.util.logging.Logging;
-import org.restlet.Context;
 import org.restlet.data.MediaType;
-import org.restlet.data.Method;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
-import org.restlet.data.Status;
-import org.restlet.resource.Resource;
 
 public class MockBrRestlet extends AbstractResource {
 
@@ -67,7 +60,7 @@ public class MockBrRestlet extends AbstractResource {
     @Override
     protected List<DataFormat> createSupportedFormats(Request request, Response response) {
 
-        List<DataFormat> formats = new ArrayList();
+        List<DataFormat> formats = new ArrayList<DataFormat>();
         formats.add(new StringFormat(MediaType.TEXT_PLAIN));
 
         return formats;

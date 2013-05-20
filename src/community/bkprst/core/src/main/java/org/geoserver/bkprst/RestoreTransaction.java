@@ -10,10 +10,11 @@ import it.geosolutions.tools.io.file.Collector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Date;
-import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
+import org.geotools.util.logging.Logging;
 
 /**
  * Class implementing a basic transanction management for BackupTask
@@ -22,6 +23,8 @@ import org.apache.commons.io.filefilter.IOFileFilter;
  * 
  */
 public class RestoreTransaction extends BrTransaction {
+
+    private final static Logger LOGGER = Logging.getLogger(RestoreTransaction.class.toString());
 
     RestoreTransaction(RestoreTask task, File srcMount, File trgMount, IOFileFilter filter) {
         super(task, srcMount, trgMount, filter);
@@ -34,7 +37,7 @@ public class RestoreTransaction extends BrTransaction {
         task.setStartTime(new Date());
         task.setState(BrTaskState.STARTING);
         task.lock();
-        BrTask.LOGGER.info("Started restore " + task.id + " to " + task.path + " from "
+        LOGGER.info("Started restore " + task.id + " to " + task.path + " from "
                 + srcMount.getAbsolutePath() + " to" + this.trgMount.getAbsolutePath());
 
         // Puts in topFiles the top-level files of the target directoy using the filter
@@ -72,17 +75,17 @@ public class RestoreTransaction extends BrTransaction {
                 }
             }
         } catch (Exception e) {
-            BrTask.LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage());
             task.setState(BrTaskState.FAILED);
             task.setEndTime(new Date());
-            BrTask.LOGGER.info("Restore " + task.getId() + " rolled back");
+            LOGGER.info("Restore " + task.getId() + " rolled back");
             task.unlock();
             return;
         }
 
         task.setState(BrTaskState.COMPLETED);
         task.setEndTime(new Date());
-        BrTask.LOGGER.info("Restore " + task.getId() + " completed");
+        LOGGER.info("Restore " + task.getId() + " completed");
         task.unlock();
     }
 
@@ -107,11 +110,11 @@ public class RestoreTransaction extends BrTransaction {
             File xmlFile= new File(this.trgMount.getAbsolutePath() + File.separatorChar + BrTask.INFOFILE);
             xmlFile.delete();
         } catch (Exception e) {
-            BrTask.LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage());
         } finally {
             task.setState(BrTaskState.FAILED);
             task.setEndTime(new Date());
-            BrTask.LOGGER.severe("Restore " + task.getId() + " failed");
+            LOGGER.severe("Restore " + task.getId() + " failed");
             task.unlock();
         }
     }

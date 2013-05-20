@@ -8,30 +8,17 @@ package org.geoserver.bkprst;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
-import org.geoserver.config.GeoServer;
 import org.geoserver.config.GeoServerDataDirectory;
-import org.geoserver.platform.GeoServerExtensions;
 import org.geotools.util.logging.Logging;
-import org.springframework.context.ApplicationContext;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 /**
  * Class managing queud backuo/restore tasks
@@ -54,12 +41,6 @@ public class BrManager {
     private final GeoServerDataDirectory dataRoot;
 
     private XStream xstream;
-
-    // True if the task is undergoing testing
-    private boolean test= false;
-
-    // Forced duration (ms) of a task during testing
-    public static long TESTTIME= 5000;
     
     // ReST paths
     public static final String REST_ID = "id";
@@ -116,17 +97,6 @@ public class BrManager {
         this.xstream.alias("restore", RestoreTask.class);
     }
 
-    /**
-     * Selectors to set and check whether the task is undergoing testing
-     */
-    public void setTest() {
-        this.test= true;
-    }
-
-    public boolean isTest() {
-        return this.test;
-    }
-    
     /**
      * Retutns a new task UUID
      */

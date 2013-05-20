@@ -59,7 +59,8 @@ public class BrManagerRESTTest extends CatalogRESTTestSupport {
             assertEquals(201, response.getStatusCode());
 
             // Blocked write requests after adding a Backup task
-            UUID id = this.br.addTask(new MockBackupTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+            String backupDir=Utils.prepareBackupDir(this); 
+            UUID id = this.br.addTask(new MockBackupTask(br.generateId(), backupDir, br.getWriteLocker()));
             Thread.sleep(2000);
 
             // GETs are passed
@@ -95,7 +96,8 @@ public class BrManagerRESTTest extends CatalogRESTTestSupport {
             assertEquals(201, response.getStatusCode());
 
             // Blocked read and write requests after adding a Restore task
-            UUID id = this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+            String backupDir=Utils.prepareBackupDir(this); 
+            UUID id = this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
             Thread.sleep(2000);
 
             // Generic GETs are blocked

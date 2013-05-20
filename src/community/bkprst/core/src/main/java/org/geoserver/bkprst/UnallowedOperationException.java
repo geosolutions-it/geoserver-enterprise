@@ -5,13 +5,16 @@
  */
 package org.geoserver.bkprst;
 
-/*
+/**
  * Exception raised when a backup/restore operation is invoked
  * but the requested operation is not permitted
  *  
  * @author Luca Morandini lmorandini@ieee.org
  */
 public class UnallowedOperationException extends Exception {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = -3037255585053968670L;
 
     UnallowedOperationException (String msg) {
         super(msg);

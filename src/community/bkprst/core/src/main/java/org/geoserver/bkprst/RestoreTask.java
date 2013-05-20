@@ -6,31 +6,27 @@
 package org.geoserver.bkprst;
 
 import it.geosolutions.tools.commons.listener.DefaultProgress;
-import it.geosolutions.tools.io.file.Collector;
 import it.geosolutions.tools.io.file.CopyTree;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.geoserver.GeoServerConfigurationLock.LockType;
 import org.geoserver.config.GeoServer;
 import org.geoserver.config.GeoServerDataDirectory;
 import org.geoserver.platform.GeoServerExtensions;
-import org.h2.util.FileUtils;
-import org.springframework.context.ApplicationContext;
+import org.geotools.util.logging.Logging;
 
-import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
@@ -41,7 +37,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("restore")
 public class RestoreTask extends BrTask {
 
-    protected RestoreTransaction trans;
+    /** serialVersionUID */
+    private static final long serialVersionUID = -8249264471670677843L;
+    private final static Logger LOGGER = Logging.getLogger(RestoreTask.class.toString());
     
     public RestoreTask(UUID id, String path, ConfigurableDispatcherCallback locker,
             final GeoServerDataDirectory dataRoot) {
@@ -85,6 +83,9 @@ public class RestoreTask extends BrTask {
         try {
             // Start transanction
             this.trans.start();
+            if(checkForHalt()){
+                return;
+            }
 
             // Sets up the copy task
             ExecutorService ex = Executors.newFixedThreadPool(2);
@@ -114,13 +115,16 @@ public class RestoreTask extends BrTask {
                 try {
                     LOGGER.info("copied file: " + future.get());
                 } catch (ExecutionException e) {
-                    LOGGER.info(e.getMessage());
+
+                    LOGGER.log(Level.INFO,e.getLocalizedMessage(),e);
                 }
-            }
-            
-            // In case of test, pauses a while to let the test case unfold
-            if (this.br.isTest() ) {
-                Thread.sleep(BrManager.TESTTIME);    
+                if(checkForHalt()){
+                    ex.shutdown();
+                    if(!ex.awaitTermination(5, TimeUnit.SECONDS)){
+                        throw new RuntimeException("Unable to stop backup task");
+                    }
+                    return;
+                }
             }
 
             // Restore completed
@@ -129,7 +133,8 @@ public class RestoreTask extends BrTask {
             // reload the config from disk
             getGeoServer().reload();
         } catch (Exception e) {
-
+            LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
+            
             // In case of errors, rollback
             this.trans.rollback();
         } finally {
@@ -140,19 +145,4 @@ public class RestoreTask extends BrTask {
     private GeoServer getGeoServer() {
         return (GeoServer) GeoServerExtensions.bean("geoServer");
     }
-
-    /*
-     * Stops current restore
-     */
-    public void stop() {
-        LOGGER.info("Restore " + this.id + " stopped");
-        if (this.act != null) {
-            this.act.setCancelled();
-        }
-        if (this.trans != null) {
-            this.trans.rollback();
-        }
-        this.state = BrTaskState.STOPPED;
-    }
-
 }

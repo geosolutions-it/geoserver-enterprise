@@ -3,19 +3,23 @@ package org.geoserver.bkprst.test;
 import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.geoserver.bkprst.BrTask;
 import org.geoserver.bkprst.BrTaskState;
 import org.geoserver.bkprst.ConfigurableDispatcherCallback;
-import org.geoserver.config.GeoServerDataDirectory;
-
-import com.thoughtworks.xstream.XStream;
+import org.geotools.util.logging.Logging;
 
 /**
  * Inner classes simulating tasks
  */
 class MockBrTask extends BrTask {
     
+    /** serialVersionUID */
+    private static final long serialVersionUID = -2051509813693250760L;
+    
+    private final static Logger LOGGER = Logging.getLogger(MockBrTask.class.toString());
+
     public MockBrTask(UUID id, String path, ConfigurableDispatcherCallback locker) {
         super(id, path, locker);
     }

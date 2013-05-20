@@ -8,152 +8,113 @@ package org.geoserver.bkprst.rest.test;
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.geoserver.bkprst.BrManager;
-import org.geoserver.config.GeoServerDataDirectory;
-import org.geoserver.data.test.MockData;
-import org.geoserver.test.GeoServerAbstractTestSupport;
-import org.geoserver.test.GeoServerTestSupport;
+import org.restlet.data.Status;
 
 import com.mockrunner.mock.web.MockHttpServletResponse;
 
-public class TransactionTest extends GeoServerTestSupport {
+public class TransactionTest extends BaseBackupRestoreTest {
 
-    public GeoServerDataDirectory dataRoot;
-    public String backupDir= "/tmp/testBackup1";
 
-    public void setUpInternal() {
-        this.dataRoot = this.getDataDirectory();
-        try {
-            this.populateDataDirectory(getTestData());
-        } catch (Exception e) {
-            LOGGER.fine(e.getMessage());
-        }
-        
-        BrManager br = (BrManager) GeoServerAbstractTestSupport.applicationContext.getBean("brmanager");
-        br.setTest();
-    }
-    
-    /**
-     * Populates a mock data directory with standard data
-     */
-    @Override
-    protected void populateDataDirectory(MockData dataDirectory) throws Exception {
-        super.populateDataDirectory(dataDirectory);
-        dataDirectory.addWellKnownCoverageTypes();
-        File mockDir= dataDirectory.getDataDirectoryRoot();
-        
-        File logs = new File(mockDir + "/logs");
-        logs.mkdirs();
-        new File(logs, "log.txt").createNewFile();
-        File gwc = new File(mockDir + "/gwc");
-        gwc.mkdirs();
-        new File(gwc, "gwc.txt").createNewFile();
-        File data = new File(mockDir + "/data");
-        data.mkdirs();
-        new File(data, "data.txt").createNewFile();
-    }
-
-    protected int getNumFiles(File dir) {
-        return FileUtils.listFiles(dir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size();
-    }
-    
     public void testBackupDelete() throws Exception {
-        MockHttpServletResponse response;
-        
-        response = postAsServletResponse("/rest/bkprst/backup", 
+        String backupDir=Utils.prepareBackupDir(this);
+        MockHttpServletResponse response = postAsServletResponse("/rest/bkprst/backup", 
                 "<task>" 
                 + "<path>" + backupDir + "</path>"
                 + "<includedata>false</includedata>" 
                 + "<includegwc>false</includegwc>"
                 + "<includelog>false</includelog>" 
                 + "</task>");
-        assertTrue(response.getStatusCode() == 201 && response.getErrorCode() == 200
-                && response.getOutputStreamContent().contains("<id>"));
-        Thread.sleep(1000);
-        assertTrue((new File(this.backupDir)).exists());
+        String outputStreamContent = response.getOutputStreamContent();
+        assertEquals(Status.SUCCESS_CREATED.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());        
+        assertTrue(outputStreamContent.contains("<id>"));
+        final String taskID=Utils.parseTaskID(outputStreamContent);
 
-        // Deletes on-oging backup task
-        String id= response.getOutputStreamContent().substring(4, response.getOutputStreamContent().length() - 5);
-        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + id);
-        Thread.sleep(1000);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        Thread.sleep(1000);
-        
-        // Checks status of deleted task
-        response= this.getAsServletResponse("/rest/bkprst/" + id);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        assertTrue(response.getOutputStreamContent().contains("STOPPED"));
+        // Deletes ongoing backup task
+        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + taskID);
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());
+        waitForTaskCompletion(taskID);
         
         // Checks the backup dir has been deleted
-        Thread.sleep(1000);
-        assertFalse((new File(this.backupDir)).exists());
+        assertFalse((new File(backupDir)).exists());
         
         // Checks non numeric ID
-        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + id + "xxx");
-        assertTrue(response.getStatusCode() == 404 && response.getErrorCode() == 200);
+        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + taskID + "xxx");
+        assertEquals(Status.SERVER_ERROR_INTERNAL.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());
 
-        // Checks non-existing ID
-        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + id + "123");
-        assertTrue(response.getStatusCode() == 404 && response.getErrorCode() == 200);
+        // Checks non-existing taskID
+        response= this.deleteAsServletResponse("/rest/bkprst/backup/" + taskID + "123");
+        assertEquals(Status.CLIENT_ERROR_NOT_FOUND.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());
     }
     
     public void testRestoreDelete() throws Exception {
-        MockHttpServletResponse response;
-        int nFiles= this.getNumFiles(this.dataRoot.root());
-
-        response = postAsServletResponse("/rest/bkprst/backup", 
+        
+        // start a backup
+        String backupDir=Utils.prepareBackupDir(this);
+        final int numFilesOriginal = Utils.getNumFiles(this.dataRoot.root());
+        
+        // start a backup and wait for completion
+        MockHttpServletResponse response = postAsServletResponse("/rest/bkprst/backup", 
                 "<task>" 
                 + "<path>" + backupDir + "</path>"
                 + "<includedata>false</includedata>" 
                 + "<includegwc>false</includegwc>"
                 + "<includelog>false</includelog>" 
                 + "</task>");
-        assertTrue(response.getStatusCode() == 201 && response.getErrorCode() == 200
-                && response.getOutputStreamContent().contains("<id>"));
-        Thread.sleep(BrManager.TESTTIME + 1000);
-        
-        // Checks status of backup task
-        String id= response.getOutputStreamContent().substring(4, response.getOutputStreamContent().length() - 5);
-        response= this.getAsServletResponse("/rest/bkprst/" + id);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        assertTrue(response.getOutputStreamContent().contains("COMPLETED"));
+        assertEquals(Status.SUCCESS_CREATED.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());          
+        String outputStreamContent = response.getOutputStreamContent();
+        String taskID=Utils.parseTaskID(outputStreamContent);
+        assertNotNull(taskID);
+        waitForTaskCompletion(taskID);
 
-        // Starts restore task
+        // Checks the data dir has the same number of files than before restore
+        assertEquals(numFilesOriginal-3+1, Utils.getNumFiles(new File(backupDir)));//backup.xml
+        
+        // Starts restore task and then stop it
         response = postAsServletResponse("/rest/bkprst/restore", 
                 "<task>" 
                 + "<path>" + backupDir + "</path>"
                 + "</task>");
-        assertTrue(response.getStatusCode() == 201 && response.getErrorCode() == 200
-                && response.getOutputStreamContent().contains("<id>"));
-        Thread.sleep(1000);
+        assertEquals(Status.SUCCESS_CREATED.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());          
+        outputStreamContent = response.getOutputStreamContent();
+        taskID=Utils.parseTaskID(outputStreamContent);
+        assertNotNull(taskID);
 
-        // Checks status of restore task
-        id= response.getOutputStreamContent().substring(4, response.getOutputStreamContent().length() - 5);
-        response= this.getAsServletResponse("/rest/bkprst/" + id);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        assertTrue(response.getOutputStreamContent().contains("RUNNING"));
-
-        // Deletes on-oging restore task
-        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + id);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        Thread.sleep(1000);
+        // Deletes ongoing restore task
+        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + taskID);
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());  
         
         // Checks status of deleted task
-        response= this.getAsServletResponse("/rest/bkprst/" + id);
-        assertTrue(response.getStatusCode() == 200 && response.getErrorCode() == 200);
-        assertTrue(response.getOutputStreamContent().contains("STOPPED"));
+        response= this.getAsServletResponse("/rest/bkprst/" +taskID);
+        if(Status.SUCCESS_OK.getCode()==response.getStatusCode()){
+            assertEquals(Status.SUCCESS_OK.getCode(),response.getStatusCode()); 
+            assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());
+            outputStreamContent = response.getOutputStreamContent();
+            waitForTaskStatus(taskID,"STOPPED");            
+        } else {
+            assertEquals(Status.CLIENT_ERROR_NOT_FOUND.getCode(),response.getStatusCode()); 
+            assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());
+        }
+
         
-        // Checks the data dir has the same number of files than before restore
-        assertEquals(this.getNumFiles(this.dataRoot.root()), nFiles);
         
         // Checks non numeric ID
-        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + id + "xxx");
-        assertTrue(response.getStatusCode() == 404 && response.getErrorCode() == 200);
+        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + taskID + "xxx");
+        assertEquals(Status.SERVER_ERROR_INTERNAL.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());  
 
         // Checks non-existing ID
-        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + id + "123");
-        assertTrue(response.getStatusCode() == 404 && response.getErrorCode() == 200);
+        response= this.deleteAsServletResponse("/rest/bkprst/restore/" + taskID + "123");
+        assertEquals(Status.CLIENT_ERROR_NOT_FOUND.getCode(),response.getStatusCode()); 
+        assertEquals(Status.SUCCESS_OK.getCode(),response.getErrorCode());  
+        
+        // clean up
+        FileUtils.deleteDirectory(new File(backupDir));
     }
- 
 }

@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.OrFileFilter;
@@ -27,16 +27,15 @@ import org.geoserver.GeoServerConfigurationLock.LockType;
 import org.geoserver.config.GeoServerDataDirectory;
 import org.geotools.util.logging.Logging;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 /**
  * Generic backup/restore task
  * 
  * @author Luca Morandini lmorandini@ieee.org
  */
 public abstract class BrTask implements Runnable, Serializable {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = -6428867493005214884L;
 
     protected UUID id;
 
@@ -52,7 +51,7 @@ public abstract class BrTask implements Runnable, Serializable {
 
     protected ConfigurableDispatcherCallback locker;
 
-    protected final static Logger LOGGER = Logging.getLogger(BrManager.class.toString());
+    private final static Logger LOGGER = Logging.getLogger(BrManager.class.toString());
 
     protected GeoServerDataDirectory dataRoot;
 
@@ -69,6 +68,12 @@ public abstract class BrTask implements Runnable, Serializable {
     protected static String INFOFILE= "backup.xml";
     
     protected static String BACKUPEXT= ".backup";
+    
+    protected volatile boolean haltRequested=false;
+    
+    protected final Semaphore haltSemaphore= new Semaphore(1);
+
+    protected BrTransaction trans;
     
     public BrTask(UUID id, String path, ConfigurableDispatcherCallback locker) {
         this.id = id;
@@ -214,5 +219,68 @@ public abstract class BrTask implements Runnable, Serializable {
             return null;
         }
         return backupInfo;
+    }
+
+    /**
+     * @return the haltRequested
+     */
+    protected boolean isHaltRequested() {
+        return haltRequested;
+    }
+
+    /**
+     * @param haltRequested the haltRequested to set
+     */
+    protected void setHaltRequested() {
+        this.haltRequested = true;
+    }
+
+    /**
+     * Checks if an Halt was requested
+     * 
+     * @return
+     */
+    protected boolean checkForHalt() {
+        if(isHaltRequested()){
+            // cancel
+            if (this.act != null) {
+                this.act.setCancelled();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * Stops current backup
+     */
+    public void stop() {
+        LOGGER.info("Backup " + this.id + " stopped");
+        
+        LOGGER.fine("stop:Halt requested " + this.id );
+        // request halt
+        setHaltRequested();
+        try {
+            // wait for stop
+            haltSemaphore.acquire();
+        } catch (InterruptedException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+        LOGGER.fine("stop:Semaphore taken " + this.id);
+        
+        // closing all file handles...
+        Runtime.getRuntime().runFinalization();
+        Runtime.getRuntime().runFinalization();
+        System.gc();
+        System.gc();
+        System.gc();
+        
+        LOGGER.fine("stop:About to rollback " + this.id);
+        if(trans!=null){
+            this.trans.rollback();
+        }
+        this.state = BrTaskState.STOPPED;
+        LOGGER.info("stop:STOPPED " + this.id);
     }
 }

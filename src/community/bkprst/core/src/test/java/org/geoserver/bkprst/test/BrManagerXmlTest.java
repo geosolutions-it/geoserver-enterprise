@@ -26,40 +26,43 @@ public class BrManagerXmlTest extends GeoServerTestSupport {
         this.br = (BrManager) GeoServerAbstractTestSupport.applicationContext.getBean("brmanager");
     }
 
-    public void testBackupTask() {
-        UUID id = this.br.addBackupTask(BrManagerTest.path, false, false, false);
+    public void testBackupTask() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addBackupTask(backupDir, false, false, false);
         BrTask task= this.br.getTask(id);
         String xml = this.br.toXML(task);
         assertTrue(xml.contains("<id>" + id + "</id>"));
         assertTrue(xml.contains("<backup>"));
         assertTrue(xml.contains("<state>"));
         assertTrue(xml.contains("<progress>"));
-        assertTrue(xml.contains("<path>" + BrManagerTest.path + "</path>"));
+        assertTrue(xml.contains("<path>" + backupDir + "</path>"));
         
-        BackupTask task2= new BackupTask(null, "", null, null);
+        BrTask task2= new BackupTask(null, "", null, null);
         this.br.fromXML(xml, task2);
         assertTrue(task.getId().equals(id));
     }
 
-    public void testRestoreTask() {
-        UUID id = this.br.addRestoreTask(BrManagerTest.path);
+    public void testRestoreTask() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addRestoreTask(backupDir);
         BrTask task= this.br.getTask(id);
         String xml = this.br.toXML(task);
         assertTrue(xml.contains("<id>" + id + "</id>"));
         assertTrue(xml.contains("<restore>"));
         assertTrue(xml.contains("<state>"));
         assertTrue(xml.contains("<progress>"));
-        assertTrue(xml.contains("<path>" + BrManagerTest.path + "</path>"));
+        assertTrue(xml.contains("<path>" + backupDir + "</path>"));
         
         RestoreTask task2= new RestoreTask(null, "", null, null);
         this.br.fromXML(xml, task2);
         assertTrue(task.getId().equals(id));
     }
     
-    public void testTasks() {
-        this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
-        this.br.addTask(new MockBackupTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
-        this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+    public void testTasks() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
+        this.br.addTask(new MockBackupTask(br.generateId(), backupDir, br.getWriteLocker()));
+        this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
 
         String xml = this.br.toXML(this.br);
         assertTrue(xml.contains("<tasks>"));

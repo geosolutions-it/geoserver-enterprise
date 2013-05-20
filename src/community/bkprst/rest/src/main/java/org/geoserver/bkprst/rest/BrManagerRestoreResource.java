@@ -7,10 +7,11 @@ package org.geoserver.bkprst.rest;
 
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.geoserver.bkprst.BackupTask;
 import org.geoserver.bkprst.BrManager;
 import org.geoserver.bkprst.RestoreTask;
+import org.geotools.util.logging.Logging;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -24,6 +25,8 @@ import org.restlet.data.Status;
  * 
  */
 public class BrManagerRestoreResource extends BrManagerResource {
+
+    private final static Logger LOGGER = Logging.getLogger(BrManagerRestoreResource.class);
 
     public BrManagerRestoreResource(BrManager br) {
         super(br);
@@ -47,7 +50,7 @@ public class BrManagerRestoreResource extends BrManagerResource {
             response.setStatus(Status.SUCCESS_CREATED);
             response.setEntity("<id>" + taskId + "</id>", MediaType.APPLICATION_XML);
         } catch (Exception e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             response.setStatus(Status.SERVER_ERROR_INTERNAL);
         }
 
@@ -68,6 +71,7 @@ public class BrManagerRestoreResource extends BrManagerResource {
         try {
             taskId = (String) request.getAttributes().get(BrManager.REST_ID);
         } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
             return;
         }
@@ -83,11 +87,8 @@ public class BrManagerRestoreResource extends BrManagerResource {
             task.stop();
             response.setStatus(Status.SUCCESS_OK);
 
-        } catch (NumberFormatException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
-            response.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
         } catch (Exception e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             response.setStatus(Status.SERVER_ERROR_INTERNAL);
         }
     }

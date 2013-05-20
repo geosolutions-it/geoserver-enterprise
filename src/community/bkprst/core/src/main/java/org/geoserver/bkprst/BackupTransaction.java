@@ -5,15 +5,14 @@
  */
 package org.geoserver.bkprst;
 
-import it.geosolutions.tools.io.file.Collector;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Date;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
+import org.geotools.util.logging.Logging;
 
 /**
  * Class implementing a basic transanction management for BackupTask 
@@ -23,7 +22,9 @@ import org.apache.commons.io.filefilter.IOFileFilter;
  */
 public class BackupTransaction extends BrTransaction{
 
-    BackupTransaction(BackupTask task, File srcMount, File trgMount, IOFileFilter filter) {
+    private final static Logger LOGGER = Logging.getLogger(BackupTransaction.class.toString());
+
+    BackupTransaction(BrTask task, File srcMount, File trgMount, IOFileFilter filter) {
         super(task, srcMount, trgMount, filter);
     }
 
@@ -34,7 +35,7 @@ public class BackupTransaction extends BrTransaction{
         this.task.lock();
         this.task.setState(BrTaskState.STARTING);
         this.task.setStartTime(new Date());
-        BrTask.LOGGER.info("Started backup " + this.task.getId() + " from " + this.srcMount.getAbsolutePath()
+        LOGGER.info("Started backup " + this.task.getId() + " from " + this.srcMount.getAbsolutePath()
                 + " to " + this.trgMount.getAbsolutePath());
     }
     
@@ -43,7 +44,7 @@ public class BackupTransaction extends BrTransaction{
      */
     public synchronized void commit() {
         this.task.setState(BrTaskState.COMPLETED);
-        BrTask.LOGGER.info("Backup " + this.task.getId() + " completed");
+        LOGGER.info("Backup " + this.task.getId() + " completed");
         this.task.setEndTime(new Date());
         this.task.unlock();
     }
@@ -55,10 +56,10 @@ public class BackupTransaction extends BrTransaction{
         try {
             FileUtils.deleteDirectory(this.trgMount);
         } catch(Exception e) {
-            BrTask.LOGGER.severe(e.getMessage());
+            LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
         } finally {
             this.task.setState(BrTaskState.FAILED);
-            BrTask.LOGGER.severe("Backup " + this.task.getId() + " rolled back");
+            LOGGER.severe("Backup " + this.task.getId() + " rolled back");
             this.task.setEndTime(new Date());
             this.task.unlock();
         }

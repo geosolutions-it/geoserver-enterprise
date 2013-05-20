@@ -5,19 +5,12 @@
  */
 package org.geoserver.bkprst.test;
 
-import java.util.Date;
 import java.util.UUID;
-import java.util.logging.Level;
 
-import org.geoserver.GeoServerConfigurationLock.LockType;
 import org.geoserver.bkprst.BrManager;
-import org.geoserver.bkprst.BrTask;
-import org.geoserver.bkprst.BrTaskState;
-import org.geoserver.bkprst.ConfigurableDispatcherCallback;
 import org.geoserver.bkprst.TaskNotFoundException;
 import org.geoserver.bkprst.UnallowedOperationException;
 import org.geoserver.catalog.rest.CatalogRESTTestSupport;
-import org.geoserver.data.test.TestData;
 import org.geoserver.test.GeoServerAbstractTestSupport;
 
 /**
@@ -30,25 +23,26 @@ public class BrManagerTest extends CatalogRESTTestSupport {
     private BrManager br;
 
     public static int TASKDURATION = 5000;
-    
-    public static String path= "/tmp/aaa"; // FIXZME: 
 
     public void setUpInternal() {
         this.br = (BrManager) GeoServerAbstractTestSupport.applicationContext.getBean("brmanager");
     }
 
-    public void testUUIDRestore() {
-        UUID id = this.br.addRestoreTask(BrManagerTest.path);
+    public void testUUIDRestore() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addRestoreTask(backupDir);
         assertNotNull(id);
     }
 
-    public void testUUIDBackup() {
-        UUID id = this.br.addBackupTask(BrManagerTest.path, false, false, false);
+    public void testUUIDBackup() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addBackupTask(backupDir, false, false, false);
         assertNotNull(id);
     }
 
-    public void testStopBackup1() {
-        UUID id = this.br.addBackupTask(BrManagerTest.path, false, false, false);
+    public void testStopBackup1() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addBackupTask(backupDir, false, false, false);
         try {
             this.br.stopBackupTask(id);
         } catch (UnallowedOperationException e) {
@@ -61,8 +55,9 @@ public class BrManagerTest extends CatalogRESTTestSupport {
         assertTrue(true);
     }
 
-    public void testStopBackup2() {
-        this.br.addBackupTask(BrManagerTest.path, false, false, false);
+    public void testStopBackup2() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        this.br.addBackupTask(backupDir, false, false, false);
         try {
             this.br.stopBackupTask(UUID.randomUUID());
         } catch (UnallowedOperationException e) {
@@ -75,8 +70,9 @@ public class BrManagerTest extends CatalogRESTTestSupport {
         assertTrue(false);
     }
 
-    public void testStopRestore() {
-        UUID id = this.br.addRestoreTask(BrManagerTest.path);
+    public void testStopRestore() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addRestoreTask(backupDir);
         try {
             this.br.stopBackupTask(id);
         } catch (UnallowedOperationException e) {
@@ -89,10 +85,11 @@ public class BrManagerTest extends CatalogRESTTestSupport {
         assertTrue(false);
     }
 
-    public void testCleanup() {
-        this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
-        this.br.addTask(new MockBackupTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
-        this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+    public void testCleanup() throws Exception {
+        String backupDir=Utils.prepareBackupDir(this); 
+        this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
+        this.br.addTask(new MockBackupTask(br.generateId(), backupDir, br.getWriteLocker()));
+        this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
         assertEquals(3, this.br.getAllTasks().size());
 
         try {

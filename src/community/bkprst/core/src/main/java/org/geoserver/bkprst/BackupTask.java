@@ -6,44 +6,32 @@
 package org.geoserver.bkprst;
 
 import it.geosolutions.tools.commons.listener.DefaultProgress;
-import it.geosolutions.tools.commons.listener.Progress;
 import it.geosolutions.tools.io.file.CopyTree;
 import it.geosolutions.tools.io.file.Remove;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
-
 import org.geoserver.config.GeoServerDataDirectory;
-import org.springframework.context.ApplicationContext;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.geotools.util.logging.Logging;
 
 /**
  * @author Luca Morandini lmorandini@ieee.org
  * 
  */
 public class BackupTask extends BrTask {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = 671444680723521282L;
 
     // Flag to asvoid backup data directory
     protected boolean includeData = false;
@@ -54,7 +42,7 @@ public class BackupTask extends BrTask {
     // Flag to asvoid backup logs directory
     protected boolean includeLog = false;
 
-    protected BackupTransaction trans; 
+    private final static Logger LOGGER = Logging.getLogger(BackupTask.class.toString()); 
     
     public BackupTask(UUID id, String path, ConfigurableDispatcherCallback locker,
             final GeoServerDataDirectory dataRoot) {
@@ -103,6 +91,10 @@ public class BackupTask extends BrTask {
 
             // Starts transanction
             this.trans.start();
+            if(checkForHalt()){
+                LOGGER.fine("run:Halt requested " + this.id);
+                return;
+            }
 
             // Sets up the copy task
             ExecutorService ex = Executors.newFixedThreadPool(2);
@@ -130,13 +122,17 @@ public class BackupTask extends BrTask {
                     future = cs.take();
                     LOGGER.info("copied file: " + future.get());
                 } catch (Exception e) {
-                    LOGGER.info(e.getMessage());
+                    LOGGER.log(Level.INFO,e.getLocalizedMessage(),e);
                 }
-            }
-
-            // In case of test, pauses a while to let the test case unfold
-            if (this.br.isTest() ) {
-                Thread.sleep(BrManager.TESTTIME);    
+                
+                if(checkForHalt()){
+                    LOGGER.fine("run:Halt requested, shutting down threads " + this.id);
+                    ex.shutdown();
+                    if(!ex.awaitTermination(5, TimeUnit.SECONDS)){
+                        throw new RuntimeException("Unable to stop backup task");
+                    }
+                    return;
+                }
             }
             
             // Writes info about backup
@@ -145,30 +141,18 @@ public class BackupTask extends BrTask {
                 this.state = BrTaskState.FAILED;
             }
 
+            if(checkForHalt()){
+                LOGGER.fine("run:Halt requested " + this.id);
+                return;
+            }
             // Restore completed
             this.trans.commit();
             
         } catch (Exception e) {
-
+            LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
             // In case of errors, rollbacks
             this.trans.rollback();
-        } finally {
-            this.trans= null;
-        }
-    }
-
-    /*
-     * Stops current backup
-     */
-    public void stop() {
-        LOGGER.info("Backup " + this.id + " stopped");
-        if (this.act != null) {
-            this.act.setCancelled();
-        }
-        if (this.trans != null) {
-            this.trans.rollback();
-        }
-        this.state = BrTaskState.STOPPED;
+        } 
     }
 
 }

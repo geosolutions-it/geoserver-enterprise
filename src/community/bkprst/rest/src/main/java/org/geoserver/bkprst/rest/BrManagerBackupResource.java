@@ -5,14 +5,15 @@
  */
 package org.geoserver.bkprst.rest;
 
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathConstants;
 
 import org.geoserver.bkprst.BackupTask;
 import org.geoserver.bkprst.BrManager;
+import org.geotools.util.logging.Logging;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -38,6 +39,8 @@ public class BrManagerBackupResource extends BrManagerResource {
 
     protected String id;
 
+    private final static Logger LOGGER = Logging.getLogger(BrManagerBackupResource.class);
+
     public BrManagerBackupResource(BrManager br) {
         super(br);
     }
@@ -59,6 +62,7 @@ public class BrManagerBackupResource extends BrManagerResource {
             this.extractParameters(request.getEntityAsSax());
         } catch (Exception e) {
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
+            LOGGER.log(Level.INFO,e.getLocalizedMessage(),e);
         }
 
         try {
@@ -67,7 +71,7 @@ public class BrManagerBackupResource extends BrManagerResource {
             response.setStatus(Status.SUCCESS_CREATED);
             response.setEntity("<id>" + taskId + "</id>", MediaType.APPLICATION_XML);
         } catch (Exception e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             response.setStatus(Status.SERVER_ERROR_INTERNAL);
         }
 
@@ -85,9 +89,8 @@ public class BrManagerBackupResource extends BrManagerResource {
         Response response = getResponse();
         String taskId;
 
-        try {
-            taskId = (String) request.getAttributes().get(BrManager.REST_ID);
-        } catch (Exception e) {
+        taskId = (String) request.getAttributes().get(BrManager.REST_ID);
+        if(taskId==null){
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
             return;
         }
@@ -103,11 +106,8 @@ public class BrManagerBackupResource extends BrManagerResource {
             task.stop();
             response.setStatus(Status.SUCCESS_OK);
 
-        } catch (NumberFormatException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
-            response.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
         } catch (Exception e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             response.setStatus(Status.SERVER_ERROR_INTERNAL);
         }
     }

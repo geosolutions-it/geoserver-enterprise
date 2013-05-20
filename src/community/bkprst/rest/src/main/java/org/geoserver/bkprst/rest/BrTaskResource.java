@@ -11,10 +11,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.geoserver.bkprst.BackupTask;
 import org.geoserver.bkprst.BrManager;
 import org.geoserver.bkprst.BrTask;
-import org.geoserver.bkprst.RestoreTask;
 import org.geotools.util.logging.Logging;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
@@ -28,7 +26,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  * Resource class for single backup/restore tasks
  * 
- * @author Luca Morandini lmorandini@ieee.org
+ * @author Simone Giannecchini, GeoSolutions SAS
  * 
  */
 public class BrTaskResource extends Resource {
@@ -47,13 +45,13 @@ public class BrTaskResource extends Resource {
 
     @Override
     public void handleGet() {
-        Request request = getRequest();
-        Response response = getResponse();
-        String taskId;
+        final Request request = getRequest();
+        final Map<String, Object> attributes = request.getAttributes();
+        final Response response = getResponse();
+        String taskId = (String) attributes.get(BrManager.REST_ID);
+        if(taskId==null){
 
-        try {
-            taskId = (String) request.getAttributes().get(BrManager.REST_ID);
-        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"Unable to locate the TaskID in the parsed request");
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
             return;
         }
@@ -67,7 +65,7 @@ public class BrTaskResource extends Resource {
                 response.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
             }
         } catch (Exception e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             response.setStatus(Status.SERVER_ERROR_INTERNAL);
         }
 

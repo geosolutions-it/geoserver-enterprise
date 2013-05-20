@@ -7,13 +7,9 @@ package org.geoserver.bkprst.test;
 
 import java.util.UUID;
 
-import org.geoserver.ows.HttpErrorCodeException;
+import org.geoserver.bkprst.BrManager;
 import org.geoserver.test.GeoServerAbstractTestSupport;
 import org.geoserver.web.GeoServerWicketTestSupport;
-import org.geoserver.wms.WMSTestSupport;
-import org.geoserver.bkprst.BrManager;
-
-import com.mockrunner.mock.web.MockHttpServletResponse;
 
 /**
  * Test the BR tool locks for Wicket (GUI) calls
@@ -37,7 +33,8 @@ public class BrManagerWicketTest extends GeoServerWicketTestSupport {
         assertFalse(tester.getLastRenderedPage().isErrorPage());
 
         // Blocked requests after adding a Backup task
-        UUID id = this.br.addTask(new MockBackupTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addTask(new MockBackupTask(br.generateId(), backupDir, br.getWriteLocker()));
         Thread.sleep(2000);
 
         // Wicket requests blocked
@@ -45,10 +42,8 @@ public class BrManagerWicketTest extends GeoServerWicketTestSupport {
             login();
             tester.startPage(new org.geoserver.web.GeoServerHomePage());
             assertTrue(false);
-        } catch (RuntimeException e) {
-            assertTrue(true);
         } catch (Exception e) {
-            assertTrue(false);
+            assertTrue(true);
         }
         
         // Waits for task to complete
@@ -68,7 +63,8 @@ public class BrManagerWicketTest extends GeoServerWicketTestSupport {
         assertFalse(tester.getLastRenderedPage().isErrorPage());
 
         // Blocked requests after adding a Restore task
-        UUID id = this.br.addTask(new MockRestoreTask(br.generateId(), BrManagerTest.path, br.getWriteLocker()));
+        String backupDir=Utils.prepareBackupDir(this); 
+        UUID id = this.br.addTask(new MockRestoreTask(br.generateId(), backupDir, br.getWriteLocker()));
         Thread.sleep(2000);
 
         // Wicket requests blocked
