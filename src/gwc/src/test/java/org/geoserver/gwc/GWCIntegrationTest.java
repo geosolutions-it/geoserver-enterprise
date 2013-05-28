@@ -7,6 +7,7 @@ package org.geoserver.gwc;
 import static org.geoserver.data.test.MockData.BASIC_POLYGONS;
 import static org.geoserver.gwc.GWC.tileLayerName;
 
+import java.awt.image.BufferedImage;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,10 @@ import org.apache.commons.httpclient.util.DateUtil;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.data.test.MockData;
+import org.geoserver.gwc.config.GWCConfig;
 import org.geoserver.gwc.layer.CatalogConfiguration;
+import org.geoserver.gwc.layer.GeoServerTileLayer;
+import org.geoserver.gwc.layer.GeoServerTileLayerInfo;
 import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.test.GeoServerTestSupport;
 import org.geowebcache.GeoWebCacheException;
@@ -30,7 +34,6 @@ import org.geowebcache.layer.TileLayerDispatcher;
 
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
-import org.geoserver.gwc.layer.GeoServerTileLayer;
 
 public class GWCIntegrationTest extends GeoServerTestSupport {
 
@@ -367,4 +370,16 @@ public class GWCIntegrationTest extends GeoServerTestSupport {
         assertEquals("inline;filename=wms-getcapabilities.xml", response.getHeader("content-disposition"));
     }
     */
+    
+    public void testSaveConfig() throws Exception {
+        GWCConfig config = GWC.get().getConfig();
+        // set a large gutter
+        config.setGutter(100);
+        // save the config
+        GWC.get().saveConfig(config);
+        // force a reload
+        getGeoServer().reload();
+        // grab the config, make sure it was saved as expected
+        assertEquals(100, GWC.get().getConfig().getGutter());
+    }
 }

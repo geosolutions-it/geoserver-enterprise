@@ -1,5 +1,6 @@
 package org.geoserver.test;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -927,6 +929,20 @@ public abstract class GeoServerAbstractTestSupport extends OneTimeSetupTest {
     
     protected String getAsString(String path) throws Exception {
         return string(get(path));
+    }
+    
+    /**
+     * Retries the request result as a BufferedImage, checking the mime type is the expected one
+     * @param path
+     * @param mime
+     * @return
+     * @throws Exception
+     */
+    protected BufferedImage getAsImage(String path, String mime) throws Exception {
+        MockHttpServletResponse resp = getAsServletResponse(path);
+        assertEquals(mime, resp.getContentType());
+        InputStream is = getBinaryInputStream(resp);
+        return ImageIO.read(is);
     }
     
     /**
