@@ -72,10 +72,10 @@ public class CatalogIntegrationTest extends GeoServerTestSupport {
         assertNotNull(catalog.getNamespaceByPrefix(newName));
         
         // force a reload
-        //int listenersBefore = catalog.getListeners().size();
-        //getGeoServer().reload();
-        //int listenersAfter = catalog.getListeners().size();
-        //assertEquals(listenersBefore, listenersAfter);
+        int listenersBefore = catalog.getListeners().size();
+        getGeoServer().reload();
+        int listenersAfter = catalog.getListeners().size();
+        assertEquals(listenersBefore, listenersAfter);
         
         // check the NamespaceWorkspaceListener is still attached and working
         ns = catalog.getNamespaceByPrefix(newName);
