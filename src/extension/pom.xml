@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.geoserver</groupId>
+    <artifactId>geoserver</artifactId>
+    <version>2.2-ENTERPRISE-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.geoserver</groupId>
+  <artifactId>extension</artifactId>
+  <packaging>pom</packaging>
+  <name>GeoServer Extensions</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.geoserver</groupId>
+      <artifactId>platform</artifactId>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+   <plugins>
+	<plugin>
+		<artifactId>maven-jar-plugin</artifactId>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>test-jar</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<archive>
+				<manifest>
+					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+					<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+				</manifest>
+				<manifestEntries>
+					<GeoServerModule>extension</GeoServerModule>
+					<Application-Name>${project.build.finalname}</Application-Name>
+					<Project-Version>${project.version}</Project-Version>
+					<Iteration-Name>${iteration}</Iteration-Name>
+					<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+					<Git-Revision>${build.commit.id}</Git-Revision>
+				</manifestEntries>
+			</archive>
+		</configuration>
+	</plugin>
+   </plugins>
+  </build>
+
+
+  <profiles>
+
+    <!-- profiles for individual modules -->
+
+    <profile>
+      <id>app-schema</id>
+      <modules>
+        <module>app-schema</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>arcsde</id>
+      <modules>
+        <module>arcsde</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>sqlserver</id>
+      <modules>
+        <module>sqlserver</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>oracle</id>
+      <modules>
+        <module>oracle</module>
+      </modules>
+    </profile>
+    
+    
+    <profile>
+      <id>inspire</id>
+      <modules>
+        <module>inspire</module>
+      </modules>
+    </profile>
+    
+		<profile>
+			<id>libjpeg-turbo</id>
+      <activation>
+        <property><name>libjpeg-turbo</name></property>
+      </activation> 
+			<modules>
+				<module>libjpeg-turbo</module>
+			</modules>
+		</profile>
+		        
+    <profile>
+      <id>jp2k</id>
+      <modules>
+        <module>jp2k</module>
+      </modules>
+    </profile>
+    
+    <profile>
+      <id>gdal</id>
+      <modules>
+        <module>gdal</module>
+      </modules>
+    </profile>
+    
+    <profile>
+      <id>imagemap</id>
+      <modules>
+        <module>imagemap</module>
+      </modules>
+    </profile>
+    
+    <profile>
+      <id>ogr</id>
+      <modules>
+        <module>ogr</module>
+      </modules>
+    </profile>
+    
+    <profile>
+      <id>excel</id>
+      <modules>
+        <module>excel</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>charts</id>
+      <modules>
+        <module>charts</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>control-flow</id>
+      <modules>
+        <module>control-flow</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>wps</id>
+      <modules>
+        <module>wps</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>querylayer</id>
+      <modules>
+        <module>querylayer</module>
+      </modules>
+    </profile>
+
+
+    <profile>
+      <id>monitor</id>
+      <activation>
+        <property>
+          <name>monitoring</name>
+        </property>
+      </activation>
+      <modules>
+        <module>monitor</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>xslt</id>
+      <modules>
+        <module>xslt</module>
+      </modules>
+    </profile>
+
+    <!-- allExtensions profile, includes all modules -->
+    <profile>
+      <id>allExtensions</id>
+      <modules>
+        <module>app-schema</module>
+        <module>arcsde</module>
+        <module>sqlserver</module>
+        <module>oracle</module>
+        <module>imagemap</module>
+        <module>gdal</module>
+        <module>jp2k</module>
+        <module>ogr</module>
+        <module>excel</module>
+        <module>charts</module>
+        <module>control-flow</module>
+        <module>wps</module>
+        <module>querylayer</module>
+        <module>monitor</module>
+        <module>xslt</module>
+        <module>inspire</module>
+        <module>libjpeg-turbo</module>
+      </modules>
+    </profile>
+
+    <!-- release profile, includes all modules -->
+    <profile>
+      <id>release</id>
+      <modules>
+        <module>app-schema</module>
+        <module>arcsde</module>
+        <module>sqlserver</module>
+        <module>oracle</module>
+        <module>imagemap</module>
+        <module>gdal</module>
+        <module>jp2k</module>
+        <module>ogr</module>
+        <module>excel</module>
+        <module>charts</module>
+        <module>control-flow</module>
+        <module>wps</module>
+        <module>querylayer</module>
+        <module>monitor</module>
+        <module>xslt</module>
+        <module>inspire</module>
+        <module>libjpeg-turbo</module>
+      </modules>
+    </profile>
+
+  </profiles>
+
+</project>

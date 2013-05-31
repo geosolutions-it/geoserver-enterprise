@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="toolsCategory" class="org.geoserver.web.Category">
+    <property name="nameKey" value="category.tools" />
+    <property name="order" value="1000" />
+  </bean>
+
+
+  <!-- 
+   Importer menu item
+   -->
+  <bean id="importerMenuPage" class="org.geoserver.web.MenuPageInfo">
+    <property name="id" value="importer"/>
+    <property name="titleKey" value="StoreChooserPage.menu"/>
+    <property name="descriptionKey" value="StoreChooserPage.description"/>
+    <property name="componentClass" value="org.geoserver.web.importer.StoreChooserPage"/>
+    <property name="icon" value="basket_put.png"/>
+    <property name="category" ref="toolsCategory"/>
+  </bean>
+  
+   <!-- the import pages manager -->
+  <bean id="importerPages" class="org.geoserver.web.importer.ImporterPageManager">
+  </bean>
+ 
+ </beans>

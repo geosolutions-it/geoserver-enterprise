@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+ 
+  <bean id="bkprstRestConfigMapping" class="org.geoserver.rest.RESTMapping">
+    <property name="routes">
+      <map>
+        <entry>
+          <key><value>/bkprst</value></key>
+          <value>mockRestlet</value>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="mockRestlet" class="org.geoserver.bkprst.test.MockBrRestlet">
+    <constructor-arg index="0" value="/tmp"/>
+    <constructor-arg index="1" value="50"/>
+  </bean>
+ 
+</beans>

@@ -1,0 +1,133 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+<wicket:extend>
+
+  <form wicket:id="form">
+
+    <fieldset>
+      <label for="workspace"> <wicket:message key="workspace">workspace</wicket:message>
+        <wicket:message key="workspaceDescription"></wicket:message> 
+        <a href="#" wicket:id="createWorkspace"> 
+          <wicket:message key="createWorkspace"></wicket:message> 
+        </a> 
+        <span wicket:id="dialog"></span>
+      <select class="text" wicket:id="workspace" id="workspace"></select>
+      </label>
+      
+      <label for="defaultsrs">
+        <wicket:message key="defaultSrs">Default SRS</wicket:message>
+      <input type="text" wicket:id="defaultsrs" id="defaultsrs" size="10" /> 
+      <a href="#" wicket:id="srschooser"> <wicket:message key="browse">...</wicket:message>
+      </a>
+      </label>
+ 
+      <label for="directory">
+        <wicket:message key="directory">Input directory or file</wicket:message>
+      <input type="text" wicket:id="directory" id="directory" size="40" /> 
+      <a href="#" wicket:id="chooser"> <wicket:message key="browse">...</wicket:message>
+      </a>
+      </label>
+    </fieldset>
+    
+    <fieldset>
+        <label for="compressiontype">
+          <wicket:message
+            key="compressiontype">Type of compression</wicket:message>
+        <select class="text" wicket:id="compressiontype" id="compressiontype"></select>
+        </label>
+        <label for="compressionratio">
+          <wicket:message
+            key="compressionratio">Compression ratio</wicket:message>
+        <input type="text" wicket:id="compressionratio" id="compressionratio" />% 
+        </label>
+    </fieldset>
+     
+    <fieldset>
+        <label for="tile">
+          <wicket:message
+            key="tile">Tile output image</wicket:message>
+        <input type="checkbox"
+          wicket:id="tile" id="tile" /> 
+        </label> 
+        <label for="tilewidth">
+          <wicket:message
+            key="tilewidth">Tile width</wicket:message>
+        <input type="text"
+          wicket:id="tilewidth" id="tilewidth" /> 
+        </label> 
+        <label for="tileheight">
+          <wicket:message
+            key="tileheight">Tile height</wicket:message>
+        <input type="text"
+          wicket:id="tileheight" id="tileheight" /> 
+        </label> 
+        <label for="rettile">
+          <wicket:message
+            key="rettile">Retain tiles if existing</wicket:message>
+        <input type="checkbox"
+          wicket:id="rettile" id="rettile" /> 
+        </label>
+     </fieldset>
+      
+     <fieldset>
+        <label for="overview"><wicket:message
+          key="overview">Add overviews to output images</wicket:message>
+        <input type="checkbox" wicket:id="overview" id="overview" /> 
+        </label> 
+        <label for="downsamplestep">
+          <wicket:message
+            key="downsamplestep">Step of downsample</wicket:message>
+        <select class="text" wicket:id="downsamplestep" id="downsamplestep"></select>
+        </label> 
+        <label for="subsamplealgorithm">
+          <wicket:message
+            key="subsamplealgorithm">Algorithm of downscale</wicket:message>
+        <select class="text" wicket:id="subsamplealgorithm" id="subsamplealgorithm"></select>
+        </label> 
+        <label for="noverview"><wicket:message
+          key="noverview">N. of overviews</wicket:message>
+        <select class="text" wicket:id="noverview" id="noverview"></select>
+        </label> 
+        <label for="extoverview">
+          <wicket:message
+            key="extoverview">Use external overview</wicket:message>
+        <input type="checkbox"
+          wicket:id="extoverview" id="extoverview" /> 
+        </label> 
+        <label for="retoverview">
+          <wicket:message
+            key="retoverview">Retain overviews if existing</wicket:message>
+        <input type="checkbox"
+          wicket:id="retoverview" id="retoverview" /> 
+        </label> 
+    </fieldset>
+
+    <fieldset>
+        <label for="copy">
+          <wicket:message
+            key="copy">Copy image to GeoServer directory</wicket:message>
+        <input type="checkbox" wicket:id="copy" id="copy" /> 
+        </label> 
+        <label for="outdirectory">
+          <wicket:message key="outdirectory">Output directory</wicket:message>
+          <input type="text" wicket:id="outdirectory" id="outdirectory" size="40" /> 
+          <a href="#" wicket:id="outchooser"> <wicket:message key="browse">...</wicket:message>
+          </a>
+        </label>
+    </fieldset>
+    
+    <fieldset>
+      <div class="button-group selfclear">
+        <a href="#" wicket:id="next"> 
+          <wicket:message key="next">next</wicket:message>
+        </a>
+      </div>
+    </fieldset>
+
+  </form>
+  <!-- 
+  <div wicket:id="dialog"></div>
+ -->
+</wicket:extend>
+</body>
+</html>

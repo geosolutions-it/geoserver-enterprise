@@ -1,6 +1,13 @@
 *.class
 
-# Package Files #
-*.jar
+# Package Files 
 *.war
 *.ear
+
+build-full.bat
+target
+.settings
+.classpath
+.project
+*.class
+*.pyc

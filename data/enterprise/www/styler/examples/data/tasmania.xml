@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld:StyledLayerDescriptor
+    xmlns:sld="http://www.opengis.net/sld"
+    xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:gml="http://www.opengis.net/gml"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <sld:NamedLayer>
+        <sld:Name>Land</sld:Name>
+        <sld:UserStyle>
+            <sld:Name>default_land</sld:Name>
+            <sld:Title>Default Land Style</sld:Title>
+            <sld:IsDefault>1</sld:IsDefault>
+            <sld:Rule>
+                <sld:Name>all_features</sld:Name>
+                <sld:Title>All Features</sld:Title>
+                <sld:PolygonSymbolizer>
+                    <sld:Fill>
+                        <sld:CssParameter name="fill">#ccffaa</sld:CssParameter>
+                        <sld:CssParameter name="fill-opacity">
+                            <ogc:Literal>0.5</ogc:Literal>
+                        </sld:CssParameter>
+                    </sld:Fill>
+                    <sld:Stroke>
+                        <sld:CssParameter name="stroke">
+                            <ogc:Literal>#C0C0C0</ogc:Literal>
+                        </sld:CssParameter>
+                        <sld:CssParameter name="stroke-opacity">
+                            <ogc:Literal>1</ogc:Literal>
+                        </sld:CssParameter>
+                        <sld:CssParameter name="stroke-width">
+                            <ogc:Literal>1</ogc:Literal>
+                        </sld:CssParameter>
+                    </sld:Stroke>
+                </sld:PolygonSymbolizer>
+            </sld:Rule>
+        </sld:UserStyle>
+    </sld:NamedLayer>
+
+  <sld:NamedLayer>
+    <sld:Name>WaterBodies</sld:Name>
+    <sld:Title>Water Bodies</sld:Title>
+    <sld:UserStyle>
+      <sld:Name>default_water_style</sld:Name>
+      <sld:Title>Default Water Style</sld:Title>
+      <sld:Abstract></sld:Abstract>
+      <sld:IsDefault>1</sld:IsDefault>
+      <sld:FeatureTypeStyle>
+        <sld:Rule>
+          <sld:Name>else_water</sld:Name>
+          <sld:Title>All Features</sld:Title>
+          <sld:Abstract>Abstract</sld:Abstract>
+          <sld:ElseFilter/>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#aaaaff</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">
+                <ogc:Literal>0.5</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">
+                <ogc:Literal>#C0C0C0</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">
+                <ogc:Literal>1</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-width">
+                <ogc:Literal>1</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+        <sld:Rule>
+          <sld:Name>testRuleName</sld:Name>
+          <sld:Title>Large Scale</sld:Title>
+          <sld:Abstract>Abstract</sld:Abstract>
+          <ogc:Filter>
+            <ogc:FeatureId fid="tasmania_water_bodies.2" />
+            <ogc:FeatureId fid="tasmania_water_bodies.3" />
+          </ogc:Filter>
+          <sld:MaxScaleDenominator>3000000</sld:MaxScaleDenominator>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">blue</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">
+                <ogc:Literal>1.0</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">
+                <ogc:Literal>#C0C0C0</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-linecap">
+                <ogc:Literal>butt</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-linejoin">
+                <ogc:Literal>miter</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">
+                <ogc:Literal>1</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-width">
+                <ogc:Literal>1</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-dashoffset">
+                <ogc:Literal>0</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+      </sld:FeatureTypeStyle>
+    </sld:UserStyle>
+    <sld:UserStyle>
+      <sld:Name>water_hover</sld:Name>
+      <sld:Title>Hover Water Styler</sld:Title>
+      <sld:Abstract></sld:Abstract>
+      <sld:FeatureTypeStyle>
+        <sld:Rule>
+          <sld:Name>big_water</sld:Name>
+          <sld:Title>Big Water Bodies</sld:Title>
+          <sld:Abstract>Abstract</sld:Abstract>
+          <ogc:Filter>
+            <ogc:Not>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>PERIMETER</ogc:PropertyName>
+                  <ogc:Literal>1071304933</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsLessThan>
+                  <ogc:PropertyName>AREA</ogc:PropertyName>
+                  <ogc:Literal>1065512599</ogc:Literal>
+                </ogc:PropertyIsLessThan>
+              </ogc:Or>
+            </ogc:Not>
+          </ogc:Filter>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">
+                <ogc:Literal>black</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">
+                <ogc:Literal>0.5</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">
+                <ogc:Literal>green</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-linecap">
+                <ogc:Literal>butt</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-linejoin">
+                <ogc:Literal>miter</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">
+                <ogc:Literal>0.5</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-width">
+                <ogc:Literal>5</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-dashoffset">
+                <ogc:Literal>0</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+        <sld:Rule>
+          <sld:Name>else_water</sld:Name>
+          <sld:Title>All other water bodies</sld:Title>
+          <sld:Abstract>Abstract</sld:Abstract>
+          <sld:ElseFilter/>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">
+                <ogc:Literal>black</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">
+                <ogc:Literal>0.5</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">
+                <ogc:Literal>fuchsia</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">
+                <ogc:Literal>0.5</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-width">
+                <ogc:Literal>5</ogc:Literal>
+              </sld:CssParameter>
+              <sld:CssParameter name="stroke-dashoffset">
+                <ogc:Literal>0</ogc:Literal>
+              </sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+      </sld:FeatureTypeStyle>
+    </sld:UserStyle>
+
+
+  </sld:NamedLayer>
+
+  <sld:NamedLayer>
+    <sld:Name>Roads</sld:Name>
+    <sld:UserStyle>
+      <sld:Name>roads_default</sld:Name>
+      <sld:Title>Default Roads Style</sld:Title>
+      <sld:IsDefault>1</sld:IsDefault>
+      <sld:Rule>
+        <sld:Name>all</sld:Name>
+        <sld:Title>All Features</sld:Title>
+        <sld:LineSymbolizer>
+          <sld:Stroke>
+            <sld:CssParameter name="stroke">
+              <ogc:Literal>red</ogc:Literal>
+            </sld:CssParameter>
+            <sld:CssParameter name="stroke-width">
+              <ogc:Literal>2</ogc:Literal>
+            </sld:CssParameter>
+          </sld:Stroke>
+        </sld:LineSymbolizer>
+      </sld:Rule>
+    </sld:UserStyle>
+  </sld:NamedLayer>
+
+  <sld:NamedLayer>
+    <sld:Name>Cities</sld:Name>
+    <sld:UserStyle>
+      <sld:Name>DefaultCities</sld:Name>
+      <sld:Title>Default Cities Style</sld:Title>
+      <sld:IsDefault>1</sld:IsDefault>
+      <sld:Rule>
+        <sld:Name>all</sld:Name>
+        <sld:Title>All Features</sld:Title>
+        <sld:PointSymbolizer>
+          <sld:Graphic>
+            <sld:Size>5</sld:Size>
+            <sld:Opacity>0.5</sld:Opacity>
+          </sld:Graphic>
+        </sld:PointSymbolizer>
+      </sld:Rule>
+    </sld:UserStyle>
+  </sld:NamedLayer>
+
+  
+</sld:StyledLayerDescriptor>

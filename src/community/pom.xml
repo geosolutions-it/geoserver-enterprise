@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.geoserver</groupId>
+    <artifactId>geoserver</artifactId>
+    <version>2.2-ENTERPRISE-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.geoserver</groupId>
+  <artifactId>community</artifactId>
+  <packaging>pom</packaging>
+  <name>Community Space</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.geoserver</groupId>
+      <artifactId>platform</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+   <plugins>
+     <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>2.1</version>
+      <configuration>
+        <descriptors>
+          <descriptor>release/ext-authkey.xml</descriptor>
+          <descriptor>release/ext-printing.xml</descriptor>
+          <descriptor>release/ext-aggregate.xml</descriptor>
+          <descriptor>release/ext-importer.xml</descriptor>
+        </descriptors>
+      </configuration>
+     </plugin>
+	<plugin>
+		<artifactId>maven-jar-plugin</artifactId>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>test-jar</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<archive>
+				<manifest>
+					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+					<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+				</manifest>
+				<manifestEntries>
+					<GeoServerModule>community</GeoServerModule>
+					<Application-Name>${project.build.finalname}</Application-Name>
+					<Project-Version>${project.version}</Project-Version>
+					<Iteration-Name>${iteration}</Iteration-Name>
+					<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+					<Git-Revision>${build.commit.id}</Git-Revision>
+				</manifestEntries>
+			</archive>
+		</configuration>
+	</plugin>
+   </plugins>
+  </build>
+
+  <!-- profiles for individual modules -->
+  <profiles>
+    <profile>
+      <id>printing</id>
+      <modules>
+        <module>printing</module>
+      </modules>
+    </profile>
+    <profile>      
+      <id>webservice</id>
+      <modules>
+        <module>app-schema</module>
+      </modules>
+    </profile>
+     <profile>      
+      <id>app-schema</id>
+      <modules>
+        <module>app-schema</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>communityRelease</id>
+      <modules>
+        <module>authkey</module>
+        <module>printing</module>
+        <module>release</module>
+        <module>feature-aggregate</module>
+        <module>importer</module>
+      </modules>
+    </profile>
+    <profile>      
+      <id>sfs</id>
+      <modules>
+        <module>sfs</module>
+      </modules>
+    </profile>
+    <profile>      
+      <id>feature-aggregate</id>
+      <modules>
+        <module>feature-aggregate</module>
+      </modules>
+    </profile>
+    <profile>      
+      <id>authkey</id>
+      <modules>
+        <module>authkey</module>
+      </modules>
+    </profile>
+		<!-- ======================================== -->
+		<!-- IMPORTER -->
+		<!-- ======================================== -->
+		<profile>
+			<id>importer</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>importer</module>
+			</modules>
+		</profile>		
+		<!-- ======================================== -->
+		<!-- BACKUP-RESTORE -->
+		<!-- ======================================== -->
+		<profile>
+			<id>bkprst</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>bkprst</module>
+			</modules>
+		</profile>
+  </profiles>
+</project>

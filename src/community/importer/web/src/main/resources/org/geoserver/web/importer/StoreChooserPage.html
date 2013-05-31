@@ -1,0 +1,23 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+  <body>
+    <wicket:extend>
+      <fieldset>
+  	     <div wicket:id="stores">
+           <img wicket:id="storeIcon" /> 
+           <a wicket:id="storeLink"> 
+             <span wicket:id="storeName"></span>
+           </a> 
+           - <span  wicket:id="storeDescription"></span>
+         </div>
+      </fieldset>
+      <fieldset>
+        <br/>
+        <div class="button-group selfclear">
+          <a href="#" wicket:id="taskPanelPageLink"> 
+            <wicket:message key="taskPanelPageLink">Task panel</wicket:message>
+          </a>
+        </div> 
+      </fieldset>
+    </wicket:extend>
+  </body>
+</html>
