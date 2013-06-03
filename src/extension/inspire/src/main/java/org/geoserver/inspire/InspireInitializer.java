@@ -1,4 +1,8 @@
-package org.geoserver.inspire.wms;
+/* Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
+package org.geoserver.inspire;
 
 import java.io.File;
 
@@ -13,7 +17,7 @@ public class InspireInitializer implements GeoServerInitializer {
         // copy over the schema
         GeoServerResourceLoader l = geoServer.getCatalog().getResourceLoader();
         File target = l.createFile("www", "inspire", "inspire_vs.xsd");
-        l.copyFromClassPath("inspire_vs.xsd", target, getClass());
+        l.copyFromClassPath("inspire_vs.xsd", target, InspireInitializer.class);
         Assert.isTrue(target.exists());
     }
 

@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +16,7 @@ import net.opengis.wfs.WfsFactory;
 import org.geoserver.util.ErrorHandler;
 import org.geoserver.util.ReaderUtils;
 import org.geoserver.wfs.CapabilitiesTransformer;
+import org.geoserver.wfs.WFSExtendedCapabilitiesProvider;
 import org.geoserver.wfs.WFSTestSupport;
 import org.geoserver.wfs.xml.v1_1_0.WFS;
 import org.w3c.dom.Document;
@@ -30,7 +32,8 @@ public class CapabilitiesTransformerTest extends WFSTestSupport {
     }
 
     public void test() throws Exception {
-        CapabilitiesTransformer tx = new CapabilitiesTransformer.WFS1_1(getWFS(), getCatalog());
+    	GetCapabilitiesType request = request();
+        CapabilitiesTransformer tx = new CapabilitiesTransformer.WFS1_1(getWFS(), request.getBaseUrl(), getCatalog(), Collections.<WFSExtendedCapabilitiesProvider>emptyList());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         tx.transform(request(), output);
 
@@ -55,7 +58,8 @@ public class CapabilitiesTransformerTest extends WFSTestSupport {
      * see GEOS-2461
      */
     public void testDefaultOutputFormat() throws Exception {
-        CapabilitiesTransformer tx = new CapabilitiesTransformer.WFS1_1(getWFS(), getCatalog());
+    	GetCapabilitiesType request = request();
+        CapabilitiesTransformer tx = new CapabilitiesTransformer.WFS1_1(getWFS(), request.getBaseUrl(), getCatalog(), Collections.<WFSExtendedCapabilitiesProvider>emptyList());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         tx.transform(request(), output);
 

@@ -1,5 +1,7 @@
 package org.geoserver.wfs.v1_1;
 
+import java.util.Collections;
+
 import junit.framework.Test;
 import net.opengis.ows10.Ows10Factory;
 import net.opengis.wfs.GetCapabilitiesType;
@@ -7,6 +9,7 @@ import net.opengis.wfs.WfsFactory;
 
 import org.geoserver.wfs.CapabilitiesTransformer;
 import org.geoserver.wfs.GetCapabilities;
+import org.geoserver.wfs.WFSExtendedCapabilitiesProvider;
 import org.geoserver.wfs.WFSTestSupport;
 import org.geoserver.wfs.request.GetCapabilitiesRequest;
 import org.geotools.xml.transform.TransformerBase;
@@ -29,7 +32,7 @@ public class VersionNegotiationTest extends WFSTestSupport {
     protected void oneTimeSetUp() throws Exception {
         super.oneTimeSetUp();
 
-        getCaps = new GetCapabilities(getWFS(), getCatalog());
+        getCaps = new GetCapabilities(getWFS(), getCatalog(), Collections.<WFSExtendedCapabilitiesProvider>emptyList());
 
         factory = WfsFactory.eINSTANCE;
         owsFactory = Ows10Factory.eINSTANCE;

@@ -4,18 +4,24 @@ import java.io.File;
 
 import javax.servlet.ServletContextEvent;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.geoserver.platform.GeoServerExtensions;
 
 import com.mockrunner.mock.web.MockServletContext;
 
-import junit.framework.TestCase;
-
 public class LoggingStartupContextListenerTest extends TestCase {
 
+    @Override
+    public void setUp() {
+        LogManager.resetConfiguration();
+        Logger.getRootLogger().removeAllAppenders();
+    }
+    
     public void testLogLocationFromServletContext() throws Exception {
         File tmp = File.createTempFile("log", "tmp", new File("target"));
         tmp.delete();
@@ -31,7 +37,7 @@ public class LoggingStartupContextListenerTest extends TestCase {
         context.setInitParameter("GEOSERVER_LOG_LOCATION", new File(tmp, "foo.log").getAbsolutePath());
 
         Logger logger = Logger.getRootLogger();
-        assertNull(logger.getAppender("geoserverlogfile"));
+        assertNull("Expected geoserverlogfile to be null.  But was: " + logger.getAppender("geoserverlogfile"), logger.getAppender("geoserverlogfile"));
 
         String rel = System.getProperty(LoggingUtils.RELINQUISH_LOG4J_CONTROL);
         System.setProperty(LoggingUtils.RELINQUISH_LOG4J_CONTROL, "false");
