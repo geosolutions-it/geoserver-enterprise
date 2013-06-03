@@ -49,7 +49,7 @@ public class GetFeatureXSLTTest extends WFSTestSupport {
                 + "&version=1.1.0&service=wfs&outputFormat=" + "text/html; subtype=xslt".toUpperCase());
         // print(d);
         
-        checkOws10Exception(d, "INVALID_PARAMETER_VALUE", "outputFormat");
+        checkOws10Exception(d, "NoApplicableCode", "");
     }
 
     
