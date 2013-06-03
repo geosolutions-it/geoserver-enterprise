@@ -64,7 +64,6 @@ import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.gce.imagemosaic.ImageMosaicFormat;
-import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.image.ImageWorker;
 import org.geotools.map.Layer;
@@ -85,7 +84,6 @@ import org.geotools.util.logging.Logging;
 import org.opengis.feature.Feature;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.geometry.BoundingBox;
-import org.opengis.geometry.Envelope;
 import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -1109,7 +1107,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
             }
         }
         
-//         RenderedImageBrowser.showChain(image);
+//        RenderedImageBrowser.showChain(image,false,false);
         return image;
     }
 
