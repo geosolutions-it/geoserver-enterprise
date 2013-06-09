@@ -108,6 +108,10 @@ public class GeoServerExtensions implements ApplicationContextAware, Application
             if ( context != null ) {
                 try {
                     names = context.getBeanNamesForType(extensionPoint);
+                    // check before inserting
+                    if(names==null){
+                        throw new IllegalArgumentException("Unable to find beans for type:"+extensionPoint.getCanonicalName());
+                    }
                     //update cache only if dealing with the same context
                     if(GeoServerExtensions.context == context){
                         extensionsCache.put(extensionPoint, names);

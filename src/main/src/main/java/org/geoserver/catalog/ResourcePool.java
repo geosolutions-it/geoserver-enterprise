@@ -975,7 +975,6 @@ public class ResourcePool {
      * 
      * @throws IOException Any errors that occur loading the reader.
      */
-    @SuppressWarnings("deprecation")
     public GridCoverageReader getGridCoverageReader( CoverageStoreInfo info, Hints hints ) 
         throws IOException {
         
@@ -991,11 +990,7 @@ public class ResourcePool {
             final String formatName = gridFormat.getName();
             if (formatName.equalsIgnoreCase(IMAGE_MOSAIC) || formatName.equalsIgnoreCase(IMAGE_PYRAMID)){
                 if (coverageExecutor != null){
-                    if (hints != null){
-                        hints.add(new RenderingHints(Hints.EXECUTOR_SERVICE, coverageExecutor));
-                    } else {
-                        hints = new Hints(new RenderingHints(Hints.EXECUTOR_SERVICE, coverageExecutor));
-                    }
+                    hints.add(new RenderingHints(Hints.EXECUTOR_SERVICE, coverageExecutor));
                 }
             }
             
@@ -1024,9 +1019,12 @@ public class ResourcePool {
                 // Getting coverage reader using the format and the real path.
                 //
                 // /////////////////////////////////////////////////////////
-                final File obj = GeoserverDataDirectory.findDataFile(info.getURL());
-    
+                final File obj = GeoserverDataDirectory.findDataFile(info.getURL());    
                 reader = gridFormat.getReader(obj,hints);
+                // check against null and send error
+                if(reader==null){
+                    throw new IllegalArgumentException("Unable to create a GridCoverageReader for file:"+obj.getCanonicalPath());
+                }
                 if(hints != null) {
                     hintCoverageReaderCache.put((CoverageHintReaderKey) key, reader);
                 } else {
