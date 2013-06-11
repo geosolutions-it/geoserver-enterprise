@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>	
+<!--DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd" -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://activemq.apache.org/schema/core
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
+
+	<context:annotation-config />
+	
+	<bean id="RestDispatcherCallback" class="it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback">
+  	</bean>
+
+	<!-- SERVER/CLIENT side impl -->
+	
+	<bean id="xstream" class="com.thoughtworks.xstream.XStream" />
+	
+	<bean id="toggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleProducer"/>
+
+	<!--  note: SPI bean id name MUST be the same as SPI SimpleClassName -->
+
+	<!-- TO HANDLE XML file -->
+	<bean id="DocumentFileHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.DocumentFileHandlerSPI"
+		depends-on="catalog,xstream">
+			<constructor-arg index="0" value="1" />
+			<constructor-arg index="1" ref="xstream" />
+	</bean>
+	
+	<bean id="JMSCatalogStylesFileHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogStylesFileHandlerSPI"
+		depends-on="catalog,xstream">
+		<constructor-arg index="0" value="-1" />
+		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="2" ref="xstream" />
+	</bean>
+
+	<bean id="JMSCatalogAddEventHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogAddEventHandlerSPI"
+		depends-on="catalog,xstream">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+	
+	<bean id="JMSCatalogModifyEventHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogModifyEventHandlerSPI"
+		depends-on="catalog,xstream">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+	
+	<bean id="JMSCatalogRemoveEventHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogRemoveEventHandlerSPI"
+		depends-on="catalog,xstream">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+	
+	<bean id="JMSCatalogPostModifyEventHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogPostModifyEventHandlerSPI"
+		depends-on="catalog,xstream">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+	
+	
+	<!-- Configuration -->
+	
+	<bean id="JMSServiceHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.configuration.JMSServiceHandlerSPI"
+		depends-on="geoServer,xstream,toggleProducer">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="geoServer" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+
+	<bean id="JMSGeoServerHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.configuration.JMSGeoServerHandlerSPI"
+		depends-on="geoServer,xstream,toggleProducer">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="geoServer" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+	
+	<bean id="JMSLoggingHandlerSPI"
+		class="it.geosolutions.geoserver.jms.impl.handlers.configuration.JMSLoggingHandlerSPI"
+		depends-on="geoServer,xstream,toggleProducer">
+		<constructor-arg index="0" value="1" />
+		<constructor-arg index="1" ref="geoServer" />
+		<constructor-arg index="2" ref="xstream" />
+		<constructor-arg index="3" ref="toggleProducer" />
+	</bean>
+</beans>

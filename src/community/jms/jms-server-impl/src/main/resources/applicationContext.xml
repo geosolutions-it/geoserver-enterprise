@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd" -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://activemq.apache.org/schema/core
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
+
+	<context:annotation-config />
+
+	<!-- SERVER side impl -->
+
+	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.impl.JMSCatalogListener"
+		depends-on="JMSTopicTemplate,catalog,JMSProperties" lazy-init="true">
+		<constructor-arg index="0" ref="JMSTopicTemplate" />
+		<constructor-arg index="1" ref="catalog" />
+	    <constructor-arg index="2" ref="JMSProperties" />
+	</bean>
+	
+	<bean id="JMSConfigurationListener" class="it.geosolutions.geoserver.jms.impl.JMSConfigurationListener"
+		depends-on="JMSTopicTemplate,geoServer,JMSProperties" lazy-init="true">
+		<constructor-arg index="0" ref="JMSTopicTemplate" />
+		<constructor-arg index="1" ref="geoServer" />
+	    <constructor-arg index="2" ref="JMSProperties" />
+	</bean>
+	
+</beans>

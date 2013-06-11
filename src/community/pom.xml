@@ -142,5 +142,32 @@
 				<module>bkprst</module>
 			</modules>
 		</profile>
+		<!-- ======================================== -->
+		<!-- JMS -->
+		<!-- ======================================== -->
+		<profile>
+			<id>jms-client</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>jms</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>jms-server</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>jms</module>
+			</modules>
+		</profile>		
   </profiles>
 </project>

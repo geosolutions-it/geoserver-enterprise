@@ -311,13 +311,62 @@
       </dependencies>
     </profile>
 
+<!-- ======================================= -->
+<!-- JMS Client -->
+<!-- ======================================= -->
+	<profile>
+		<id>jms-client</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<dependencies>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-commons-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</profile>
+<!-- ======================================= -->
+<!-- JMS Server -->
+<!-- ======================================= -->
+	<profile>
+		<id>jms-server</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<dependencies>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-server-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</profile>
+	
     <profile>
       <id>arcsde</id>
       <dependencies>
         <dependency>
           <groupId>org.geoserver.extension</groupId>
           <artifactId>arcsde</artifactId> 
-          <version>2.2-ENTERPRISE-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -362,7 +411,7 @@
         <dependency>
           <groupId>org.geoserver.extension</groupId>
           <artifactId>sqlserver</artifactId> 
-          <version>2.2-ENTERPRISE-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -372,7 +421,7 @@
         <dependency>
           <groupId>org.geoserver.extension</groupId>
           <artifactId>oracle</artifactId> 
-          <version>2.2-ENTERPRISE-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -382,7 +431,7 @@
         <dependency>
           <groupId>org.geoserver.extension</groupId>
           <artifactId>mysql</artifactId> 
-          <version>2.2-ENTERPRISE-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
     </profile>
