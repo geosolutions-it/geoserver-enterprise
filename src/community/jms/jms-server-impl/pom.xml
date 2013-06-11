@@ -12,25 +12,25 @@
 
 	<groupId>org.geoserver</groupId>
 	<artifactId>jms-server-impl</artifactId>
-		<version>2.2-ENTERPRISE-SNAPSHOT</version>
+	<version>2.2-ENTERPRISE-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>GeoServer JMS Server module Implementation</name>
 
 	<dependencies>
-		<dependency>
+		<!--dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-commons</artifactId>
-		<version>${project.version}</version>
-		</dependency>
+			<version>${project.version}</version>
+		</dependency-->
 		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-commons-impl</artifactId>
-		<version>${project.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-server</artifactId>
-		<version>${project.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>

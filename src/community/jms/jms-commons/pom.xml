@@ -12,7 +12,7 @@
 
 	<groupId>org.geoserver</groupId>
 	<artifactId>jms-commons</artifactId>
-		<version>2.2-ENTERPRISE-SNAPSHOT</version>
+	<version>2.2-ENTERPRISE-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>GeoServer JMS Commons module</name>
 
@@ -83,5 +83,36 @@
 		</dependency>
 
 	</dependencies>
+<build>
+<plugins>
+        <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                        <execution>
+                                <phase>package</phase>
+                                <goals>
+                                        <goal>test-jar</goal>
+                                </goals>
+                        </execution>
+                </executions>
+                <configuration>
+                        <archive>
+                                <manifest>
+                                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                </manifest>
+                                <manifestEntries>
+                                        <GeoServerModule>community</GeoServerModule>
+                                        <Application-Name>${project.build.finalname}</Application-Name>
+                                        <Project-Version>${project.version}</Project-Version>
+                                        <Iteration-Name>${iteration}</Iteration-Name>
+                                        <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+                                        <Git-Revision>${build.commit.id}</Git-Revision>
+                                </manifestEntries>
+                        </archive>
+                </configuration>
+        </plugin>
+   </plugins>
+  </build>
 
 </project>

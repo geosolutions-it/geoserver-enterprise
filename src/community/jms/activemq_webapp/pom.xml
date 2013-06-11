@@ -5,22 +5,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>it.geosolutions.activemq</groupId>
-    <artifactId>activemq_webbapp</artifactId>
-    <!-- Use the same version as GeoServer here, at least for the moment -->
-    <version>1.0-SNAPSHOT</version>
+	<artifactId>activemq_webbapp</artifactId>
+	<!-- Use the same version as GeoServer here, at least for the moment -->
+	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	
 	<name>ActiveMQ</name>
 
-<organization>
+	<organization>
 		<name>GeoSolutions</name>
 	</organization>
 
-    <properties>
-        <!--<jetty-version>6.1.8</jetty-version>-->
-        <postgres.version>8.3-603.jdbc4</postgres.version>
-        <spring.version>3.0.3.RELEASE</spring.version>
-    </properties>
+	<properties>
+	    <!--<jetty-version>6.1.8</jetty-version>-->
+	    <postgres.version>8.3-603.jdbc4</postgres.version>
+	    <spring.version>3.0.3.RELEASE</spring.version>
+	</properties>
 
 	<build>
 		<plugins>
