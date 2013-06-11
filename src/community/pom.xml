@@ -154,7 +154,7 @@
 				</property>
 			</activation>
 			<modules>
-				<module>jms</module>
+				<module>cluster</module>
 			</modules>
 		</profile>
 		<profile>
@@ -166,7 +166,7 @@
 				</property>
 			</activation>
 			<modules>
-				<module>jms</module>
+				<module>cluster</module>
 			</modules>
 		</profile>		
   </profiles>
