@@ -11,10 +11,10 @@ import org.apache.wicket.markup.html.form.Form;
  * file naming rules
  */
 @SuppressWarnings("serial")
-public class FileRasterEditPanel extends AbstractRasterFileEditPanel {
+public class DirectoryRasterEditPanel extends AbstractRasterFileEditPanel {
 
-    public FileRasterEditPanel(String componentId, Form storeEditForm) {
-        super(componentId, storeEditForm);
+    public DirectoryRasterEditPanel(String componentId, Form storeEditForm) {
+        super(componentId, storeEditForm, true);
     }
-    
+
 }
