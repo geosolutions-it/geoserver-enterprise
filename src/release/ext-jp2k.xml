@@ -16,7 +16,7 @@
 			<directory>release/target/dependency</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
-        <include>*gt-jp2k*.jar</include>
+                                <include>*jp2k*.jar</include>
 				<include>*imageio-ext-kakadu*.jar</include>
 				<include>*imageio-ext-imagereadmt*.jar</include>
 			</includes>

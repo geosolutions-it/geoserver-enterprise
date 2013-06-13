@@ -63,12 +63,6 @@
    <artifactId>xmlunit</artifactId>
    <scope>test</scope>
   </dependency>
-  <!--
-  <dependency>
-   <groupId>org.geotools</groupId>
-   <artifactId>imagepyramid</artifactId>
-  </dependency>
-    -->
  </dependencies>
 
 </project>
