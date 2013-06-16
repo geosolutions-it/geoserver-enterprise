@@ -45,6 +45,24 @@
   </ciManagement>
 
  <repositories>
+ 
+  <repository>
+   <id>repo</id>
+   <name>Maven Repository</name>
+   <url>http://mirrors.ibiblio.org/pub/mirrors/maven/</url>
+   <snapshots>
+     <enabled>false</enabled>
+   </snapshots>
+  </repository>   
+  
+  <repository>
+   <id>repo</id>
+   <name>Maven Repository</name>
+   <url>http://mirrors.ibiblio.org/pub/mirrors/maven/</url>
+   <snapshots>
+     <enabled>false</enabled>
+   </snapshots>
+  </repository> 
   
   <repository>
    <id>geosolutions</id>
