@@ -56,6 +56,15 @@
   </repository> 
   
   <repository>
+   <id>maven.cci.emory</id>
+   <name>Maven Repository</name>
+   <url>http://maven.cci.emory.edu/nexus/content/repositories/aiw</url>
+   <snapshots>
+     <enabled>false</enabled>
+   </snapshots>
+  </repository> 
+    
+  <repository>
    <id>repo</id>
    <name>Maven Repository</name>
    <url>http://repo.maven.apache.org/maven2/</url>
