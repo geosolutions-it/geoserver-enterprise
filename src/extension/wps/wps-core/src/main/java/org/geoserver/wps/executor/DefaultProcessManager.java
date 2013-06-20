@@ -32,7 +32,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 public class DefaultProcessManager implements ProcessManager, ExtensionPriority, ApplicationListener<ApplicationEvent> {
 
-    Map<String, ExecutionStatus> executions = createExecutionsManager();
+	ConcurrentHashMap<String, ExecutionStatusEx> executions = new ConcurrentHashMap<String, DefaultProcessManager.ExecutionStatusEx>();
 
     ThreadPoolExecutor synchService;
 
@@ -42,10 +42,6 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
 
     public DefaultProcessManager(WPSResourceManager resourceManager) {
         this.resourceManager = resourceManager;
-    }
-
-    protected Map<String, ExecutionStatus> createExecutionsManager() {
-        return new ConcurrentHashMap<String, ExecutionStatus>();
     }
 
     public void setMaxAsynchronousProcesses(int maxAsynchronousProcesses) {
@@ -115,10 +111,10 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
     @Override
     public void submit(String executionId, Name processName, Map<String, Object> inputs,
             boolean background) throws ProcessException {
-        ExecutionStatusEx status = createExecutionStatus(processName, executionId);
+    	ExecutionStatusEx status = new ExecutionStatusEx(processName, executionId);
         ProcessListener listener = new ProcessListener(status);
         status.listener = listener;
-        ProcessCallable callable = new ProcessCallable(inputs, status, listener);
+        ProcessCallable callable = new ProcessCallable(inputs, status);
         Future<Map<String, Object>> future;
         if(background) {
             future = asynchService.submit(callable);
@@ -129,14 +125,9 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         executions.put(executionId, status);
     }
 
-    protected ExecutionStatusEx createExecutionStatus(Name processName,
-            String executionId) {
-        return new ExecutionStatusEx(processName, executionId);
-    }
-
     @Override
     public ExecutionStatus getStatus(String executionId) {
-        ExecutionStatus status = executions.get(executionId);
+        ExecutionStatusEx status = executions.get(executionId);
         if (status != null) {
             return status.getStatus();
         } else {
@@ -146,12 +137,16 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
 
     @Override
     public Map<String, Object> getOutput(String executionId, long timeout) throws ProcessException {
-        ExecutionStatus status = executions.get(executionId);
+        ExecutionStatusEx status = executions.get(executionId);
         if (status == null) {
             return null;
         }
         try {
-            return status.getOutput(timeout);            
+        	if (timeout <= 0) {
+                return status.future.get();
+            } else {
+                return status.future.get(timeout, TimeUnit.MILLISECONDS);
+            }            
         } catch (Exception e) {
             if(e instanceof ExecutionException && e.getCause() instanceof Exception) {
                 e = (Exception) e.getCause();
@@ -169,16 +164,18 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
 
     @Override
     public void cancel(String executionId) {
-        ExecutionStatus status = executions.get(executionId);
+        ExecutionStatusEx status = executions.get(executionId);
         if (status != null) {
-            status.setPhase(ProcessState.CANCELLED);            
+        	status.setPhase(ProcessState.CANCELLED);
+            status.future.cancel(true);
+            status.listener.setCanceled(true);            
         }
     }
 
     @Override
     public List<ExecutionStatus> getRunningProcesses() {
         List<ExecutionStatus> result = new ArrayList<ExecutionStatus>();
-        for (ExecutionStatus status : executions.values()) {
+        for (ExecutionStatusEx status : executions.values()) {
             result.add(status.getStatus());
         }
         return result;
@@ -193,20 +190,18 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
 
         Map<String, Object> inputs;
 
-        ExecutionStatus status;
-        
-        ProcessListener listener;
+        ExecutionStatusEx status;
 
-        public ProcessCallable(Map<String, Object> inputs, ExecutionStatus status, ProcessListener listener) {
+        public ProcessCallable(Map<String, Object> inputs, ExecutionStatusEx status) {
             this.inputs = inputs;
             this.status = status;
-            this.listener = listener;
         }
 
         @Override
         public Map<String, Object> call() throws Exception {
             resourceManager.setCurrentExecutionId(status.getExecutionId());
-            status.setPhase(ProcessState.RUNNING);           
+            status.setPhase(ProcessState.RUNNING);
+            ProcessListener listener = status.listener;
             Name processName = status.getProcessName();
             ProcessFactory pf = Processors.createProcessFactory(processName);
             if (pf == null) {
@@ -251,29 +246,6 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         public ExecutionStatus getStatus() {
             return new ExecutionStatus(processName, executionId, phase, progress);
         }
-
-        
-        
-        @Override
-        public void setPhase(ProcessState phase) {  
-            if(phase == ProcessState.CANCELLED && getPhase() != ProcessState.CANCELLED ) {
-                future.cancel(true);
-                listener.setCanceled(true);
-            }
-            super.setPhase(phase);
-            
-        }
-
-        @Override
-        public Map<String, Object> getOutput(long timeout) throws Exception {
-            if (timeout <= 0) {
-                return future.get();
-            } else {
-                return future.get(timeout, TimeUnit.MILLISECONDS);
-            }
-        }
-        
-        
     }
 
     /**

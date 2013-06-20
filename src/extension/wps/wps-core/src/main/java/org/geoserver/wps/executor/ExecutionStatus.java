@@ -4,8 +4,6 @@
  */
 package org.geoserver.wps.executor;
 
-import java.util.Map;
-
 import org.opengis.feature.type.Name;
 
 /**
@@ -78,13 +76,4 @@ public class ExecutionStatus {
     public void setProgress(float progress) {
         this.progress = progress;
     }
-    
-    public ExecutionStatus getStatus() {
-        return this;
-    }
-    
-    public Map<String, Object> getOutput(long timeout) throws Exception {
-        return null;
-    }
-    
 }
