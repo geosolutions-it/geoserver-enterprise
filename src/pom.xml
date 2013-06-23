@@ -101,6 +101,33 @@
   </repository>
 
   <repository>
+    <id>Ibiblio</id>
+    <name>Ibiblio mirror</name>
+    <url>http://mirrors.ibiblio.org/pub/mirrors/maven</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+  
+  <repository>
+    <id>Repo1 maven</id>
+    <name>Repo1 maven</name>
+    <url>http://repo1.maven.org/maven2/</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+  
+  <repository>
+    <id>maven.cci.emory.edu</id>
+    <name>maven.cci.emory.edu</name>
+    <url>http://maven.cci.emory.edu/nexus/content/repositories/aiw/</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>  
+    
+  <repository>
     <id>maven-restlet</id>
     <name>Restlet Maven Repository</name>
     <url>http://maven.restlet.org</url>
