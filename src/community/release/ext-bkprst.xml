@@ -1,5 +1,5 @@
 <assembly>
-  <id>bkprst-plugin</id>
+  <id>importer-plugin</id>
   <formats>
     <format>zip</format>
   </formats>
@@ -10,9 +10,7 @@
       <outputDirectory></outputDirectory>
       <includes>
         <include>*bkprst*.jar</include>
-        <include>gt-coveragetools*.jar</include>
-        <include>*importer*.jar</include>
-        <include>commons-cli-2.0-gt2-pre1.jar</include>
+        <include>tools-io*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
