@@ -1,5 +1,5 @@
 <assembly>
-  <id>importer-plugin</id>
+  <id>bkprst-plugin</id>
   <formats>
     <format>zip</format>
   </formats>

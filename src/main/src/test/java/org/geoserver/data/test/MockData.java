@@ -807,6 +807,7 @@ public class MockData implements TestData {
         
         // let's grab the necessary metadata
         AbstractGridFormat format = (AbstractGridFormat) GridFormatFinder.findFormat(coverageFile);
+        System.out.println(coverageFile.toString());
         AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) format.getReader(coverageFile);
         if (reader == null) {
             throw new RuntimeException("No reader for " + coverageFile.getCanonicalPath() + " with format " + format.getName());
