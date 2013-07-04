@@ -17,7 +17,7 @@ import org.opengis.feature.type.Name;
 public class ExecutionStatus {
 
     public enum ProcessState {
-        QUEUED, RUNNING, COMPLETED, CANCELLED
+        QUEUED, RUNNING, COMPLETED, CANCELLED, FAILED
     };
 
     /**
