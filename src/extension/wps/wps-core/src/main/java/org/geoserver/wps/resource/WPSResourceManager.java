@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.geoserver.ows.DispatcherCallback;
 import org.geoserver.ows.Request;
 import org.geoserver.ows.Response;
+import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.platform.Operation;
 import org.geoserver.platform.Service;
 import org.geoserver.platform.ServiceException;
@@ -155,8 +156,14 @@ public class WPSResourceManager implements DispatcherCallback,
     File getWpsOutputStorage() {
         File wpsStore = null;
         try {
-            File temp = GeoserverDataDirectory.findCreateConfigDir("temp");
-            wpsStore = new File(temp, "wps");
+        	String wpsOutputStorage = GeoServerExtensions.getProperty("WPS_OUTPUT_STORAGE");
+        	File temp = null;
+        	if (wpsOutputStorage == null || !new File(wpsOutputStorage).exists())
+        		temp = GeoserverDataDirectory.findCreateConfigDir("temp");
+        	else {
+        		temp = new File(wpsOutputStorage);
+        	}
+        	wpsStore = new File(temp, "wps");
             if(!wpsStore.exists()) {
                 mkdir(wpsStore);
             }

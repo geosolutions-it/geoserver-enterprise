@@ -214,6 +214,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
                 Process p = pf.create(processName);
                 result = p.execute(inputs, listener);
                 if (listener.exception != null) {
+                	status.setPhase(ProcessState.FAILED);
                     throw new WPSException("Process failed: " + listener.exception.getMessage(),
                             listener.exception);
                 }

@@ -169,12 +169,15 @@ public class WPSExecutionManager implements ApplicationContextAware,
      * @return
      */
     public Map<String, Object> getOutput(String executionId, long timeout) throws ProcessException {
+    	Map<String, Object> output = null;
         for (ProcessManager pm : getProcessManagers()) {
-            Map<String, Object> output = pm.getOutput(executionId, timeout);
-            if (output != null) {
-                contexts.remove(executionId);
-                return output;
-            }
+        	Map<String, Object> pmOutput = pm.getOutput(executionId, timeout);
+            if (pmOutput != null && output == null) output = pmOutput;
+        }
+    	
+    	if (output != null) {
+            contexts.remove(executionId);
+            return output;
         }
         throw new ProcessException("Failed to find output for execution " + executionId);
     }
