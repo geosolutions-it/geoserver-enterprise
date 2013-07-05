@@ -206,7 +206,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         @Override
         public Map<String, Object> call() throws Exception {
             resourceManager.setCurrentExecutionId(status.getExecutionId());
-            status.setPhase(ProcessState.RUNNING);           
+            status.setPhase(ProcessState.RUNNING);
             Name processName = status.getProcessName();
             ProcessFactory pf = Processors.createProcessFactory(processName);
             if (pf == null) {
