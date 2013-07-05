@@ -6,6 +6,7 @@ package org.geoserver.wms.legendgraphic;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.Test;
@@ -81,6 +82,7 @@ public class GetLegendGraphicKvpReaderTest extends WMSTestSupport {
         optionalParameters.put("SCALE", "1000");
         optionalParameters.put("WIDTH", "120");
         optionalParameters.put("HEIGHT", "90");
+        optionalParameters.put("LANGUAGE", "en");
         // ??optionalParameters.put("EXCEPTIONS", "");
         allParameters = new HashMap<String, String>(requiredParameters);
         allParameters.putAll(optionalParameters);
@@ -172,6 +174,15 @@ public class GetLegendGraphicKvpReaderTest extends WMSTestSupport {
         assertTrue(request.getLayers().size() > 1);
     }
     
+	public void testLanguage() throws Exception {
+        GetLegendGraphicRequest request;
+        
+        request = requestReader.read(new GetLegendGraphicRequest(), requiredParameters, requiredParameters);
+        assertNull(request.getLocale());
+        
+        request = requestReader.read(new GetLegendGraphicRequest(), allParameters, allParameters);
+        assertEquals(Locale.ENGLISH, request.getLocale());
+    }
     public void testStylesForLayerGroup() throws Exception {
         GetLegendGraphicRequest request;
                
