@@ -36,6 +36,7 @@ public class JMSProperties {
 	}
 
 	public JMSProperties(String name) {
+		super();
 		properties=new Properties();
 		setName(name);
 	}

@@ -17,18 +17,8 @@
 
 	<context:annotation-config />
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="false" />
-		<property name="locations">
-			<list>
-				<value>classpath:jms.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<!-- CLIENT -->
-	<bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
+	<bean id="queue" class="org.apache.activemq.command.ActiveMQQueue" depends-on="jmsPropertyConfigurer">
 		<constructor-arg
 			value="Consumer.${instance.name}.VirtualTopic.${topic.name}" />
 	</bean>

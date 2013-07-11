@@ -40,7 +40,7 @@
 		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogStylesFileHandlerSPI"
 		depends-on="catalog,xstream">
 		<constructor-arg index="0" value="-1" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 		<constructor-arg index="2" ref="xstream" />
 	</bean>
 
@@ -48,7 +48,7 @@
 		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogAddEventHandlerSPI"
 		depends-on="catalog,xstream">
 		<constructor-arg index="0" value="1" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 		<constructor-arg index="2" ref="xstream" />
 		<constructor-arg index="3" ref="toggleProducer" />
 	</bean>
@@ -57,7 +57,7 @@
 		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogModifyEventHandlerSPI"
 		depends-on="catalog,xstream">
 		<constructor-arg index="0" value="1" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 		<constructor-arg index="2" ref="xstream" />
 		<constructor-arg index="3" ref="toggleProducer" />
 	</bean>
@@ -66,7 +66,7 @@
 		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogRemoveEventHandlerSPI"
 		depends-on="catalog,xstream">
 		<constructor-arg index="0" value="1" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 		<constructor-arg index="2" ref="xstream" />
 		<constructor-arg index="3" ref="toggleProducer" />
 	</bean>
@@ -75,11 +75,10 @@
 		class="it.geosolutions.geoserver.jms.impl.handlers.catalog.JMSCatalogPostModifyEventHandlerSPI"
 		depends-on="catalog,xstream">
 		<constructor-arg index="0" value="1" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 		<constructor-arg index="2" ref="xstream" />
 		<constructor-arg index="3" ref="toggleProducer" />
 	</bean>
-	
 	
 	<!-- Configuration -->
 	

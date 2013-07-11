@@ -18,6 +18,18 @@
     
 <profiles>
 	<profile>
+		<id>activemq</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<modules>
+			<module>activemqBroker</module>
+		</modules>
+	</profile>
+	<profile>
 		<id>jms-client</id>
 		<activation>
 			<property>

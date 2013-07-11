@@ -22,7 +22,7 @@
 	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.impl.JMSCatalogListener"
 		depends-on="JMSTopicTemplate,catalog,JMSProperties" lazy-init="true">
 		<constructor-arg index="0" ref="JMSTopicTemplate" />
-		<constructor-arg index="1" ref="catalog" />
+		<constructor-arg index="1" ref="rawCatalog" />
 	    <constructor-arg index="2" ref="JMSProperties" />
 	</bean>
 	

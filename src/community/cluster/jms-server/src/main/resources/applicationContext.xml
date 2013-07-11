@@ -17,17 +17,6 @@
 
 	<context:annotation-config />
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="true" />
-		<property name="systemPropertiesMode" value="2"/> <!--  allow system properties to override the properties file contents -->
-		<property name="locations">
-			<list>
-				<value>classpath:jms.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<!-- COMMENT OUT TO USE EXTERNAL BROKER -->
 	<!-- lets create an embedded ActiveMQ Broker -->
 	<!-- offlineDurableSubscriberTimeout="86400000" offlineDurableSubscriberTaskSchedule="3600000" -->
@@ -61,12 +50,11 @@
 <!--		</destinationPolicy>-->
 <!--	</broker>-->
 
-
 	<!-- SERVER -->
 
 	<!-- DESTINATION -->
 	<!-- A destination in ActiveMQ -->
-	<bean id="virtualTopic" class="org.apache.activemq.command.ActiveMQTopic">
+	<bean id="virtualTopic" class="org.apache.activemq.command.ActiveMQTopic" depends-on="jmsPropertyConfigurer">
 		<constructor-arg value="VirtualTopic.${topic.name}" />
 	</bean>
 
@@ -76,6 +64,5 @@
 		<property name="defaultDestination" ref="virtualTopic" />
 		<property name="pubSubDomain" value="true" />
 	</bean>
-
 
 </beans>

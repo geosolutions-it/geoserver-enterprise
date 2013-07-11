@@ -17,9 +17,10 @@
 
 	<context:annotation-config />
 
-	<bean id="propertyConfigurer"
+	<bean id="jmsPropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="false" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 		<property name="locations">
 			<list>
 				<value>classpath:jms.properties</value>
@@ -30,7 +31,7 @@
 	<!-- COMMONS -->
 	
 	<!-- A connection to ActiveMQ -->
-	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" >
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" depends-on="jmsPropertyConfigurer">
 		<property name="brokerURL" value="${broker.url}" />
 	</bean>
 
@@ -42,7 +43,7 @@
 <!--		<property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" />-->
 <!--	</bean>-->
 	
-	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties">
+	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties" depends-on="jmsPropertyConfigurer">
 <!--		<constructor-arg index="0" type="String" value="${instance.name}" />-->
 		<property name="name" value="${instance.name}" />
 <!--		<constructor-arg name="name" value="${instance.name}" />-->
