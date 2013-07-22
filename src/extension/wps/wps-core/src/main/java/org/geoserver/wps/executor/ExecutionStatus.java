@@ -17,7 +17,7 @@ import org.opengis.feature.type.Name;
 public class ExecutionStatus {
 
     public enum ProcessState {
-        QUEUED, RUNNING, COMPLETED, CANCELLED
+        QUEUED, RUNNING, COMPLETED, CANCELLED, FAILED
     };
 
     /**
@@ -39,7 +39,7 @@ public class ExecutionStatus {
      * Process execution status
      */
     float progress;
-    
+
     public ExecutionStatus(Name processName, String executionId, ProcessState phase, float progress) {
         this.processName = processName;
         this.executionId = executionId;
@@ -78,13 +78,12 @@ public class ExecutionStatus {
     public void setProgress(float progress) {
         this.progress = progress;
     }
-    
+
     public ExecutionStatus getStatus() {
         return this;
     }
-    
+
     public Map<String, Object> getOutput(long timeout) throws Exception {
         return null;
     }
-    
 }

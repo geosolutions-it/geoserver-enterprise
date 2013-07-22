@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.geoserver.ows.DispatcherCallback;
 import org.geoserver.ows.Request;
 import org.geoserver.ows.Response;
+import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.platform.Operation;
 import org.geoserver.platform.Service;
 import org.geoserver.platform.ServiceException;
@@ -28,18 +29,17 @@ import org.vfny.geoserver.global.GeoserverDataDirectory;
 import org.vfny.geoserver.wcs.WcsException;
 
 /**
- * A WPS process has to deal with various temporary resources during the execution, be streamed and
- * stored inputs, Sextante temporary files, temporary feature types and so on.
+ * A WPS process has to deal with various temporary resources during the execution, be streamed and stored inputs, Sextante temporary files, temporary
+ * feature types and so on.
  * 
- * This class manages the lifecycle of these resources, register them here to have their lifecycle
- * properly managed
+ * This class manages the lifecycle of these resources, register them here to have their lifecycle properly managed
  * 
- * The design is still very rough, I'm making this up as I go. The class will require modifications
- * to handle asynch process computations as well as resources with a timeout
+ * The design is still very rough, I'm making this up as I go. The class will require modifications to handle asynch process computations as well as
+ * resources with a timeout
  * 
  * @author Andrea Aime - GeoSolutions
  * 
- * TODO: add methods to support process locking and all the deferred cleanup required for asynch processes 
+ *         TODO: add methods to support process locking and all the deferred cleanup required for asynch processes
  */
 public class WPSResourceManager implements DispatcherCallback,
         ApplicationListener<ApplicationEvent> {
@@ -56,8 +56,7 @@ public class WPSResourceManager implements DispatcherCallback,
         List<WPSResource> temporary;
 
         /**
-         * Resources representing process outputs, should be kept around for some time for asynch
-         * processes
+         * Resources representing process outputs, should be kept around for some time for asynch processes
          */
         List<WPSResource> outputs;
 
@@ -78,8 +77,7 @@ public class WPSResourceManager implements DispatcherCallback,
     }
 
     /**
-     * Create a new unique id for the process. All resources linked to the process should use this
-     * token to register themselves against the manager
+     * Create a new unique id for the process. All resources linked to the process should use this token to register themselves against the manager
      * 
      * @return
      */
@@ -97,9 +95,8 @@ public class WPSResourceManager implements DispatcherCallback,
     }
 
     /**
-     * ProcessManagers should call this method every time they are running the process in a thread
-     * other than the request thread, and that is not a child of it either (typical case is running
-     * in a thread pool)
+     * ProcessManagers should call this method every time they are running the process in a thread other than the request thread, and that is not a
+     * child of it either (typical case is running in a thread pool)
      * 
      * @param executionId
      */
@@ -120,9 +117,9 @@ public class WPSResourceManager implements DispatcherCallback,
             resources.temporary.add(resource);
         }
     }
-    
+
     /**
-     * Returns a file that will be used to store a process output as a "reference" 
+     * Returns a file that will be used to store a process output as a "reference"
      * 
      * @param executionId
      * @param fileName
@@ -130,20 +127,21 @@ public class WPSResourceManager implements DispatcherCallback,
      */
     public File getOutputFile(String executionId, String fileName) {
         File outputDirectory = new File(getWpsOutputStorage(), executionId);
-        if(!outputDirectory.exists()) {
+        if (!outputDirectory.exists()) {
             mkdir(outputDirectory);
         }
         return new File(outputDirectory, fileName);
     }
-    
+
     private void mkdir(File file) {
-        if(!file.mkdir()) {
+        if (!file.mkdir()) {
             throw new WPSException("Failed to create the specified directory " + file);
         }
     }
-    
+
     /**
      * Gets the stored response file for the specified execution id
+     * 
      * @param executionId
      * @return
      */
@@ -151,16 +149,22 @@ public class WPSResourceManager implements DispatcherCallback,
         File file = new File(getWpsOutputStorage(), executionId + ".xml");
         return file;
     }
-    
+
     File getWpsOutputStorage() {
         File wpsStore = null;
         try {
-            File temp = GeoserverDataDirectory.findCreateConfigDir("temp");
+            String wpsOutputStorage = GeoServerExtensions.getProperty("WPS_OUTPUT_STORAGE");
+            File temp = null;
+            if (wpsOutputStorage == null || !new File(wpsOutputStorage).exists())
+                temp = GeoserverDataDirectory.findCreateConfigDir("temp");
+            else {
+                temp = new File(wpsOutputStorage);
+            }
             wpsStore = new File(temp, "wps");
-            if(!wpsStore.exists()) {
+            if (!wpsStore.exists()) {
                 mkdir(wpsStore);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new WcsException("Could not create the temporary storage directory for WPS");
         }
         return wpsStore;
@@ -186,22 +190,21 @@ public class WPSResourceManager implements DispatcherCallback,
             resourceCache.remove(id);
         }
     }
-    
+
     public void finished(String executionId) {
         // cleanup the thread local, in case it has any id in it
         this.executionId.remove();
 
         // cleanup the temporary resources
         cleanProcess(executionId);
-       
+
         // mark the process as complete
         resourceCache.get(executionId).completionTime = System.currentTimeMillis();
     }
 
     /**
-     * Cleans up all the resources associated to a certain id. It is called automatically
-     * when the request ends for synchronous processes, for asynch ones it will be triggered
-     * by the process completion
+     * Cleans up all the resources associated to a certain id. It is called automatically when the request ends for synchronous processes, for asynch
+     * ones it will be triggered by the process completion
      * 
      * @param id
      */
