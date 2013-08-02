@@ -1,6 +1,6 @@
 package it.geosolutions.geoserver.jms.message;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
+import it.geosolutions.geoserver.jms.configuration.Configuration;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -26,23 +26,24 @@ import org.springframework.jms.core.MessageCreator;
  * @param <O>
  *            object to serialize
  */
-public class JMSObjectMessageCreator implements
-		MessageCreator {
+public class JMSObjectMessageCreator implements MessageCreator {
 
 	private final Serializable serialized;
-	private final JMSProperties properties;
+	private final Properties properties;
 
-	public JMSObjectMessageCreator(final Serializable serialized, final JMSProperties props) {
+	public JMSObjectMessageCreator(final Serializable serialized,
+			final Properties props) {
 		this.serialized = serialized;
 		this.properties = props;
 	}
-	
-	protected void updateProperties(Message message) throws JMSException{
+
+	protected void updateProperties(Message message) throws JMSException {
 		// append the name of the server
-		message.setObjectProperty(properties.getKeyName(),properties.getName());
-		
+		message.setObjectProperty(Configuration.INSTANCE_NAME_KEY,
+				Configuration.getInstanceName());
+
 		// set other properties
-		final Set<Entry<Object, Object>> set = properties.getProperties().entrySet();
+		final Set<Entry<Object, Object>> set = properties.entrySet();
 		final Iterator<Entry<Object, Object>> it = set.iterator();
 		while (it.hasNext()) {
 			final Entry<Object, Object> entry = it.next();
@@ -58,19 +59,18 @@ public class JMSObjectMessageCreator implements
 		try {
 			message = session.createObjectMessage(serialized);
 		} catch (Exception e) {
-			final JMSException ex = new JMSException(
-					e.getLocalizedMessage());
+			final JMSException ex = new JMSException(e.getLocalizedMessage());
 			ex.initCause(e);
 			throw ex;
 		}
 
-//		// set the used SPI
-//		message.setStringProperty(JMSEventHandlerSPI.getKeyName(),
-//				handlerGenerator.getSimpleName());
+		// // set the used SPI
+		// message.setStringProperty(JMSEventHandlerSPI.getKeyName(),
+		// handlerGenerator.getSimpleName());
 
 		// append properties
 		updateProperties(message);
-		
+
 		return message;
 	}
 }

@@ -7,6 +7,7 @@ package it.geosolutions.geoserver.jms;
 import it.geosolutions.geoserver.jms.message.JMSObjectMessageCreator;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.jms.JMSException;
 
@@ -64,8 +65,8 @@ public class JMSPublisher {
 	 * 
 	 * @throws JMSException
 	 */
-	public <S extends Serializable, O> void publish(
-			final JmsTemplate jmsTemplate, final JMSProperties props,
+	public static <S extends Serializable, O> void publish(
+			final JmsTemplate jmsTemplate, final Properties props,
 			final O object) throws JMSException {
 		try {
 			

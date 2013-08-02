@@ -4,14 +4,15 @@
  */
 package it.geosolutions.geoserver.jms.impl;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
 import it.geosolutions.geoserver.jms.JMSPublisher;
+import it.geosolutions.geoserver.jms.configuration.Configuration;
 import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
 import it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFile;
 
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import javax.jms.JMSException;
 
@@ -33,9 +34,10 @@ import org.springframework.jms.core.JmsTemplate;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
- * JMS MASTER (Producer)
- * Listener used to send GeoServer Catalog events over the JMS channel.
- * @see {@link JMSListener} 
+ * JMS MASTER (Producer) Listener used to send GeoServer Catalog events over the
+ * JMS channel.
+ * 
+ * @see {@link JMSListener}
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
@@ -49,12 +51,13 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	 * Constructor
 	 * 
 	 * @param topicTemplate
-	 *            the getJmsTemplate() object used to send message to the topic queue
+	 *            the getJmsTemplate() object used to send message to the topic
+	 *            queue
 	 * 
 	 */
 	public JMSCatalogListener(final JmsTemplate topicTemplate,
-			final Catalog catalog, final JMSProperties props) {
-		super(props,topicTemplate);
+			final Catalog catalog) {
+		super(topicTemplate);
 		catalog.addListener(this);
 		setProducerEnabled(false);
 	}
@@ -82,24 +85,23 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 			}
 		}
 	}
-	
+
 	/**
-	 * This should be called before each message send to 
-	 * add options (coming form the dispatcher callback) to the message 
-	 * @return a copy of the getProperties() object updated with others
-	 * options coming from the RestDispatcherCallback
-	 * TODO use also options coming from the the GUI DispatcherCallback
+	 * This should be called before each message send to add options (coming
+	 * form the dispatcher callback) to the message
+	 * 
+	 * @return a copy of the getProperties() object updated with others options
+	 *         coming from the RestDispatcherCallback<br/>
+	 *         TODO use also options coming from the the GUI DispatcherCallback
 	 */
-	private JMSProperties updateProperties(){
-		// get base properties
-		JMSProperties properties=getProperties();
+	private Properties updateProperties() {
 		// append options
-		JMSProperties options=(JMSProperties)properties.clone();
+		Properties options = (Properties) Configuration.getProperties().clone();
 		// get options from rest callback
-		List<Parameter> p=RestDispatcherCallback.get();
-		if (p!=null){
-			for (Parameter par:p) {
-				options.put(par.getName(),par.getValue().toString());
+		List<Parameter> p = RestDispatcherCallback.get();
+		if (p != null) {
+			for (Parameter par : p) {
+				options.put(par.getName(), par.getValue().toString());
 			}
 		}
 		return options;
@@ -120,11 +122,9 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 			return;
 		}
 
-		final JMSPublisher publisher = new JMSPublisher();
-		
 		// update properties
-		JMSProperties options=updateProperties();
-		
+		Properties options = updateProperties();
+
 		try {
 			// check if we may publish also the file
 			final CatalogInfo info = event.getSource();
@@ -133,15 +133,15 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 						+ File.separator + ((StyleInfo) info).getFilename();
 				final File styleFile = new File(GeoserverDataDirectory
 						.getGeoserverDataDirectory().getCanonicalPath(),
-						fileName);				
-				
+						fileName);
+
 				// transmit the file
-				publisher.publish(getJmsTemplate(), options, new DocumentFile(
-						styleFile));
+				JMSPublisher.publish(getJmsTemplate(), options,
+						new DocumentFile(styleFile));
 			}
 
 			// propagate the event
-			publisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getJmsTemplate(), options, event);
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {
 				LOGGER.error(e.getLocalizedMessage());
@@ -166,13 +166,12 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 			}
 			return;
 		}
-		
+
 		// update properties
-		JMSProperties options=updateProperties();
-		
-		final JMSPublisher publisher = new JMSPublisher();
+		Properties options = updateProperties();
+
 		try {
-			publisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getJmsTemplate(), options, event);
 		} catch (JMSException e) {
 			if (LOGGER.isErrorEnabled()) {
 				LOGGER.error(e.getLocalizedMessage());
@@ -196,11 +195,10 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 			}
 			return;
 		}
-		
-		// update properties
-		JMSProperties options=updateProperties();
 
-		final JMSPublisher publisher = new JMSPublisher();
+		// update properties
+		Properties options = updateProperties();
+
 		try {
 			// check if we may publish also the file
 			final CatalogInfo info = event.getSource();
@@ -211,14 +209,14 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 				final File styleFile = new File(GeoserverDataDirectory
 						.getGeoserverDataDirectory().getCanonicalPath(),
 						fileName);
-				
+
 				// publish the style xml document
-				publisher.publish(getJmsTemplate(), options, new DocumentFile(
-						styleFile));
+				JMSPublisher.publish(getJmsTemplate(), options,
+						new DocumentFile(styleFile));
 			}
 
 			// propagate the event
-			publisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getJmsTemplate(), options, event);
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {

@@ -4,8 +4,8 @@
  */
 package it.geosolutions.geoserver.jms.impl;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
 import it.geosolutions.geoserver.jms.JMSPublisher;
+import it.geosolutions.geoserver.jms.configuration.Configuration;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSGlobalModifyEvent;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSServiceModifyEvent;
 import it.geosolutions.geoserver.jms.impl.utils.BeanUtils;
@@ -26,14 +26,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
- * JMS MASTER (Producer)
- * Listener used to send GeoServer Configuration events over the JMS channel.
- * @see {@link JMSListener} 
+ * JMS MASTER (Producer) Listener used to send GeoServer Configuration events
+ * over the JMS channel.
+ * 
+ * @see {@link JMSListener}
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSConfigurationListener extends JMSListener implements ConfigurationListener {
+public class JMSConfigurationListener extends JMSListener implements
+		ConfigurationListener {
 
 	private final GeoServer geoserver;
 
@@ -50,8 +52,8 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 	 *            the producer name which should be unique.
 	 */
 	public JMSConfigurationListener(final JmsTemplate topicTemplate,
-			final GeoServer geoserver, final JMSProperties props) {
-		super(props, topicTemplate);
+			final GeoServer geoserver) {
+		super(topicTemplate);
 
 		// store GeoServer reference
 		this.geoserver = geoserver;
@@ -79,13 +81,13 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 			return;
 		}
 
-		final JMSPublisher publisher = new JMSPublisher();
 		try {
 
 			// propagate the event
-			publisher.publish(getJmsTemplate(), getProperties(),
-					new JMSGlobalModifyEvent(ModificationProxy.unwrap(global),
-							propertyNames, oldValues, newValues));
+			JMSPublisher.publish(getJmsTemplate(), Configuration
+					.getProperties(), new JMSGlobalModifyEvent(
+					ModificationProxy.unwrap(global), propertyNames, oldValues,
+					newValues));
 
 		} catch (JMSException e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -111,13 +113,14 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 			return;
 		}
 
-		final JMSPublisher publisher = new JMSPublisher();
 		try {
 			// update the logging event with changes
-			BeanUtils.smartUpdate(ModificationProxy.unwrap(logging), propertyNames, newValues);
+			BeanUtils.smartUpdate(ModificationProxy.unwrap(logging),
+					propertyNames, newValues);
 
 			// propagate the event
-			publisher.publish(getJmsTemplate(), getProperties(), logging);
+			JMSPublisher.publish(getJmsTemplate(),
+					Configuration.getProperties(), logging);
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -143,13 +146,12 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 			return;
 		}
 
-		final JMSPublisher publisher = new JMSPublisher();
 		try {
 			// propagate the event
-			publisher.publish(getJmsTemplate(), getProperties(),
-					new JMSServiceModifyEvent(
-							ModificationProxy.unwrap(service), propertyNames,
-							oldValues, newValues));
+			JMSPublisher.publish(getJmsTemplate(), Configuration
+					.getProperties(), new JMSServiceModifyEvent(
+					ModificationProxy.unwrap(service), propertyNames,
+					oldValues, newValues));
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -196,7 +198,7 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 	@Override
 	public void handleSettingsAdded(SettingsInfo settings) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -204,24 +206,24 @@ public class JMSConfigurationListener extends JMSListener implements Configurati
 			List<String> propertyNames, List<Object> oldValues,
 			List<Object> newValues) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void handleSettingsPostModified(SettingsInfo settings) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void handleSettingsRemoved(SettingsInfo settings) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void handleServiceRemove(ServiceInfo service) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

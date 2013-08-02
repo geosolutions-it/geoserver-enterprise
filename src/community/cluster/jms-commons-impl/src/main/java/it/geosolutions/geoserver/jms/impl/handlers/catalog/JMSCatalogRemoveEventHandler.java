@@ -16,7 +16,6 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
 import it.geosolutions.geoserver.jms.events.ToggleProducer;
 
 import java.io.IOException;

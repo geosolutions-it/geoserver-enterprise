@@ -4,7 +4,6 @@
  */
 package it.geosolutions.geoserver.jms.impl;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
 import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
 
 import org.geoserver.platform.ContextLoadedEvent;
@@ -31,23 +30,23 @@ import org.springframework.jms.core.JmsTemplate;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSListener implements ApplicationListener {
+public class JMSListener implements ApplicationListener<ApplicationEvent> {
 
-	final static Logger LOGGER = LoggerFactory
+	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSConfigurationListener.class);
 
-	private final JMSProperties properties;
+	// private final JMSProperties properties;
 	private final JmsTemplate jmsTemplate;
 
 	/**
-	 * this will be set to false: - until the GeoServer context is initialized -
-	 * if this instance of geoserver act as pure slave
+	 * This will be set to false:<br/>
+	 * - until the GeoServer context is initialized<br/>
+	 * - if this instance of geoserver act as pure slave
 	 */
-	private volatile Boolean producerEnabled = false;
+	private volatile Boolean producerEnabled = true;
 
-	public JMSListener(JMSProperties properties, JmsTemplate jmsTemplate) {
+	public JMSListener(JmsTemplate jmsTemplate) {
 		super();
-		this.properties = properties;
 		this.jmsTemplate = jmsTemplate;
 	}
 
@@ -56,13 +55,6 @@ public class JMSListener implements ApplicationListener {
 	 */
 	public final JmsTemplate getJmsTemplate() {
 		return jmsTemplate;
-	}
-
-	/**
-	 * @return the properties
-	 */
-	public JMSProperties getProperties() {
-		return properties;
 	}
 
 	@Override
@@ -76,9 +68,10 @@ public class JMSListener implements ApplicationListener {
 		// load process is complete
 		if (event instanceof ContextLoadedEvent) {
 			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Activating JMS Catalog event publisher...");
+				LOGGER.info("Setting JMS Catalog event publisher status to: "
+						+ producerEnabled);
 			}
-			setProducerEnabled(true);
+			setProducerEnabled(producerEnabled);
 
 		} else if (event instanceof ToggleEvent) {
 

@@ -1,7 +1,7 @@
 package it.geosolutions.geoserver.jms.server;
 
-import it.geosolutions.geoserver.jms.JMSProperties;
 import it.geosolutions.geoserver.jms.JMSPublisher;
+import it.geosolutions.geoserver.jms.configuration.Configuration;
 import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
 
 import java.io.Serializable;
@@ -16,19 +16,19 @@ import org.springframework.jms.core.JmsTemplate;
 /**
  * JMS MASTER (Server)
  * 
- * This is a simple example of EventListener
+ * This is a simple example of an EventListener
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public abstract class JMSEventListener<S extends Serializable, O> implements ApplicationListener {
+public abstract class JMSEventListener<S extends Serializable, O> implements
+		ApplicationListener {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(JMSEventListener.class);
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(JMSEventListener.class);
 
 	@Autowired
 	private final JmsTemplate jmsTemplate;
-	
-	private final JMSProperties properties;
 
 	/**
 	 * @return the jmsTemplate
@@ -44,32 +44,31 @@ public abstract class JMSEventListener<S extends Serializable, O> implements App
 	 *            the JmsTemplate object used to send message to the topic queue
 	 * 
 	 */
-	public JMSEventListener(final JmsTemplate topicTemplate, final JMSProperties props) {
+	public JMSEventListener(final JmsTemplate topicTemplate) {
 		jmsTemplate = topicTemplate;
-		this.properties=props;
 	}
-	
+
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		
-		if (event instanceof ToggleEvent){
+
+		if (event instanceof ToggleEvent) {
 			if (LOGGER.isInfoEnabled()) {
 				LOGGER.info("Activating JMS event publisher...");
 			}
-			//TODO
+			// TODO
 		} else {
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Incoming application event of type "+event.getClass().getSimpleName());
+				LOGGER.debug("Incoming application event of type "
+						+ event.getClass().getSimpleName());
 			}
 		}
 	}
 
 	public void onEvent(O event) throws Exception {
 		if (LOGGER.isDebugEnabled())
-			LOGGER.debug("Publishing event: "+event);
-		
-		final JMSPublisher publisher=new JMSPublisher();
-		publisher.publish(jmsTemplate, properties, event);
+			LOGGER.debug("Publishing event: " + event);
+
+		JMSPublisher.publish(jmsTemplate, Configuration.getProperties(), event);
 	}
 
 }

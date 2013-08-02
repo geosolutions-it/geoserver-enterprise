@@ -3,7 +3,7 @@ package it.geosolutions.geoserver.jms.client;
 import it.geosolutions.geoserver.jms.JMSEventHandler;
 import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
 import it.geosolutions.geoserver.jms.JMSManager;
-import it.geosolutions.geoserver.jms.JMSProperties;
+import it.geosolutions.geoserver.jms.configuration.Configuration;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,37 +29,16 @@ import org.vfny.geoserver.global.GeoserverDataDirectory;
  * 
  * Class which leverages on commons classes to define a Topic consumer handling
  * incoming messages using runtime loaded SPI to instantiate needed handlers.
+ * 
  * @see {@link JMSManager}
- * @see {@link JMSProperties}
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSQueueListener implements SessionAwareMessageListener {
+public class JMSQueueListener implements SessionAwareMessageListener<Message> {
 
-	final static Logger LOGGER = LoggerFactory
+	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSQueueListener.class);
-
-	private JMSProperties properties;
-
-	/**
-	 * @return the properties
-	 */
-	public JMSProperties getProperties() {
-		return properties;
-	}
-
-	/**
-	 * @param properties
-	 *            the properties to set
-	 */
-	public void setProperties(JMSProperties properties) {
-		this.properties = properties;
-	}
-
-	public JMSQueueListener() {
-		properties = new JMSProperties("SERVER_NAME");
-	}
 
 	@Override
 	public void onMessage(Message message, Session session) throws JMSException {
@@ -70,14 +49,14 @@ public class JMSQueueListener implements SessionAwareMessageListener {
 		}
 
 		// FILTERING INCOMING MESSAGE
-		if (!message.propertyExists(JMSProperties.getKeyName()))
+		if (!message.propertyExists(Configuration.INSTANCE_NAME_KEY))
 			throw new JMSException(
 					"Unable to handle incoming message, property \'"
-							+ JMSProperties.getKeyName() + "\' not set.");
+							+ Configuration.INSTANCE_NAME_KEY + "\' not set.");
 
 		// check if message comes from a master with the same name of this slave
-		if (message.getStringProperty(JMSProperties.getKeyName()).equals(
-				properties.getName())) {
+		if (message.getStringProperty(Configuration.INSTANCE_NAME_KEY).equals(
+				Configuration.getInstanceName())) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Incoming message discarded: source is equal to destination");
 			}
@@ -121,11 +100,11 @@ public class JMSQueueListener implements SessionAwareMessageListener {
 										+ generatorClass
 										+ "\', be shure to load that SPI into your context.");
 					}
-					
-					Enumeration<String> keys=message.getPropertyNames();
-					Properties options=new Properties();
-					while (keys.hasMoreElements()){
-						String key=keys.nextElement();
+
+					Enumeration<String> keys = message.getPropertyNames();
+					Properties options = new Properties();
+					while (keys.hasMoreElements()) {
+						String key = keys.nextElement();
 						options.put(key, message.getObjectProperty(key));
 					}
 					handler.setProperties(options);

@@ -23,10 +23,7 @@
 			value="Consumer.${instance.name}.VirtualTopic.${topic.name}" />
 	</bean>
 
-	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener"
-		depends-on="JMSProperties">
-		<property name="properties" ref="JMSProperties" />
-	</bean>
+	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener />
 
 	<!-- and this is the message listener container -->
 	<bean id="jmsContainer"

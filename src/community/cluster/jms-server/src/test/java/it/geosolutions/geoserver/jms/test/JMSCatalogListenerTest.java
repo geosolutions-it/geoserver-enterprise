@@ -1,13 +1,5 @@
 package it.geosolutions.geoserver.jms.test;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Session;
-
-import org.springframework.jms.core.MessageCreator;
-import org.springframework.jms.core.JmsTemplate;
 
 public abstract class JMSCatalogListenerTest {
 //    private JmsTemplate jmsTemplate;

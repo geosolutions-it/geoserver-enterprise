@@ -17,47 +17,36 @@
 
 	<context:annotation-config />
 
-	<bean id="jmsPropertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="true" />
-		<property name="ignoreUnresolvablePlaceholders" value="true"/>
-		<property name="locations">
-			<list>
-				<value>classpath:jms.properties</value>
-			</list>
-		</property>
+<!-- 	<bean id="jmsPropertyConfigurer" -->
+<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 		<property name="ignoreResourceNotFound" value="true" /> -->
+<!-- 		<property name="ignoreUnresolvablePlaceholders" value="true" /> -->
+<!-- 		<property name="locations"> -->
+<!-- 			<list> -->
+<!-- 				<value>classpath:jms.properties</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+	<bean id="jmsPropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:cluster.properties" />
+<!-- 		<property name="properties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="prop1">value1</prop> -->
+<!-- 				<prop key="prop2">value2</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
 	</bean>
 
 	<!-- COMMONS -->
-	
-	<!-- A connection to ActiveMQ -->
-	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" depends-on="jmsPropertyConfigurer">
-		<property name="brokerURL" value="${broker.url}" />
-	</bean>
 
-<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
-<!--	<bean id="connectionFactory"-->
-<!--		class="org.springframework.jms.connection.CachingConnectionFactory" depends-on="amqConnectionFactory">-->
-<!--		<constructor-arg index="0" type="ConnectionFactory" ref="amqConnectionFactory" />-->
-<!--		<property name="exceptionListener" ref="jmsExceptionListener" /> -->
-<!--		<property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" />-->
-<!--	</bean>-->
-	
-	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties" depends-on="jmsPropertyConfigurer">
-<!--		<constructor-arg index="0" type="String" value="${instance.name}" />-->
-		<property name="name" value="${instance.name}" />
-<!--		<constructor-arg name="name" value="${instance.name}" />-->
-	</bean>
 
-	<!-- the merge is specified on the *child* collection definition -->
-	<!-- <bean id="Properties" parent="JMSProperties"> -->
-	<!-- <property name="properties"> -->
-	<!-- <props merge="true"> -->
-	<!-- <prop key="sales">sales@example.com</prop> -->
-	<!-- <prop key="support">support@example.co.uk</prop> -->
-	<!-- </props> -->
-	<!-- </property> -->
-	<!-- </bean> -->
+<!-- 	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties" -->
+<!-- 		depends-on="jmsPropertyConfigurer"> -->
+<!-- 		<property name="name" value="${instance.name}" /> -->
+<!-- 	</bean> -->
+
 
 	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
 		lazy-init="false" />

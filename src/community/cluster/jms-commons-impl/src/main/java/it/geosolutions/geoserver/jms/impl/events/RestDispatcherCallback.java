@@ -1,3 +1,7 @@
+/* Copyright (c) 2011 GeoSolutions - http://www.geo-solutions.it/.  All rights reserved.
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 package it.geosolutions.geoserver.jms.impl.events;
 
 import java.util.Iterator;
