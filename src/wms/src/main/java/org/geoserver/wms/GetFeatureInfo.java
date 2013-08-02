@@ -51,6 +51,7 @@ import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.filter.Filters;
 import org.geotools.filter.IllegalFilterException;
+import org.geotools.filter.function.RenderingTransformation;
 import org.geotools.filter.visitor.SimplifyingFilterVisitor;
 import org.geotools.geometry.DirectPosition2D;
 import org.geotools.geometry.TransformedDirectPosition;
@@ -80,6 +81,7 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.Or;
+import org.opengis.filter.expression.Expression;
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.parameter.GeneralParameterValue;
@@ -229,13 +231,15 @@ public class GetFeatureInfo {
             if (rules.size() == 0) {
                 continue;
             }
-            
+            // rendering transformation, if defined in style and unique
+            Expression transformation = getRenderingTransformation(style,
+                    scaleDenominator);                                    
             FeatureCollection collection = null;
             if (layer.getType() == MapLayerInfo.TYPE_VECTOR) {
                 final Map<String, String> viewParam = viewParams != null ? viewParams.get(i) : null;
 				collection = identifyVectorLayer(filters, x, y, buffer, viewParam,
                         requestedCRS, width, height, bbox, ff, results, i, layer, rules, maxFeatures,
-                        times, elevations, names);
+                        times, elevations, names, transformation);
             } else if (layer.getType() == MapLayerInfo.TYPE_RASTER) {
                 final CoverageInfo cinfo = requestedLayers.get(i).getCoverage();
                 final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) cinfo
@@ -324,6 +328,39 @@ public class GetFeatureInfo {
         return results;
     }
 
+    /**
+     * Extracts a single RenderingTransformation from the given style.
+     * The transformation is returned if it exists and it's unique among
+     * the visible rules.
+     *  
+     * @param style
+     * @param scaleDenominator
+     * @return
+     */
+    private Expression getRenderingTransformation(Style style,
+            double scaleDenominator) {
+        
+        Expression result = null;
+        for (FeatureTypeStyle fts : style.getFeatureTypeStyles()) {
+            boolean hasVisibleRules = false;
+            for (Rule r : fts.rules()) {
+                if ((r.getMinScaleDenominator() <= scaleDenominator)
+                        && (r.getMaxScaleDenominator() > scaleDenominator)) {
+                    hasVisibleRules = true;
+                }
+            }
+            if(hasVisibleRules) {                
+                if(result != null) {
+                    // we have more than one transformation
+                    // we return none
+                    return null;
+                }
+                result = fts.getTransformation();
+            }
+        }
+        return result;
+    }
+
     private FeatureCollection selectProperties(FeatureCollection collection, String[] names) throws IOException {
         if(names != Query.ALL_NAMES) {
             Query q = new Query(collection.getSchema().getName().getLocalPart(), Filter.INCLUDE, names);
@@ -400,7 +437,8 @@ public class GetFeatureInfo {
             final CoordinateReferenceSystem requestedCRS, final int width, final int height,
             final ReferencedEnvelope bbox, final FilterFactory2 ff,
             List<FeatureCollection> results, int i, final MapLayerInfo layer, final List<Rule> rules,
-            final int maxFeatures, List<Object> times, List<Object> elevations, final String[] propertyNames)
+            final int maxFeatures, List<Object> times, List<Object> elevations, final String[] propertyNames,
+            Expression transformation)
             throws IOException {
 
         CoordinateReferenceSystem dataCRS = layer.getCoordinateReferenceSystem();
@@ -502,6 +540,12 @@ public class GetFeatureInfo {
         FeatureCollection<? extends FeatureType, ? extends Feature> match;
         match = featureSource.getFeatures(q);
 
+        // if we have a rendering transformation we apply it to the output FeatureCollection
+        if(transformation != null) {
+            match = (FeatureCollection<? extends FeatureType, ? extends Feature>) transformation
+                    .evaluate(match);
+        }
+        
         // if we could not include the rules filter into the query, post process in
         // memory
         if (!Filter.INCLUDE.equals(postFilter)) {
