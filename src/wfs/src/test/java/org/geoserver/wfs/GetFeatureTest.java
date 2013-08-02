@@ -18,11 +18,15 @@ public class GetFeatureTest extends WFSTestSupport {
 	
     public static QName NULL_GEOMETRIES = new QName(MockData.CITE_URI, "NullGeometries", MockData.CITE_PREFIX);
     
+    public static QName FIFTEEN_DUPLICATE = new QName(MockData.CITE_URI, "Fifteen", MockData.CITE_PREFIX);
+    
     @Override
     protected void populateDataDirectory(MockData dataDirectory) throws Exception {
         super.populateDataDirectory(dataDirectory);
         dataDirectory.addPropertiesType(NULL_GEOMETRIES, 
                 ReprojectionTest.class.getResource("NullGeometries.properties"), Collections.EMPTY_MAP);
+        dataDirectory.addPropertiesType(FIFTEEN_DUPLICATE, 
+                ReprojectionTest.class.getResource("Fifteen.properties"), Collections.EMPTY_MAP);        
     }
     
     @Override
