@@ -20,29 +20,20 @@
 	<!-- SERVER -->
 
 	<!-- DESTINATION -->
-	<!-- A destination in ActiveMQ -->
-	<bean id="virtualTopic" class="org.apache.activemq.command.ActiveMQTopic" depends-on="jmsPropertyConfigurer">
+	<!-- A Destination in ActiveMQ -->
+	<bean id="serverDestination" class="org.apache.activemq.command.ActiveMQTopic">
 		<constructor-arg value="VirtualTopic.${topic.name}" />
-	</bean>
-
-	<!-- A JmsTemplate instance that uses the cached connection and destination -->
-	<bean id="JMSTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<constructor-arg ref="connectionFactory" />
-		<property name="defaultDestination" ref="virtualTopic" />
-		<property name="pubSubDomain" value="true" />
 	</bean>
 
 	<!-- SERVER side impl -->
 
-	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.impl.JMSCatalogListener"
-		depends-on="JMSTopicTemplate,catalog" lazy-init="true">
-		<constructor-arg index="0" ref="JMSTopicTemplate" />
+	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.server.JMSCatalogListener"
+		depends-on="catalog" lazy-init="true">
 		<constructor-arg index="1" ref="rawCatalog" />
 	</bean>
 	
-	<bean id="JMSConfigurationListener" class="it.geosolutions.geoserver.jms.impl.JMSConfigurationListener"
-		depends-on="JMSTopicTemplate,geoServer" lazy-init="true">
-		<constructor-arg index="0" ref="JMSTopicTemplate" />
+	<bean id="JMSConfigurationListener" class="it.geosolutions.geoserver.jms.server.JMSConfigurationListener"
+		depends-on="geoServer" lazy-init="true">
 		<constructor-arg index="1" ref="geoServer" />
 	</bean>
 	

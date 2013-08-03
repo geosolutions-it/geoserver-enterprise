@@ -2,7 +2,7 @@
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
-package it.geosolutions.geoserver.jms.impl;
+package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.JMSPublisher;
 import it.geosolutions.geoserver.jms.configuration.Configuration;
@@ -23,7 +23,6 @@ import org.geoserver.config.ServiceInfo;
 import org.geoserver.config.SettingsInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jms.core.JmsTemplate;
 
 /**
  * JMS MASTER (Producer) Listener used to send GeoServer Configuration events
@@ -51,9 +50,7 @@ public class JMSConfigurationListener extends JMSListener implements
 	 *            properties to attach to all the message. May contains at least
 	 *            the producer name which should be unique.
 	 */
-	public JMSConfigurationListener(final JmsTemplate topicTemplate,
-			final GeoServer geoserver) {
-		super(topicTemplate);
+	public JMSConfigurationListener(final GeoServer geoserver) {
 
 		// store GeoServer reference
 		this.geoserver = geoserver;
@@ -84,10 +81,10 @@ public class JMSConfigurationListener extends JMSListener implements
 		try {
 
 			// propagate the event
-			JMSPublisher.publish(getJmsTemplate(), Configuration
-					.getProperties(), new JMSGlobalModifyEvent(
-					ModificationProxy.unwrap(global), propertyNames, oldValues,
-					newValues));
+			JMSPublisher.publish(getDestination(), getJmsTemplate(),
+					Configuration.getProperties(), new JMSGlobalModifyEvent(
+							ModificationProxy.unwrap(global), propertyNames,
+							oldValues, newValues));
 
 		} catch (JMSException e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -119,7 +116,7 @@ public class JMSConfigurationListener extends JMSListener implements
 					propertyNames, newValues);
 
 			// propagate the event
-			JMSPublisher.publish(getJmsTemplate(),
+			JMSPublisher.publish(getDestination(), getJmsTemplate(),
 					Configuration.getProperties(), logging);
 
 		} catch (Exception e) {
@@ -148,10 +145,10 @@ public class JMSConfigurationListener extends JMSListener implements
 
 		try {
 			// propagate the event
-			JMSPublisher.publish(getJmsTemplate(), Configuration
-					.getProperties(), new JMSServiceModifyEvent(
-					ModificationProxy.unwrap(service), propertyNames,
-					oldValues, newValues));
+			JMSPublisher.publish(getDestination(), getJmsTemplate(),
+					Configuration.getProperties(), new JMSServiceModifyEvent(
+							ModificationProxy.unwrap(service), propertyNames,
+							oldValues, newValues));
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {

@@ -2,7 +2,7 @@
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
-package it.geosolutions.geoserver.jms.impl;
+package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.JMSPublisher;
 import it.geosolutions.geoserver.jms.configuration.Configuration;
@@ -30,7 +30,6 @@ import org.restlet.data.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.jms.core.JmsTemplate;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
@@ -55,9 +54,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	 *            queue
 	 * 
 	 */
-	public JMSCatalogListener(final JmsTemplate topicTemplate,
-			final Catalog catalog) {
-		super(topicTemplate);
+	public JMSCatalogListener(final Catalog catalog) {
 		catalog.addListener(this);
 		setProducerEnabled(false);
 	}
@@ -136,12 +133,13 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 						fileName);
 
 				// transmit the file
-				JMSPublisher.publish(getJmsTemplate(), options,
-						new DocumentFile(styleFile));
+				JMSPublisher.publish(getDestination(), getJmsTemplate(),
+						options, new DocumentFile(styleFile));
 			}
 
 			// propagate the event
-			JMSPublisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getDestination(), getJmsTemplate(), options,
+					event);
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {
 				LOGGER.error(e.getLocalizedMessage());
@@ -171,7 +169,8 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 		Properties options = updateProperties();
 
 		try {
-			JMSPublisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getDestination(), getJmsTemplate(), options,
+					event);
 		} catch (JMSException e) {
 			if (LOGGER.isErrorEnabled()) {
 				LOGGER.error(e.getLocalizedMessage());
@@ -211,12 +210,13 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 						fileName);
 
 				// publish the style xml document
-				JMSPublisher.publish(getJmsTemplate(), options,
-						new DocumentFile(styleFile));
+				JMSPublisher.publish(getDestination(), getJmsTemplate(),
+						options, new DocumentFile(styleFile));
 			}
 
 			// propagate the event
-			JMSPublisher.publish(getJmsTemplate(), options, event);
+			JMSPublisher.publish(getDestination(), getJmsTemplate(), options,
+					event);
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {

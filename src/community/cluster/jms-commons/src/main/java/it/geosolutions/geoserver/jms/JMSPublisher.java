@@ -9,6 +9,7 @@ import it.geosolutions.geoserver.jms.message.JMSObjectMessageCreator;
 import java.io.Serializable;
 import java.util.Properties;
 
+import javax.jms.Destination;
 import javax.jms.JMSException;
 
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class JMSPublisher {
 	 * 
 	 * @throws JMSException
 	 */
-	public static <S extends Serializable, O> void publish(
+	public static <S extends Serializable, O> void publish(final Destination destination,
 			final JmsTemplate jmsTemplate, final Properties props,
 			final O object) throws JMSException {
 		try {
@@ -78,7 +79,7 @@ public class JMSPublisher {
 			// TODO make this configurable
 			final MessageCreator creator = new JMSObjectMessageCreator(handler.serialize(object),props);
 			
-			jmsTemplate.send(creator);
+			jmsTemplate.send(destination,creator);
 			
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {

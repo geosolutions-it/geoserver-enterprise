@@ -15,19 +15,9 @@
 
 	<!-- --------------- ActiveMQ ------------------ -->
 	<!-- A connection to ActiveMQ -->
-	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
-		depends-on="jmsPropertyConfigurer">
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
 		<property name="brokerURL" value="${broker.url}" />
 	</bean>
-	<!-- --------------- -------- ------------------ -->
-
-	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
-
-	<context:annotation-config />
-
-	<bean id="RestDispatcherCallback"
-		class="it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback" />
-
 	<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
 	<!-- <bean id="connectionFactory" -->
 	<!-- class="org.springframework.jms.connection.CachingConnectionFactory" 
@@ -38,12 +28,43 @@
 	<!-- <property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" 
 		/> -->
 	<!-- </bean> -->
+	<!-- --------------- -------- ------------------ -->
+
+	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
+
+	<context:annotation-config />
+
+	<bean id="RestDispatcherCallback"
+		class="it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback" />
 
 	<!-- SERVER/CLIENT side impl -->
 
 	<bean id="xstream" class="com.thoughtworks.xstream.XStream" />
 
 	<bean id="toggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleProducer" />
+
+	<!-- <bean id="jmsPropertyConfigurer" -->
+	<!-- class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="ignoreResourceNotFound" value="true" /> -->
+	<!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> -->
+	<!-- <property name="locations"> -->
+	<!-- <list> -->
+	<!-- <value>classpath:jms.properties</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<bean id="jmsPropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:cluster.properties" />
+		<!-- <property name="properties"> -->
+		<!-- <props> -->
+		<!-- <prop key="prop1">value1</prop> -->
+		<!-- <prop key="prop2">value2</prop> -->
+		<!-- </props> -->
+		<!-- </property> -->
+	</bean>
+
 
 	<!-- note: SPI bean id name MUST be the same as SPI SimpleClassName -->
 

@@ -17,36 +17,7 @@
 
 	<context:annotation-config />
 
-<!-- 	<bean id="jmsPropertyConfigurer" -->
-<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="ignoreResourceNotFound" value="true" /> -->
-<!-- 		<property name="ignoreUnresolvablePlaceholders" value="true" /> -->
-<!-- 		<property name="locations"> -->
-<!-- 			<list> -->
-<!-- 				<value>classpath:jms.properties</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-
-	<bean id="jmsPropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
-		<constructor-arg ref="dataDirectory" />
-		<property name="location" value="file:cluster.properties" />
-<!-- 		<property name="properties"> -->
-<!-- 			<props> -->
-<!-- 				<prop key="prop1">value1</prop> -->
-<!-- 				<prop key="prop2">value2</prop> -->
-<!-- 			</props> -->
-<!-- 		</property> -->
-	</bean>
-
 	<!-- COMMONS -->
-
-
-<!-- 	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties" -->
-<!-- 		depends-on="jmsPropertyConfigurer"> -->
-<!-- 		<property name="name" value="${instance.name}" /> -->
-<!-- 	</bean> -->
-
 
 	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
 		lazy-init="false" />

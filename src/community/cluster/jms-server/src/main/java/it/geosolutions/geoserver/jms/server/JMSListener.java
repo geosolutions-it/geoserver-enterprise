@@ -2,13 +2,18 @@
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
-package it.geosolutions.geoserver.jms.impl;
+package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
+
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 
 import org.geoserver.platform.ContextLoadedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.jms.core.JmsTemplate;
@@ -36,8 +41,14 @@ public class JMSListener implements ApplicationListener<ApplicationEvent> {
 			.getLogger(JMSConfigurationListener.class);
 
 	// private final JMSProperties properties;
-	private final JmsTemplate jmsTemplate;
+	// private final JmsTemplate jmsTemplate;
 
+	@Autowired
+	@Qualifier("serverDestination")
+	private Destination jmsDestination;
+
+	@Autowired
+	private ConnectionFactory connectionFactory;
 	/**
 	 * This will be set to false:<br/>
 	 * - until the GeoServer context is initialized<br/>
@@ -45,16 +56,29 @@ public class JMSListener implements ApplicationListener<ApplicationEvent> {
 	 */
 	private volatile Boolean producerEnabled = true;
 
-	public JMSListener(JmsTemplate jmsTemplate) {
-		super();
-		this.jmsTemplate = jmsTemplate;
-	}
+	// public JMSListener(JmsTemplate jmsTemplate) {
+	// super();
+	// this.jmsTemplate = jmsTemplate;
+	// }
 
 	/**
 	 * @return the jmsTemplate
 	 */
 	public final JmsTemplate getJmsTemplate() {
-		return jmsTemplate;
+		// return jmsTemplate;
+		if (connectionFactory == null) {
+			throw new IllegalStateException(
+					"Unable to load a connectionFactory");
+		}
+
+		return new JmsTemplate(connectionFactory);
+	}
+
+	public final Destination getDestination() {
+		if (jmsDestination == null) {
+			throw new IllegalStateException("Unable to load a JMS destination");
+		}
+		return jmsDestination;
 	}
 
 	@Override
