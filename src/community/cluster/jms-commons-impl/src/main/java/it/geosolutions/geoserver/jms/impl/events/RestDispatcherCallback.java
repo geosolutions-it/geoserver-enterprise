@@ -17,50 +17,51 @@ import org.slf4j.LoggerFactory;
 
 public class RestDispatcherCallback implements DispatcherCallback {
 	final static Logger LOGGER = LoggerFactory
-		.getLogger(RestDispatcherCallback.class);
-	public static final ThreadLocal<List<Parameter>> parameters=new ThreadLocal<List<Parameter>>();
-	
-	public static List<Parameter> get(){
+			.getLogger(RestDispatcherCallback.class);
+	private static final ThreadLocal<List<Parameter>> parameters = new ThreadLocal<List<Parameter>>();
+
+	public static List<Parameter> getParameters() {
 		return parameters.get();
 	}
 
 	@Override
 	public void init(Request request, Response response) {
 
-        if (LOGGER.isDebugEnabled()){
-        	Iterator<Parameter> it= request.getResourceRef().getQueryAsForm().iterator();
-	        while (it.hasNext()){
-	        	Parameter p=it.next();
-	        	LOGGER.info( "Registering incoming parameter: " + p.toString());
-	        }
-        }
-        parameters.set(request.getResourceRef().getQueryAsForm());
-        
-        //check purge parameter to determine if the underlying file 
-        // should be deleted
-//        boolean purge = (p != null) ? Boolean.parseBoolean(p) : false;
-//        catalog.getResourcePool().deleteStyle(s, purge);
-        
-//        LOGGER.info( "DELETE style " + style);
-		
+		if (LOGGER.isDebugEnabled()) {
+			final Iterator<Parameter> it = request.getResourceRef().getQueryAsForm()
+					.iterator();
+			while (it.hasNext()) {
+				Parameter p = it.next();
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("Registering incoming parameter: "
+							+ p.toString());
+				}
+			}
+		}
+		parameters.set(request.getResourceRef().getQueryAsForm());
+
+		// check purge parameter to determine if the underlying file
+		// should be deleted
+		// boolean purge = (p != null) ? Boolean.parseBoolean(p) : false;
+		// catalog.getResourcePool().deleteStyle(s, purge);
+
+		// LOGGER.info( "DELETE style " + style);
+
 	}
 
 	@Override
 	public void dispatched(Request request, Response response, Restlet restlet) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void exception(Request request, Response response, Exception error) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void finished(Request request, Response response) {
-		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

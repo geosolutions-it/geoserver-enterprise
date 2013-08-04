@@ -13,11 +13,12 @@
                            http://activemq.apache.org/schema/core
                            http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-	<!-- --------------- ActiveMQ ------------------ -->
 	<!-- A connection to ActiveMQ -->
 	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="${broker.url}" />
+		<!-- <property name="brokerURL" value="${broker.url}" /> -->
+		<property name="brokerURL" value="tcp://localhost:61616" />
 	</bean>
+
 	<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
 	<!-- <bean id="connectionFactory" -->
 	<!-- class="org.springframework.jms.connection.CachingConnectionFactory" 
@@ -28,7 +29,25 @@
 	<!-- <property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" 
 		/> -->
 	<!-- </bean> -->
-	<!-- --------------- -------- ------------------ -->
+	<!-- ================================================ -->
+
+
+	<!-- web stuff -->
+	<bean id="clusterCategory" class="org.geoserver.web.Category">
+		<property name="nameKey" value="category.cluster" />
+		<property name="order" value="600" />
+	</bean>
+
+	<bean id="clusterPage" class="org.geoserver.web.MenuPageInfo">
+		<property name="id" value="ClusterPage" />
+		<property name="titleKey" value="clusterPage.title" />
+		<property name="descriptionKey" value="clusterPage.description" />
+		<property name="componentClass"
+			value="it.geosolutions.geoserver.jms.impl.web.ClusterPage" />
+		<property name="category" ref="clusterCategory" />
+		<property name="icon" value="img/chart_bar.png" />
+		<property name="order" value="10" />
+	</bean>
 
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
@@ -65,6 +84,9 @@
 		<!-- </property> -->
 	</bean>
 
+	<bean id="JMSTopicConfiguration"
+		class="it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration">
+	</bean>
 
 	<!-- note: SPI bean id name MUST be the same as SPI SimpleClassName -->
 

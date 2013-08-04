@@ -219,6 +219,38 @@
                                 <artifactId>ojdbc14</artifactId>
                                 <version>10.2.0.4.0</version>
                         </dependency>
+
+			<dependency>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty</artifactId>
+				<scope>test</scope>
+				<version>6.1.8</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-naming</artifactId>
+				<scope>test</scope>
+				<version>6.1.8</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-plus</artifactId>
+				<scope>test</scope>
+				<version>6.1.8</version>
+			</dependency>
+
+			<!--dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>main</artifactId>
+				<classifier>tests</classifier>
+				<scope>test</scope>
+				<version>2.2-SNAPSHOT</version>
+			</dependency-->
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk14</artifactId>
+				<version>1.46</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

@@ -56,6 +56,7 @@ public class JMSPublisher {
 	 *            a serializable object
 	 * @param <O>
 	 *            the object to serialize using a JMSEventHandler
+	 * @param destination
 	 * @param jmsTemplate
 	 *            the template to use to publish on the topic <br>
 	 *            (default destination should be already set)

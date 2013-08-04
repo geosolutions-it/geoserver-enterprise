@@ -16,6 +16,8 @@
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
 	<context:annotation-config />
+	
+	<bean id="JMSConfiguration" class="it.geosolutions.geoserver.jms.configuration.Configuration" />
 
 	<!-- COMMONS -->
 

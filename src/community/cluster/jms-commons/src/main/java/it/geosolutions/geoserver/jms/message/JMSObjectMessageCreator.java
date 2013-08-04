@@ -40,7 +40,7 @@ public class JMSObjectMessageCreator implements MessageCreator {
 	protected void updateProperties(Message message) throws JMSException {
 		// append the name of the server
 		message.setObjectProperty(Configuration.INSTANCE_NAME_KEY,
-				Configuration.getInstanceName());
+				properties.get(Configuration.INSTANCE_NAME_KEY));
 
 		// set other properties
 		final Set<Entry<Object, Object>> set = properties.entrySet();

@@ -21,6 +21,7 @@ import javax.jms.StreamMessage;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.listener.SessionAwareMessageListener;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
@@ -40,6 +41,10 @@ public class JMSQueueListener implements SessionAwareMessageListener<Message> {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSQueueListener.class);
 
+	@Autowired
+	// Qualifier("")
+	public Configuration config;
+
 	@Override
 	public void onMessage(Message message, Session session) throws JMSException {
 
@@ -56,7 +61,7 @@ public class JMSQueueListener implements SessionAwareMessageListener<Message> {
 
 		// check if message comes from a master with the same name of this slave
 		if (message.getStringProperty(Configuration.INSTANCE_NAME_KEY).equals(
-				Configuration.getInstanceName())) {
+				config.getConfiguration(Configuration.INSTANCE_NAME_KEY))) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Incoming message discarded: source is equal to destination");
 			}

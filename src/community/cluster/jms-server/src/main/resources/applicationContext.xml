@@ -22,54 +22,57 @@
 	<!-- DESTINATION -->
 	<!-- A Destination in ActiveMQ -->
 	<bean id="serverDestination" class="org.apache.activemq.command.ActiveMQTopic">
-		<constructor-arg value="VirtualTopic.${topic.name}" />
+<!-- 		<constructor-arg value="VirtualTopic.${topic.name}" /> -->
+		<constructor-arg value="VirtualTopic.EXAMPLE" />
 	</bean>
 
 	<!-- SERVER side impl -->
+	
+	<bean id="JMSServerConfiguration" class="it.geosolutions.geoserver.jms.impl.configuration.ServerConfiguration" />
 
 	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.server.JMSCatalogListener"
 		depends-on="catalog" lazy-init="true">
-		<constructor-arg index="1" ref="rawCatalog" />
+		<constructor-arg index="0" ref="rawCatalog" />
 	</bean>
 	
 	<bean id="JMSConfigurationListener" class="it.geosolutions.geoserver.jms.server.JMSConfigurationListener"
 		depends-on="geoServer" lazy-init="true">
-		<constructor-arg index="1" ref="geoServer" />
+		<constructor-arg index="0" ref="geoServer" />
 	</bean>
 	
 	
 	<!-- COMMENT OUT TO USE EXTERNAL BROKER -->
 	<!-- lets create an embedded ActiveMQ Broker -->
 	<!-- offlineDurableSubscriberTimeout="86400000" offlineDurableSubscriberTaskSchedule="3600000" -->
-<!--	<amq:broker useJmx="false" persistent="false">-->
-<!--		<amq:transportConnectors>-->
-<!--			<amq:transportConnector uri="tcp://localhost:61616" />-->
-<!--		</amq:transportConnectors>-->
-<!--	</amq:broker>-->
+<!-- 	<amq:broker useJmx="false" persistent="false"> -->
+<!-- 		<amq:transportConnectors> -->
+<!-- 			<amq:transportConnector uri="vm://localhost:61616" /> -->
+<!-- 		</amq:transportConnectors> -->
+<!-- 	</amq:broker> -->
 
 
-<!--	<broker persistent="false" useJmx="false"-->
-<!--		xmlns="http://activemq.apache.org/schema/core">-->
-<!---->
-<!--		<destinationInterceptors>-->
-<!--			<virtualDestinationInterceptor>-->
-<!--				<virtualDestinations>-->
-<!--					<virtualTopic name=">" prefix="Consumer.*.VirtualTopic.>"-->
-<!--						selectorAware="false" />-->
-<!--				</virtualDestinations>-->
-<!--			</virtualDestinationInterceptor>-->
-<!--		</destinationInterceptors>-->
+<!-- 	<broker persistent="false" useJmx="false" -->
+<!-- 		xmlns="http://activemq.apache.org/schema/core"> -->
 
-<!--		 http://activemq.apache.org/delete-inactive-destinations.html -->
-<!--		<destinationPolicy>-->
-<!--			<policyMap>-->
-<!--				<policyEntries>-->
-<!--					<policyEntry queue=">" gcInactiveDestinations="true"-->
-<!--						inactiveTimoutBeforeGC="30000" />-->
-<!--				</policyEntries>-->
-<!--			</policyMap>-->
-<!--		</destinationPolicy>-->
-<!--	</broker>-->
+<!-- 		<destinationInterceptors> -->
+<!-- 			<virtualDestinationInterceptor> -->
+<!-- 				<virtualDestinations> -->
+<!-- 					<virtualTopic name=">" prefix="Consumer.*.VirtualTopic.>" -->
+<!-- 						selectorAware="false" /> -->
+<!-- 				</virtualDestinations> -->
+<!-- 			</virtualDestinationInterceptor> -->
+<!-- 		</destinationInterceptors> -->
+
+<!-- 		 http://activemq.apache.org/delete-inactive-destinations.html -->
+<!-- 		<destinationPolicy> -->
+<!-- 			<policyMap> -->
+<!-- 				<policyEntries> -->
+<!-- 					<policyEntry queue=">" gcInactiveDestinations="true" -->
+<!-- 						inactiveTimoutBeforeGC="30000" /> -->
+<!-- 				</policyEntries> -->
+<!-- 			</policyMap> -->
+<!-- 		</destinationPolicy> -->
+<!-- 	</broker> -->
 	
 	
 

@@ -23,6 +23,7 @@ import org.geoserver.config.ServiceInfo;
 import org.geoserver.config.SettingsInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * JMS MASTER (Producer) Listener used to send GeoServer Configuration events
@@ -38,7 +39,10 @@ public class JMSConfigurationListener extends JMSListener implements
 
 	private final GeoServer geoserver;
 
-	final static Logger LOGGER = LoggerFactory
+	@Autowired
+	public Configuration config;
+
+	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSConfigurationListener.class);
 
 	/**
@@ -81,10 +85,10 @@ public class JMSConfigurationListener extends JMSListener implements
 		try {
 
 			// propagate the event
-			JMSPublisher.publish(getDestination(), getJmsTemplate(),
-					Configuration.getProperties(), new JMSGlobalModifyEvent(
-							ModificationProxy.unwrap(global), propertyNames,
-							oldValues, newValues));
+			JMSPublisher.publish(getDestination(), getJmsTemplate(), config
+					.getConfigurations(), new JMSGlobalModifyEvent(
+					ModificationProxy.unwrap(global), propertyNames, oldValues,
+					newValues));
 
 		} catch (JMSException e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -117,7 +121,7 @@ public class JMSConfigurationListener extends JMSListener implements
 
 			// propagate the event
 			JMSPublisher.publish(getDestination(), getJmsTemplate(),
-					Configuration.getProperties(), logging);
+					config.getConfigurations(), logging);
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {
@@ -145,10 +149,10 @@ public class JMSConfigurationListener extends JMSListener implements
 
 		try {
 			// propagate the event
-			JMSPublisher.publish(getDestination(), getJmsTemplate(),
-					Configuration.getProperties(), new JMSServiceModifyEvent(
-							ModificationProxy.unwrap(service), propertyNames,
-							oldValues, newValues));
+			JMSPublisher.publish(getDestination(), getJmsTemplate(), config
+					.getConfigurations(), new JMSServiceModifyEvent(
+					ModificationProxy.unwrap(service), propertyNames,
+					oldValues, newValues));
 
 		} catch (Exception e) {
 			if (LOGGER.isErrorEnabled()) {

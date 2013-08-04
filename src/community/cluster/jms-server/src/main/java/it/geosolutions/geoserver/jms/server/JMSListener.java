@@ -4,7 +4,7 @@
  */
 package it.geosolutions.geoserver.jms.server;
 
-import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
+import it.geosolutions.geoserver.jms.events.ToggleEvent;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -45,10 +45,10 @@ public class JMSListener implements ApplicationListener<ApplicationEvent> {
 
 	@Autowired
 	@Qualifier("serverDestination")
-	private Destination jmsDestination;
+	public Destination jmsDestination;
 
 	@Autowired
-	private ConnectionFactory connectionFactory;
+	public ConnectionFactory connectionFactory;
 	/**
 	 * This will be set to false:<br/>
 	 * - until the GeoServer context is initialized<br/>
@@ -56,10 +56,6 @@ public class JMSListener implements ApplicationListener<ApplicationEvent> {
 	 */
 	private volatile Boolean producerEnabled = true;
 
-	// public JMSListener(JmsTemplate jmsTemplate) {
-	// super();
-	// this.jmsTemplate = jmsTemplate;
-	// }
 
 	/**
 	 * @return the jmsTemplate

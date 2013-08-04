@@ -28,12 +28,12 @@
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
 			<artifactId>xbean-spring</artifactId>
@@ -54,10 +54,15 @@
 			<groupId>org.geoserver</groupId>
 			<artifactId>main</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>rest</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>web-core</artifactId>
 		</dependency>
 
 		<!-- ============================== -->
@@ -67,14 +72,14 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-		
+
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>it.geosolutions</groupId>
 			<artifactId>geoserver-manager</artifactId>
@@ -86,7 +91,7 @@
 			<artifactId>xmlunit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mockrunner</groupId>
 			<artifactId>mockrunner</artifactId>

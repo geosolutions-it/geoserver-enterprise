@@ -17,10 +17,10 @@ import java.util.List;
  */
 public class JMSModifyEvent<S extends Serializable> {
 	
-	final List<String> propertyNames;
-	final List<Object> oldValues;
-	final List<Object> newValues;
-	final S source;
+	private final List<String> propertyNames;
+	private final List<Object> oldValues;
+	private final List<Object> newValues;
+	private final S source;
 
 	public JMSModifyEvent(final S source, final List<String> propertyNames, final List<Object> oldValues,
 			final List<Object> newValues) {

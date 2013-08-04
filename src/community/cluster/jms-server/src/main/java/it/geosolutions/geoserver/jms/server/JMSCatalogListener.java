@@ -6,7 +6,7 @@ package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.JMSPublisher;
 import it.geosolutions.geoserver.jms.configuration.Configuration;
-import it.geosolutions.geoserver.jms.events.ToggleProducer.ToggleEvent;
+import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFile;
 
@@ -29,6 +29,7 @@ import org.geoserver.platform.ContextLoadedEvent;
 import org.restlet.data.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
@@ -46,6 +47,9 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSCatalogListener.class);
 
+	@Autowired
+	public Configuration config;
+	
 	/**
 	 * Constructor
 	 * 
@@ -93,9 +97,9 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	 */
 	private Properties updateProperties() {
 		// append options
-		Properties options = (Properties) Configuration.getProperties().clone();
+		final Properties options = (Properties) config.getConfigurations().clone();
 		// get options from rest callback
-		List<Parameter> p = RestDispatcherCallback.get();
+		final List<Parameter> p = RestDispatcherCallback.getParameters();
 		if (p != null) {
 			for (Parameter par : p) {
 				options.put(par.getName(), par.getValue().toString());
@@ -120,7 +124,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 		}
 
 		// update properties
-		Properties options = updateProperties();
+		final Properties options = updateProperties();
 
 		try {
 			// check if we may publish also the file

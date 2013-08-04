@@ -354,12 +354,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>jms-server-impl</artifactId>
+				<artifactId>jms-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>jms-server</artifactId>
+				<artifactId>jms-commons-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

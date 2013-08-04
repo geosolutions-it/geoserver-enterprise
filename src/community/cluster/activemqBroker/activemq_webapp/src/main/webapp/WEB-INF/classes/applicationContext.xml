@@ -21,9 +21,10 @@
 
 	<!-- Allows us to use system properties as variables in this configuration 
 		file -->
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-			<value>classpath*:activemq-jms.properties</value> 
+			<value>classpath:activemq-jms.properties</value>
 		</property>
 	</bean>
 
@@ -42,7 +43,8 @@
 	</amq:broker>
 
 	<broker id="broker" brokerName="router" persistent="true"
-		useJmx="${activemq.broker.useJmx}" xmlns="http://activemq.apache.org/schema/core" start="false">
+		useJmx="${activemq.broker.useJmx}" xmlns="http://activemq.apache.org/schema/core"
+		start="false">
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
@@ -62,10 +64,10 @@
 			mechanism is the KahaDB store (identified by the kahaDB tag). For more information, 
 			see: http://activemq.apache.org/persistence.html -->
 		<persistenceAdapter>
-			<!-- <kahaDB directory="${activemq.base}/data/kahadb"/> -->
-
-			<jdbcPersistenceAdapter dataDirectory="activemq-data"
-				dataSource="#postgres-ds" lockKeepAlivePeriod="0" />
+			<kahaDB directory="${activemq.base}/data/kahadb"/>
+			
+<!-- 				<jdbcPersistenceAdapter dataDirectory="activemq-data" -->
+<!-- 					dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
 
 		</persistenceAdapter>
 
@@ -98,16 +100,16 @@
 	<!-- This xbean configuration file supports all the standard spring xml 
 		configuration options -->
 
-	<bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource">
-		<property name="serverName" value="localhost" />
-		<property name="databaseName" value="activemq" />
-		<property name="portNumber" value="5432" />
-		<property name="user" value="postgres" />
-		<property name="password" value="postgres" />
-		<property name="dataSourceName" value="postgres" />
-		<property name="initialConnections" value="1" />
-		<property name="maxConnections" value="30" />
-	</bean>
+<!-- 	<bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource"> -->
+<!-- 		<property name="serverName" value="localhost" /> -->
+<!-- 		<property name="databaseName" value="activemq" /> -->
+<!-- 		<property name="portNumber" value="5432" /> -->
+<!-- 		<property name="user" value="postgres" /> -->
+<!-- 		<property name="password" value="postgres" /> -->
+<!-- 		<property name="dataSourceName" value="postgres" /> -->
+<!-- 		<property name="initialConnections" value="1" /> -->
+<!-- 		<property name="maxConnections" value="30" /> -->
+<!-- 	</bean> -->
 
 	<!-- MySql DataSource Sample Setup -->
 	<!-- <bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" 
