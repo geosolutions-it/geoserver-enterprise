@@ -16,12 +16,22 @@
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
 	<context:annotation-config />
-	
-	<bean id="JMSConfiguration" class="it.geosolutions.geoserver.jms.configuration.Configuration" />
+
+	<bean id="toggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleProducer" />
+
+	<bean id="JMSToggleProducerConfiguration" class="it.geosolutions.geoserver.jms.configuration.ToggleProducerConfiguration" />
+
+
+	<bean id="JMSConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.Configuration" />
 
 	<!-- COMMONS -->
 
 	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
 		lazy-init="false" />
+
+	<!-- CLIENT -->
+
+	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener" />
 
 </beans>

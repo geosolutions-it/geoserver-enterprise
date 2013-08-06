@@ -317,10 +317,10 @@
     </profile>
 
 <!-- ======================================= -->
-<!-- JMS Client -->
+<!-- JMS -->
 <!-- ======================================= -->
 	<profile>
-		<id>jms-client</id>
+		<id>cluster</id>
 		<activation>
 			<property>
 				<name>all</name>
@@ -330,36 +330,17 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>jms-client</artifactId>
+				<artifactId>jms-commons</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>jms-commons-impl</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</profile>
-<!-- ======================================= -->
-<!-- JMS Server -->
-<!-- ======================================= -->
-	<profile>
-		<id>jms-server</id>
-		<activation>
-			<property>
-				<name>all</name>
-				<value>true</value>
-			</property>
-		</activation>
-		<dependencies>
-			<dependency>
-				<groupId>org.geoserver</groupId>
-				<artifactId>jms-server</artifactId>
+				<artifactId>jms-geoserver</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>jms-commons-impl</artifactId>
+				<artifactId>jms-activeMQ</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

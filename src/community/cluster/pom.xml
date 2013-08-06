@@ -30,7 +30,7 @@
 		</modules>
 	</profile>
 	<profile>
-		<id>jms-client</id>
+		<id>cluster</id>
 		<activation>
 			<property>
 				<name>all</name>
@@ -39,22 +39,8 @@
 		</activation>
 		<modules>
 			<module>jms-commons</module>
-			<module>jms-commons-impl</module>
-			<module>jms-client</module>
-		</modules>
-	</profile>
-	<profile>
-		<id>jms-server</id>
-		<activation>
-			<property>
-				<name>all</name>
-				<value>true</value>
-			</property>
-		</activation>
-		<modules>
-			<module>jms-commons</module>
-			<module>jms-commons-impl</module>
-			<module>jms-server</module>
+			<module>jms-geoserver</module>
+			<module>jms-activeMQ</module>
 		</modules>
 	</profile>
         

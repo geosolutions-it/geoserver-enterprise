@@ -1,6 +1,6 @@
 package it.geosolutions.geoserver.jms.message;
 
-import it.geosolutions.geoserver.jms.configuration.Configuration;
+import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -39,8 +39,8 @@ public class JMSObjectMessageCreator implements MessageCreator {
 
 	protected void updateProperties(Message message) throws JMSException {
 		// append the name of the server
-		message.setObjectProperty(Configuration.INSTANCE_NAME_KEY,
-				properties.get(Configuration.INSTANCE_NAME_KEY));
+		message.setObjectProperty(JMSConfiguration.INSTANCE_NAME_KEY,
+				properties.get(JMSConfiguration.INSTANCE_NAME_KEY));
 
 		// set other properties
 		final Set<Entry<Object, Object>> set = properties.entrySet();
