@@ -5,7 +5,7 @@
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
 import it.geosolutions.geoserver.jms.JMSEventHandler;
-import it.geosolutions.geoserver.jms.events.ToggleProducer;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.event.CatalogEvent;
@@ -22,7 +22,7 @@ public class JMSCatalogPostModifyEventHandlerSPI extends
 		JMSCatalogEventHandlerSPI {
 
 	public JMSCatalogPostModifyEventHandlerSPI(final int priority, Catalog cat,
-			XStream xstream, ToggleProducer producer) {
+			XStream xstream, ToggleSwitch producer) {
 		super(priority, cat, xstream, producer);
 	}
 

@@ -17,9 +17,9 @@ import java.io.Serializable;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  * @param <S>
- *            Type implementing Serializable
+ *            ToggleType implementing Serializable
  * @param <O>
- *            Type of the object to handle
+ *            ToggleType of the object to handle
  */
 public abstract class JMSEventHandlerSPI<S extends Serializable, O> {
 	/**

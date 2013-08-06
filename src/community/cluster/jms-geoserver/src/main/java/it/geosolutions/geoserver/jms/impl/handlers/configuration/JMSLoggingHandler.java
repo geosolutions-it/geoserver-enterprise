@@ -4,7 +4,7 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.configuration;
 
-import it.geosolutions.geoserver.jms.events.ToggleProducer;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
@@ -29,10 +29,10 @@ public class JMSLoggingHandler extends JMSConfigurationHandler<LoggingInfo> {
 			.getLogger(JMSLoggingHandler.class);
 
 	private final GeoServer geoServer;
-	private final ToggleProducer producer;
+	private final ToggleSwitch producer;
 
 	public JMSLoggingHandler(GeoServer geo, XStream xstream,
-			Class clazz, ToggleProducer producer) {
+			Class clazz, ToggleSwitch producer) {
 		super(xstream, clazz);
 		this.geoServer = geo;
 		this.producer = producer;

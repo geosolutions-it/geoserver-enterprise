@@ -4,7 +4,7 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.configuration;
 
-import it.geosolutions.geoserver.jms.events.ToggleProducer;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSServiceModifyEvent;
 import it.geosolutions.geoserver.jms.impl.utils.BeanUtils;
 
@@ -32,10 +32,10 @@ public class JMSServiceHandler extends JMSConfigurationHandler<JMSServiceModifyE
 			.getLogger(JMSServiceHandler.class);
 
 	private final GeoServer geoServer;
-	private final ToggleProducer producer;
+	private final ToggleSwitch producer;
 
 	public JMSServiceHandler(GeoServer geo, XStream xstream,
-			Class clazz, ToggleProducer producer) {
+			Class clazz, ToggleSwitch producer) {
 		super(xstream, clazz);
 		this.geoServer = geo;
 		this.producer = producer;

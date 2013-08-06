@@ -4,14 +4,13 @@
  */
 package it.geosolutions.geoserver.jms.client;
 
+import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSEventHandler;
 import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
 import it.geosolutions.geoserver.jms.JMSManager;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.events.ToggleType;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -20,14 +19,11 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.StreamMessage;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.listener.SessionAwareMessageListener;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
  * JMS Client (Consumer)
@@ -40,7 +36,7 @@ import org.vfny.geoserver.global.GeoserverDataDirectory;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSQueueListener implements SessionAwareMessageListener<Message> {
+public class JMSQueueListener extends JMSApplicationListener implements SessionAwareMessageListener<Message> {
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSQueueListener.class);
@@ -48,6 +44,10 @@ public class JMSQueueListener implements SessionAwareMessageListener<Message> {
 	@Autowired
 	// Qualifier("")
 	public JMSConfiguration config;
+	
+	public JMSQueueListener() {
+		super(ToggleType.CONSUMER);
+	}
 
 	@Override
 	public void onMessage(Message message, Session session) throws JMSException {
@@ -140,54 +140,55 @@ public class JMSQueueListener implements SessionAwareMessageListener<Message> {
 					"Unrecognized message type for catalog incoming event");
 	}
 
-	/**
-	 * @deprecated unused/untested
-	 * @param message
-	 * @throws JMSException
-	 */
-	private static void getStreamMessage(Message message) throws JMSException {
-		if (message instanceof StreamMessage) {
-			StreamMessage streamMessage = StreamMessage.class.cast(message);
-
-			File file;
-			// FILTERING incoming message
-			// if (!message.propertyExists(JMSEventType.FILENAME_KEY))
-			// throw new JMSException(
-			// "Unable to handle incoming message, property \'"
-			// + JMSEventType.FILENAME_KEY + "\' not set.");
-
-			FileOutputStream fos = null;
-			try {
-				file = new File(GeoserverDataDirectory
-						.getGeoserverDataDirectory().getCanonicalPath(), "");
-				// TODO get file name
-				// message.getStringProperty(JMSEventType.FILENAME_KEY));
-				fos = new FileOutputStream(file);
-				final int size = 1024;
-				final byte[] buf = new byte[size];
-				int read = 0;
-				streamMessage.reset();
-				while ((read = streamMessage.readBytes(buf)) != -1) {
-					fos.write(buf, 0, read);
-					fos.flush();
-				}
-			} catch (IOException e) {
-				if (LOGGER.isErrorEnabled()) {
-					LOGGER.error(e.getLocalizedMessage(), e);
-				}
-				throw new JMSException(e.getLocalizedMessage());
-			} catch (JMSException e) {
-				if (LOGGER.isErrorEnabled()) {
-					LOGGER.error(e.getLocalizedMessage(), e);
-				}
-				throw new JMSException(e.getLocalizedMessage());
-			} finally {
-				IOUtils.closeQuietly(fos);
-			}
-
-		} else
-			throw new JMSException(
-					"Unrecognized message type for catalog incoming event");
-	}
+	// /**
+	// * @deprecated unused/untested
+	// * @param message
+	// * @throws JMSException
+	// */
+	// private static void getStreamMessage(Message message) throws JMSException
+	// {
+	// if (message instanceof StreamMessage) {
+	// StreamMessage streamMessage = StreamMessage.class.cast(message);
+	//
+	// File file;
+	// // FILTERING incoming message
+	// // if (!message.propertyExists(JMSEventType.FILENAME_KEY))
+	// // throw new JMSException(
+	// // "Unable to handle incoming message, property \'"
+	// // + JMSEventType.FILENAME_KEY + "\' not set.");
+	//
+	// FileOutputStream fos = null;
+	// try {
+	// file = new File(GeoserverDataDirectory
+	// .getGeoserverDataDirectory().getCanonicalPath(), "");
+	// // TODO get file name
+	// // message.getStringProperty(JMSEventType.FILENAME_KEY));
+	// fos = new FileOutputStream(file);
+	// final int size = 1024;
+	// final byte[] buf = new byte[size];
+	// int read = 0;
+	// streamMessage.reset();
+	// while ((read = streamMessage.readBytes(buf)) != -1) {
+	// fos.write(buf, 0, read);
+	// fos.flush();
+	// }
+	// } catch (IOException e) {
+	// if (LOGGER.isErrorEnabled()) {
+	// LOGGER.error(e.getLocalizedMessage(), e);
+	// }
+	// throw new JMSException(e.getLocalizedMessage());
+	// } catch (JMSException e) {
+	// if (LOGGER.isErrorEnabled()) {
+	// LOGGER.error(e.getLocalizedMessage(), e);
+	// }
+	// throw new JMSException(e.getLocalizedMessage());
+	// } finally {
+	// IOUtils.closeQuietly(fos);
+	// }
+	//
+	// } else
+	// throw new JMSException(
+	// "Unrecognized message type for catalog incoming event");
+	// }
 
 }

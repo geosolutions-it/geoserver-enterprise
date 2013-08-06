@@ -6,6 +6,8 @@ package it.geosolutions.geoserver.jms.impl.web;
 
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
+import it.geosolutions.geoserver.jms.events.ToggleType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.config.GeoServer;
+import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +34,15 @@ public class ClusterPage extends GeoServerSecuredPage {
 		return getGeoServerApplication().getBeanOfType(JMSConfiguration.class);
 	}
 
-	// TODO move into server module
-	protected boolean isProducer() {
-		return getGeoServerApplication().getBean("JMSCatalogListener") != null;
-	}
-
-	// TODO move into client module
-	protected boolean isConsumer() {
-		return getGeoServerApplication().getBean("JMSQueueListener") != null;
-	}
+//	// TODO move into server module
+//	protected boolean isProducer() {
+//		return getGeoServerApplication().getBean("JMSCatalogListener") != null;
+//	}
+//
+//	// TODO move into client module
+//	protected boolean isConsumer() {
+//		return getGeoServerApplication().getBean("JMSQueueListener") != null;
+//	}
 
 	public IModel getGeoServerModel() {
 		return new LoadableDetachableModel() {
@@ -58,9 +61,8 @@ public class ClusterPage extends GeoServerSecuredPage {
 		GeoServer gs = (GeoServer) geoServerModel.getObject();
 
 		// TODO move to the JMS server module
-		boolean isProducer = isProducer();
 		final CheckBox toggleProducer = new CheckBox("toggleProducer",
-				new Model<Boolean>(isProducer)) {
+				new Model<Boolean>()) {
 
 			@Override
 			protected boolean wantOnSelectionChangedNotifications() {
@@ -76,21 +78,18 @@ public class ClusterPage extends GeoServerSecuredPage {
 					final ApplicationContext ctx = getGeoServerApplication()
 							.getApplicationContext();
 					ctx.publishEvent(new ToggleEvent(Boolean.class
-							.cast(newSelection)));
+							.cast(newSelection),ToggleType.PRODUCER));
 				} else {
 					LOGGER.error("The incoming object is not a BOOLEAN");
 				}
 			}
 		};
 		add(toggleProducer);
-		toggleProducer.setEnabled(isProducer);
-		if (!isProducer) {
-			toggleProducer.setVisible(isProducer);
-		}
+		toggleProducer.setEnabled(true);
+		toggleProducer.setVisible(true);
 
-		boolean isConsumer = isConsumer();
 		final CheckBox toggleConsumer = new CheckBox("toggleConsumer",
-				new Model<Boolean>(isConsumer)) {
+				new Model<Boolean>()) {
 
 			@Override
 			protected boolean wantOnSelectionChangedNotifications() {
@@ -103,18 +102,18 @@ public class ClusterPage extends GeoServerSecuredPage {
 					// TODO applicationevent
 					if (LOGGER.isInfoEnabled())
 						LOGGER.info("TOGGLE CONSUMER: " + newSelection);
-					// final ApplicationContext
-					// ctx=getGeoServerApplication().getApplicationContext();
-					// ctx.publishEvent(new
-					// ToggleProducer.ToggleEvent(Boolean.class.cast(newSelection)));
+					final ApplicationContext ctx = getGeoServerApplication()
+							.getApplicationContext();
+					ctx.publishEvent(new ToggleEvent(Boolean.class
+							.cast(newSelection),ToggleType.CONSUMER));
 				} else {
 					LOGGER.error("The incoming object is not a BOOLEAN");
 				}
 			}
 		};
 		add(toggleConsumer);
-		// disable consumer is not supported
-		toggleConsumer.setEnabled(false);
+		toggleConsumer.setEnabled(true);
+		toggleConsumer.setVisible(true);
 
 		// form and submit
 		Form form = new Form("form", new CompoundPropertyModel(getConfig()

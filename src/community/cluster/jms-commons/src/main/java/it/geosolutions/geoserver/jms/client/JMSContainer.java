@@ -30,7 +30,7 @@ final class JMSContainer extends DefaultMessageListenerContainer {
 	public JMSFactory jmsFactory;
 	
 	@Autowired
-	public JMSConfiguration config;  
+	public JMSConfiguration config;
 	
 	private boolean verified=false;
 

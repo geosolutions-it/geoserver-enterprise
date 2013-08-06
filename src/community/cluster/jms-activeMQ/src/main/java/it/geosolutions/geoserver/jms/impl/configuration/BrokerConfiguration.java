@@ -26,7 +26,7 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
 	public static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
 
 	@Autowired
-	@Qualifier("JMSPropertyConfigurer")
+	@Qualifier("JMSPropertyPlaceholderConfigurer")
 	JMSPropertyPlaceholderConfigurer commonConfiguration;
 
 	@Override

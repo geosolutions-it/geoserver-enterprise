@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.geoserver.platform.GeoServerExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +58,9 @@ final public class JMSConfiguration {
 		configuration.put(key, o);
 	}
 
-	// public final String getInstanceName() {
-	// return configuration.getProperty(INSTANCE_NAME_KEY);
-	// }
+	 public final String getInstanceName() {
+	 return configuration.getProperty(INSTANCE_NAME_KEY);
+	 }
 
 	/**
 	 * Initialize configuration
@@ -137,7 +136,7 @@ final public class JMSConfiguration {
 	}
 
 	public <T> T getExtensionsProp(final String theName) {
-		return (T) GeoServerExtensions.getProperty(theName);
+		return (T) ApplicationProperties.getProperty(theName);
 	}
 
 	public void loadTempConfig() throws FileNotFoundException, IOException {
@@ -165,7 +164,7 @@ final public class JMSConfiguration {
 	}
 
 	public File getTempDir() {
-		String tempPath = GeoServerExtensions
+		String tempPath = ApplicationProperties
 				.getProperty(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE);
 		if (tempPath == null)
 			return null;

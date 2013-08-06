@@ -4,14 +4,11 @@
  */
 package it.geosolutions.geoserver.jms.server;
 
+import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSPublisher;
-import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.events.ToggleEvent;
-import it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFile;
 
 import java.io.File;
-import java.util.List;
 import java.util.Properties;
 
 import javax.jms.JMSException;
@@ -25,31 +22,26 @@ import org.geoserver.catalog.event.CatalogListener;
 import org.geoserver.catalog.event.CatalogModifyEvent;
 import org.geoserver.catalog.event.CatalogPostModifyEvent;
 import org.geoserver.catalog.event.CatalogRemoveEvent;
-import org.geoserver.platform.ContextLoadedEvent;
-import org.restlet.data.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
  * JMS MASTER (Producer) Listener used to send GeoServer Catalog events over the
  * JMS channel.
  * 
- * @see {@link JMSListener}
+ * @see {@link JMSApplicationListener}
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSCatalogListener extends JMSListener implements CatalogListener {
+public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements
+		CatalogListener {
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSCatalogListener.class);
 
-	@Autowired
-	public JMSConfiguration config;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -59,53 +51,8 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	 * 
 	 */
 	public JMSCatalogListener(final Catalog catalog) {
+		super();
 		catalog.addListener(this);
-		setProducerEnabled(false);
-	}
-
-	@Override
-	public void onApplicationEvent(ApplicationEvent event) {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Incoming event of type "
-					+ event.getClass().getSimpleName());
-		}
-
-		if (event instanceof ContextLoadedEvent) {
-			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Activating JMS Catalog event publisher...");
-			}
-			setProducerEnabled(true);
-
-		} else if (event instanceof ToggleEvent) {
-			final ToggleEvent tEv = (ToggleEvent) event;
-			setProducerEnabled(tEv.toggleTo());
-		} else {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Incoming application event of type "
-						+ event.getClass().getSimpleName());
-			}
-		}
-	}
-
-	/**
-	 * This should be called before each message send to add options (coming
-	 * form the dispatcher callback) to the message
-	 * 
-	 * @return a copy of the getProperties() object updated with others options
-	 *         coming from the RestDispatcherCallback<br/>
-	 *         TODO use also options coming from the the GUI DispatcherCallback
-	 */
-	private Properties updateProperties() {
-		// append options
-		final Properties options = (Properties) config.getConfigurations().clone();
-		// get options from rest callback
-		final List<Parameter> p = RestDispatcherCallback.getParameters();
-		if (p != null) {
-			for (Parameter par : p) {
-				options.put(par.getName(), par.getValue().toString());
-			}
-		}
-		return options;
 	}
 
 	@Override
@@ -116,7 +63,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 		}
 
 		// skip incoming events if producer is not Enabled
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -162,7 +109,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 		}
 
 		// skip incoming events until context is loaded
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -192,7 +139,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 		}
 
 		// skip incoming events until context is loaded
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -248,7 +195,7 @@ public class JMSCatalogListener extends JMSListener implements CatalogListener {
 	public void reloaded() {
 
 		// skip incoming events until context is loaded
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}

@@ -17,13 +17,21 @@
 
 	<context:annotation-config />
 
-	<bean id="toggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleProducer" />
+	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0"
+			value="PRODUCER" />
+	</bean>
 
-	<bean id="JMSToggleProducerConfiguration" class="it.geosolutions.geoserver.jms.configuration.ToggleProducerConfiguration" />
+	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0"
+			value="CONSUMER" />
+	</bean>
 
+	<bean id="JMSToggleConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ToggleConfiguration" />
 
 	<bean id="JMSConfiguration"
-		class="it.geosolutions.geoserver.jms.configuration.Configuration" />
+		class="it.geosolutions.geoserver.jms.configuration.JMSConfiguration" />
 
 	<!-- COMMONS -->
 

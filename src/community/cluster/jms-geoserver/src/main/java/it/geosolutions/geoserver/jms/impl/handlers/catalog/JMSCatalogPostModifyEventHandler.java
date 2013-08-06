@@ -4,7 +4,7 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
-import it.geosolutions.geoserver.jms.events.ToggleProducer;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -40,9 +40,9 @@ public class JMSCatalogPostModifyEventHandler extends JMSCatalogEventHandler {
 			.getLogger(JMSCatalogPostModifyEventHandler.class);
 	
 	private final Catalog catalog;
-	private final ToggleProducer producer;
+	private final ToggleSwitch producer;
 
-	public JMSCatalogPostModifyEventHandler(Catalog catalog, XStream xstream, Class clazz, ToggleProducer producer){
+	public JMSCatalogPostModifyEventHandler(Catalog catalog, XStream xstream, Class clazz, ToggleSwitch producer){
 		super(xstream,clazz);
 		this.catalog=catalog;
 		this.producer=producer;

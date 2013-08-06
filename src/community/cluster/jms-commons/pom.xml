@@ -45,18 +45,9 @@
 			<artifactId>spring-jms</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-all</artifactId>
-			<version>5.4.2</version>
-			<!-- exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-				</exclusion> </exclusions -->
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
-		</dependency>
-
 		<!-- ============================== -->
 		<!-- slf4j -->
 		<!-- ============================== -->

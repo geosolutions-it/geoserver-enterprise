@@ -28,35 +28,6 @@
 			<artifactId>jms-geoserver</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.xbean</groupId>
-			<artifactId>xbean-spring</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
-		</dependency>
-
-		<!-- added to solve: problem with class file or dependent class; nested 
-			exception is java.lang.NoClassDefFoundError: org/springframework/context/SmartLifecycle -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-all</artifactId>
@@ -65,13 +36,11 @@
 				</exclusion> </exclusions -->
 		</dependency>
 
-
+		<!-- added to solve: problem with class file or dependent class; nested 
+			exception is java.lang.NoClassDefFoundError: org/springframework/context/SmartLifecycle -->
 		<dependency>
-			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
-			<!-- exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-				</exclusion> </exclusions -->
-			<!-- classifier>tests</classifier> <scope>test</scope -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
 		</dependency>
 
 		<!-- ============================== -->

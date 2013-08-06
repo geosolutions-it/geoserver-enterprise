@@ -6,7 +6,7 @@ package it.geosolutions.geoserver.jms.impl.handlers.configuration;
 
 import it.geosolutions.geoserver.jms.JMSEventHandler;
 import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
-import it.geosolutions.geoserver.jms.events.ToggleProducer;
+import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 
 import org.geoserver.config.GeoServer;
 import org.geoserver.config.LoggingInfo;
@@ -18,9 +18,9 @@ public class JMSLoggingHandlerSPI extends JMSEventHandlerSPI<String,LoggingInfo>
 	
 	final GeoServer geoserver;
 	final XStream xstream;
-	final ToggleProducer producer;
+	final ToggleSwitch producer;
 	
-	public JMSLoggingHandlerSPI(final int priority, final GeoServer geo, final XStream xstream, final ToggleProducer producer) {
+	public JMSLoggingHandlerSPI(final int priority, final GeoServer geo, final XStream xstream, final ToggleSwitch producer) {
 		super(priority);
 		this.geoserver=geo;
 		this.xstream=xstream;

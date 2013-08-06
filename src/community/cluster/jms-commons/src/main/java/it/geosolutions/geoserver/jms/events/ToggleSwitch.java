@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class ToggleProducer implements ApplicationContextAware {
+public class ToggleSwitch implements ApplicationContextAware {
 
 	private ApplicationContext ctx;
 
@@ -25,26 +25,29 @@ public class ToggleProducer implements ApplicationContextAware {
 	 * true if the toggle can run enable and disable publishing events, false
 	 * otherwise
 	 */
-	private volatile Boolean toggleEnabled = true;
+	private volatile Boolean status = true;
+	
+	private final ToggleType toggleType;
 
-	public ToggleProducer() {
-
+	public ToggleSwitch(final ToggleType toggleType) {
+		this.toggleType=toggleType;
 	}
 
-	public ToggleProducer(final ApplicationContext ctx,
-			final Boolean toggleEnabled) {
+	public ToggleSwitch(final ApplicationContext ctx,
+			final Boolean status,final ToggleType toggleType) {
 		super();
 		this.ctx = ctx;
-		this.toggleEnabled = toggleEnabled;
+		this.status = status;
+		this.toggleType=toggleType;
 	}
 
 	/**
 	 * @param toggleEnabled
 	 *            set enabled and disabled the toggle itself
 	 */
-	public final void setToggleEnabled(boolean toggleEnabled) {
-		synchronized (this.toggleEnabled) {
-			this.toggleEnabled = toggleEnabled;
+	public final void setToggle(boolean status) {
+		synchronized (this.status) {
+			this.status = status;
 		}
 	}
 
@@ -52,7 +55,7 @@ public class ToggleProducer implements ApplicationContextAware {
 	 * @return the true if the toggle can enable and disable, false otherwise
 	 */
 	public final boolean isToggleEnabled() {
-		return toggleEnabled;
+		return status;
 	}
 
 	public void setApplicationContext(ApplicationContext ctx) {
@@ -61,13 +64,13 @@ public class ToggleProducer implements ApplicationContextAware {
 
 	public void enable() {
 		if (isToggleEnabled()) {
-			ctx.publishEvent(new ToggleEvent(Boolean.TRUE));
+			ctx.publishEvent(new ToggleEvent(Boolean.TRUE, toggleType));
 		}
 	}
 
 	public void disable() {
 		if (isToggleEnabled()) {
-			ctx.publishEvent(new ToggleEvent(Boolean.FALSE));
+			ctx.publishEvent(new ToggleEvent(Boolean.FALSE, toggleType));
 		}
 	}
 

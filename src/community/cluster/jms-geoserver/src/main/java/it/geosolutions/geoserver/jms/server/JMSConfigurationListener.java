@@ -4,8 +4,9 @@
  */
 package it.geosolutions.geoserver.jms.server;
 
+import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSPublisher;
-import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.events.ToggleType;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSGlobalModifyEvent;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSServiceModifyEvent;
 import it.geosolutions.geoserver.jms.impl.utils.BeanUtils;
@@ -23,24 +24,20 @@ import org.geoserver.config.ServiceInfo;
 import org.geoserver.config.SettingsInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * JMS MASTER (Producer) Listener used to send GeoServer JMSConfiguration events
+ * JMS MASTER (Producer) Listener used to send GeoServer JMSGeoServerConfigurationExt events
  * over the JMS channel.
  * 
- * @see {@link JMSListener}
+ * @see {@link JMSApplicationListener}
  * 
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSConfigurationListener extends JMSListener implements
+public class JMSConfigurationListener extends JMSAbstractGeoServerProducer implements
 		ConfigurationListener {
 
 	private final GeoServer geoserver;
-
-	@Autowired
-	public JMSConfiguration config;
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSConfigurationListener.class);
@@ -55,14 +52,11 @@ public class JMSConfigurationListener extends JMSListener implements
 	 *            the producer name which should be unique.
 	 */
 	public JMSConfigurationListener(final GeoServer geoserver) {
-
+		super();
 		// store GeoServer reference
 		this.geoserver = geoserver;
 		// add this as geoserver listener
 		this.geoserver.addListener(this);
-
-		// disable producer until the application receive the ContextLoadedEvent
-		setProducerEnabled(false);
 	}
 
 	@Override
@@ -75,7 +69,7 @@ public class JMSConfigurationListener extends JMSListener implements
 		}
 
 		// skip incoming events if producer is not Enabled
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -107,7 +101,7 @@ public class JMSConfigurationListener extends JMSListener implements
 		}
 
 		// skip incoming events if producer is not Enabled
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -140,7 +134,7 @@ public class JMSConfigurationListener extends JMSListener implements
 		}
 
 		// skip incoming events if producer is not Enabled
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}
@@ -180,7 +174,7 @@ public class JMSConfigurationListener extends JMSListener implements
 	public void reloaded() {
 
 		// skip incoming events until context is loaded
-		if (!isProducerEnabled()) {
+		if (!isEnabled()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("skipping incoming event: context is not initted");
 			}

@@ -18,6 +18,7 @@
 	<context:annotation-config />
 
 	<bean id="JMSActiveMQFactory" class="it.geosolutions.geoserver.jms.impl.JMSActiveMQFactory" />
+		
 
 	<bean id="JMSTopicConfiguration"
 		class="it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration">
@@ -25,6 +26,12 @@
 	
 	<bean id="JMSBrokerConfiguration"
 		class="it.geosolutions.geoserver.jms.impl.configuration.BrokerConfiguration">
+	</bean>
+	
+	<!-- Needed to BrokerConfiguration bean -->
+	<bean id="JMSPropertyPlaceholderConfigurer" class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:cluster.properties" />
 	</bean>
 	
 	<!-- COMMENT OUT TO USE EXTERNAL BROKER -->
