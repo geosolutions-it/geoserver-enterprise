@@ -4,9 +4,10 @@
  */
 package it.geosolutions.geoserver.jms.impl.web;
 
+import it.geosolutions.geoserver.jms.client.JMSContainer;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
-import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
 import java.io.FileNotFoundException;
@@ -17,12 +18,8 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
-import org.geoserver.config.GeoServer;
-import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,22 +31,8 @@ public class ClusterPage extends GeoServerSecuredPage {
 		return getGeoServerApplication().getBeanOfType(JMSConfiguration.class);
 	}
 
-//	// TODO move into server module
-//	protected boolean isProducer() {
-//		return getGeoServerApplication().getBean("JMSCatalogListener") != null;
-//	}
-//
-//	// TODO move into client module
-//	protected boolean isConsumer() {
-//		return getGeoServerApplication().getBean("JMSQueueListener") != null;
-//	}
-
-	public IModel getGeoServerModel() {
-		return new LoadableDetachableModel() {
-			public Object load() {
-				return getGeoServerApplication().getGeoServer();
-			}
-		};
+	protected JMSContainer getJMSContainer() {
+		return getGeoServerApplication().getBeanOfType(JMSContainer.class);
 	}
 
 	private final static Logger LOGGER = LoggerFactory
@@ -57,12 +40,18 @@ public class ClusterPage extends GeoServerSecuredPage {
 
 	public ClusterPage() {
 
-		final IModel geoServerModel = getGeoServerModel();
-		GeoServer gs = (GeoServer) geoServerModel.getObject();
 
+		final String producerStatusString = getConfig()
+				.getConfiguration(ToggleConfiguration.TOGGLE_PRODUCER_KEY);
+		final boolean producerStatus;
+		if (producerStatusString != null) {
+			producerStatus=Boolean.parseBoolean(producerStatusString);
+		} else {
+			producerStatus=false;
+		}
 		// TODO move to the JMS server module
 		final CheckBox toggleProducer = new CheckBox("toggleProducer",
-				new Model<Boolean>()) {
+				new Model<Boolean>(producerStatus)) {
 
 			@Override
 			protected boolean wantOnSelectionChangedNotifications() {
@@ -72,13 +61,12 @@ public class ClusterPage extends GeoServerSecuredPage {
 			@Override
 			protected void onSelectionChanged(Object newSelection) {
 				if (newSelection instanceof Boolean) {
-					// TODO applicationevent
 					if (LOGGER.isInfoEnabled())
 						LOGGER.info("TOGGLE PRODUCER: " + newSelection);
 					final ApplicationContext ctx = getGeoServerApplication()
 							.getApplicationContext();
 					ctx.publishEvent(new ToggleEvent(Boolean.class
-							.cast(newSelection),ToggleType.PRODUCER));
+							.cast(newSelection), ToggleType.PRODUCER));
 				} else {
 					LOGGER.error("The incoming object is not a BOOLEAN");
 				}
@@ -88,8 +76,16 @@ public class ClusterPage extends GeoServerSecuredPage {
 		toggleProducer.setEnabled(true);
 		toggleProducer.setVisible(true);
 
+		final String consumerStatusString = getConfig()
+				.getConfiguration(ToggleConfiguration.TOGGLE_CONSUMER_KEY);
+		final boolean consumerStatus;
+		if (producerStatusString != null) {
+			consumerStatus=Boolean.parseBoolean(consumerStatusString);
+		} else {
+			consumerStatus=false;
+		}
 		final CheckBox toggleConsumer = new CheckBox("toggleConsumer",
-				new Model<Boolean>()) {
+				new Model<Boolean>(consumerStatus)) {
 
 			@Override
 			protected boolean wantOnSelectionChangedNotifications() {
@@ -105,7 +101,7 @@ public class ClusterPage extends GeoServerSecuredPage {
 					final ApplicationContext ctx = getGeoServerApplication()
 							.getApplicationContext();
 					ctx.publishEvent(new ToggleEvent(Boolean.class
-							.cast(newSelection),ToggleType.CONSUMER));
+							.cast(newSelection), ToggleType.CONSUMER));
 				} else {
 					LOGGER.error("The incoming object is not a BOOLEAN");
 				}
@@ -116,45 +112,84 @@ public class ClusterPage extends GeoServerSecuredPage {
 		toggleConsumer.setVisible(true);
 
 		// form and submit
-		Form form = new Form("form", new CompoundPropertyModel(getConfig()
-				.getConfigurations()));
+		final Form form = new Form("form", new CompoundPropertyModel(
+				getConfig().getConfigurations()));
 		add(form);
 
-		TextField<String> instanceName = new TextField<String>(
+		final TextField<String> brokerURL = new TextField<String>("brokerURL");
+		form.add(brokerURL);
+
+		final TextField<String> instanceName = new TextField<String>(
 				JMSConfiguration.INSTANCE_NAME_KEY);
 		form.add(instanceName);
 
-		TextField<String> topicName = new TextField<String>("topicName");
+		final TextField<String> topicName = new TextField<String>("topicName");
 		form.add(topicName);
 
-		Button submit = new Button("submit", new StringResourceModel("submit",
+		final Button connect = new Button("connect", new StringResourceModel(
+				"connect", this, null)) {
+			@Override
+			public void onSubmit() {
+				getJMSContainer().start();
+//				setEnabled(false);
+//				setVisible(false);
+//				dis
+			}
+		};
+//		if (getJMSContainer().isActive()) {
+//			connect.setEnabled(false);
+////			connect.setVisible(false);
+//		} else {
+//			connect.setEnabled(true);
+////			connect.setVisible(true);
+//		}
+		form.add(connect);
+
+		final Button disconnect = new Button("disconnect",
+				new StringResourceModel("disconnect", this, null)) {
+			@Override
+			public void onSubmit() {
+				getJMSContainer().stop();
+//				setEnabled(false);
+//				connect.setEnabled(true);
+//				setVisible(false);
+			}
+		};
+//		if (getJMSContainer().isActive()) {
+//			disconnect.setEnabled(true);
+//			disconnect.setVisible(true);
+//		} else {
+//			disconnect.setEnabled(false);
+//			disconnect.setVisible(false);
+//		}
+		form.add(disconnect);
+
+		final Button save = new Button("save", new StringResourceModel("save",
 				this, null)) {
 			@Override
 			public void onSubmit() {
 				try {
 					getConfig().storeTempConfig();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(e.getLocalizedMessage(), e);
 				}
 			}
 		};
-		form.add(submit);
+		form.add(save);
 
-		Button cancel = new Button("cancel") {
+		final Button reset = new Button("reset", new StringResourceModel(
+				"reset", this, null)) {
 			@Override
 			public void onSubmit() {
 				try {
 					getConfig().loadTempConfig();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(e.getLocalizedMessage(), e);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(e.getLocalizedMessage(), e);
 				}
 			}
 		};
-		form.add(cancel);
+		form.add(reset);
 	}
 }

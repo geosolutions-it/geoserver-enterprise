@@ -14,9 +14,7 @@ public class JMSActiveMQFactory extends JMSFactory {
 
 	// <bean id="JMSClientDestination"
 	// class="org.apache.activemq.command.ActiveMQQueue">
-	// <constructor-arg
-	// value="Consumer.EXAMPLE.VirtualTopic.>" />
-	// <!-- value="Consumer.${instance.name}.VirtualTopic.${topic.name}" /> -->
+	// <value="Consumer.${instance.name}.VirtualTopic.${topic.name}" />
 	// </bean>
 	@Override
 	public Destination getClientDestination(Properties configuration) {
@@ -30,7 +28,7 @@ public class JMSActiveMQFactory extends JMSFactory {
 //	<!-- A Destination in ActiveMQ -->
 //	<bean id="JMSServerDestination" class="org.apache.activemq.command.ActiveMQTopic">
 //<!-- 		<constructor-arg value="VirtualTopic.${topic.name}" /> -->
-//		<constructor-arg value="VirtualTopic.EXAMPLE" />
+//		<constructor-arg value="VirtualTopic.>" />
 //	</bean>
 	@Override
 	public Destination getServerDestination(Properties configuration) {

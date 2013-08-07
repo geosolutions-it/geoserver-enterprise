@@ -6,22 +6,23 @@
 	<wicket:extend>
 		<table>
 			<tr>
-				<td><input
-					id="toggleProducer" class="field checkbox" type="checkbox"
-					wicket:id="toggleProducer" /> <label for="toggleProducer"
-					class="choice">
-					<wicket:message key="toggleProducer">toggleProducer</wicket:message></label>
-				</td>
-				<td><input
-					id="toggleConsumer" class="field checkbox" type="checkbox"
-					wicket:id="toggleConsumer" /> <label for="toggleConsumer"
-					class="choice">
-					<wicket:message key="toggleConsumer">toggleConsumer</wicket:message></label>
-				</td>
+				<td><input id="toggleProducer" class="field checkbox"
+					type="checkbox" wicket:id="toggleProducer" /> <label
+					for="toggleProducer" class="choice"> <wicket:message
+							key="toggleProducer">toggleProducer</wicket:message></label></td>
+				<td><input id="toggleConsumer" class="field checkbox"
+					type="checkbox" wicket:id="toggleConsumer" /> <label
+					for="toggleConsumer" class="choice"> <wicket:message
+							key="toggleConsumer">toggleConsumer</wicket:message></label></td>
 			</tr>
 			<tr>
 				<form wicket:id="form">
 					<ul>
+						<li><label for="brokerURL"><wicket:message
+									key="brokerURL">brokerURL</wicket:message></label> <input
+							id="brokerURL" class="field text" type="text"
+							wicket:id="brokerURL" /></li>
+
 						<li><label for="instanceName"><wicket:message
 									key="instanceName">instanceName</wicket:message></label> <input
 							id="instanceName" class="field text" type="text"
@@ -32,13 +33,18 @@
 							id="topicName" class="field text" type="text"
 							wicket:id="topicName" /></li>
 
-
 						<li class="button-group selfclear">
-							<button type="submit" wicket:id="submit">
-								<wicket:message key="submit">submit</wicket:message>
+							<button type="submit" wicket:id="connect">
+								<wicket:message key="connect">connect</wicket:message>
 							</button>
-							<button type="submit" wicket:id="cancel">
-								<wicket:message key="cancel">cancel</wicket:message>
+							<button type="submit" wicket:id="disconnect">
+								<wicket:message key="disconnect">disconnect</wicket:message>
+							</button>
+							<button type="submit" wicket:id="save">
+								<wicket:message key="save">submit</wicket:message>
+							</button>
+							<button type="submit" wicket:id="reset">
+								<wicket:message key="reset">reset</wicket:message>
 							</button>
 						</li>
 					</ul>

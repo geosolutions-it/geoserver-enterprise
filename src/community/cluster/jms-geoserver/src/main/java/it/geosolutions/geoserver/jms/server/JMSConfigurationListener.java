@@ -6,7 +6,6 @@ package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSPublisher;
-import it.geosolutions.geoserver.jms.events.ToggleType;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSGlobalModifyEvent;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSServiceModifyEvent;
 import it.geosolutions.geoserver.jms.impl.utils.BeanUtils;

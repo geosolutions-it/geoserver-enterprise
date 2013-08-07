@@ -18,13 +18,11 @@
 	<context:annotation-config />
 
 	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0"
-			value="PRODUCER" />
+		<constructor-arg index="0" value="PRODUCER" />
 	</bean>
 
 	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0"
-			value="CONSUMER" />
+		<constructor-arg index="0" value="CONSUMER" />
 	</bean>
 
 	<bean id="JMSToggleConfiguration"
@@ -41,5 +39,10 @@
 	<!-- CLIENT -->
 
 	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener" />
+
+	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer">
+		<constructor-arg index="0" ref="JMSConfiguration" />
+		<constructor-arg index="1" ref="JMSQueueListener" />
+	</bean>
 
 </beans>

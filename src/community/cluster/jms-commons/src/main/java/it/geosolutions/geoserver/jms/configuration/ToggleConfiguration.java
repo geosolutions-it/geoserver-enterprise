@@ -28,7 +28,7 @@ final public class ToggleConfiguration implements JMSConfigurationExt {
 	public boolean checkForOverride(JMSConfiguration config) {
 		return config.checkForOverride(TOGGLE_PRODUCER_KEY,
 				DEFAULT_PRODUCER_STATUS)
-				&& config.checkForOverride(TOGGLE_CONSUMER_KEY,
+				|| config.checkForOverride(TOGGLE_CONSUMER_KEY,
 						DEFAULT_CONSUMER_STATUS);
 	}
 
