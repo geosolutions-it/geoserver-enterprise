@@ -23,13 +23,14 @@
 		file -->
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 		<property name="locations">
-			<value>classpath:activemq-jms.properties</value>
+			<value>classpath:activemq-jmx.properties</value>
 		</property>
 	</bean>
 
-	<amq:broker useJmx="true" persistent="false"
-		xmlns="http://activemq.apache.org/schema/core">
+	<amq:broker useJmx="false" persistent="false"
+		xmlns="http://activemq.apache.org/schema/core" startAsync="true">
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
@@ -43,16 +44,15 @@
 	</amq:broker>
 
 	<broker id="broker" brokerName="router" persistent="true"
-		useJmx="${activemq.broker.useJmx}" xmlns="http://activemq.apache.org/schema/core"
-		start="false">
-
+		useJmx="true" xmlns="http://activemq.apache.org/schema/core"
+		startAsync="true" >
+<!-- start="false"  -->
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
 			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
 		<managementContext>
-			<managementContext createConnector="true" />
+			<managementContext createConnector="true" connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
 		</managementContext>
-
 
 		<!-- <networkConnectors xmlns="http://activemq.apache.org/schema/core"> 
 			<networkConnector uri="multicast://default" name="queues_only" conduitSubscriptions="false" 

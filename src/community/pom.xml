@@ -157,5 +157,17 @@
 				<module>cluster</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>activemq</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>cluster</module>
+			</modules>
+		</profile>
   </profiles>
 </project>
