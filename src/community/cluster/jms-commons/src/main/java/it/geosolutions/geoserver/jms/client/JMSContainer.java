@@ -8,6 +8,7 @@ import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,9 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 	@Autowired
 	public JMSFactory jmsFactory;
 
+	@Autowired
+	public List<JMSContainerHandlerExceptionListener> jmsContainerHandleExceptionListener;
+
 	private JMSConfiguration config;
 	//
 	// private JMSQueueListener listener;
@@ -29,18 +33,20 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
 	public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
 		super();
-		
+
 		// the listener used to handle incoming events
 		setMessageListener(listener);
 		// configuration
 		this.config = config;
-		
+
 		// TODO ad-hoc config
-		final String startString = config
-				.getConfiguration(ToggleConfiguration.TOGGLE_CONSUMER_KEY);
-		if (startString != null) {
-			setAutoStartup(Boolean.parseBoolean(startString));
-		}
+//		final String startString = config
+//				.getConfiguration(ToggleConfiguration.TOGGLE_CONSUMER_KEY);
+//		if (startString != null) {
+//			setAutoStartup(Boolean.parseBoolean(startString));
+//		} else {
+			setAutoStartup(false);
+//		}
 	}
 
 	@PostConstruct
@@ -60,13 +66,23 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 	public void start() throws JmsException {
 		if (!verified) {
 			verify(jmsFactory, "failed to get a JMSFactory");
-			verify(config, "configuration is null");
 			verified = true;
 		}
-//		if (!isActive()) {
+		if (!isRunning()) {
 			init();
 			super.start();
-//		}
+		}
 	}
 
+	@Override
+	protected void handleListenerSetupFailure(Throwable ex,
+			boolean alreadyRecovered) {
+		super.handleListenerSetupFailure(ex, alreadyRecovered);
+
+		if (jmsContainerHandleExceptionListener != null) {
+			for (JMSContainerHandlerExceptionListener handler : jmsContainerHandleExceptionListener) {
+				handler.handleListenerSetupFailure(ex, alreadyRecovered);
+			}
+		}
+	}
 }

@@ -16,6 +16,7 @@ import org.geoserver.platform.GeoServerExtensions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
+import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
  * 
@@ -32,11 +33,13 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
 
 	public BrokerConfiguration() throws IllegalArgumentException, IOException {
 		// override default storage dir
-		final File root = GeoServerExtensions
-				.bean(GeoServerDataDirectory.class).findDataRoot();
-		if (root != null) {
-			JMSConfiguration.setConfigPathDir(root);
-		}
+
+		// final File root = GeoServerExtensions
+		// .bean(GeoServerDataDirectory.class).findDataRoot();
+		// if (root != null) {
+		JMSConfiguration.setConfigPathDir(GeoserverDataDirectory
+				.getGeoserverDataDirectory());
+		// }
 	}
 
 	@Autowired
@@ -59,13 +62,12 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
 
 	@Override
 	public boolean checkForOverride(JMSConfiguration config) throws IOException {
-		return config.checkForOverride(BROKER_URL_KEY,
-				DEFAULT_BROKER_URL);
-//		if (!override) {
-//			initDefaults(config);
-//			override = true;
-//		}
-//		return override;
+		return config.checkForOverride(BROKER_URL_KEY, DEFAULT_BROKER_URL);
+		// if (!override) {
+		// initDefaults(config);
+		// override = true;
+		// }
+		// return override;
 	}
 
 }
