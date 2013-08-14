@@ -21,6 +21,7 @@ import org.geoserver.security.web.AbstractSecurityWicketTestSupport;
 import org.geoserver.web.ComponentBuilder;
 import org.geoserver.web.FormTestPage;
 import org.springframework.ldap.test.LdapTestUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * 
@@ -53,6 +54,9 @@ public class LDAPAuthProviderPanelTest extends AbstractSecurityWicketTestSupport
         LdapTestUtils
                 .destroyApacheDirectoryServer(LdapTestUtils.DEFAULT_PRINCIPAL,
                         LdapTestUtils.DEFAULT_PASSWORD);
+        if(SecurityContextHolder.getContext() != null) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
         super.tearDownInternal();
     }
     
