@@ -49,6 +49,17 @@
 	<bean id="JMSContainerHandlerExceptionListenerImpl"
 		class="it.geosolutions.geoserver.jms.impl.web.JMSContainerHandlerExceptionListenerImpl" />
 
+	<!-- CLIENT -->
+
+	<bean id="ReadOnlyGeoServerLoader"
+		class="it.geosolutions.geoserver.jms.client.ReadOnlyGeoServerLoader" >
+<!-- 		depends-on="geoServerLoader" -->
+		<constructor-arg index="0" ref="resourceLoader" />
+		<constructor-arg index="1" ref="geoServer" />
+	</bean>
+
+	<!-- COMMON -->
+
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
 	<context:annotation-config />
