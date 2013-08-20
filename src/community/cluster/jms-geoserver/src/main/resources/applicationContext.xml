@@ -13,7 +13,9 @@
                            http://activemq.apache.org/schema/core
                            http://activemq.apache.org/schema/core/activemq-core.xsd">
 
+	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
+	<context:annotation-config />
 
 	<!-- Configuration -->
 	<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
@@ -51,18 +53,22 @@
 
 	<!-- CLIENT -->
 
-	<bean id="ReadOnlyGeoServerLoader"
-		class="it.geosolutions.geoserver.jms.client.ReadOnlyGeoServerLoader" >
-<!-- 		depends-on="geoServerLoader" -->
+	<bean id="JMSReadOnlyGeoServerLoader" class="org.geoserver.config.ReadOnlyGeoServerLoader">
 		<constructor-arg index="0" ref="resourceLoader" />
-		<constructor-arg index="1" ref="geoServer" />
+	</bean>
+
+	<bean id="JMSReadOnlyConfiguration"
+		class="it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration">
 	</bean>
 
 	<!-- COMMON -->
 
-	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
-
-	<context:annotation-config />
+	<!-- needs depends on JMSReadOnlyGeoServerLoader as workaround to wait for 
+		loading static elements from GeoServerDataDir -->
+	<bean id="JMSConfigDirConfiguration"
+		class="it.geosolutions.geoserver.jms.impl.configuration.ConfigDirConfiguration">
+<!-- 		depends-on="JMSReadOnlyGeoServerLoader"> -->
+	</bean>
 
 	<bean id="JMSTopicConfiguration"
 		class="it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration">

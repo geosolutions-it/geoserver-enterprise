@@ -16,52 +16,50 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RestDispatcherCallback implements DispatcherCallback {
-	final static Logger LOGGER = LoggerFactory
-			.getLogger(RestDispatcherCallback.class);
-	private static final ThreadLocal<List<Parameter>> parameters = new ThreadLocal<List<Parameter>>();
+    final static Logger LOGGER = LoggerFactory.getLogger(RestDispatcherCallback.class);
 
-	public static List<Parameter> getParameters() {
-		return parameters.get();
-	}
+    private static final ThreadLocal<List<Parameter>> parameters = new ThreadLocal<List<Parameter>>();
 
-	@Override
-	public void init(Request request, Response response) {
+    public static List<Parameter> getParameters() {
+        return parameters.get();
+    }
 
-		if (LOGGER.isDebugEnabled()) {
-			final Iterator<Parameter> it = request.getResourceRef().getQueryAsForm()
-					.iterator();
-			while (it.hasNext()) {
-				Parameter p = it.next();
-				if (LOGGER.isInfoEnabled()) {
-					LOGGER.info("Registering incoming parameter: "
-							+ p.toString());
-				}
-			}
-		}
-		parameters.set(request.getResourceRef().getQueryAsForm());
+    @Override
+    public void init(Request request, Response response) {
 
-		// check purge parameter to determine if the underlying file
-		// should be deleted
-		// boolean purge = (p != null) ? Boolean.parseBoolean(p) : false;
-		// catalog.getResourcePool().deleteStyle(s, purge);
+        if (LOGGER.isDebugEnabled()) {
+            final Iterator<Parameter> it = request.getResourceRef().getQueryAsForm().iterator();
+            while (it.hasNext()) {
+                Parameter p = it.next();
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("Registering incoming parameter: " + p.toString());
+                }
+            }
+        }
+        parameters.set(request.getResourceRef().getQueryAsForm());
 
-		// LOGGER.info( "DELETE style " + style);
+        // check purge parameter to determine if the underlying file
+        // should be deleted
+        // boolean purge = (p != null) ? Boolean.parseBoolean(p) : false;
+        // catalog.getResourcePool().deleteStyle(s, purge);
 
-	}
+        // LOGGER.info( "DELETE style " + style);
 
-	@Override
-	public void dispatched(Request request, Response response, Restlet restlet) {
+    }
 
-	}
+    @Override
+    public void dispatched(Request request, Response response, Restlet restlet) {
 
-	@Override
-	public void exception(Request request, Response response, Exception error) {
+    }
 
-	}
+    @Override
+    public void exception(Request request, Response response, Exception error) {
 
-	@Override
-	public void finished(Request request, Response response) {
+    }
 
-	}
+    @Override
+    public void finished(Request request, Response response) {
+
+    }
 
 }

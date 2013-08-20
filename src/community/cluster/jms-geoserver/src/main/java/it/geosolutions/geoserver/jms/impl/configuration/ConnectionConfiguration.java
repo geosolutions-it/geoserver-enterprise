@@ -4,14 +4,13 @@
  */
 package it.geosolutions.geoserver.jms.impl.configuration;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.JMSConfigurationExt;
 import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer;
+
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -20,30 +19,35 @@ import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer
  * @author carlo cancellieri - GeoSolutions SAS
  * 
  */
-final public class TopicConfiguration implements JMSConfigurationExt {
+final public class ConnectionConfiguration implements JMSConfigurationExt {
 
-    public static final String TOPIC_NAME_KEY = "topicName";
+    public static final String CONNECTION_KEY = "connection";
 
-    public static final String DEFAULT_TOPIC_NAME = "VirtualTopic.>";
+    public static final ConnectionConfigurationStatus DEFAULT_CONNECTION_STATUS = ConnectionConfigurationStatus.enabled;
+    
+    public static enum ConnectionConfigurationStatus {
+        enabled,
+        disabled
+    }
 
     @Autowired
-    @Qualifier("JMSPropertyPlaceholderConfigurer")
+    // @Qualifier("JMSPropertyPlaceholderConfigurer")
     JMSPropertyPlaceholderConfigurer commonConfiguration;
 
     @Override
     public void initDefaults(JMSConfiguration config) throws IOException {
-        String url = null;
+        String status = null;
 
         if (commonConfiguration != null) {
-            url = commonConfiguration.getMergedProperties().getProperty(TOPIC_NAME_KEY);
+            status = commonConfiguration.getMergedProperties().getProperty(CONNECTION_KEY);
         }
 
-        config.putConfiguration(TOPIC_NAME_KEY, url != null ? url : DEFAULT_TOPIC_NAME);
+        config.putConfiguration(CONNECTION_KEY, status != null ? status : DEFAULT_CONNECTION_STATUS.toString());
     }
 
     @Override
     public boolean checkForOverride(JMSConfiguration config) throws IOException {
-        return config.checkForOverride(TOPIC_NAME_KEY, DEFAULT_TOPIC_NAME);
+        return config.checkForOverride(CONNECTION_KEY, DEFAULT_CONNECTION_STATUS);
     }
 
 }

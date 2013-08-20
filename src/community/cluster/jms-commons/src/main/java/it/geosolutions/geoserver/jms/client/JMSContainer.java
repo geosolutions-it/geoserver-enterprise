@@ -6,7 +6,6 @@ package it.geosolutions.geoserver.jms.client;
 
 import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 
 import java.util.List;
 import java.util.Properties;
@@ -41,7 +40,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
 		// TODO ad-hoc config
 //		final String startString = config
-//				.getConfiguration(ToggleConfiguration.TOGGLE_SLAVE_KEY);
+//				.getConfiguration(ConnectionConfiguration.TOGGLE_SLAVE_KEY);
 //		if (startString != null) {
 //			setAutoStartup(Boolean.parseBoolean(startString));
 //		} else {

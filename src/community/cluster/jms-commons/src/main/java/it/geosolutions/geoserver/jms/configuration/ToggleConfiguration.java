@@ -13,23 +13,23 @@ package it.geosolutions.geoserver.jms.configuration;
 final public class ToggleConfiguration implements JMSConfigurationExt {
 
 	public static final String TOGGLE_MASTER_KEY = "toggleMaster";
-	public static final String DEFAULT_PRODUCER_STATUS = "true";
+	public static final String DEFAULT_MASTER_STATUS = "true";
 
 	public static final String TOGGLE_SLAVE_KEY = "toggleSlave";
-	public static final String DEFAULT_CONSUMER_STATUS = "true";
+	public static final String DEFAULT_SLAVE_STATUS = "true";
 
 	@Override
 	public void initDefaults(JMSConfiguration config) {
-		config.putConfiguration(TOGGLE_MASTER_KEY, DEFAULT_PRODUCER_STATUS);
-		config.putConfiguration(TOGGLE_SLAVE_KEY, DEFAULT_CONSUMER_STATUS);
+		config.putConfiguration(TOGGLE_MASTER_KEY, DEFAULT_MASTER_STATUS);
+		config.putConfiguration(TOGGLE_SLAVE_KEY, DEFAULT_SLAVE_STATUS);
 	}
 
 	@Override
 	public boolean checkForOverride(JMSConfiguration config) {
 		return config.checkForOverride(TOGGLE_MASTER_KEY,
-				DEFAULT_PRODUCER_STATUS)
+				DEFAULT_MASTER_STATUS)
 				|| config.checkForOverride(TOGGLE_SLAVE_KEY,
-						DEFAULT_CONSUMER_STATUS);
+						DEFAULT_SLAVE_STATUS);
 	}
 
 }

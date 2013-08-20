@@ -6,7 +6,6 @@ package it.geosolutions.geoserver.jms.server;
 
 import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSFactory;
-import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
 import javax.jms.ConnectionFactory;
@@ -18,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
- * JMS MASTER (Producer) Listener used to provide basic functionalities to the
- * producer implementations
+ * JMS MASTER (Producer) Listener used to provide basic functionalities to the producer implementations
  * 
  * @see {@link JMSApplicationListener}
  * 
@@ -28,47 +26,39 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public abstract class JMSAbstractProducer extends JMSApplicationListener {
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(JMSAbstractProducer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(JMSAbstractProducer.class);
 
-	@Autowired
-	public JMSConfiguration config;
+    @Autowired
+    public JMSFactory jmsFactory;
 
-	@Autowired
-	public JMSFactory jmsFactory;
+    /**
+     * @return the jmsTemplate
+     */
+    public final JmsTemplate getJmsTemplate() {
 
-	/**
-	 * @return the jmsTemplate
-	 */
-	public final JmsTemplate getJmsTemplate() {
+        final ConnectionFactory cf = jmsFactory.getConnectionFactory(config.getConfigurations());
+        if (cf == null) {
+            throw new IllegalStateException("Unable to load a connectionFactory");
+        }
+        return new JmsTemplate(cf);
+    }
 
-		final ConnectionFactory cf = jmsFactory.getConnectionFactory(config
-				.getConfigurations());
-		if (cf == null) {
-			throw new IllegalStateException(
-					"Unable to load a connectionFactory");
-		}
-		return new JmsTemplate(cf);
-	}
+    public final Destination getDestination() {
+        final Destination jmsDestination = jmsFactory.getServerDestination(config
+                .getConfigurations());
+        if (jmsDestination == null) {
+            throw new IllegalStateException("Unable to load a JMS destination");
+        }
+        return jmsDestination;
+    }
 
-	public final Destination getDestination() {
-		final Destination jmsDestination = jmsFactory
-				.getServerDestination(config.getConfigurations());
-		if (jmsDestination == null) {
-			throw new IllegalStateException("Unable to load a JMS destination");
-		}
-		return jmsDestination;
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param topicTemplate
-	 *            the getJmsTemplate() object used to send message to the topic
-	 *            queue
-	 * 
-	 */
-	public JMSAbstractProducer() {
-		super(ToggleType.MASTER);
-	}
+    /**
+     * Constructor
+     * 
+     * @param topicTemplate the getJmsTemplate() object used to send message to the topic queue
+     * 
+     */
+    public JMSAbstractProducer() {
+        super(ToggleType.MASTER);
+    }
 }
