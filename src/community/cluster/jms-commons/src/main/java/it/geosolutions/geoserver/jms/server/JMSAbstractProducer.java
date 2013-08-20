@@ -69,6 +69,6 @@ public abstract class JMSAbstractProducer extends JMSApplicationListener {
 	 * 
 	 */
 	public JMSAbstractProducer() {
-		super(ToggleType.PRODUCER);
+		super(ToggleType.MASTER);
 	}
 }

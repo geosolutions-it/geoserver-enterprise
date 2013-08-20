@@ -18,11 +18,11 @@
 	<context:annotation-config />
 
 	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0" value="PRODUCER" />
+		<constructor-arg index="0" value="MASTER" />
 	</bean>
 
 	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0" value="CONSUMER" />
+		<constructor-arg index="0" value="SLAVE" />
 	</bean>
 
 	<bean id="JMSToggleConfiguration"

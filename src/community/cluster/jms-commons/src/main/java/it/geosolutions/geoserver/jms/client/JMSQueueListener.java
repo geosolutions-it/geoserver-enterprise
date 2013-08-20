@@ -46,7 +46,7 @@ public class JMSQueueListener extends JMSApplicationListener implements SessionA
 	public JMSConfiguration config;
 	
 	public JMSQueueListener() {
-		super(ToggleType.CONSUMER);
+		super(ToggleType.SLAVE);
 	}
 
 	@Override

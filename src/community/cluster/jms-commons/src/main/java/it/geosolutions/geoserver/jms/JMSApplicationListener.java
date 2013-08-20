@@ -38,12 +38,12 @@ public class JMSApplicationListener implements
 
 	public JMSApplicationListener(ToggleType type) {
 		this.type = type;
-		// if (type.equals(ToggleType.CONSUMER)){
+		// if (type.equals(ToggleType.SLAVE)){
 		// status = config
-		// .getConfiguration(ToggleConfiguration.TOGGLE_CONSUMER_KEY);
+		// .getConfiguration(ToggleConfiguration.TOGGLE_SLAVE_KEY);
 		// } else {
 		// status = config
-		// .getConfiguration(ToggleConfiguration.TOGGLE_PRODUCER_KEY);
+		// .getConfiguration(ToggleConfiguration.TOGGLE_MASTER_KEY);
 		// }
 	}
 

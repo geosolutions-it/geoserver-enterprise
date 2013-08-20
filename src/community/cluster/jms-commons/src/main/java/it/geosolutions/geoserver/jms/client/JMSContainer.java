@@ -41,7 +41,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
 		// TODO ad-hoc config
 //		final String startString = config
-//				.getConfiguration(ToggleConfiguration.TOGGLE_CONSUMER_KEY);
+//				.getConfiguration(ToggleConfiguration.TOGGLE_SLAVE_KEY);
 //		if (startString != null) {
 //			setAutoStartup(Boolean.parseBoolean(startString));
 //		} else {

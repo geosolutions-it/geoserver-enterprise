@@ -10,23 +10,18 @@ import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
-import java.awt.TextArea;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.slf4j.Logger;
@@ -50,6 +45,18 @@ public class ClusterPage extends GeoServerSecuredPage {
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(ClusterPage.class);
+
+	private Model<String> getConnectionModel() {
+		final JMSContainer c = getJMSContainer();
+		final FeedbackPanel fp = getFeedbackPanel();
+		if (c.isRunning() && c.isRegisteredWithDestination()) {
+			fp.info("GeoServer is connected and registered to the topic destination");
+			return new Model<String>("true");
+		} else {
+			fp.error("Impossible to register GeoServer to destination, please check the broker.");
+			return new Model<String>("false");
+		}
+	}
 
 	public ClusterPage() {
 
@@ -75,15 +82,17 @@ public class ClusterPage extends GeoServerSecuredPage {
 		final TextField<String> topicName = new TextField<String>("topicName");
 		form.add(topicName);
 
+		final JMSContainer c = getJMSContainer();
+
 		// TODO
 		// final String connectionStatusString = null;//
 		// getConfig().getConfiguration(null);
-		final Model<String> connectionStatusModel;
+		final Model<String> connectionStatusModel = getConnectionModel();
 		// if (connectionStatusString != null
 		// && Boolean.parseBoolean(connectionStatusString)) {
 		// connectionStatusModel = new Model<String>(connectionStatusString);
 		// } else {
-		connectionStatusModel = new Model<String>("true");
+		// connectionStatusModel = new Model<String>("true");
 		// }
 
 		final TextField<String> connectionInfo = new TextField<String>(
@@ -97,7 +106,7 @@ public class ClusterPage extends GeoServerSecuredPage {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target,
 					org.apache.wicket.markup.html.form.Form<?> form) {
-				JMSContainer c = getJMSContainer();
+				final JMSContainer c = getJMSContainer();
 				boolean switchTo = !Boolean.parseBoolean(connectionStatusModel
 						.getObject());
 				// switchTo=!switchTo;
@@ -140,18 +149,18 @@ public class ClusterPage extends GeoServerSecuredPage {
 						}
 						fp.info("Checking the connection...");
 						if (c.isRegisteredWithDestination()) {
-							fp.info("Now the consumer is registered with the topic destination");
+							fp.info("Now GeoServer is registered with the topic destination");
 							switchTo = true;
 							break;
 						} else {
-							fp.error("Impossible to register with destination, please check the broker.");
+							fp.error("Impossible to register GeoServer with destination, please check the broker.");
 							switchTo = false;
 						}
 					}
 				}
 				connectionStatusModel.setObject(Boolean.toString(switchTo));
 				getConfig().putConfiguration(
-						ToggleConfiguration.TOGGLE_PRODUCER_KEY,
+						ToggleConfiguration.TOGGLE_MASTER_KEY,
 						Boolean.toString(switchTo));
 				target.addComponent(connectionInfo);
 				target.addComponent(fp);
@@ -162,115 +171,11 @@ public class ClusterPage extends GeoServerSecuredPage {
 		connection.setOutputMarkupPlaceholderTag(true);
 		form.add(connection);
 
-		addToggle(ToggleConfiguration.TOGGLE_PRODUCER_KEY, ToggleType.PRODUCER,
-				"toggleProducerInfo", "toggleProducer", form, fp);
+		addToggle(ToggleConfiguration.TOGGLE_MASTER_KEY, ToggleType.MASTER,
+				"toggleMasterInfo", "toggleMaster", form, fp);
 
-		// final String producerStatusString = getConfig().getConfiguration(
-		// ToggleConfiguration.TOGGLE_PRODUCER_KEY);
-		// final Model<Boolean> producerStatusModel;
-		// if (producerStatusString != null) {
-		// producerStatusModel = new Model<Boolean>(
-		// Boolean.parseBoolean(producerStatusString));
-		// } else {
-		// producerStatusModel = new Model<Boolean>(false);
-		// }
-		//
-		// final TextField<Boolean> toggleProducerInfo = new TextField<Boolean>(
-		// "toggleProducerInfo", producerStatusModel);
-		// form.add(toggleProducerInfo);
-		//
-		// final AjaxButton toggleProducer = new AjaxButton("toggleProducer") {
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// protected void onError(AjaxRequestTarget target,
-		// org.apache.wicket.markup.html.form.Form<?> form) {
-		// fp.error("ERROR");
-		//
-		// target.addComponent(fp);
-		// };
-		//
-		// @Override
-		// protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-		// final ApplicationContext ctx = getGeoServerApplication()
-		// .getApplicationContext();
-		// final IModel<Boolean> model = toggleProducerInfo.getModel();
-		// final boolean switchTo = !Boolean.parseBoolean(model
-		// .getObject().toString());
-		// ctx.publishEvent(new ToggleEvent(switchTo, ToggleType.PRODUCER));
-		// getConfig().putConfiguration(
-		// ToggleConfiguration.TOGGLE_PRODUCER_KEY,
-		// Boolean.toString(switchTo));
-		// producerStatusModel.setObject(switchTo);
-		// if (switchTo) {
-		// fp.info("The MASTER (producer) toggle is now ENABLED");
-		// } else {
-		// fp.warn("The MASTER (producer) toggle is now DISABLED no event will be posted to the broker");
-		// fp.info("Note that the MASTER is still registered to the topic destination");
-		// }
-		// model.setObject(switchTo);
-		// target.addComponent(this);
-		// target.addComponent(fp);
-		//
-		// }
-		// };
-		// toggleProducer.setRenderBodyOnly(false);
-		// // toggleProducer.setLabel(new StringResourceModel("toggleProducer",
-		// // new Model<Boolean>(producerStatus)));
-		// // Enabled(true);
-		// // toggleProducer.setVisible(true);
-		// form.add(toggleProducer);
-		//
-		// final String consumerStatusString = getConfig().getConfiguration(
-		// ToggleConfiguration.TOGGLE_CONSUMER_KEY);
-		// final boolean consumerStatus;
-		// if (producerStatusString != null) {
-		// consumerStatus = Boolean.parseBoolean(consumerStatusString);
-		// } else {
-		// consumerStatus = false;
-		// }
-
-		addToggle(ToggleConfiguration.TOGGLE_CONSUMER_KEY, ToggleType.CONSUMER,
-				"toggleConsumerInfo", "toggleConsumer", form, fp);
-
-		// final LabelModel toggleConsumerLabel = new
-		// LabelModel("toggleProducer");
-		// final PropertyModel<String> toggleConsumerModel = new
-		// PropertyModel<String>(
-		// toggleConsumerLabel, "label");
-		//
-		// final AjaxLink<String> toggleConsumer = new AjaxLink<String>(
-		// "toggleConsumer", toggleConsumerModel) {
-		//
-		// private static final long serialVersionUID = -7224427619057260577L;
-		//
-		// @Override
-		// public void onClick(AjaxRequestTarget target) {
-		// final ApplicationContext ctx = getGeoServerApplication()
-		// .getApplicationContext();
-		// ctx.publishEvent(new ToggleEvent(consumerStatus,
-		// ToggleType.CONSUMER));
-		// getConfig().putConfiguration(
-		// ToggleConfiguration.TOGGLE_CONSUMER_KEY,
-		// Boolean.toString(consumerStatus));
-		// if (consumerStatus) {
-		// fp.info("The SLAVE (consumer) toggle is now ENABLED");
-		// } else {
-		// fp.warn("The SLAVE (consumer) toggle is now DISABLED all the incoming events will be discarded");
-		// fp.info("Note that the SLAVE is still registered to the topic destination");
-		// }
-		//
-		// target.addComponent(this);
-		// target.addComponent(fp);
-		// }
-		//
-		// };
-		// // toggleConsumer.set(toggleConsumerModel);
-		// // toggleConsumer.setEnabled(true);
-		// // toggleConsumer.setVisible(true);
-		// toggleConsumer.setOutputMarkupPlaceholderTag(true);
-		// toggleConsumer.setOutputMarkupId(true);
-		// form.add(toggleConsumer);
+		addToggle(ToggleConfiguration.TOGGLE_SLAVE_KEY, ToggleType.SLAVE,
+				"toggleSlaveInfo", "toggleSlave", form, fp);
 
 		final Button save = new Button("save", new StringResourceModel("save",
 				this, null)) {
@@ -327,12 +232,12 @@ public class ClusterPage extends GeoServerSecuredPage {
 		producerStatusModel = new Model<String>("true");
 		// }
 
-		final TextField<String> toggleProducerInfo = new TextField<String>(
+		final TextField<String> toggleMasterInfo = new TextField<String>(
 				textFieldId, producerStatusModel);
-		toggleProducerInfo.setOutputMarkupId(true);
-		toggleProducerInfo.setOutputMarkupPlaceholderTag(true);
-		toggleProducerInfo.setEnabled(false);
-		form.add(toggleProducerInfo);
+		toggleMasterInfo.setOutputMarkupId(true);
+		toggleMasterInfo.setOutputMarkupPlaceholderTag(true);
+		toggleMasterInfo.setEnabled(false);
+		form.add(toggleMasterInfo);
 
 		final AjaxButton toggle = new AjaxButton(buttonId) {
 			private static final long serialVersionUID = 1L;
@@ -352,8 +257,8 @@ public class ClusterPage extends GeoServerSecuredPage {
 				final ApplicationContext ctx = getGeoServerApplication()
 						.getApplicationContext();
 				ctx.publishEvent(new ToggleEvent(switchTo, type));
-//				getConfig().putConfiguration(configKey,
-//						Boolean.toString(switchTo));
+				// getConfig().putConfiguration(configKey,
+				// Boolean.toString(switchTo));
 				if (switchTo) {
 					fp.info("The " + type + " toggle is now ENABLED");
 				} else {
@@ -364,18 +269,19 @@ public class ClusterPage extends GeoServerSecuredPage {
 							+ " is still registered to the topic destination");
 				}
 				producerStatusModel.setObject(Boolean.toString(switchTo));
-				target.addComponent(toggleProducerInfo);
+				target.addComponent(toggleMasterInfo);
 				target.addComponent(fp);
 
 			}
 		};
 		toggle.setRenderBodyOnly(false);
-		// toggleProducer.setLabel(new StringResourceModel("toggleProducer",
+		// toggleMaster.setLabel(new StringResourceModel("toggleMaster",
 		// new Model<Boolean>(producerStatus)));
 		// Enabled(true);
-		// toggleProducer.setVisible(true);
+		// toggleMaster.setVisible(true);
 		form.add(toggle);
 
+		// add(new Monitor(Duration.seconds(10)));
 	}
 
 	private static class LabelModel implements Serializable {
@@ -393,4 +299,13 @@ public class ClusterPage extends GeoServerSecuredPage {
 			return label;
 		}
 	}
+
+	// private static class Monitor extends AjaxSelfUpdatingTimerBehavior {
+	//
+	//
+	// public Monitor(Duration updateInterval) {
+	// super(updateInterval);
+	// }
+	//
+	// }
 }
