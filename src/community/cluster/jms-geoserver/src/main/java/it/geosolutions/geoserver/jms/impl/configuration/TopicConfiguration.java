@@ -4,14 +4,13 @@
  */
 package it.geosolutions.geoserver.jms.impl.configuration;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.JMSConfigurationExt;
 import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer;
+
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -27,7 +26,6 @@ final public class TopicConfiguration implements JMSConfigurationExt {
     public static final String DEFAULT_TOPIC_NAME = "VirtualTopic.>";
 
     @Autowired
-    @Qualifier("JMSPropertyPlaceholderConfigurer")
     JMSPropertyPlaceholderConfigurer commonConfiguration;
 
     @Override

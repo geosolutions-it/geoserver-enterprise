@@ -40,7 +40,8 @@
 
 	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener" />
 
-	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer">
+	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer"
+		destroy-method="shutdown">
 		<constructor-arg index="0" ref="JMSConfiguration" />
 		<constructor-arg index="1" ref="JMSQueueListener" />
 	</bean>

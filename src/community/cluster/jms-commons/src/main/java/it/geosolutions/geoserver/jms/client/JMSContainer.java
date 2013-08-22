@@ -18,70 +18,70 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 final public class JMSContainer extends DefaultMessageListenerContainer {
 
-	@Autowired
-	public JMSFactory jmsFactory;
+    @Autowired
+    public JMSFactory jmsFactory;
 
-	@Autowired
-	public List<JMSContainerHandlerExceptionListener> jmsContainerHandleExceptionListener;
+    @Autowired
+    public List<JMSContainerHandlerExceptionListener> jmsContainerHandleExceptionListener;
 
-	private JMSConfiguration config;
-	//
-	// private JMSQueueListener listener;
+    private JMSConfiguration config;
 
-	private boolean verified = false;
+    private boolean verified = false;
 
-	public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
-		super();
+    public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
+        super();
 
-		// the listener used to handle incoming events
-		setMessageListener(listener);
-		// configuration
-		this.config = config;
+        // the listener used to handle incoming events
+        setMessageListener(listener);
+        // configuration
+        this.config = config;
 
-		// TODO ad-hoc config
-//		final String startString = config
-//				.getConfiguration(ConnectionConfiguration.TOGGLE_SLAVE_KEY);
-//		if (startString != null) {
-//			setAutoStartup(Boolean.parseBoolean(startString));
-//		} else {
-			setAutoStartup(false);
-//		}
-	}
+    }
 
-	@PostConstruct
-	private void init() {
-		final Properties conf = config.getConfigurations();
-		setDestination(jmsFactory.getClientDestination(conf));
-		setConnectionFactory(jmsFactory.getConnectionFactory(conf));
-	}
+    @PostConstruct
+    private void init() {
+        // TODO ad-hoc config
+        // final String startString = config
+        // .getConfiguration(ConnectionConfiguration.TOGGLE_SLAVE_KEY);
+        // if (startString != null) {
+        // setAutoStartup(Boolean.parseBoolean(startString));
+        // } else {
+        setAutoStartup(false);
+        // }
 
-	private static void verify(final Object type, final String message) {
-		if (type == null)
-			throw new IllegalArgumentException(message != null ? message
-					: "Verify fails the argument check");
-	}
+        final Properties conf = config.getConfigurations();
+        setDestination(jmsFactory.getClientDestination(conf));
+        setConnectionFactory(jmsFactory.getConnectionFactory(conf));
+        
+        initialize();
+    }
 
-	@Override
-	public void start() throws JmsException {
-		if (!verified) {
-			verify(jmsFactory, "failed to get a JMSFactory");
-			verified = true;
-		}
-		if (!isRunning()) {
-			init();
-			super.start();
-		}
-	}
+    private static void verify(final Object type, final String message) {
+        if (type == null)
+            throw new IllegalArgumentException(message != null ? message
+                    : "Verify fails the argument check");
+    }
 
-	@Override
-	protected void handleListenerSetupFailure(Throwable ex,
-			boolean alreadyRecovered) {
-		super.handleListenerSetupFailure(ex, alreadyRecovered);
+    @Override
+    public void start() throws JmsException {
+        if (!verified) {
+            verify(jmsFactory, "failed to get a JMSFactory");
+            verified = true;
+        }
+        if (!isRunning()) {
+            init();
+            super.start();
+        }
+    }
 
-		if (jmsContainerHandleExceptionListener != null) {
-			for (JMSContainerHandlerExceptionListener handler : jmsContainerHandleExceptionListener) {
-				handler.handleListenerSetupFailure(ex, alreadyRecovered);
-			}
-		}
-	}
+    @Override
+    protected void handleListenerSetupFailure(Throwable ex, boolean alreadyRecovered) {
+        super.handleListenerSetupFailure(ex, alreadyRecovered);
+
+        if (jmsContainerHandleExceptionListener != null) {
+            for (JMSContainerHandlerExceptionListener handler : jmsContainerHandleExceptionListener) {
+                handler.handleListenerSetupFailure(ex, alreadyRecovered);
+            }
+        }
+    }
 }

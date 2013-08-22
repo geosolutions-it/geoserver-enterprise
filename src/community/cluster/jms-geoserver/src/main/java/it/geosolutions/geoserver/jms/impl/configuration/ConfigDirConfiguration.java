@@ -21,24 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author carlo cancellieri - GeoSolutions SAS
  * 
  */
-// @DependsOn("JMSReadOnlyGeoServerLoader")
 final public class ConfigDirConfiguration implements JMSConfigurationExt {
 
     @Autowired
     GeoServerResourceLoader loader;
 
     public ConfigDirConfiguration() throws IllegalArgumentException, IOException {
-        // override default storage dir
-
-        // final File root = GeoServerExtensions
-        // .bean(GeoServerDataDirectory.class).findDataRoot();
-        // if (root != null) {
     }
 
     @PostConstruct
     private void init() {
         JMSConfiguration.setConfigPathDir(loader.getBaseDirectory());
-        // }
     }
 
     @Override

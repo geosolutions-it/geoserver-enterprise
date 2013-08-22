@@ -11,12 +11,14 @@ import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 import it.geosolutions.geoserver.jms.impl.configuration.BrokerConfiguration;
 import it.geosolutions.geoserver.jms.impl.configuration.ConnectionConfiguration;
+import it.geosolutions.geoserver.jms.impl.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
 import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration;
 import it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Properties;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -90,34 +92,36 @@ public class ClusterPage extends GeoServerSecuredPage {
         fp.setOutputMarkupId(true);
 
         // form and submit
-        final Form form = new Form("form", new CompoundPropertyModel(getConfig()
-                .getConfigurations()));
+        final Form<Properties> form = new Form<Properties>("form",
+                new CompoundPropertyModel<Properties>(getConfig().getConfigurations()));
 
+        // add broker URL setting
         final TextField<String> brokerURL = new TextField<String>(
                 BrokerConfiguration.BROKER_URL_KEY);
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        brokerURL.setType(String.class);
         form.add(brokerURL);
 
+        // add instance name setting
         final TextField<String> instanceName = new TextField<String>(
                 JMSConfiguration.INSTANCE_NAME_KEY);
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        instanceName.setType(String.class);
         form.add(instanceName);
 
+        // add topic name setting
         final TextField<String> topicName = new TextField<String>(TopicConfiguration.TOPIC_NAME_KEY);
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        topicName.setType(String.class);
         form.add(topicName);
 
-        // TODO
-        // final String connectionStatusString = null;//
-        // getConfig().getConfiguration(null);
-        // final Model<String> connectionStatusModel = getConnectionModel();
-        // if (connectionStatusString != null
-        // && Boolean.parseBoolean(connectionStatusString)) {
-        // connectionStatusModel = new Model<String>(connectionStatusString);
-        // } else {
-        // connectionStatusModel = new Model<String>("true");
-        // }
+        // add connection status info
         final TextField<String> connectionInfo = new TextField<String>(
                 ConnectionConfiguration.CONNECTION_KEY);
-        // final TextField<String> connectionInfo = new TextField<String>(ConnectionConfiguration.CONNECTION_KEY,
-        // connectionStatusModel);
+
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        connectionInfo.setType(String.class);
+
         connectionInfo.setOutputMarkupId(true);
         connectionInfo.setOutputMarkupPlaceholderTag(true);
         connectionInfo.setEnabled(false);
@@ -125,64 +129,67 @@ public class ClusterPage extends GeoServerSecuredPage {
 
         final AjaxButton connection = new AjaxButton("connectionB", new StringResourceModel(
                 ConnectionConfiguration.CONNECTION_KEY, this, null)) {
+            /** serialVersionUID */
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void onSubmit(AjaxRequestTarget target,
                     org.apache.wicket.markup.html.form.Form<?> form) {
                 final JMSContainer c = getJMSContainer();
-                // boolean switchTo = !Boolean.parseBoolean(connectionStatusModel
-                // .getObject());
-                // switchTo=!switchTo;
 
+                final int max = 3;
+                final long maxWait=2000;
                 if (c.isRunning()) {
                     fp.info("Disconnecting...");
                     c.stop();
-                    fp.info("Disconnected");
-
-                    for (int rep = 1; rep <= 0; ++rep) {
-                        fp.info("Waiting for connection shutdown...(" + rep + "/3)");
+                    c.shutdown();
+                    for (int rep = 1; rep <= max; ++rep) {
+                        fp.info("Waiting for connection shutdown...(" + rep + "/" + max + ")");
                         try {
-                            Thread.sleep(1);
+                            Thread.sleep(maxWait);
                         } catch (InterruptedException e) {
                             fp.warn(e.getLocalizedMessage());
                             LOGGER.error(e.getLocalizedMessage(), e);
                         }
-                        fp.info("Checking the connection...");
+                        fp.info("Unregistering...");
                         if (!c.isRegisteredWithDestination()) {
                             fp.info("Succesfully un-registered from the destination topic");
                             fp.warn("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
                             // connectionStatusModel.setObject("Not registered");
-                            connectionInfo.getModel().setObject("disabled");
+                            connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
                             break;
                         }
                     }
                 } else {
                     fp.info("Connecting...");
                     c.start();
-                    fp.info("Connected...");
-                    int max = 3;
-                    for (int rep = 1; rep <= max; ++rep) {
-                        fp.info("Waiting for a connection...(" + rep + "/" + max + ")");
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            fp.warn(e.getLocalizedMessage());
-                            LOGGER.error(e.getLocalizedMessage(), e);
-                        }
-                        fp.info("Checking the connection...");
-                        if (c.isRegisteredWithDestination()) {
-                            fp.info("Now GeoServer is registered with the destination");
-                            // connectionStatusModel.setObject("Registered");
-                            connectionInfo.getModel().setObject("enabled");
-                            break;
-                        } else {
-                            fp.error("Impossible to register GeoServer with destination, please check the broker.");
-                            // connectionStatusModel.setObject("disabled");
-                            connectionInfo.getModel().setObject("disabled");
-                            if (rep > max) {
-                                c.stop();
-                                fp.info("Disconnected");
+                    if (c.isRunning()) {
+                        for (int repReg = 1; repReg <= max; ++repReg) {
+                            fp.info("Checking for registration...(" + repReg + "/" + max + ")");
+                            if (c.isRegisteredWithDestination()) {
+                                fp.info("Now GeoServer is registered with the destination");
+                                connectionInfo.getModel().setObject(ConnectionConfigurationStatus.enabled.toString());
+                                break;
+                            } else {
+                                if (repReg > max) {
+                                    fp.error("Abort registration");
+                                    connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
+                                } else {
+                                    fp.warn("Impossible to register GeoServer with destination, waiting...");
+                                }
+                            }
+                            try {
+                                Thread.sleep(maxWait);
+                            } catch (InterruptedException e) {
+                                fp.warn(e.getLocalizedMessage());
+                                LOGGER.error(e.getLocalizedMessage(), e);
                             }
                         }
+                    } else {
+                        fp.error("Impossible to start a connection to destination.");
+                        connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
+                        c.stop();
+                        fp.info("Disconnected");
                     }
                 }
                 target.addComponent(connectionInfo);
@@ -194,17 +201,21 @@ public class ClusterPage extends GeoServerSecuredPage {
         connection.setOutputMarkupPlaceholderTag(true);
         form.add(connection);
 
+        // add MASTER toggle
         addToggle(ToggleConfiguration.TOGGLE_MASTER_KEY, ToggleType.MASTER,
                 ToggleConfiguration.TOGGLE_MASTER_KEY, "toggleMasterB", form, fp);
 
+        // add SLAVE toggle
         addToggle(ToggleConfiguration.TOGGLE_SLAVE_KEY, ToggleType.SLAVE,
                 ToggleConfiguration.TOGGLE_SLAVE_KEY, "toggleSlaveB", form, fp);
 
+        // add Read Only switch
         final TextField<String> readOnlyInfo = new TextField<String>(
                 ReadOnlyConfiguration.READ_ONLY_KEY);
-        // final Model<String> readOnlyStatusModel = getReadOnlyModel();
-        // final TextField<String> readOnlyInfo = new TextField<String>("readOnlyInfo",
-        // readOnlyStatusModel);
+
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        readOnlyInfo.setType(String.class);
+
         readOnlyInfo.setOutputMarkupId(true);
         readOnlyInfo.setOutputMarkupPlaceholderTag(true);
         readOnlyInfo.setEnabled(false);
@@ -212,6 +223,9 @@ public class ClusterPage extends GeoServerSecuredPage {
 
         final AjaxButton readOnly = new AjaxButton("readOnlyB", new StringResourceModel(
                 ReadOnlyConfiguration.READ_ONLY_KEY, this, null)) {
+            /** serialVersionUID */
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void onSubmit(AjaxRequestTarget target,
                     org.apache.wicket.markup.html.form.Form<?> form) {
@@ -229,6 +243,9 @@ public class ClusterPage extends GeoServerSecuredPage {
         form.add(readOnly);
 
         final Button save = new Button("saveB", new StringResourceModel("save", this, null)) {
+            /** serialVersionUID */
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void onSubmit() {
                 try {
@@ -242,22 +259,23 @@ public class ClusterPage extends GeoServerSecuredPage {
         };
         form.add(save);
 
-        final Button reset = new Button("resetB", new StringResourceModel("reset", this, null)) {
-            @Override
-            public void onSubmit() {
-                try {
-                    getConfig().loadTempConfig();
-                    fp.info("Configuration reloaded");
-                } catch (FileNotFoundException e) {
-                    LOGGER.error(e.getLocalizedMessage(), e);
-                    fp.error(e.getLocalizedMessage());
-                } catch (IOException e) {
-                    LOGGER.error(e.getLocalizedMessage(), e);
-                    fp.error(e.getLocalizedMessage());
-                }
-            }
-        };
-        form.add(reset);
+        // TODO change status if it is changed due to reset
+        // final Button reset = new Button("resetB", new StringResourceModel("reset", this, null)) {
+        // @Override
+        // public void onSubmit() {
+        // try {
+        // getConfig().loadTempConfig();
+        // fp.info("Configuration reloaded");
+        // } catch (FileNotFoundException e) {
+        // LOGGER.error(e.getLocalizedMessage(), e);
+        // fp.error(e.getLocalizedMessage());
+        // } catch (IOException e) {
+        // LOGGER.error(e.getLocalizedMessage(), e);
+        // fp.error(e.getLocalizedMessage());
+        // }
+        // }
+        // };
+        // form.add(reset);
 
         // add the form
         add(form);
@@ -270,22 +288,24 @@ public class ClusterPage extends GeoServerSecuredPage {
     // final JMSConfiguration config,
     private void addToggle(final String configKey, final ToggleType type, final String textFieldId,
             final String buttonId, final Form<?> form, final FeedbackPanel fp) {
-        final String producerStatusString = getConfig().getConfiguration(configKey);
-//        final Model<String> producerStatusModel;
-//         if (producerStatusString != null
-//         && Boolean.parseBoolean(null)) { // TODO
-//             producerStatusModel = new Model<String>(producerStatusString);
-//         } else {
-//             producerStatusModel = new Model<String>("true");
-//         }
+        // final String producerStatusString = getConfig().getConfiguration(configKey);
+        // final Model<String> producerStatusModel;
+        // if (producerStatusString != null
+        // && Boolean.parseBoolean(null)) { // TODO
+        // producerStatusModel = new Model<String>(producerStatusString);
+        // } else {
+        // producerStatusModel = new Model<String>("true");
+        // }
 
-        final TextField<String> toggleMasterInfo = new TextField<String>(textFieldId);
-//        final TextField<String> toggleMasterInfo = new TextField<String>(textFieldId,
-//                producerStatusModel);
-        toggleMasterInfo.setOutputMarkupId(true);
-        toggleMasterInfo.setOutputMarkupPlaceholderTag(true);
-        toggleMasterInfo.setEnabled(false);
-        form.add(toggleMasterInfo);
+        final TextField<String> toggleInfo = new TextField<String>(textFieldId);
+
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        toggleInfo.setType(String.class);
+
+        toggleInfo.setOutputMarkupId(true);
+        toggleInfo.setOutputMarkupPlaceholderTag(true);
+        toggleInfo.setEnabled(false);
+        form.add(toggleInfo);
 
         final AjaxButton toggle = new AjaxButton(buttonId) {
             private static final long serialVersionUID = 1L;
@@ -300,7 +320,7 @@ public class ClusterPage extends GeoServerSecuredPage {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                final boolean switchTo = !Boolean.parseBoolean(toggleMasterInfo.getModel().getObject());
+                final boolean switchTo = !Boolean.parseBoolean(toggleInfo.getModel().getObject());
                 final ApplicationContext ctx = getGeoServerApplication().getApplicationContext();
                 ctx.publishEvent(new ToggleEvent(switchTo, type));
                 // getConfig().putConfiguration(configKey,
@@ -313,40 +333,17 @@ public class ClusterPage extends GeoServerSecuredPage {
                     fp.info("Note that the " + type
                             + " is still registered to the topic destination");
                 }
-                toggleMasterInfo.getModel().setObject(Boolean.toString(switchTo));
-                target.addComponent(toggleMasterInfo);
+                toggleInfo.getModel().setObject(Boolean.toString(switchTo));
+                target.addComponent(toggleInfo);
                 target.addComponent(fp);
 
             }
         };
         toggle.setRenderBodyOnly(false);
 
-        // getConfig().putConfiguration(
-        // ToggleConfiguration.TOGGLE_MASTER_KEY,
-        // Boolean.toString(switchTo));
-        // toggleMaster.setLabel(new StringResourceModel("toggleMaster",
-        // new Model<Boolean>(producerStatus)));
-        // Enabled(true);
-        // toggleMaster.setVisible(true);
         form.add(toggle);
 
         // add(new Monitor(Duration.seconds(10)));
-    }
-
-    private static class LabelModel implements Serializable {
-        private String label;
-
-        public LabelModel(String val) {
-            label = val;
-        }
-
-        public void setLabel(String lab) {
-            label = lab;
-        }
-
-        public String getLabel() {
-            return label;
-        }
     }
 
     // private static class Monitor extends AjaxSelfUpdatingTimerBehavior {

@@ -11,7 +11,6 @@ import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * 
@@ -27,7 +26,6 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
     public static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
 
     @Autowired
-//    @Qualifier("JMSPropertyPlaceholderConfigurer")
     JMSPropertyPlaceholderConfigurer commonConfiguration;
 
     @Override
@@ -45,11 +43,6 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
     @Override
     public boolean checkForOverride(JMSConfiguration config) throws IOException {
         return config.checkForOverride(BROKER_URL_KEY, DEFAULT_BROKER_URL);
-        // if (!override) {
-        // initDefaults(config);
-        // override = true;
-        // }
-        // return override;
     }
 
 }

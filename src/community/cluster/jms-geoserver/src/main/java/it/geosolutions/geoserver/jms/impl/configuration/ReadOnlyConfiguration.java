@@ -21,7 +21,12 @@ import it.geosolutions.geoserver.jms.configuration.JMSConfigurationExt;
 final public class ReadOnlyConfiguration implements JMSConfigurationExt {
 
 	public static final String READ_ONLY_KEY = "readOnly";
-	public static final String DEFAULT_READ_ONLY_VALUE = "disabled";
+	public static final String DEFAULT_READ_ONLY_VALUE = ReadOnlyConfigurationStatus.disabled.toString();
+	
+	public static enum ReadOnlyConfigurationStatus {
+	    enabled,
+	    disabled;
+	}
 
 	@Override
 	public void initDefaults(JMSConfiguration config) throws IOException {

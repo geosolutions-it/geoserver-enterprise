@@ -30,7 +30,6 @@
 	<!-- </bean> -->
 	<!-- ================================================ -->
 
-
 	<!-- web stuff -->
 	<bean id="clusterCategory" class="org.geoserver.web.Category">
 		<property name="nameKey" value="category.cluster" />
@@ -63,11 +62,8 @@
 
 	<!-- COMMON -->
 
-	<!-- needs depends on JMSReadOnlyGeoServerLoader as workaround to wait for 
-		loading static elements from GeoServerDataDir -->
 	<bean id="JMSConfigDirConfiguration"
 		class="it.geosolutions.geoserver.jms.impl.configuration.ConfigDirConfiguration">
-<!-- 		depends-on="JMSReadOnlyGeoServerLoader"> -->
 	</bean>
 
 	<bean id="JMSTopicConfiguration"

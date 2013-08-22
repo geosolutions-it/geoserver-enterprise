@@ -8,6 +8,7 @@ import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration;
+import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration.ReadOnlyConfigurationStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ReadOnlyGeoServerLoader extends DefaultGeoServerLoader {
         if (statusObj==null){
             statusObj=ReadOnlyConfiguration.DEFAULT_READ_ONLY_VALUE;
         }
-        enabled = Boolean.parseBoolean(statusObj.toString());
+        enabled = ReadOnlyConfigurationStatus.enabled.equals(statusObj.toString());
     }
     
     protected void loadCatalog(Catalog catalog, XStreamPersister xp) throws Exception {
