@@ -5,19 +5,17 @@
 package it.geosolutions.geoserver.jms.impl.web;
 
 import it.geosolutions.geoserver.jms.client.JMSContainer;
+import it.geosolutions.geoserver.jms.configuration.BrokerConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
+import it.geosolutions.geoserver.jms.configuration.TopicConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.events.ToggleType;
-import it.geosolutions.geoserver.jms.impl.configuration.BrokerConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.ConnectionConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
-import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Properties;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -27,7 +25,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.config.ReadOnlyGeoServerLoader;
 import org.geoserver.web.GeoServerSecuredPage;
@@ -37,49 +34,7 @@ import org.springframework.context.ApplicationContext;
 
 public class ClusterPage extends GeoServerSecuredPage {
 
-    protected JMSConfiguration getConfig() {
-        return getGeoServerApplication().getBeanOfType(JMSConfiguration.class);
-    }
-
-    protected JMSContainer getJMSContainer() {
-        return getGeoServerApplication().getBeanOfType(JMSContainer.class);
-    }
-
-    protected ReadOnlyGeoServerLoader getReadOnlyGeoServerLoader() {
-        return getGeoServerApplication().getBeanOfType(ReadOnlyGeoServerLoader.class);
-    }
-
-    protected JMSContainerHandlerExceptionListenerImpl getJMSContainerExceptionHandler() {
-        return getGeoServerApplication().getBeanOfType(
-                JMSContainerHandlerExceptionListenerImpl.class);
-    }
-
     private final static Logger LOGGER = LoggerFactory.getLogger(ClusterPage.class);
-
-    private Model<String> getConnectionModel() {
-        final JMSContainer c = getJMSContainer();
-        final FeedbackPanel fp = getFeedbackPanel();
-        if (c.isRunning() && c.isRegisteredWithDestination()) {
-            fp.info("GeoServer is connected and registered to the topic destination");
-            return new Model<String>("Registered");
-        } else {
-            fp.error("Impossible to register GeoServer to destination, please check the broker.");
-            return new Model<String>("Not registered");
-        }
-    }
-
-    private Model<String> getReadOnlyModel() {
-        final ReadOnlyGeoServerLoader l = getReadOnlyGeoServerLoader();
-        // final FeedbackPanel fp = getFeedbackPanel();
-
-        if (l.isEnabled()) {
-            // fp.info("GeoServer is connected and registered to the topic destination");
-            return new Model<String>("Enabled");
-        } else {
-            // fp.error("Impossible to register GeoServer to destination, please check the broker.");
-            return new Model<String>("Disabled");
-        }
-    }
 
     public ClusterPage() {
 
@@ -135,61 +90,31 @@ public class ClusterPage extends GeoServerSecuredPage {
             @Override
             protected void onSubmit(AjaxRequestTarget target,
                     org.apache.wicket.markup.html.form.Form<?> form) {
+                // the container to use
                 final JMSContainer c = getJMSContainer();
-
-                final int max = 3;
-                final long maxWait=2000;
                 if (c.isRunning()) {
                     fp.info("Disconnecting...");
-                    c.stop();
-                    c.shutdown();
-                    for (int rep = 1; rep <= max; ++rep) {
-                        fp.info("Waiting for connection shutdown...(" + rep + "/" + max + ")");
-                        try {
-                            Thread.sleep(maxWait);
-                        } catch (InterruptedException e) {
-                            fp.warn(e.getLocalizedMessage());
-                            LOGGER.error(e.getLocalizedMessage(), e);
-                        }
-                        fp.info("Unregistering...");
-                        if (!c.isRegisteredWithDestination()) {
-                            fp.info("Succesfully un-registered from the destination topic");
-                            fp.warn("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
-                            // connectionStatusModel.setObject("Not registered");
-                            connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
-                            break;
-                        }
+                    if (c.disconnect()) {
+                        fp.info("Succesfully un-registered from the destination topic");
+                        fp.warn("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
+                        connectionInfo.getModel().setObject(
+                                ConnectionConfigurationStatus.disabled.toString());
+                    } else {
+                        fp.error("Disconnection error!");
+                        connectionInfo.getModel().setObject(
+                                ConnectionConfigurationStatus.enabled.toString());
                     }
                 } else {
                     fp.info("Connecting...");
-                    c.start();
-                    if (c.isRunning()) {
-                        for (int repReg = 1; repReg <= max; ++repReg) {
-                            fp.info("Checking for registration...(" + repReg + "/" + max + ")");
-                            if (c.isRegisteredWithDestination()) {
-                                fp.info("Now GeoServer is registered with the destination");
-                                connectionInfo.getModel().setObject(ConnectionConfigurationStatus.enabled.toString());
-                                break;
-                            } else {
-                                if (repReg > max) {
-                                    fp.error("Abort registration");
-                                    connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
-                                } else {
-                                    fp.warn("Impossible to register GeoServer with destination, waiting...");
-                                }
-                            }
-                            try {
-                                Thread.sleep(maxWait);
-                            } catch (InterruptedException e) {
-                                fp.warn(e.getLocalizedMessage());
-                                LOGGER.error(e.getLocalizedMessage(), e);
-                            }
-                        }
+                    if (c.connect()) {
+                        fp.info("Now GeoServer is registered with the destination");
+                        connectionInfo.getModel().setObject(
+                                ConnectionConfigurationStatus.enabled.toString());
                     } else {
-                        fp.error("Impossible to start a connection to destination.");
-                        connectionInfo.getModel().setObject(ConnectionConfigurationStatus.disabled.toString());
-                        c.stop();
-                        fp.info("Disconnected");
+                        fp.error("Connection error!");
+                        fp.error("Registration aborted due to a connection problem");
+                        connectionInfo.getModel().setObject(
+                                ConnectionConfigurationStatus.disabled.toString());
                     }
                 }
                 target.addComponent(connectionInfo);
@@ -249,7 +174,7 @@ public class ClusterPage extends GeoServerSecuredPage {
             @Override
             public void onSubmit() {
                 try {
-                    getConfig().storeTempConfig();
+                    getConfig().storeConfig();
                     fp.info("Configuration saved");
                 } catch (IOException e) {
                     LOGGER.error(e.getLocalizedMessage(), e);
@@ -288,14 +213,6 @@ public class ClusterPage extends GeoServerSecuredPage {
     // final JMSConfiguration config,
     private void addToggle(final String configKey, final ToggleType type, final String textFieldId,
             final String buttonId, final Form<?> form, final FeedbackPanel fp) {
-        // final String producerStatusString = getConfig().getConfiguration(configKey);
-        // final Model<String> producerStatusModel;
-        // if (producerStatusString != null
-        // && Boolean.parseBoolean(null)) { // TODO
-        // producerStatusModel = new Model<String>(producerStatusString);
-        // } else {
-        // producerStatusModel = new Model<String>("true");
-        // }
 
         final TextField<String> toggleInfo = new TextField<String>(textFieldId);
 
@@ -354,4 +271,21 @@ public class ClusterPage extends GeoServerSecuredPage {
     // }
     //
     // }
+
+    protected JMSConfiguration getConfig() {
+        return getGeoServerApplication().getBeanOfType(JMSConfiguration.class);
+    }
+
+    protected JMSContainer getJMSContainer() {
+        return getGeoServerApplication().getBeanOfType(JMSContainer.class);
+    }
+
+    protected ReadOnlyGeoServerLoader getReadOnlyGeoServerLoader() {
+        return getGeoServerApplication().getBeanOfType(ReadOnlyGeoServerLoader.class);
+    }
+
+    protected JMSContainerHandlerExceptionListenerImpl getJMSContainerExceptionHandler() {
+        return getGeoServerApplication().getBeanOfType(
+                JMSContainerHandlerExceptionListenerImpl.class);
+    }
 }

@@ -10,6 +10,6 @@ public interface JMSConfigurationExt {
 
 	public void initDefaults(JMSConfiguration config) throws IOException;
 
-	public boolean checkForOverride(JMSConfiguration config) throws IOException;
+	public boolean override(JMSConfiguration config) throws IOException;
 
 }

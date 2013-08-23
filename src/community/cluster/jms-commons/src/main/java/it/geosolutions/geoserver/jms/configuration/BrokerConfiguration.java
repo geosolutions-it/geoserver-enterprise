@@ -2,11 +2,7 @@
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
-package it.geosolutions.geoserver.jms.impl.configuration;
-
-import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.configuration.JMSConfigurationExt;
-import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer;
+package it.geosolutions.geoserver.jms.configuration;
 
 import java.io.IOException;
 
@@ -25,24 +21,23 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
 
     public static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
 
-    @Autowired
-    JMSPropertyPlaceholderConfigurer commonConfiguration;
-
+    // @Autowired
+    // JMSPropertyPlaceholderConfigurer commonConfiguration;
     @Override
     public void initDefaults(JMSConfiguration config) throws IOException {
         String url = null;
 
-        if (commonConfiguration != null) {
-            url = commonConfiguration.getMergedProperties().getProperty(BROKER_URL_KEY);
-        }
+        // if (commonConfiguration != null) {
+        // url = commonConfiguration.getMergedProperties().getProperty(BROKER_URL_KEY);
+        // }
 
         config.putConfiguration(BROKER_URL_KEY, url != null ? url : DEFAULT_BROKER_URL);
 
     }
 
     @Override
-    public boolean checkForOverride(JMSConfiguration config) throws IOException {
-        return config.checkForOverride(BROKER_URL_KEY, DEFAULT_BROKER_URL);
+    public boolean override(JMSConfiguration config) throws IOException {
+        return config.override(BROKER_URL_KEY, DEFAULT_BROKER_URL);
     }
 
 }

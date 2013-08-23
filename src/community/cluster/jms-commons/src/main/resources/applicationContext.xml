@@ -17,14 +17,24 @@
 
 	<context:annotation-config />
 
-	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0" value="MASTER" />
+	<!-- CONFIGURATION EXTENSIONS -->
+
+	<bean id="JMSReadOnlyConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration">
 	</bean>
 
-	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
-		<constructor-arg index="0" value="SLAVE" />
+	<bean id="JMSTopicConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.TopicConfiguration">
 	</bean>
 
+	<bean id="JMSBrokerConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.BrokerConfiguration">
+	</bean>
+
+	<bean id="JMSConnectionConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration">
+	</bean>
+	
 	<bean id="JMSToggleConfiguration"
 		class="it.geosolutions.geoserver.jms.configuration.ToggleConfiguration" />
 
@@ -33,17 +43,38 @@
 
 	<!-- COMMONS -->
 
-	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
-		lazy-init="false" />
-
-	<!-- CLIENT -->
-
-	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener" />
-
-	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer"
-		destroy-method="shutdown">
+	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer">
+<!-- 		destroy-method="shutdown"> -->
 		<constructor-arg index="0" ref="JMSConfiguration" />
 		<constructor-arg index="1" ref="JMSQueueListener" />
 	</bean>
+
+	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
+		lazy-init="false" />
+		
+	
+
+	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0" value="MASTER" />
+	</bean>
+
+	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0" value="SLAVE" />
+	</bean>
+	
+	<!-- SERVER -->
+	
+	<bean id="JMSPublisher" class="it.geosolutions.geoserver.jms.JMSPublisher">
+		<constructor-arg index="0" ref="JMSManager" />
+	</bean>
+
+	<!-- CLIENT -->
+
+	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener">
+		<constructor-arg index="0" ref="JMSManager" />
+	</bean>
+	
+	
+
 
 </beans>

@@ -25,8 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * JMS MASTER (Producer) Listener used to send GeoServer JMSGeoServerConfigurationExt events
- * over the JMS channel.
+ * JMS MASTER (Producer) Listener used to send GeoServer JMSGeoServerConfigurationExt events over the JMS channel.
  * 
  * @see {@link JMSApplicationListener}
  * 
@@ -34,190 +33,183 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class JMSConfigurationListener extends JMSAbstractGeoServerProducer implements
-		ConfigurationListener {
+        ConfigurationListener {
 
-	private final GeoServer geoserver;
+    private final GeoServer geoserver;
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(JMSConfigurationListener.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(JMSConfigurationListener.class);
 
-	/**
-	 * 
-	 * @param topicTemplate
-	 *            the JmsTemplate object used to send message to the topic queue
-	 * @param geoserver
-	 * @param props
-	 *            properties to attach to all the message. May contains at least
-	 *            the producer name which should be unique.
-	 */
-	public JMSConfigurationListener(final GeoServer geoserver) {
-		super();
-		// store GeoServer reference
-		this.geoserver = geoserver;
-		// add this as geoserver listener
-		this.geoserver.addListener(this);
-	}
+    private final JMSPublisher jmsPublisher;
 
-	@Override
-	public void handleGlobalChange(GeoServerInfo global,
-			List<String> propertyNames, List<Object> oldValues,
-			List<Object> newValues) {
+    /**
+     * 
+     * @param topicTemplate the JmsTemplate object used to send message to the topic queue
+     * @param geoserver
+     * @param props properties to attach to all the message. May contains at least the producer name which should be unique.
+     */
+    public JMSConfigurationListener(final GeoServer geoserver, final JMSPublisher jmsPublisher) {
+        super();
+        // store GeoServer reference
+        this.geoserver = geoserver;
+        // add this as geoserver listener
+        this.geoserver.addListener(this);
+        // the publisher
+        this.jmsPublisher = jmsPublisher;
+    }
 
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Incoming event");
-		}
+    @Override
+    public void handleGlobalChange(GeoServerInfo global, List<String> propertyNames,
+            List<Object> oldValues, List<Object> newValues) {
 
-		// skip incoming events if producer is not Enabled
-		if (!isEnabled()) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("skipping incoming event: context is not initted");
-			}
-			return;
-		}
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Incoming event");
+        }
 
-		try {
+        // skip incoming events if producer is not Enabled
+        if (!isEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("skipping incoming event: context is not initted");
+            }
+            return;
+        }
 
-			// propagate the event
-			JMSPublisher.publish(getDestination(), getJmsTemplate(), config
-					.getConfigurations(), new JMSGlobalModifyEvent(
-					ModificationProxy.unwrap(global), propertyNames, oldValues,
-					newValues));
+        try {
 
-		} catch (JMSException e) {
-			if (LOGGER.isErrorEnabled()) {
-				LOGGER.error(e.getLocalizedMessage(), e);
-			}
-		}
-	}
+            // propagate the event
+            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+                    new JMSGlobalModifyEvent(ModificationProxy.unwrap(global), propertyNames,
+                            oldValues, newValues));
 
-	@Override
-	public void handleLoggingChange(LoggingInfo logging,
-			List<String> propertyNames, List<Object> oldValues,
-			List<Object> newValues) {
+        } catch (JMSException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error(e.getLocalizedMessage(), e);
+            }
+        }
+    }
 
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Incoming event");
-		}
+    @Override
+    public void handleLoggingChange(LoggingInfo logging, List<String> propertyNames,
+            List<Object> oldValues, List<Object> newValues) {
 
-		// skip incoming events if producer is not Enabled
-		if (!isEnabled()) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("skipping incoming event: context is not initted");
-			}
-			return;
-		}
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Incoming event");
+        }
 
-		try {
-			// update the logging event with changes
-			BeanUtils.smartUpdate(ModificationProxy.unwrap(logging),
-					propertyNames, newValues);
+        // skip incoming events if producer is not Enabled
+        if (!isEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("skipping incoming event: context is not initted");
+            }
+            return;
+        }
 
-			// propagate the event
-			JMSPublisher.publish(getDestination(), getJmsTemplate(),
-					config.getConfigurations(), logging);
+        try {
+            // update the logging event with changes
+            BeanUtils.smartUpdate(ModificationProxy.unwrap(logging), propertyNames, newValues);
 
-		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled()) {
-				LOGGER.error(e.getLocalizedMessage(), e);
-			}
-		}
-	}
+            // propagate the event
+            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+                    logging);
 
-	@Override
-	public void handleServiceChange(ServiceInfo service,
-			List<String> propertyNames, List<Object> oldValues,
-			List<Object> newValues) {
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error(e.getLocalizedMessage(), e);
+            }
+        }
+    }
 
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Incoming event of type");
-		}
+    @Override
+    public void handleServiceChange(ServiceInfo service, List<String> propertyNames,
+            List<Object> oldValues, List<Object> newValues) {
 
-		// skip incoming events if producer is not Enabled
-		if (!isEnabled()) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("skipping incoming event: context is not initted");
-			}
-			return;
-		}
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Incoming event of type");
+        }
 
-		try {
-			// propagate the event
-			JMSPublisher.publish(getDestination(), getJmsTemplate(), config
-					.getConfigurations(), new JMSServiceModifyEvent(
-					ModificationProxy.unwrap(service), propertyNames,
-					oldValues, newValues));
+        // skip incoming events if producer is not Enabled
+        if (!isEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("skipping incoming event: context is not initted");
+            }
+            return;
+        }
 
-		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled()) {
-				LOGGER.error(e.getLocalizedMessage(), e);
-			}
-		}
-	}
+        try {
+            // propagate the event
+            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+                    new JMSServiceModifyEvent(ModificationProxy.unwrap(service), propertyNames,
+                            oldValues, newValues));
 
-	@Override
-	public void handlePostLoggingChange(LoggingInfo logging) {
-		// send(xstream.toXML(logging), JMSConfigEventType.LOGGING_CHANGE);
-	}
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error(e.getLocalizedMessage(), e);
+            }
+        }
+    }
 
-	@Override
-	public void handlePostServiceChange(ServiceInfo service) {
-		// send(xstream.toXML(service), JMSConfigEventType.POST_SERVICE_CHANGE);
-	}
+    @Override
+    public void handlePostLoggingChange(LoggingInfo logging) {
+        // send(xstream.toXML(logging), JMSConfigEventType.LOGGING_CHANGE);
+    }
 
-	@Override
-	public void handlePostGlobalChange(GeoServerInfo global) {
-		// no op.s
-	}
+    @Override
+    public void handlePostServiceChange(ServiceInfo service) {
+        // send(xstream.toXML(service), JMSConfigEventType.POST_SERVICE_CHANGE);
+    }
 
-	@Override
-	public void reloaded() {
+    @Override
+    public void handlePostGlobalChange(GeoServerInfo global) {
+        // no op.s
+    }
 
-		// skip incoming events until context is loaded
-		if (!isEnabled()) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("skipping incoming event: context is not initted");
-			}
-			return;
-		}
+    @Override
+    public void reloaded() {
 
-		// EAT EVENT
-		// TODO check why reloaded here? check differences from CatalogListener
-		// reloaded() method?
-		// TODO disable and re-enable the producer!!!!!
-		// this is potentially a problem since this listener should be the first
-		// called by the GeoServer.
+        // skip incoming events until context is loaded
+        if (!isEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("skipping incoming event: context is not initted");
+            }
+            return;
+        }
 
-	}
+        // EAT EVENT
+        // TODO check why reloaded here? check differences from CatalogListener
+        // reloaded() method?
+        // TODO disable and re-enable the producer!!!!!
+        // this is potentially a problem since this listener should be the first
+        // called by the GeoServer.
 
-	@Override
-	public void handleSettingsAdded(SettingsInfo settings) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void handleSettingsAdded(SettingsInfo settings) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void handleSettingsModified(SettingsInfo settings,
-			List<String> propertyNames, List<Object> oldValues,
-			List<Object> newValues) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void handleSettingsModified(SettingsInfo settings, List<String> propertyNames,
+            List<Object> oldValues, List<Object> newValues) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void handleSettingsPostModified(SettingsInfo settings) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void handleSettingsPostModified(SettingsInfo settings) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void handleSettingsRemoved(SettingsInfo settings) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void handleSettingsRemoved(SettingsInfo settings) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void handleServiceRemove(ServiceInfo service) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void handleServiceRemove(ServiceInfo service) {
+        // TODO Auto-generated method stub
+
+    }
 }

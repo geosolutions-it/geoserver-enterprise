@@ -2,15 +2,9 @@
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
-package it.geosolutions.geoserver.jms.impl.configuration;
-
-import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.configuration.JMSConfigurationExt;
-import it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer;
+package it.geosolutions.geoserver.jms.configuration;
 
 import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -25,23 +19,23 @@ final public class TopicConfiguration implements JMSConfigurationExt {
 
     public static final String DEFAULT_TOPIC_NAME = "VirtualTopic.>";
 
-    @Autowired
-    JMSPropertyPlaceholderConfigurer commonConfiguration;
+//    @Autowired
+//    JMSPropertyPlaceholderConfigurer commonConfiguration;
 
     @Override
     public void initDefaults(JMSConfiguration config) throws IOException {
         String url = null;
 
-        if (commonConfiguration != null) {
-            url = commonConfiguration.getMergedProperties().getProperty(TOPIC_NAME_KEY);
-        }
+//        if (commonConfiguration != null) {
+//            url = commonConfiguration.getMergedProperties().getProperty(TOPIC_NAME_KEY);
+//        }
 
         config.putConfiguration(TOPIC_NAME_KEY, url != null ? url : DEFAULT_TOPIC_NAME);
     }
 
     @Override
-    public boolean checkForOverride(JMSConfiguration config) throws IOException {
-        return config.checkForOverride(TOPIC_NAME_KEY, DEFAULT_TOPIC_NAME);
+    public boolean override(JMSConfiguration config) throws IOException {
+        return config.override(TOPIC_NAME_KEY, DEFAULT_TOPIC_NAME);
     }
 
 }

@@ -1,3 +1,7 @@
+/* Copyright (c) 2011 GeoSolutions - http://www.geo-solutions.it/.  All rights reserved.
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 package it.geosolutions.geoserver.jms.impl;
 
 import java.util.Properties;
@@ -6,10 +10,15 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import it.geosolutions.geoserver.jms.JMSFactory;
+import it.geosolutions.geoserver.jms.configuration.BrokerConfiguration;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.BrokerConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration;
+import it.geosolutions.geoserver.jms.configuration.TopicConfiguration;
 
+/**
+ * 
+ * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
+ * 
+ */
 public class JMSActiveMQFactory extends JMSFactory {
 
 	// <bean id="JMSClientDestination"

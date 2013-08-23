@@ -5,10 +5,8 @@
 package org.geoserver.config;
 
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
-import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
-import it.geosolutions.geoserver.jms.events.ToggleType;
-import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration;
-import it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration.ReadOnlyConfigurationStatus;
+import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration.ReadOnlyConfigurationStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,8 +14,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.geoserver.catalog.Catalog;
-import org.geoserver.config.DefaultGeoServerLoader;
-import org.geoserver.config.GeoServer;
 import org.geoserver.config.util.XStreamPersister;
 import org.geoserver.config.util.XStreamServiceLoader;
 import org.geoserver.platform.GeoServerExtensions;
@@ -39,20 +35,20 @@ public class ReadOnlyGeoServerLoader extends DefaultGeoServerLoader {
 
     @Autowired
     public JMSConfiguration config;
-    
+
     public ReadOnlyGeoServerLoader(final GeoServerResourceLoader resourceLoader) {
         super(resourceLoader);
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         Object statusObj = config.getConfiguration(ReadOnlyConfiguration.READ_ONLY_KEY);
-        if (statusObj==null){
-            statusObj=ReadOnlyConfiguration.DEFAULT_READ_ONLY_VALUE;
+        if (statusObj == null) {
+            statusObj = ReadOnlyConfiguration.DEFAULT_READ_ONLY_VALUE;
         }
         enabled = ReadOnlyConfigurationStatus.enabled.equals(statusObj.toString());
     }
-    
+
     protected void loadCatalog(Catalog catalog, XStreamPersister xp) throws Exception {
         synchronized (enabled) {
             if (enabled) {

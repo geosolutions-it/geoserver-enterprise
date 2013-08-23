@@ -16,8 +16,20 @@
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
 	<context:annotation-config />
+	
+	<!-- CONFIGURATION EXTENSIONS -->
 
-	<!-- Configuration -->
+	<bean id="JMSConfigDirConfiguration"
+		class="it.geosolutions.geoserver.jms.impl.configuration.ConfigDirConfiguration">
+	</bean>
+
+	<!-- Needed to JMSConfigDirConfiguration bean -->
+<!-- 	<bean id="JMSPropertyPlaceholderConfigurer" -->
+<!-- 		class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer"> -->
+<!-- 		<constructor-arg ref="dataDirectory" /> -->
+<!-- 		<property name="location" value="file:cluster.properties" /> -->
+<!-- 	</bean> -->
+
 	<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
 	<!-- <bean id="connectionFactory" -->
 	<!-- class="org.springframework.jms.connection.CachingConnectionFactory" 
@@ -56,31 +68,6 @@
 		<constructor-arg index="0" ref="resourceLoader" />
 	</bean>
 
-	<bean id="JMSReadOnlyConfiguration"
-		class="it.geosolutions.geoserver.jms.impl.configuration.ReadOnlyConfiguration">
-	</bean>
-
-	<!-- COMMON -->
-
-	<bean id="JMSConfigDirConfiguration"
-		class="it.geosolutions.geoserver.jms.impl.configuration.ConfigDirConfiguration">
-	</bean>
-
-	<bean id="JMSTopicConfiguration"
-		class="it.geosolutions.geoserver.jms.impl.configuration.TopicConfiguration">
-	</bean>
-
-	<bean id="JMSBrokerConfiguration"
-		class="it.geosolutions.geoserver.jms.impl.configuration.BrokerConfiguration">
-	</bean>
-
-	<!-- Needed to BrokerConfiguration bean -->
-	<bean id="JMSPropertyPlaceholderConfigurer"
-		class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
-		<constructor-arg ref="dataDirectory" />
-		<property name="location" value="file:cluster.properties" />
-	</bean>
-
 	<!-- SERVER/CLIENT side impl -->
 
 	<bean id="RestDispatcherCallback"
@@ -93,12 +80,14 @@
 	<bean id="JMSCatalogListener" class="it.geosolutions.geoserver.jms.server.JMSCatalogListener"
 		depends-on="catalog" lazy-init="true">
 		<constructor-arg index="0" ref="rawCatalog" />
+		<constructor-arg index="1" ref="JMSPublisher" />
 	</bean>
 
 	<bean id="JMSConfigurationListener"
 		class="it.geosolutions.geoserver.jms.server.JMSConfigurationListener"
 		depends-on="geoServer" lazy-init="true">
 		<constructor-arg index="0" ref="geoServer" />
+		<constructor-arg index="1" ref="JMSPublisher" />
 	</bean>
 
 	<!-- note: SPI bean id name MUST be the same as SPI SimpleClassName -->

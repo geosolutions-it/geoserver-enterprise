@@ -25,11 +25,10 @@ final public class ToggleConfiguration implements JMSConfigurationExt {
 	}
 
 	@Override
-	public boolean checkForOverride(JMSConfiguration config) {
-		return config.checkForOverride(TOGGLE_MASTER_KEY,
+	public boolean override(JMSConfiguration config) {
+		return config.override(TOGGLE_MASTER_KEY,
 				DEFAULT_MASTER_STATUS)
-				|| config.checkForOverride(TOGGLE_SLAVE_KEY,
-						DEFAULT_SLAVE_STATUS);
+                || config.override(TOGGLE_SLAVE_KEY, DEFAULT_SLAVE_STATUS);
 	}
 
 }

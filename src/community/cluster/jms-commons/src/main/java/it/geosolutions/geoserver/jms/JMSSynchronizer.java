@@ -27,10 +27,16 @@ public class JMSSynchronizer {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(JMSSynchronizer.class);
 	
+	private final JMSManager jmsManager;
+	
+	public JMSSynchronizer(JMSManager jmsManager) {
+	        this.jmsManager=jmsManager;
+	}
+	
 	public <S extends Serializable, O> void synchronize(final O event, final Properties props) throws JMSException, IllegalArgumentException {
 		try {
 			// try to get the handler from the spring context
-			final JMSEventHandler<S,O> handler = JMSManager.getHandler(event);
+			final JMSEventHandler<S,O> handler = jmsManager.getHandler(event);
 			// if handler is not found 
 			if (handler==null){
 				throw new IllegalArgumentException("Unable to locate a valid handler for the incoming event: "+event);

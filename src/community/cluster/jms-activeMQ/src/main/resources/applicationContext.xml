@@ -18,8 +18,6 @@
 	<context:annotation-config />
 
 	<bean id="JMSActiveMQFactory" class="it.geosolutions.geoserver.jms.impl.JMSActiveMQFactory" />
-		
-
 	
 	<!-- COMMENT OUT TO USE EXTERNAL BROKER -->
 	<!-- lets create an embedded ActiveMQ Broker -->

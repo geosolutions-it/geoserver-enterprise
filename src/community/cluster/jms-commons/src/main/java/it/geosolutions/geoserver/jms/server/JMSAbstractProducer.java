@@ -26,8 +26,6 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public abstract class JMSAbstractProducer extends JMSApplicationListener {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSAbstractProducer.class);
-
     @Autowired
     public JMSFactory jmsFactory;
 
