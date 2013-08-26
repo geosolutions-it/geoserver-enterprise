@@ -27,7 +27,7 @@ final public class ConfigDirConfiguration implements JMSConfigurationExt {
     @Autowired
     GeoServerResourceLoader loader;
 
-    public static final String CONFIGDIR_KEY = "clusterConfigDir";
+    public static final String CONFIGDIR_KEY = "CLUSTER_CONFIG_DIR";
 
     /**
      * Override the global config dir

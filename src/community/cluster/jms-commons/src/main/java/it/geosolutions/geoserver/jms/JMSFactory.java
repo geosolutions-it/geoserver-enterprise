@@ -11,6 +11,9 @@ import javax.jms.Destination;
 
 /**
  * 
+ * Implement this interface to add a new implementation to the application.<br/>
+ * Note that only one implementation at time is permitted.
+ * 
  * @author carlo cancellieri - geosolutions SAS
  * 
  */

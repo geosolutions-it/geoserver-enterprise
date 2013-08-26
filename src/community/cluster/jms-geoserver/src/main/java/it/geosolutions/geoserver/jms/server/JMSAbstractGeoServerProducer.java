@@ -7,6 +7,7 @@ package it.geosolutions.geoserver.jms.server;
 import it.geosolutions.geoserver.jms.impl.events.RestDispatcherCallback;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.geoserver.platform.ContextLoadedEvent;
@@ -36,12 +37,17 @@ public abstract class JMSAbstractGeoServerProducer extends JMSAbstractProducer {
     /**
      * This should be called before each message send to add options (coming form the dispatcher callback) to the message
      * 
-     * @return a copy of the getProperties() object updated with others options coming from the RestDispatcherCallback<br/>
+     * @return a copy of the configuration object updated with others options coming from the RestDispatcherCallback<br/>
      *         TODO use also options coming from the the GUI DispatcherCallback
      */
     protected Properties updateProperties() {
         // append options
-        final Properties options = (Properties) config.getConfigurations().clone();
+        final Properties options = new Properties();
+        for (Entry<Object, Object> e:config.getConfigurations().entrySet()){
+            options.put(e.getKey(), e.getValue());
+        }
+        // TODO not all options are needed: append only instance name when NOT debug mode
+        
         // get options from rest callback
         final List<Parameter> p = RestDispatcherCallback.getParameters();
         if (p != null) {

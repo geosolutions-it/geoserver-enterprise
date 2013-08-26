@@ -8,12 +8,12 @@ import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
+import javax.annotation.PostConstruct;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
@@ -29,24 +29,35 @@ public abstract class JMSAbstractProducer extends JMSApplicationListener {
     @Autowired
     public JMSFactory jmsFactory;
 
-    /**
-     * @return the jmsTemplate
-     */
-    public final JmsTemplate getJmsTemplate() {
+    // private ConnectionFactory cf;// use jmsTemplate.getConnectionFactory()
+
+    private JmsTemplate jmsTemplate;
+
+    private Destination jmsDestination;
+
+    @PostConstruct
+    private void init() {
+        jmsDestination = jmsFactory.getServerDestination(config.getConfigurations());
+        if (jmsDestination == null) {
+            throw new IllegalStateException("Unable to load a JMS destination");
+        }
 
         final ConnectionFactory cf = jmsFactory.getConnectionFactory(config.getConfigurations());
         if (cf == null) {
             throw new IllegalStateException("Unable to load a connectionFactory");
         }
-        return new JmsTemplate(cf);
+        jmsTemplate = new JmsTemplate(new CachingConnectionFactory(cf));
+        
+    }
+
+    /**
+     * @return the jmsTemplate
+     */
+    public final JmsTemplate getJmsTemplate() {
+        return jmsTemplate;
     }
 
     public final Destination getDestination() {
-        final Destination jmsDestination = jmsFactory.getServerDestination(config
-                .getConfigurations());
-        if (jmsDestination == null) {
-            throw new IllegalStateException("Unable to load a JMS destination");
-        }
         return jmsDestination;
     }
 

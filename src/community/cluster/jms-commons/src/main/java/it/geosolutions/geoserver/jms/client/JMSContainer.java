@@ -130,13 +130,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
         // set destination
         setDestination(jmsFactory.getClientDestination(conf));
-
-//        // set name
-//        setDurableSubscriptionName(conf.getProperty(JMSConfiguration.INSTANCE_NAME_KEY));
-//
-//        // set durable
-//        setSubscriptionDurable(true);
-
+        
         // use a CachingConnectionFactory
         setConnectionFactory(jmsFactory.getConnectionFactory(conf));// new CachingConnectionFactory(
     }
@@ -193,11 +187,12 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
             // configure the container
             configure();
 
+            // start it
+            super.start();
+
             // initialize the container
             initialize();
 
-            // start it
-            super.start();
         }
     }
 

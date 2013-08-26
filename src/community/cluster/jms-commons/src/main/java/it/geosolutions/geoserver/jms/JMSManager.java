@@ -25,34 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class JMSManager {
     private final static Logger LOGGER = LoggerFactory.getLogger(JMSManager.class);
 
-    // private ApplicationContext applicationContext = null;
-
     @Autowired
     private Map<String, JMSEventHandlerSPI> beans;
-
-    // private static JMSManager singleton;
-
-    // @PostConstruct
-    // public void afterPropertiesSet() throws Exception {
-    // if (applicationContext == null)
-    // throw new IllegalStateException("The provided applicationContext is null!");
-    //
-    // singleton = this;
-    //
-    // this.beans = applicationContext.getBeansOfType(JMSEventHandlerSPI.class);
-    //
-    // }
-
-    // @Override
-    // public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    // this.applicationContext = applicationContext;
-    // }
-
-//    public static <S extends Serializable, O> JMSEventHandler<S, O> getHandler(final O event)
-//            throws IllegalArgumentException {
-//        final JMSEventHandler<S, O> handler = loadHandler(event);
-//        return handler;
-//    }
 
     /**
      * Method to make lookup using the type of the passed eventType.
