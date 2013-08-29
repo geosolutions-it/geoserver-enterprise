@@ -23,8 +23,7 @@ import java.io.File;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.geoserver.catalog.Catalog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 import com.thoughtworks.xstream.XStream;
@@ -41,7 +40,7 @@ public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 	 */
 	private static final long serialVersionUID = -6421638425464046597L;
 
-	final static Logger LOGGER = LoggerFactory
+	final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSCatalogStylesFileHandler.class);
 
 	private final Catalog catalog;
@@ -66,8 +65,8 @@ public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 			event.writeTo(file);
 			return true;
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(this.getClass()
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(this.getClass()
 						+ " is unable to synchronize the incoming event: "
 						+ event);
 			throw e;

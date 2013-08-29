@@ -11,9 +11,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.geoserver.platform.ContextLoadedEvent;
+import org.geotools.util.logging.Logging;
 import org.restlet.data.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -25,7 +24,7 @@ import org.springframework.context.ApplicationEvent;
  * 
  */
 public abstract class JMSAbstractGeoServerProducer extends JMSAbstractProducer {
-    private final static Logger LOGGER = LoggerFactory
+    private final static java.util.logging.Logger LOGGER = Logging
             .getLogger(JMSAbstractGeoServerProducer.class);
 
     public JMSAbstractGeoServerProducer() {
@@ -64,7 +63,7 @@ public abstract class JMSAbstractGeoServerProducer extends JMSAbstractProducer {
         // load process is complete
         if (event instanceof ContextLoadedEvent) {
             boolean status = getStatus(type, config);
-            if (LOGGER.isInfoEnabled()) {
+            if (LOGGER.isLoggable(java.util.logging.Level.INFO)) {
                 if (status)
                     LOGGER.info("Activating JMS Catalog event publisher...");
                 else

@@ -29,8 +29,7 @@ import org.geoserver.catalog.StyleInfo;
 import org.geoserver.catalog.WMSLayerInfo;
 import org.geoserver.catalog.WMSStoreInfo;
 import org.geoserver.catalog.WorkspaceInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 /**
  * 
@@ -38,7 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public abstract class CatalogUtils {
-	public final static Logger LOGGER = LoggerFactory
+	public final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(CatalogUtils.class);
 	
 	/**
@@ -92,7 +91,7 @@ public abstract class CatalogUtils {
 			return localObject;
 		}
 		else {
-			if (LOGGER.isInfoEnabled()) {
+			if (LOGGER.isLoggable(java.util.logging.Level.INFO)) {
 				LOGGER.info("No such style called \'"
 						+ info.getName()
 						+ "\' can be found: LOCALIZATION");
@@ -130,8 +129,8 @@ public abstract class CatalogUtils {
 			if (localLayer!= null) {
 				localLayerList.add(localLayer);
 			} else {
-				if (LOGGER.isWarnEnabled()) {
-					LOGGER.warn("No such layer called \'"
+				if (LOGGER.isLoggable(java.util.logging.Level.WARNING)) {
+					LOGGER.warning("No such layer called \'"
 							+ layer.getName()
 							+ "\' can be found: SKIPPING");
 				}
@@ -222,12 +221,12 @@ public abstract class CatalogUtils {
 		try {
 			info.getLayers().addAll(localizeLayers(info.getLayers(), catalog));
 		} catch (IllegalAccessException e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(e.getLocalizedMessage(),e);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(e.getLocalizedMessage());
 			throw e;
 		} catch (InvocationTargetException e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(e.getLocalizedMessage(),e);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(e.getLocalizedMessage());
 			throw e;
 		}
 		

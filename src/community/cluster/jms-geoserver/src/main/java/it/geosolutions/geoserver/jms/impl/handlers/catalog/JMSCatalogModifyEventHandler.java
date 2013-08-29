@@ -29,8 +29,7 @@ import org.geoserver.catalog.WMSStoreInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.catalog.event.CatalogEvent;
 import org.geoserver.catalog.event.CatalogModifyEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -45,7 +44,7 @@ public class JMSCatalogModifyEventHandler extends JMSCatalogEventHandler {
 	
 	private static final long serialVersionUID = -6421638425464046598L;
 
-	final static Logger LOGGER = LoggerFactory
+	final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSCatalogModifyEventHandler.class);
 
 	private final Catalog catalog;
@@ -79,14 +78,14 @@ public class JMSCatalogModifyEventHandler extends JMSCatalogEventHandler {
 
 			} else {
 				// incoming object not recognized
-				if (LOGGER.isErrorEnabled())
-					LOGGER.error("Unrecognized event type");
+				if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+					LOGGER.severe("Unrecognized event type");
 				return false;
 			}
 
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(this.getClass()+" is unable to synchronize the incoming event: "+event);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(this.getClass()+" is unable to synchronize the incoming event: "+event);
 			throw e;
 		} finally {
 			// re enable the producer
@@ -351,8 +350,8 @@ public class JMSCatalogModifyEventHandler extends JMSCatalogEventHandler {
 			}
 
 		} else {
-			if (LOGGER.isWarnEnabled()) {
-				LOGGER.warn("info - ID: " + info.getId() + " toString: "
+			if (LOGGER.isLoggable(java.util.logging.Level.WARNING)) {
+				LOGGER.warning("info - ID: " + info.getId() + " toString: "
 						+ info.toString());
 			}
 			throw new IllegalArgumentException("Bad incoming object: "

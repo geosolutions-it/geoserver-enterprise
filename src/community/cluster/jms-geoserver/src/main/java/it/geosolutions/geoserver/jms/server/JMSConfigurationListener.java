@@ -21,8 +21,7 @@ import org.geoserver.config.GeoServerInfo;
 import org.geoserver.config.LoggingInfo;
 import org.geoserver.config.ServiceInfo;
 import org.geoserver.config.SettingsInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 /**
  * JMS MASTER (Producer) Listener used to send GeoServer JMSGeoServerConfigurationExt events over the JMS channel.
@@ -37,7 +36,7 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
 
     private final GeoServer geoserver;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSConfigurationListener.class);
+    private final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSConfigurationListener.class);
 
     private final JMSPublisher jmsPublisher;
 
@@ -61,14 +60,14 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
     public void handleGlobalChange(GeoServerInfo global, List<String> propertyNames,
             List<Object> oldValues, List<Object> newValues) {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming event");
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming event");
         }
 
         // skip incoming events if producer is not Enabled
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -81,8 +80,8 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
                             oldValues, newValues));
 
         } catch (JMSException e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage(), e);
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
         }
     }
@@ -91,14 +90,14 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
     public void handleLoggingChange(LoggingInfo logging, List<String> propertyNames,
             List<Object> oldValues, List<Object> newValues) {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming event");
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming event");
         }
 
         // skip incoming events if producer is not Enabled
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -112,8 +111,8 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
                     logging);
 
         } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage(), e);
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
         }
     }
@@ -122,14 +121,14 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
     public void handleServiceChange(ServiceInfo service, List<String> propertyNames,
             List<Object> oldValues, List<Object> newValues) {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming event of type");
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming event of type");
         }
 
         // skip incoming events if producer is not Enabled
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -141,8 +140,8 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
                             oldValues, newValues));
 
         } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage(), e);
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
         }
     }
@@ -167,8 +166,8 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
 
         // skip incoming events until context is loaded
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }

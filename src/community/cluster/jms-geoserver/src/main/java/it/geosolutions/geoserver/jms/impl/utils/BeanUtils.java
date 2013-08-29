@@ -73,8 +73,8 @@ public abstract class BeanUtils {
 	                liveMap.clear();
 	                liveMap.putAll((Map) value);
 	            } else {
-	                if (CatalogUtils.LOGGER.isErrorEnabled())
-	                	CatalogUtils.LOGGER.error("Skipping unwritable property " +propertyName + " with property type " + pd.getPropertyType());
+	                if (CatalogUtils.LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+	                	CatalogUtils.LOGGER.severe("Skipping unwritable property " +propertyName + " with property type " + pd.getPropertyType());
 	            }
 	        }
 	    }

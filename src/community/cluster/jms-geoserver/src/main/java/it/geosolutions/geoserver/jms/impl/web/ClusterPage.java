@@ -7,11 +7,11 @@ package it.geosolutions.geoserver.jms.impl.web;
 import it.geosolutions.geoserver.jms.client.JMSContainer;
 import it.geosolutions.geoserver.jms.configuration.BrokerConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.configuration.TopicConfiguration;
-import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
@@ -28,13 +28,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.config.ReadOnlyGeoServerLoader;
 import org.geoserver.web.GeoServerSecuredPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.context.ApplicationContext;
 
 public class ClusterPage extends GeoServerSecuredPage {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ClusterPage.class);
+    private final static java.util.logging.Logger LOGGER = Logging.getLogger(ClusterPage.class);
 
     public ClusterPage() {
 
@@ -177,7 +176,8 @@ public class ClusterPage extends GeoServerSecuredPage {
                     getConfig().storeConfig();
                     fp.info("Configuration saved");
                 } catch (IOException e) {
-                    LOGGER.error(e.getLocalizedMessage(), e);
+                	if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+                		LOGGER.severe(e.getLocalizedMessage());
                     fp.error(e.getLocalizedMessage());
                 }
             }

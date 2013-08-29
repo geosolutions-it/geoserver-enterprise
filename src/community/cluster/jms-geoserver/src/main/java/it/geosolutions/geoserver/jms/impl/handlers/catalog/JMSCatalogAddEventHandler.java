@@ -7,6 +7,7 @@ package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CatalogInfo;
@@ -20,8 +21,7 @@ import org.geoserver.catalog.StyleInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.catalog.event.CatalogAddEvent;
 import org.geoserver.catalog.event.CatalogEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -35,7 +35,7 @@ import com.thoughtworks.xstream.XStream;
 public class JMSCatalogAddEventHandler extends JMSCatalogEventHandler {
 	private static final long serialVersionUID = -6421638425464046597L;
 
-	final static Logger LOGGER = LoggerFactory
+	final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSCatalogAddEventHandler.class);
 
 	private final Catalog catalog;
@@ -66,14 +66,14 @@ public class JMSCatalogAddEventHandler extends JMSCatalogEventHandler {
 				JMSCatalogAddEventHandler.add(catalog, info);
 			} else {
 				// incoming object not recognized
-				if (LOGGER.isErrorEnabled())
-					LOGGER.error("Unrecognized event type");
+				if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+					LOGGER.severe("Unrecognized event type");
 				return false;
 			}
 
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(this.getClass()+" is unable to synchronize the incoming event: "+event);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(this.getClass()+" is unable to synchronize the incoming event: "+event);
 			throw e;
 		} finally {
 			// re enable the producer
@@ -137,8 +137,8 @@ public class JMSCatalogAddEventHandler extends JMSCatalogEventHandler {
 			// TODO may we don't want to send this empty message!
 			// TODO check the producer
 			// DO NOTHING
-			if (LOGGER.isWarnEnabled()) {
-				LOGGER.warn("info - ID: " + info.getId() + " toString: "
+			if (LOGGER.isLoggable(Level.SEVERE)) {
+				LOGGER.severe("info - ID: " + info.getId() + " toString: "
 						+ info.toString());
 			}
 		} else {

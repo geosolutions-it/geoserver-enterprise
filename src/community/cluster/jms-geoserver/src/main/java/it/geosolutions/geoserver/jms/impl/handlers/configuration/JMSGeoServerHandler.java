@@ -6,6 +6,7 @@ package it.geosolutions.geoserver.jms.impl.handlers.configuration;
 
 import it.geosolutions.geoserver.jms.events.ToggleSwitch;
 import it.geosolutions.geoserver.jms.impl.events.configuration.JMSGlobalModifyEvent;
+import it.geosolutions.geoserver.jms.impl.handlers.catalog.CatalogUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -14,13 +15,14 @@ import javax.media.jai.TileCache;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.config.ContactInfo;
 import org.geoserver.config.CoverageAccessInfo;
 import org.geoserver.config.GeoServer;
 import org.geoserver.config.GeoServerInfo;
 import org.geoserver.config.JAIInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geoserver.config.SettingsInfo;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -33,7 +35,7 @@ public class JMSGeoServerHandler extends
 		JMSConfigurationHandler<JMSGlobalModifyEvent> {
 	private static final long serialVersionUID = -6421638425464046597L;
 
-	final static Logger LOGGER = LoggerFactory
+	final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSGeoServerHandler.class);
 
 	private final GeoServer geoServer;
@@ -68,8 +70,8 @@ public class JMSGeoServerHandler extends
 			this.geoServer.save(localObject);
 
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(this.getClass()
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(this.getClass()
 						+ " is unable to synchronize the incoming event: " + ev);
 			throw e;
 		} finally {
@@ -112,13 +114,19 @@ public class JMSGeoServerHandler extends
 
 		// LOCALIZE with local objects
 		final GeoServerInfo deserGeoServerInfo = ev.getSource();
-		localObject.setContact(localizeContactInfo(geoServer,
-				deserGeoServerInfo.getContact()));
+				
 		localObject.setCoverageAccess(localizeCoverageAccessInfo(geoServer,
 				deserGeoServerInfo.getCoverageAccess()));
+		
 		// localize JAI
 		localObject.setJAI(localizeJAIInfo(geoServer,
 				deserGeoServerInfo.getJAI()));
+		
+		// localize settings
+		localObject.setSettings(localizeSettingsInfo(geoServer,
+				deserGeoServerInfo.getSettings()));
+//		localObject.setContact(localizeContactInfo(geoServer,
+//				deserGeoServerInfo.getContact()));
 
 		return localObject;
 	}
@@ -157,6 +165,45 @@ public class JMSGeoServerHandler extends
 
 		return info;
 	}
+	
+	/**
+	 * Return the local SettingsInfo updating its member with the ones coming from
+	 * the passed JAIInfo
+	 * 
+	 * @param geoServer
+	 *            the local GeoServer instance
+	 * @param deserInfo
+	 *            the de-serialized JAIInfo instance
+	 * @return the updated and local JAIInfo
+	 * 
+	 * @throws IllegalAccessException
+	 *             {@link BeanUtilsBean.copyProperties}
+	 * @throws InvocationTargetException
+	 *             {@link BeanUtilsBean.copyProperties}
+	 * @throws IllegalArgumentException
+	 *             if arguments are null
+	 */
+	private static SettingsInfo localizeSettingsInfo(final GeoServer geoServer,
+			final SettingsInfo deserInfo) throws IllegalAccessException,
+			InvocationTargetException {
+		if (geoServer == null || deserInfo == null)
+			throw new IllegalArgumentException(
+					"Wrong passed arguments are null");
+
+		// get local instance
+		final SettingsInfo info = geoServer.getSettings();
+		
+		// overwrite all members
+		BeanUtils.copyProperties(info, deserInfo);
+
+		final WorkspaceInfo workspace = info.getWorkspace();
+		info.setWorkspace(CatalogUtils.localizeWorkspace(workspace, geoServer.getCatalog()));
+		
+		final ContactInfo contact = info.getContact();
+		info.setContact(localizeContactInfo(geoServer,contact));
+		
+		return info;
+	}
 
 	/**
 	 * Return the updated local ContactInfo object replacing all the members
@@ -180,7 +227,7 @@ public class JMSGeoServerHandler extends
 			throw new IllegalArgumentException(
 					"Wrong passed arguments are null");
 		// get local instance
-		final ContactInfo info = geoServer.getGlobal().getContact();
+		final ContactInfo info = geoServer.getGlobal().getSettings().getContact();
 
 		// overwrite all members
 		BeanUtils.copyProperties(info, deserInfo);

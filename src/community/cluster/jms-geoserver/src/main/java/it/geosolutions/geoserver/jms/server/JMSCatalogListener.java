@@ -22,8 +22,7 @@ import org.geoserver.catalog.event.CatalogListener;
 import org.geoserver.catalog.event.CatalogModifyEvent;
 import org.geoserver.catalog.event.CatalogPostModifyEvent;
 import org.geoserver.catalog.event.CatalogRemoveEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
@@ -36,7 +35,7 @@ import org.vfny.geoserver.global.GeoserverDataDirectory;
  */
 public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements CatalogListener {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSCatalogListener.class);
+    private final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSCatalogListener.class);
 
     private final JMSPublisher jmsPublisher;
 
@@ -54,15 +53,15 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
     @Override
     public void handleAddEvent(CatalogAddEvent event) throws CatalogException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming event of type " + event.getClass().getSimpleName()
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming event of type " + event.getClass().getSimpleName()
                     + " from Catalog");
         }
 
         // skip incoming events if producer is not Enabled
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -87,8 +86,8 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
             // propagate the event
             jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
         } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage());
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
             final CatalogException ex = new CatalogException(e);
             throw ex;
@@ -97,15 +96,15 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
     @Override
     public void handleRemoveEvent(CatalogRemoveEvent event) throws CatalogException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming message event of type " + event.getClass().getSimpleName()
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming message event of type " + event.getClass().getSimpleName()
                     + " from Catalog");
         }
 
         // skip incoming events until context is loaded
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -116,8 +115,8 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
         try {
             jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
         } catch (JMSException e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage());
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
             throw new CatalogException(e);
         }
@@ -125,15 +124,15 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
     @Override
     public void handleModifyEvent(CatalogModifyEvent event) throws CatalogException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming message event of type " + event.getClass().getSimpleName()
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming message event of type " + event.getClass().getSimpleName()
                     + " from Catalog");
         }
 
         // skip incoming events until context is loaded
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }
@@ -160,8 +159,8 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
             jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
 
         } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage());
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
             final CatalogException ex = new CatalogException(e);
             throw ex;
@@ -170,8 +169,8 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
     @Override
     public void handlePostModifyEvent(CatalogPostModifyEvent event) throws CatalogException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming message event of type " + event.getClass().getSimpleName()
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+            LOGGER.fine("Incoming message event of type " + event.getClass().getSimpleName()
                     + " from Catalog");
         }
 
@@ -185,8 +184,8 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
         // skip incoming events until context is loaded
         if (!isEnabled()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("skipping incoming event: context is not initted");
+            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
+                LOGGER.fine("skipping incoming event: context is not initted");
             }
             return;
         }

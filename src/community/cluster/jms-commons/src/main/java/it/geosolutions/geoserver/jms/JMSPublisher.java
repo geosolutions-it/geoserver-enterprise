@@ -8,12 +8,12 @@ import it.geosolutions.geoserver.jms.message.JMSObjectMessageCreator;
 
 import java.io.Serializable;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
@@ -28,7 +28,7 @@ import org.springframework.jms.core.MessageCreator;
  */
 public class JMSPublisher {
 
-    final static Logger LOGGER = LoggerFactory.getLogger(JMSPublisher.class);
+    final static Logger LOGGER = Logging.getLogger(JMSPublisher.class);
     
     private final JMSManager jmsManager;
 
@@ -69,8 +69,8 @@ public class JMSPublisher {
             jmsTemplate.send(destination, creator);
 
         } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error(e.getLocalizedMessage(), e);
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE)) {
+                LOGGER.severe(e.getLocalizedMessage());
             }
             final JMSException ex = new JMSException(e.getLocalizedMessage());
             ex.initCause(e);

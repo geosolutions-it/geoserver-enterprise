@@ -14,8 +14,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.WebUtils;
 
@@ -27,7 +26,7 @@ import org.springframework.web.util.WebUtils;
  * 
  */
 final public class JMSConfiguration {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(JMSConfiguration.class);
+    protected static final java.util.logging.Logger LOGGER = Logging.getLogger(JMSConfiguration.class);
 
     @Autowired
     public List<JMSConfigurationExt> exts;
@@ -93,14 +92,14 @@ final public class JMSConfiguration {
             }
 
         } catch (IOException e) {
-            LOGGER.error("Unable to load properties: using defaults");
+            LOGGER.severe("Unable to load properties: using defaults");
             initDefaults();
         }
 
         try {
             storeConfig();
         } catch (IOException e) {
-            LOGGER.error("Unable to store properties");
+            LOGGER.severe("Unable to store properties");
         }
 
     }

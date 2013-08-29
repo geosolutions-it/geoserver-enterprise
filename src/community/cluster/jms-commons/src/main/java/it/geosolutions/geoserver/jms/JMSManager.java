@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.geotools.util.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public class JMSManager {
-    private final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSManager.class);
+    private final static Logger LOGGER = Logging.getLogger(JMSManager.class);
 
     @Autowired
     private Map<String, JMSEventHandlerSPI> beans;

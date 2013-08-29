@@ -54,15 +54,18 @@ public class JMSQueueListener extends JMSApplicationListener implements
             LOGGER.fine("Incoming message event for session: " + session.toString());
         }
 
+        // CHECKING LISTENER STATUS
         if(!isEnabled()){
-            LOGGER.fine("Incoming message is swallowed since this component is disabled");
+        	if (LOGGER.isLoggable(Level.FINE)) {
+        		LOGGER.fine("Incoming message is swallowed since this component is disabled");
+        	}
             return;
         }
         // FILTERING INCOMING MESSAGE
-        if (!message.propertyExists(JMSConfiguration.INSTANCE_NAME_KEY))
+        if (!message.propertyExists(JMSConfiguration.INSTANCE_NAME_KEY)) {
             throw new JMSException("Unable to handle incoming message, property \'"
                     + JMSConfiguration.INSTANCE_NAME_KEY + "\' not set.");
-
+        }
         // check if message comes from a master with the same name of this slave
         if (message.getStringProperty(JMSConfiguration.INSTANCE_NAME_KEY).equals(
                 config.getConfiguration(JMSConfiguration.INSTANCE_NAME_KEY))) {

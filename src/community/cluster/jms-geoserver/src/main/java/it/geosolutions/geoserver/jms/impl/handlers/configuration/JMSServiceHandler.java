@@ -14,8 +14,7 @@ import java.util.List;
 import org.apache.commons.lang.NullArgumentException;
 import org.geoserver.config.GeoServer;
 import org.geoserver.config.ServiceInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -28,7 +27,7 @@ import com.thoughtworks.xstream.XStream;
 public class JMSServiceHandler extends JMSConfigurationHandler<JMSServiceModifyEvent> {
 	private static final long serialVersionUID = -6421638425464046597L;
 
-	final static Logger LOGGER = LoggerFactory
+	final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSServiceHandler.class);
 
 	private final GeoServer geoServer;
@@ -62,8 +61,8 @@ public class JMSServiceHandler extends JMSConfigurationHandler<JMSServiceModifyE
 			geoServer.save(localObject);
 
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(this.getClass()+" is unable to synchronize the incoming event: "+ev);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(this.getClass()+" is unable to synchronize the incoming event: "+ev);
 			throw e;
 		} finally {
 			producer.enable();

@@ -9,8 +9,7 @@ import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
 
 import java.io.Serializable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -28,7 +27,7 @@ public abstract class JMSEventHandlerImpl<S extends Serializable, O> extends
 	//
 	private static final long serialVersionUID = 8208466391619901813L;
 
-	private final static Logger LOGGER = LoggerFactory
+	private final static java.util.logging.Logger LOGGER = Logging
 			.getLogger(JMSEventHandlerImpl.class);
 	
 	// [de]serialized

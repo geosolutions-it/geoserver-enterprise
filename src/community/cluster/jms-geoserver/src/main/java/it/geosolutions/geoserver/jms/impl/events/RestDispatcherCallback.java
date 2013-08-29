@@ -8,15 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.geoserver.rest.DispatcherCallback;
+import org.geotools.util.logging.Logging;
 import org.restlet.Restlet;
 import org.restlet.data.Parameter;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RestDispatcherCallback implements DispatcherCallback {
-    final static Logger LOGGER = LoggerFactory.getLogger(RestDispatcherCallback.class);
+    final static java.util.logging.Logger LOGGER = Logging.getLogger(RestDispatcherCallback.class);
 
     private static final ThreadLocal<List<Parameter>> parameters = new ThreadLocal<List<Parameter>>();
 
@@ -27,11 +26,11 @@ public class RestDispatcherCallback implements DispatcherCallback {
     @Override
     public void init(Request request, Response response) {
 
-        if (LOGGER.isDebugEnabled()) {
+        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) {
             final Iterator<Parameter> it = request.getResourceRef().getQueryAsForm().iterator();
             while (it.hasNext()) {
                 Parameter p = it.next();
-                if (LOGGER.isInfoEnabled()) {
+                if (LOGGER.isLoggable(java.util.logging.Level.INFO)) {
                     LOGGER.info("Registering incoming parameter: " + p.toString());
                 }
             }

@@ -4,11 +4,10 @@
  */
 package it.geosolutions.geoserver.jms.impl.web;
 
-import org.apache.wicket.RequestCycle;
+import it.geosolutions.geoserver.jms.client.JMSContainerHandlerExceptionListener;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-
-import it.geosolutions.geoserver.jms.client.JMSContainerHandlerExceptionListener;
 
 public class JMSContainerHandlerExceptionListenerImpl implements
 		JMSContainerHandlerExceptionListener {

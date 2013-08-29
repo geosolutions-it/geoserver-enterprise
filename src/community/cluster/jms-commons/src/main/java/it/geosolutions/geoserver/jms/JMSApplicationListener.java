@@ -4,6 +4,9 @@
  */
 package it.geosolutions.geoserver.jms;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
@@ -11,8 +14,7 @@ import it.geosolutions.geoserver.jms.events.ToggleType;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -32,7 +34,7 @@ import org.springframework.context.ApplicationListener;
  */
 public class JMSApplicationListener implements ApplicationListener<ApplicationEvent> {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSApplicationListener.class);
+	private final static Logger LOGGER = Logging.getLogger(JMSApplicationListener.class);
 
     protected final ToggleType type;
 
@@ -74,8 +76,8 @@ public class JMSApplicationListener implements ApplicationListener<ApplicationEv
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Incoming event of type " + event.getClass().getSimpleName());
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Incoming event of type " + event.getClass().getSimpleName());
         }
 
         if (event instanceof ToggleEvent) {
@@ -87,8 +89,8 @@ public class JMSApplicationListener implements ApplicationListener<ApplicationEv
             }
 
         } else {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Incoming application event of type "
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Incoming application event of type "
                         + event.getClass().getSimpleName());
             }
         }

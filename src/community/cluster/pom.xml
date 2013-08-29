@@ -45,4 +45,17 @@
 	</profile>
         
 </profiles>
+
+<!--repositories>
+  <repository>
+   <id>fuse</id>
+   <name>fuse Repository</name>
+   <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+   <snapshots>
+     <enabled>false</enabled>
+   </snapshots>
+  </repository>
+</repositories-->
+
+
 </project>

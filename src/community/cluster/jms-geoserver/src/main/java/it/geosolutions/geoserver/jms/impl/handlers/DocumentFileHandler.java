@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -28,7 +27,7 @@ public class DocumentFileHandler extends
 	 */
 	private static final long serialVersionUID = -6421638425464046597L;
 
-	final static Logger LOGGER = LoggerFactory.getLogger(FileHandler.class);
+	final static java.util.logging.Logger LOGGER = Logging.getLogger(FileHandler.class);
 
 	public DocumentFileHandler(XStream xstream, Class clazz) {
 		super(xstream, clazz);
@@ -42,8 +41,8 @@ public class DocumentFileHandler extends
 			xstream.toXML(event.getBody(), fout);
 			return true;
 		} catch (IOException e) {
-			if (LOGGER.isErrorEnabled())
-				LOGGER.error(e.getLocalizedMessage(), e);
+			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+				LOGGER.severe(e.getLocalizedMessage());
 			throw e;
 		} finally {
 			IOUtils.closeQuietly(fout);
