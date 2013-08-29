@@ -76,7 +76,7 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
         try {
 
             // propagate the event
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
                     new JMSGlobalModifyEvent(ModificationProxy.unwrap(global), propertyNames,
                             oldValues, newValues));
 
@@ -108,7 +108,7 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
             BeanUtils.smartUpdate(ModificationProxy.unwrap(logging), propertyNames, newValues);
 
             // propagate the event
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
                     logging);
 
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
 
         try {
             // propagate the event
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
                     new JMSServiceModifyEvent(ModificationProxy.unwrap(service), propertyNames,
                             oldValues, newValues));
 

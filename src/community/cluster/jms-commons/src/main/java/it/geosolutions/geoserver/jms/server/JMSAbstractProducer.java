@@ -8,12 +8,10 @@ import it.geosolutions.geoserver.jms.JMSApplicationListener;
 import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.events.ToggleType;
 
-import javax.annotation.PostConstruct;
 import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
+import javax.jms.Topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
@@ -29,36 +27,23 @@ public abstract class JMSAbstractProducer extends JMSApplicationListener {
     @Autowired
     public JMSFactory jmsFactory;
 
-    // private ConnectionFactory cf;// use jmsTemplate.getConnectionFactory()
-
-    private JmsTemplate jmsTemplate;
-
-    private Destination jmsDestination;
-
-    @PostConstruct
-    private void init() {
-        jmsDestination = jmsFactory.getServerDestination(config.getConfigurations());
-        if (jmsDestination == null) {
-            throw new IllegalStateException("Unable to load a JMS destination");
-        }
-
-        final ConnectionFactory cf = jmsFactory.getConnectionFactory(config.getConfigurations());
-        if (cf == null) {
-            throw new IllegalStateException("Unable to load a connectionFactory");
-        }
-        jmsTemplate = new JmsTemplate(new CachingConnectionFactory(cf));
-        
-    }
-
     /**
      * @return the jmsTemplate
      */
     public final JmsTemplate getJmsTemplate() {
-        return jmsTemplate;
+        final ConnectionFactory cf = jmsFactory.getConnectionFactory(config.getConfigurations());
+        if (cf == null) {
+            throw new IllegalStateException("Unable to load a connectionFactory");
+        }
+        return new JmsTemplate(cf);
     }
 
-    public final Destination getDestination() {
-        return jmsDestination;
+    public final Topic getTopic() {
+        final Topic jmsTopic = jmsFactory.getTopic(config.getConfigurations());
+        if (jmsTopic == null) {
+            throw new IllegalStateException("Unable to load a JMS destination");
+        }
+        return jmsTopic;
     }
 
     /**

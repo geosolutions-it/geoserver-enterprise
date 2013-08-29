@@ -43,11 +43,11 @@ public abstract class JMSAbstractGeoServerProducer extends JMSAbstractProducer {
     protected Properties updateProperties() {
         // append options
         final Properties options = new Properties();
-        for (Entry<Object, Object> e:config.getConfigurations().entrySet()){
+        for (Entry<Object, Object> e : config.getConfigurations().entrySet()) {
             options.put(e.getKey(), e.getValue());
         }
         // TODO not all options are needed: append only instance name when NOT debug mode
-        
+
         // get options from rest callback
         final List<Parameter> p = RestDispatcherCallback.getParameters();
         if (p != null) {

@@ -80,12 +80,12 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
                         .getCanonicalPath(), fileName);
 
                 // transmit the file
-                jmsPublisher.publish(getDestination(), getJmsTemplate(), options,
+                jmsPublisher.publish(getTopic(), getJmsTemplate(), options,
                         new DocumentFile(styleFile));
             }
 
             // propagate the event
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), options, event);
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
         } catch (Exception e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(e.getLocalizedMessage());
@@ -114,7 +114,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
         Properties options = updateProperties();
 
         try {
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), options, event);
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
         } catch (JMSException e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(e.getLocalizedMessage());
@@ -152,12 +152,12 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
                         .getCanonicalPath(), fileName);
 
                 // publish the style xml document
-                jmsPublisher.publish(getDestination(), getJmsTemplate(), options, new DocumentFile(
+                jmsPublisher.publish(getTopic(), getJmsTemplate(), options, new DocumentFile(
                         styleFile));
             }
 
             // propagate the event
-            jmsPublisher.publish(getDestination(), getJmsTemplate(), options, event);
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
 
         } catch (Exception e) {
             if (LOGGER.isErrorEnabled()) {

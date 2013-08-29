@@ -4,10 +4,16 @@
  */
 package it.geosolutions.geoserver.jms;
 
+import it.geosolutions.geoserver.jms.configuration.BrokerConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration;
+import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.configuration.TopicConfiguration;
+
 import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.Topic;
 
 /**
  * 
@@ -19,10 +25,31 @@ import javax.jms.Destination;
  */
 public abstract class JMSFactory {
 
-	public abstract Destination getClientDestination(Properties configuration);
+    /**
+     * Must return a {@link Destination} configured with the passed property.<br/>
+     * You may leverage on {@link JMSConfiguration#INSTANCE_NAME_KEY}
+     * 
+     * @param configuration
+     * @return a valid destination pointing to a temporary queue to use for responses
+     */
+    public abstract Destination getClientDestination(Properties configuration);
 
-	public abstract Destination getServerDestination(Properties configuration);
+    /**
+     * Must return a {@link Destination} configured with the passed property.<br/>
+     * You may leverage on {@link BrokerConfiguration} or {@link ConnectionConfiguration}
+     * 
+     * @param configuration
+     * @return a valid Topic
+     */
+    public abstract Topic getTopic(Properties configuration);
 
-	public abstract ConnectionFactory getConnectionFactory(Properties configuration);
+    /**
+     * Must return a {@link ConnectionFactory} configured with the passed property.<br/>
+     * You may leverage on {@link TopicConfiguration} or {@link ConnectionConfiguration}
+     * 
+     * @param configuration
+     * @return a ConnectionFactory
+     */
+    public abstract ConnectionFactory getConnectionFactory(Properties configuration);
 
 }
