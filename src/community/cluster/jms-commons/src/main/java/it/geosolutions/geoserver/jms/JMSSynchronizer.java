@@ -24,8 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JMSSynchronizer {
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(JMSSynchronizer.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(JMSSynchronizer.class);
 	
 	private final JMSManager jmsManager;
 	

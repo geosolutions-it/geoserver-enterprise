@@ -246,7 +246,7 @@ public class ClusterPage extends GeoServerSecuredPage {
                     fp.info("The " + type + " toggle is now ENABLED");
                 } else {
                     fp.warn("The " + type
-                            + " toggle is now DISABLED no event will be posted to the broker");
+                            + " toggle is now DISABLED no event will be posted/received to/from the broker");
                     fp.info("Note that the " + type
                             + " is still registered to the topic destination");
                 }

@@ -64,8 +64,7 @@ public class JMSPublisher {
             props.put(JMSEventHandlerSPI.getKeyName(), handler.getGeneratorClass().getSimpleName());
 
             // TODO make this configurable
-            final MessageCreator creator = new JMSObjectMessageCreator(handler.serialize(object),
-                    props);
+            final MessageCreator creator = new JMSObjectMessageCreator(handler.serialize(object),props);
 
             jmsTemplate.send(destination, creator);
 

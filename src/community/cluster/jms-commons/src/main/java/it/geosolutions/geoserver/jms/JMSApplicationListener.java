@@ -4,12 +4,12 @@
  */
 package it.geosolutions.geoserver.jms;
 
-import javax.annotation.PostConstruct;
-
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
 import it.geosolutions.geoserver.jms.events.ToggleEvent;
 import it.geosolutions.geoserver.jms.events.ToggleType;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

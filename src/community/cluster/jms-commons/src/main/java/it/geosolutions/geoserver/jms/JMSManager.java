@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public class JMSManager {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSManager.class);
+    private final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSManager.class);
 
     @Autowired
     private Map<String, JMSEventHandlerSPI> beans;
@@ -63,7 +63,7 @@ public class JMSManager {
             final JMSEventHandlerSPI<S, O> spi = (JMSEventHandlerSPI) entry.getValue();
             if (spi != null) {
                 if (spi.canHandle(eventType)) {
-                    if (LOGGER.isInfoEnabled())
+                    if (LOGGER.isLoggable(Level.INFO))
                         LOGGER.info("Creating an instance of: " + spi.getClass());
                     candidates.add(spi);
                 }
@@ -79,15 +79,15 @@ public class JMSManager {
                 if (handler != null)
                     return handler;
             } catch (Exception e) {
-                if (LOGGER.isWarnEnabled())
-                    LOGGER.warn(e.getLocalizedMessage(), e);
+                if (LOGGER.isLoggable(Level.WARNING))
+                    LOGGER.log(Level.WARNING,e.getLocalizedMessage(), e);
             }
 
         }
         final String message = "Unable to find the needed Handler SPI for event of type: "
                 + eventType.getClass().getCanonicalName();
-        if (LOGGER.isWarnEnabled())
-            LOGGER.warn(message);
+        if (LOGGER.isLoggable(Level.WARNING))
+            LOGGER.warning(message);
         throw new IllegalArgumentException(message);
     }
 
@@ -102,8 +102,8 @@ public class JMSManager {
         }
 
         final String message = "Unable to find the Handler SPI called: " + clazzName;
-        if (LOGGER.isWarnEnabled())
-            LOGGER.warn(message);
+        if (LOGGER.isLoggable(Level.WARNING))
+            LOGGER.warning(message);
         throw new IllegalArgumentException(message);
     }
 }

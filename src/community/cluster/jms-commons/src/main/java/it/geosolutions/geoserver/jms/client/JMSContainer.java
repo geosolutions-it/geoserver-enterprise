@@ -12,11 +12,12 @@ import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.geotools.util.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
@@ -30,6 +31,8 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
  */
 final public class JMSContainer extends DefaultMessageListenerContainer {
 
+    private final static Logger LOGGER = Logging.getLogger(JMSContainer.class);
+
     @Autowired
     public JMSFactory jmsFactory;
 
@@ -39,8 +42,6 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
     private JMSConfiguration config;
 
     private boolean verified = false;
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(JMSContainer.class);
 
     // times to test (connection)
     private final static int max = 3;
@@ -69,8 +70,9 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
         if (startString != null
                 && startString.equals(ConnectionConfigurationStatus.enabled.toString())) {
             if (!connect()) {
-                if (LOGGER.isErrorEnabled())
-                    LOGGER.error("Unable to connect to the broker, force connection status to disabled");
+                if (LOGGER.isLoggable(Level.SEVERE)){
+                    LOGGER.severe("Unable to connect to the broker, force connection status to disabled");
+                }
 
                 // change configuration status
                 config.putConfiguration(ConnectionConfiguration.CONNECTION_KEY,
@@ -80,7 +82,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                 try {
                     config.storeConfig();
                 } catch (IOException e) {
-                    LOGGER.error(e.getMessage(), e);
+                    LOGGER.log(Level.SEVERE,e.getMessage(), e);
                 }
             }
         } else {
@@ -108,18 +110,18 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                 LOGGER.info("Unregistering...");
                 if (!isRegisteredWithDestination()) {
                     LOGGER.info("Succesfully un-registered from the destination topic");
-                    LOGGER.warn("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
+                    LOGGER.warning("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
                     return true;
                 }
                 LOGGER.info("Waiting for connection shutdown...(" + rep + "/" + max + ")");
                 try {
                     Thread.sleep(maxWait);
                 } catch (InterruptedException e) {
-                    LOGGER.error(e.getLocalizedMessage(), e);
+                    LOGGER.log(Level.SEVERE,e.getLocalizedMessage(), e);
                 }
             }
         } else {
-            LOGGER.error("Connection is already stopped");
+            LOGGER.severe("Connection is already stopped");
         }
 
         return false;
@@ -151,7 +153,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                         LOGGER.info("Now GeoServer is registered with the destination");
                         return true;
                     } else if (repReg == max) {
-                        LOGGER.error("Registration aborted due to a connection problem");
+                        LOGGER.log(Level.SEVERE,"Registration aborted due to a connection problem");
                         shutdown();
                         LOGGER.info("Disconnected");
                     } else {
@@ -161,17 +163,17 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                     try {
                         Thread.sleep(maxWait);
                     } catch (InterruptedException e) {
-                        LOGGER.error(e.getLocalizedMessage(), e);
+                        LOGGER.log(Level.SEVERE,e.getLocalizedMessage(), e);
                     }
                 }
             } else {
-                LOGGER.error("Impossible to start a connection to destination.");
+                LOGGER.severe("Impossible to start a connection to destination.");
                 shutdown();
                 LOGGER.info("Disconnected");
                 return false;
             }
         } else {
-            LOGGER.error("Connection is already running");
+            LOGGER.severe("Connection is already running");
         }
         return false;
     }
