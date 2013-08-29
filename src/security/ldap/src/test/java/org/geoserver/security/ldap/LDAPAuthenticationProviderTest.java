@@ -47,112 +47,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
     private Authentication authenticationOther;
     private File tempFolder;
 
-    private static final String ldapServerUrl = "ldap://127.0.0.1:10389";
-    private static final String basePath = "dc=example,dc=com";
-
-    /**
-     * Initializes an in-memory LDAP server to use for testing.
-     * 
-     * @param allowAnonymous
-     *            anonymous access is allowed or not
-     * @throws Exception
-     */
-    private boolean initLdapServer(boolean allowAnonymous) throws Exception {
-        try {
-            // Start an LDAP server and import test data
-            startApacheDirectoryServer(10389, basePath, "test",
-                    LdapTestUtils.DEFAULT_PRINCIPAL,
-                    LdapTestUtils.DEFAULT_PASSWORD, allowAnonymous);
-    
-            // Bind to the directory
-            LdapContextSource contextSource = new LdapContextSource();
-            contextSource.setUrl(ldapServerUrl);
-            contextSource.setUserDn(LdapTestUtils.DEFAULT_PRINCIPAL);
-            contextSource.setPassword(LdapTestUtils.DEFAULT_PASSWORD);
-            contextSource.setPooled(false);
-            contextSource.afterPropertiesSet();
-    
-            // Create the Sprint LDAP template
-            LdapTemplate template = new LdapTemplate(contextSource);
-    
-            // Clear out any old data - and load the test data
-            LdapTestUtils.cleanAndSetup(template.getContextSource(),
-                    new DistinguishedName("dc=example,dc=com"),
-                    new ClassPathResource("data.ldif"));
-            return true;
-        } catch(Exception ee) {
-            return false;
-        }
-    }
-
-    /**
-     * Starts the in-memory LDAP server
-     * 
-     * @param port
-     *            listening port
-     * @param defaultPartitionSuffix
-     * @param defaultPartitionName
-     * @param principal
-     * @param credentials
-     * @param anonymousEnabled
-     * @return
-     * @throws NamingException
-     */
-    private static DirContext startApacheDirectoryServer(int port,
-            String defaultPartitionSuffix, String defaultPartitionName,
-            String principal, String credentials, boolean anonymousEnabled)
-            throws NamingException {
-
-        MutableServerStartupConfiguration cfg = new MutableServerStartupConfiguration();
-        cfg.setAllowAnonymousAccess(anonymousEnabled);
-        // Determine an appropriate working directory
-        String tempDir = System.getProperty("java.io.tmpdir");
-        cfg.setWorkingDirectory(new File(tempDir));
-
-        cfg.setLdapPort(port);
-
-        MutableBTreePartitionConfiguration partitionConfiguration = new MutableBTreePartitionConfiguration();
-        partitionConfiguration.setSuffix(defaultPartitionSuffix);
-        partitionConfiguration
-                .setContextEntry(getRootPartitionAttributes(defaultPartitionName));
-        partitionConfiguration.setName(defaultPartitionName);
-
-        cfg.setContextPartitionConfigurations(Collections
-                .singleton(partitionConfiguration));
-        // Start the Server
-
-        Hashtable<String, String> env = createEnv(principal, credentials);
-        env.putAll(cfg.toJndiEnvironment());
-        return new InitialDirContext(env);
-    }
-
-    private static Attributes getRootPartitionAttributes(
-            String defaultPartitionName) {
-        BasicAttributes attributes = new BasicAttributes();
-        BasicAttribute objectClassAttribute = new BasicAttribute("objectClass");
-        objectClassAttribute.add("top");
-        objectClassAttribute.add("domain");
-        objectClassAttribute.add("extensibleObject");
-        attributes.put(objectClassAttribute);
-        attributes.put("dc", defaultPartitionName);
-
-        return attributes;
-    }
-
-    private static Hashtable<String, String> createEnv(String principal,
-            String credentials) {
-        Hashtable<String, String> env = new Hashtable<String, String>();
-
-        env.put(Context.PROVIDER_URL, "");
-        env.put(Context.INITIAL_CONTEXT_FACTORY,
-                "org.apache.directory.server.jndi.ServerContextFactory");
-
-        env.put(Context.SECURITY_PRINCIPAL, principal);
-        env.put(Context.SECURITY_CREDENTIALS, credentials);
-        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-
-        return env;
-    }
+    private static final String ldapServerUrl = LDAPTestUtils.LDAP_SERVER_URL;
+    private static final String basePath = LDAPTestUtils.LDAP_BASE_PATH;
 
     @Override
     public void setUp() throws Exception {
@@ -194,7 +90,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
      */
     public void testBindBeforeGroupSearch() throws Exception {
         // no anonymous access
-        if(initLdapServer(false)) {
+        if(LDAPTestUtils.initLdapServer(false, ldapServerUrl,
+                basePath)) {
             config.setUserDnPattern("uid={0},ou=People");
             config.setBindBeforeGroupSearch(true);
             createAuthenticationProvider();
@@ -216,7 +113,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
     public void testBindBeforeGroupSearchRequiredIfAnonymousDisabled()
             throws Exception {
         // no anonymous access
-        if(initLdapServer(false)) {
+        if(LDAPTestUtils.initLdapServer(false, ldapServerUrl,
+                basePath)) {
             config.setUserDnPattern("uid={0},ou=People");
             // we don't bind
             config.setBindBeforeGroupSearch(false);
@@ -239,7 +137,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
      * @throws Exception
      */
     public void testUserFilterAndFormat() throws Exception {
-        if(initLdapServer(true)) {    
+        if(LDAPTestUtils.initLdapServer(true, ldapServerUrl,
+                basePath)) {    
             // filter to extract user data
             config.setUserFilter("(telephonenumber=1)");
             // username to bind to
@@ -259,7 +158,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
      * @throws Exception
      */
     public void testAdminGroup() throws Exception {
-        if(initLdapServer(true)) {
+        if(LDAPTestUtils.initLdapServer(true, ldapServerUrl,
+                basePath)) {
             config.setUserDnPattern("uid={0},ou=People");
             config.setAdminGroup("other");
     
@@ -283,7 +183,8 @@ public class LDAPAuthenticationProviderTest extends TestCase {
      * @throws Exception
      */
     public void testGroupAdminGroup() throws Exception {
-        if(initLdapServer(true)) {
+        if(LDAPTestUtils.initLdapServer(true, ldapServerUrl,
+                basePath)) {
             config.setUserDnPattern("uid={0},ou=People");
             config.setGroupAdminGroup("other");
     
