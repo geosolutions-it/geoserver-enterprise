@@ -67,7 +67,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
         }
 
         // update properties
-        final Properties options = updateProperties();
+        final Properties options = getProperties();
 
         try {
             // check if we may publish also the file
@@ -110,7 +110,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
         }
 
         // update properties
-        Properties options = updateProperties();
+        Properties options = getProperties();
 
         try {
             jmsPublisher.publish(getTopic(), getJmsTemplate(), options, event);
@@ -138,7 +138,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
         }
 
         // update properties
-        Properties options = updateProperties();
+        Properties options = getProperties();
 
         try {
             // check if we may publish also the file

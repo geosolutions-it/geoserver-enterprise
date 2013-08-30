@@ -25,107 +25,111 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSServiceHandler extends JMSConfigurationHandler<JMSServiceModifyEvent> {
-	private static final long serialVersionUID = -6421638425464046597L;
+    private static final long serialVersionUID = -6421638425464046597L;
 
-	final static java.util.logging.Logger LOGGER = Logging
-			.getLogger(JMSServiceHandler.class);
+    final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSServiceHandler.class);
 
-	private final GeoServer geoServer;
-	private final ToggleSwitch producer;
+    private final GeoServer geoServer;
 
-	public JMSServiceHandler(GeoServer geo, XStream xstream,
-			Class clazz, ToggleSwitch producer) {
-		super(xstream, clazz);
-		this.geoServer = geo;
-		this.producer = producer;
-	}
-	
-	@Override
-	protected void omitFields(final XStream xstream){
-		// omit not serializable fields
-		xstream.omitField(GeoServer.class, "geoServer");
-	}
+    private final ToggleSwitch producer;
 
-	@Override
-	public boolean synchronize(JMSServiceModifyEvent ev) throws Exception {
-		if (ev==null) {
-			throw new NullArgumentException("Incoming event is null");	
-		}
-		try {	
-			// localize service
-			final ServiceInfo localObject=localizeService(geoServer, ev);
+    public JMSServiceHandler(GeoServer geo, XStream xstream, Class clazz, ToggleSwitch producer) {
+        super(xstream, clazz);
+        this.geoServer = geo;
+        this.producer = producer;
+    }
 
-			// disable the message producer to avoid recursion
-			producer.disable();
-			// save the localized object
-			geoServer.save(localObject);
+    @Override
+    protected void omitFields(final XStream xstream) {
+        // omit not serializable fields
+        xstream.omitField(GeoServer.class, "geoServer");
+    }
 
-		} catch (Exception e) {
-			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
-				LOGGER.severe(this.getClass()+" is unable to synchronize the incoming event: "+ev);
-			throw e;
-		} finally {
-			producer.enable();
-		}
-		return true;
+    @Override
+    public boolean synchronize(JMSServiceModifyEvent ev) throws Exception {
+        if (ev == null) {
+            throw new NullArgumentException("Incoming event is null");
+        }
+        try {
+            // localize service
+            final ServiceInfo localObject = localizeService(geoServer, ev);
 
-	}
-	
-	/**
-	 * Starting from an incoming de-serialized ServiceInfo modify event, search for it (by name) into local geoserver and
-	 * update changed members.
-	 *  
-	 * @param geoServer local GeoServer instance
-	 * @param ev the incoming event
-	 * @return the localized and updated ServiceInfo to save
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 */
-	private static ServiceInfo localizeService(final GeoServer geoServer, final JMSServiceModifyEvent ev) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
-		if (geoServer==null || ev==null)
-			throw new IllegalArgumentException("wrong passed arguments are null");
-		
-		final ServiceInfo info=JMSServiceHandler.getLocalService(geoServer, ev);
-		
-		BeanUtils.smartUpdate(info, ev.getPropertyNames(), ev.getNewValues());
-		
-		// LOCALIZE service
-		info.setGeoServer(geoServer);
-	
-		return info;
-	}
-	
-	/**
-	 * get local object searching by name if name is changed (remotely), search is performed using the old one 
-	 * @param geoServer
-	 * @param ev
-	 * @return
-	 */
-	public static ServiceInfo getLocalService(final GeoServer geoServer, final JMSServiceModifyEvent ev){
-		
-		final ServiceInfo service=ev.getSource();
-		if (service==null){
-			throw new IllegalArgumentException("passed service is null");
-		}
-			
-		// localize service
-		final ServiceInfo localObject;
-		
-		// check if name is changed
-		final List<String> props=ev.getPropertyNames();
-		final int index=props.indexOf("name");
-		if (index!=-1){
+            // disable the message producer to avoid recursion
+            producer.disable();
+            // save the localized object
+            geoServer.save(localObject);
 
-			final List<Object> oldValues=ev.getOldValues();
-			// search the Service using the old name
-			localObject=geoServer.getServiceByName(oldValues.get(index).toString(), ServiceInfo.class);	
-		} else {
-			localObject=geoServer.getServiceByName(service.getName(), ServiceInfo.class);	
-		}
-		
-		return localObject;
-		
-	}
+        } catch (Exception e) {
+            if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+                LOGGER.severe(this.getClass() + " is unable to synchronize the incoming event: "
+                        + ev);
+            throw e;
+        } finally {
+            producer.enable();
+        }
+        return true;
+
+    }
+
+    /**
+     * Starting from an incoming de-serialized ServiceInfo modify event, search for it (by name) into local geoserver and update changed members.
+     * 
+     * @param geoServer local GeoServer instance
+     * @param ev the incoming event
+     * @return the localized and updated ServiceInfo to save
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
+    private static ServiceInfo localizeService(final GeoServer geoServer,
+            final JMSServiceModifyEvent ev) throws IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException {
+        if (geoServer == null || ev == null)
+            throw new IllegalArgumentException("wrong passed arguments are null");
+
+        final ServiceInfo info = JMSServiceHandler.getLocalService(geoServer, ev);
+
+        BeanUtils.smartUpdate(info, ev.getPropertyNames(), ev.getNewValues());
+
+        // LOCALIZE service
+        info.setGeoServer(geoServer);
+
+        return info;
+    }
+
+    /**
+     * get local object searching by name if name is changed (remotely), search is performed using the old one
+     * 
+     * @param geoServer
+     * @param ev
+     * @return
+     */
+    public static ServiceInfo getLocalService(final GeoServer geoServer,
+            final JMSServiceModifyEvent ev) {
+
+        final ServiceInfo service = ev.getSource();
+        if (service == null) {
+            throw new IllegalArgumentException("passed service is null");
+        }
+
+        // localize service
+        final ServiceInfo localObject;
+
+        // check if name is changed
+        final List<String> props = ev.getPropertyNames();
+        final int index = props.indexOf("name");
+        if (index != -1) {
+
+            final List<Object> oldValues = ev.getOldValues();
+            // search the Service using the old name
+            localObject = geoServer.getServiceByName(oldValues.get(index).toString(),
+                    ServiceInfo.class);
+        } else {
+            localObject = geoServer.getServiceByName(service.getName(), ServiceInfo.class);
+        }
+
+        return localObject;
+
+    }
 
 }

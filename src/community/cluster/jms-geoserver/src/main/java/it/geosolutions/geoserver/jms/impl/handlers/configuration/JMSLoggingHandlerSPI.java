@@ -13,32 +13,33 @@ import org.geoserver.config.LoggingInfo;
 
 import com.thoughtworks.xstream.XStream;
 
+public class JMSLoggingHandlerSPI extends JMSEventHandlerSPI<String, LoggingInfo> {
 
-public class JMSLoggingHandlerSPI extends JMSEventHandlerSPI<String,LoggingInfo> {
-	
-	final GeoServer geoserver;
-	final XStream xstream;
-	final ToggleSwitch producer;
-	
-	public JMSLoggingHandlerSPI(final int priority, final GeoServer geo, final XStream xstream, final ToggleSwitch producer) {
-		super(priority);
-		this.geoserver=geo;
-		this.xstream=xstream;
-		this.producer=producer;
-	}
+    final GeoServer geoserver;
 
-	@Override
-	public boolean canHandle(final Object event) {
-		if (event instanceof LoggingInfo)
-			return true;
-		else
-			return false;
-	}
+    final XStream xstream;
 
-	@Override
-	public JMSEventHandler<String,LoggingInfo> createHandler() {
-		return new JMSLoggingHandler(geoserver,xstream,this.getClass(),producer);
-	}
+    final ToggleSwitch producer;
 
+    public JMSLoggingHandlerSPI(final int priority, final GeoServer geo, final XStream xstream,
+            final ToggleSwitch producer) {
+        super(priority);
+        this.geoserver = geo;
+        this.xstream = xstream;
+        this.producer = producer;
+    }
+
+    @Override
+    public boolean canHandle(final Object event) {
+        if (event instanceof LoggingInfo)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public JMSEventHandler<String, LoggingInfo> createHandler() {
+        return new JMSLoggingHandler(geoserver, xstream, this.getClass(), producer);
+    }
 
 }

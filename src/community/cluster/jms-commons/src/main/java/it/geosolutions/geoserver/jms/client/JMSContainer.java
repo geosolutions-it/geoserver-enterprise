@@ -51,7 +51,10 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
     public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
         super();
-
+        
+        // force no concurrence
+        setConcurrentConsumers(1);
+        
         // the listener used to handle incoming events
         setMessageListener(listener);
 
@@ -105,10 +108,10 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
     public boolean disconnect() {
         if (isRunning()) {
             LOGGER.info("Disconnecting...");
-            shutdown();
+            stop();
             for (int rep = 1; rep <= max; ++rep) {
                 LOGGER.info("Unregistering...");
-                if (!isRegisteredWithDestination()) {
+                if (!isRunning()) {
                     LOGGER.info("Succesfully un-registered from the destination topic");
                     LOGGER.warning("You will (probably) loose next incoming events from other instances!!! (depending on how you have configured the broker)");
                     return true;
@@ -154,7 +157,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                         return true;
                     } else if (repReg == max) {
                         LOGGER.log(Level.SEVERE,"Registration aborted due to a connection problem");
-                        shutdown();
+                        stop();
                         LOGGER.info("Disconnected");
                     } else {
                         LOGGER.info("Impossible to register GeoServer with destination, waiting...");
@@ -168,7 +171,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
                 }
             } else {
                 LOGGER.severe("Impossible to start a connection to destination.");
-                shutdown();
+                stop();
                 LOGGER.info("Disconnected");
                 return false;
             }
@@ -197,16 +200,16 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
         }
     }
-
-    @Override
-    public void shutdown() throws JmsException {
-        if (!verified) {
-            verify(jmsFactory, "failed to get a JMSFactory");
-            verified = true;
-        }
-        super.stop();
-        super.shutdown();
-    }
+//
+//    @Override
+//    public void shutdown() throws JmsException {
+//        if (!verified) {
+//            verify(jmsFactory, "failed to get a JMSFactory");
+//            verified = true;
+//        }
+//        super.stop();
+//        super.shutdown();
+//    }
 
     @Override
     protected void handleListenerSetupFailure(Throwable ex, boolean alreadyRecovered) {

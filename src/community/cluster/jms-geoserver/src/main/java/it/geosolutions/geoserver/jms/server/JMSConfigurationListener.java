@@ -11,6 +11,7 @@ import it.geosolutions.geoserver.jms.impl.events.configuration.JMSServiceModifyE
 import it.geosolutions.geoserver.jms.impl.utils.BeanUtils;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.jms.JMSException;
 
@@ -73,9 +74,10 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
         }
 
         try {
-
+            // update properties
+            final Properties options = getProperties();
             // propagate the event
-            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options,
                     new JMSGlobalModifyEvent(ModificationProxy.unwrap(global), propertyNames,
                             oldValues, newValues));
 
@@ -105,9 +107,10 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
         try {
             // update the logging event with changes
             BeanUtils.smartUpdate(ModificationProxy.unwrap(logging), propertyNames, newValues);
-
+            // update properties
+            final Properties options = getProperties();
             // propagate the event
-            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options,
                     logging);
 
         } catch (Exception e) {
@@ -134,8 +137,10 @@ public class JMSConfigurationListener extends JMSAbstractGeoServerProducer imple
         }
 
         try {
+            // update properties
+            final Properties options = getProperties();
             // propagate the event
-            jmsPublisher.publish(getTopic(), getJmsTemplate(), config.getConfigurations(),
+            jmsPublisher.publish(getTopic(), getJmsTemplate(), options,
                     new JMSServiceModifyEvent(ModificationProxy.unwrap(service), propertyNames,
                             oldValues, newValues));
 

@@ -39,7 +39,7 @@ public abstract class JMSAbstractGeoServerProducer extends JMSAbstractProducer {
      * @return a copy of the configuration object updated with others options coming from the RestDispatcherCallback<br/>
      *         TODO use also options coming from the the GUI DispatcherCallback
      */
-    protected Properties updateProperties() {
+    protected Properties getProperties() {
         // append options
         final Properties options = new Properties();
         for (Entry<Object, Object> e : config.getConfigurations().entrySet()) {
