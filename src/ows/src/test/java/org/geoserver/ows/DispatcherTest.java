@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
@@ -450,4 +451,70 @@ public class DispatcherTest extends TestCase {
         dispatcher.handleRequest(request, response);
         assertEquals("Hello world!:V2", response.getOutputStreamContent());
     }
+    public void testExceptionOnFlush() throws Exception {
+        URL url = getClass().getResource("applicationContext.xml");
+
+        FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(url.toString());
+
+        Dispatcher dispatcher = (Dispatcher) context.getBean("dispatcher");
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+
+        request.setScheme("http");
+        request.setServerName("localhost");
+
+        request.setContextPath("/geoserver");
+        request.setMethod("GET");
+
+        MockHttpServletResponse response = new MockHttpServletResponse() {
+            
+            ServletOutputStream os;
+            
+            @Override
+            public ServletOutputStream getOutputStream() throws IOException {
+                if(os == null) {
+                    final ServletOutputStream wrapped = super.getOutputStream();
+                    os = new ServletOutputStream() {
+                        boolean closed;
+                        
+                        @Override
+                        public void write(int b) throws IOException {
+                            wrapped.write(b);
+                        }
+                        
+                        @Override
+                        public void close() throws IOException {
+                            closed = true;
+                            wrapped.close();
+                        }
+                        
+                        @Override
+                        public void flush() throws IOException {
+                            if(closed) {
+                                // we should never reach this code
+                                throw new RuntimeException("Aaarg, I'm already closed, your JVM shall die now!");
+                            }
+                            wrapped.flush();
+                        }
+                        
+                    };
+                }
+                
+                return os;
+            }  
+        };
+        
+
+        request.setupAddParameter("service", "hello");
+        request.setupAddParameter("request", "Hello");
+        request.setupAddParameter("version", "1.0.0");
+        request.setupAddParameter("message", "Hello world!");
+
+        request.setRequestURI(
+            "http://localhost/geoserver/ows?service=hello&request=hello&message=HelloWorld");
+        request.setQueryString("service=hello&request=hello&message=HelloWorld");
+        dispatcher.handleRequest(request, response);
+        assertEquals("text/plain", response.getContentType());
+        assertEquals("Hello world!", response.getOutputStreamContent());
+    }    
 }
