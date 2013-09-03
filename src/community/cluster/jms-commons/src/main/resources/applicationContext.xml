@@ -17,48 +17,64 @@
 
 	<context:annotation-config />
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="false" />
-		<property name="locations">
-			<list>
-				<value>classpath:jms.properties</value>
-			</list>
-		</property>
+	<!-- CONFIGURATION EXTENSIONS -->
+
+	<bean id="JMSReadOnlyConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration">
 	</bean>
+
+	<bean id="JMSTopicConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.TopicConfiguration">
+	</bean>
+
+	<bean id="JMSBrokerConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.BrokerConfiguration">
+	</bean>
+
+	<bean id="JMSConnectionConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration">
+	</bean>
+	
+	<bean id="JMSToggleConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.ToggleConfiguration" />
+
+	<bean id="JMSConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.JMSConfiguration" />
 
 	<!-- COMMONS -->
-	
-	<!-- A connection to ActiveMQ -->
-	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" >
-		<property name="brokerURL" value="${broker.url}" />
-	</bean>
 
-<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
-<!--	<bean id="connectionFactory"-->
-<!--		class="org.springframework.jms.connection.CachingConnectionFactory" depends-on="amqConnectionFactory">-->
-<!--		<constructor-arg index="0" type="ConnectionFactory" ref="amqConnectionFactory" />-->
-<!--		<property name="exceptionListener" ref="jmsExceptionListener" /> -->
-<!--		<property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" />-->
-<!--	</bean>-->
-	
-	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties">
-<!--		<constructor-arg index="0" type="String" value="${instance.name}" />-->
-		<property name="name" value="${instance.name}" />
-<!--		<constructor-arg name="name" value="${instance.name}" />-->
+	<bean id="JMSContainer" class="it.geosolutions.geoserver.jms.client.JMSContainer">
+<!-- 		destroy-method="shutdown"> -->
+		<constructor-arg index="0" ref="JMSConfiguration" />
+		<constructor-arg index="1" ref="JMSQueueListener" />
 	</bean>
-
-	<!-- the merge is specified on the *child* collection definition -->
-	<!-- <bean id="Properties" parent="JMSProperties"> -->
-	<!-- <property name="properties"> -->
-	<!-- <props merge="true"> -->
-	<!-- <prop key="sales">sales@example.com</prop> -->
-	<!-- <prop key="support">support@example.co.uk</prop> -->
-	<!-- </props> -->
-	<!-- </property> -->
-	<!-- </bean> -->
 
 	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
 		lazy-init="false" />
+		
+	
+
+	<bean id="JMSToggleProducer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0" value="MASTER" />
+	</bean>
+
+	<bean id="JMSToggleConsumer" class="it.geosolutions.geoserver.jms.events.ToggleSwitch">
+		<constructor-arg index="0" value="SLAVE" />
+	</bean>
+	
+	<!-- SERVER -->
+	
+	<bean id="JMSPublisher" class="it.geosolutions.geoserver.jms.JMSPublisher">
+		<constructor-arg index="0" ref="JMSManager" />
+	</bean>
+
+	<!-- CLIENT -->
+
+	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener">
+		<constructor-arg index="0" ref="JMSManager" />
+	</bean>
+	
+	
+
 
 </beans>
