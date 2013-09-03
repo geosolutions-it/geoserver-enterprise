@@ -146,7 +146,7 @@
 		<!-- JMS -->
 		<!-- ======================================== -->
 		<profile>
-			<id>jms-client</id>
+			<id>cluster</id>
 			<activation>
 				<property>
 					<name>all</name>
@@ -158,7 +158,7 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>jms-server</id>
+			<id>activemq</id>
 			<activation>
 				<property>
 					<name>all</name>
@@ -168,6 +168,6 @@
 			<modules>
 				<module>cluster</module>
 			</modules>
-		</profile>		
+		</profile>
   </profiles>
 </project>
