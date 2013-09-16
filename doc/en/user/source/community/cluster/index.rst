@@ -25,6 +25,7 @@ Description
 The GeoServer Master/slave integration is implemented using JMS, Spring and a MOM (Message Oriented Middleware), in particular ActiveMQ.
 The schema in Illustration  represents a complete high level design of Master/Slave platform.
 It is composed by 3 distinct actors:
+
 1. GeoServer Masters
 2. GeoServer Slaves
 3. The MOM (ActiveMQ)
@@ -59,13 +60,13 @@ The comunity plugin is composed by 3 different modules (plus one which can be us
 4. activemqBroker
 
 jms-commons
------------
+^^^^^^^^^^^
 
 Contains only the low level definition of all the used interface.
 Depends from Spring JMS.
 
 jms-geoserver
--------------
+^^^^^^^^^^^^^
 
 Is the geoserver cluster core plugin, it implements the Master and the Slave and all the needed GeoServer event listeners (currently this is done for configuration and catalog).
 Define a set of classes and methods to serialize or wrap those events to produce valid JMS messages.
@@ -76,14 +77,28 @@ The object will be used to apply changes to the target component (for instance t
 It also ships an GUI interface to handle the various components and to check the status
 Depends from geoserver and the jms-commons module.
 
-
 jms-activemq
-------------
+^^^^^^^^^^^^
 
 Is a the activeMQ implementation of a factory used to instantiate the needed JMS components (essentially 2 Destination and 1 Connection).
 Depends from ActiveMQ and jms-commons.
 
 It is however possible as indicated above that an instance of  GeoServer would work both as master as well as Slave (looking at events coming from other GeoServer(s)). This is useful to setup a multimaster enviroment that allows the modification to keep flowing even in face of failure of one of the masters (using a failover approach).
+
+Installation
+^^^^^^^^^^^^
+
+To install the jms cluster modules into an existing geoserver refer to the :ref:`jms.installation` page 
+
+Building
+^^^^^^^^
+
+To build geoserver with cluster support you only need to add the **cluster** profile to the maven command line:
+
+.. code-block:: xml
+  
+  mvn clean install -Pcluster
+
 
 activemqBroker
 --------------
@@ -96,6 +111,30 @@ Very small web application based on ActiveMQ which is preconfigured to be used w
    activemq/activemqBroker
    activemq/JDBC
    activemq/SharedFolder
+
+Building
+^^^^^^^^
+
+To build the standalone broker you only need to add the **activemq** profile to the maven command line:
+
+.. code-block:: xml
+  
+  mvn clean install -Pactivemq
+  
+You'll get two distinct war:
+
+The standalone ActiveMQ broker:
+
+.. code-block:: xml
+  
+  ./community/cluster/activemqBroker/activemq_webapp/target/activemq.war
+
+The geoserver including the cluster plugin:
+
+.. code-block:: xml
+  
+  ./web/app/target/geoserver.war
+
 
 HOW-TO configure GeoServer Instances
 ====================================
@@ -127,6 +166,17 @@ NEVER RELOAD THE GEOSERVER CATALOG ON A MASTER
 Each master instance should never call the catalog reload since this propagates the creation of all the resources, styles, etc to all the connected slaves.
 NEVER CHANGE CONFIGURATION USING A PURE SLAVE
 This will make the configuration of the specific slave out of synch with the others.
+
+Refs:
+-----
+
+.. toctree:: 
+   :maxdepth: 1
+
+   installation
+   activemq/activemqBroker
+   activemq/JDBC
+   activemq/SharedFolder
 
 Bibliography:
 -------------
