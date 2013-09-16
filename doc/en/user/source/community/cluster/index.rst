@@ -139,7 +139,7 @@ The geoserver including the cluster plugin:
 HOW-TO configure GeoServer Instances
 ====================================
 
-The configuration for the geoserver is very simple and can be performed using the provided GUI or modifying the cluster.properties file which is stored into the GEOSERVER_DATA_DIR.
+The configuration for the geoserver is very simple and can be performed using the provided GUI or modifying the cluster.properties file which is stored into the GEOSERVER_DATA_DIR under the cluster folder (${GEOSERVER_DATA_DIR}/cluster). To override the default destination of this configuration file you have to setup the **CLUSTER_CONFIG_DIR** variable defining the destination folder of the **cluster.properties** file. This is useful when you want to share the same GEOSERVER_DATA_DIR (which is not needed with geoserver cluster with JMS extensions).
 
 Instance name
 -------------
