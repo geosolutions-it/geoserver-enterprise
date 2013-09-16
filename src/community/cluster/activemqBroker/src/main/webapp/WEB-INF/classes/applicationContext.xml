@@ -30,7 +30,7 @@
 	</bean>
 
 	<amq:broker useJmx="false" persistent="true"
-		xmlns="http://activemq.apache.org/schema/core" startAsync="true">
+		xmlns="http://activemq.apache.org/schema/core" startAsync="true" dataDirectory="${activemq.base}">
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
@@ -64,7 +64,7 @@
 			mechanism is the KahaDB store (identified by the kahaDB tag). For more information, 
 			see: http://activemq.apache.org/persistence.html -->
 		<persistenceAdapter>
-			<kahaDB directory="${activemq.base}/data/kahadb" lockKeepAlivePeriod="0"/>
+			<kahaDB directory="${activemq.base}/kahadb" lockKeepAlivePeriod="0"/>
 			
 <!-- 				<jdbcPersistenceAdapter dataDirectory="activemq-data" -->
 <!-- 					dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
