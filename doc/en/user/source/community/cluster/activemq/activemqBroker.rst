@@ -90,22 +90,22 @@ ${JAVA_HOME}/bin/jconsole
 
 After you connect to the brokers you may see something like this:
 
-.. figure:: images/master_slave_jmx_1.jpg
+.. figure:: images/master_slave_jmx_1.png
    :align: center
    
 You may look at the console, as you can see the 2nd instance of the broker cannot take the look on the file (the example uses KahaDB); this is also visible in the JMX console into the widhow on the right side.
 
 If now you select the 'operation' (on the left side window) you will see:
 
-.. figure:: images/master_slave_jmx_2.jpg
+.. figure:: images/master_slave_jmx_2.png
    :align: center
    
 Using that console we are able to perform many operation, so to simulate a broker down we try to click on the 'stop()' button.
 
 Doing so, the first broker instance will stop and the JMX connection will be closed, and the second instance (on the right side) will keep the control of the DB.
 
-.. figure:: images/master_slave_jmx_3.jpg
+.. figure:: images/master_slave_jmx_3.png
    :align: center
 
-.. figure:: images/master_slave_jmx_4.jpg
+.. figure:: images/master_slave_jmx_4.png
    :align: center
