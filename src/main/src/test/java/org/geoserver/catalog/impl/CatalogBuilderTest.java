@@ -206,7 +206,7 @@ public class CatalogBuilderTest extends GeoServerTestSupport {
 
     public void testLargeNDMosaic() throws Exception {
         // build a mosaic with 1025 files (the standard ulimit is 1024)
-        File mosaic = new File("./target/largeMosaic");
+        File mosaic = new File("./target/largeMosaic"+System.nanoTime());
         try {
             createTimeMosaic(mosaic, 1025);
             
@@ -232,7 +232,7 @@ public class CatalogBuilderTest extends GeoServerTestSupport {
     
     public void testMosaicParameters() throws Exception {
         // build a mosaic with 1025 files (the standard ulimit is 1024)
-        File mosaic = new File("./target/smallMosaic");
+        File mosaic = new File("./target/smallMosaic"+System.nanoTime());
         try {
             createTimeMosaic(mosaic, 4);
             
@@ -269,7 +269,9 @@ public class CatalogBuilderTest extends GeoServerTestSupport {
                 mosaic.delete();
             }
         }
-        mosaic.mkdir();
+        if(!mosaic.mkdir()){
+            throw new IllegalStateException("Unable to create directory: "+mosaic.getAbsolutePath());
+        }
         
         // build the reference coverage into a byte array
         GridCoverageFactory factory = new GridCoverageFactory();
@@ -279,6 +281,7 @@ public class CatalogBuilderTest extends GeoServerTestSupport {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         GeoTiffWriter writer = new GeoTiffWriter(bos);
         writer.write(test, null);
+        writer.dispose();
         
         // create the lot of files
         byte[] bytes = bos.toByteArray();
