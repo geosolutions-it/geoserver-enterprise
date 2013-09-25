@@ -42,7 +42,7 @@ public class TypeNameKvpParser extends QNameKvpParser {
             // mind, this is lenient behavior so we use it only if the server is not runnig in cite mode
             FeatureTypeInfo ftInfo = catalog.getFeatureTypeByName(token);
             if(ftInfo == null) {
-                throw new WFSException("Could not find type name " + token, "InvalidParameterValue", "typeName");
+                return new QName(null, token);
             } else {
                 final Name name = ftInfo.getFeatureType().getName();
                 return new QName(name.getNamespaceURI(), name.getLocalPart());

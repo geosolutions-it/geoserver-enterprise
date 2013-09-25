@@ -6,12 +6,12 @@ package it.geosolutions.geoserver.jms;
 
 import java.io.Serializable;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jms.JMSException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.geotools.util.logging.Logging;
 /**
  * JMS SLAVE (Consumer)
  * 
@@ -24,13 +24,18 @@ import org.slf4j.LoggerFactory;
  */
 public class JMSSynchronizer {
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(JMSSynchronizer.class);
+	private final static Logger LOGGER = Logging.getLogger(JMSSynchronizer.class);
+	
+	private final JMSManager jmsManager;
+	
+	public JMSSynchronizer(JMSManager jmsManager) {
+	        this.jmsManager=jmsManager;
+	}
 	
 	public <S extends Serializable, O> void synchronize(final O event, final Properties props) throws JMSException, IllegalArgumentException {
 		try {
 			// try to get the handler from the spring context
-			final JMSEventHandler<S,O> handler = JMSManager.getHandler(event);
+			final JMSEventHandler<S,O> handler = jmsManager.getHandler(event);
 			// if handler is not found 
 			if (handler==null){
 				throw new IllegalArgumentException("Unable to locate a valid handler for the incoming event: "+event);
@@ -39,8 +44,8 @@ public class JMSSynchronizer {
 			handler.synchronize(event);
 		
 		} catch (Exception e) {
-			if (LOGGER.isErrorEnabled()) {
-				LOGGER.error("Unable to synchronize event: "+event+" locally");
+			if (LOGGER.isLoggable(Level.SEVERE)) {
+				LOGGER.severe("Unable to synchronize event: "+event+" locally");
 			}
 			final JMSException ex=new JMSException(e.getLocalizedMessage());
 			ex.initCause(e);
