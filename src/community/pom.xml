@@ -31,6 +31,8 @@
           <descriptor>release/ext-printing.xml</descriptor>
           <descriptor>release/ext-aggregate.xml</descriptor>
           <descriptor>release/ext-importer.xml</descriptor>
+          <descriptor>release/ext-cluster.xml</descriptor>
+          <descriptor>release/ext-activeMQ.xml</descriptor>
         </descriptors>
       </configuration>
      </plugin>
@@ -92,6 +94,7 @@
         <module>release</module>
         <module>feature-aggregate</module>
         <module>importer</module>
+        <module>cluster</module>
       </modules>
     </profile>
     <profile>      

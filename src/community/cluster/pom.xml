@@ -15,7 +15,6 @@
 
     <name>GeoServer Enterprise JMS modules</name>
 
-    
 <profiles>
 	<profile>
 		<id>activemq</id>
@@ -43,19 +42,5 @@
 			<module>jms-activeMQ</module>
 		</modules>
 	</profile>
-        
 </profiles>
-
-<!--repositories>
-  <repository>
-   <id>fuse</id>
-   <name>fuse Repository</name>
-   <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
-   <snapshots>
-     <enabled>false</enabled>
-   </snapshots>
-  </repository>
-</repositories-->
-
-
 </project>
