@@ -28,6 +28,7 @@
         <include>geronimo-*.jar</include>
         <include>proton-*.jar</include>
         <include>bcpkix-jdk15on-1.47.jar</include>
+        <include>bcprov-jdk15on-1.47.jar</include>
         <include>hawtbuf-1.9.jar</include>   
       </includes>
     </fileSet>
