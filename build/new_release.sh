@@ -205,7 +205,7 @@ pushd src > /dev/null
 # build the release
 if [ -z $SKIP_BUILD ]; then
   echo "building release"
-  mvn $MAVEN_FLAGS clean install -DskipTests -P $PROFILES
+  mvn $MAVEN_FLAGS -Dbuild.hudsonId=$BUILD_NUMBER clean install -DskipTests -P $PROFILES
   
   # build the javadocs
   mvn javadoc:aggregate
@@ -227,6 +227,9 @@ fi
 
 mvn $MAVEN_FLAGS assembly:attached
 
+# build comunity
+cd community && ${mvn} assembly:attached && cd ..
+
 # copy over the artifacts
 if [ ! -e $DIST_PATH ]; then
   mkdir -p $DIST_PATH
@@ -237,6 +240,12 @@ if [ -e $dist ]; then
 fi
 mkdir $dist
 mkdir $dist/plugins
+
+# community ext
+#if [ -e $dist/community ]; then
+#  rm -rf $dist/community
+#fi
+#mkdir $dist/community
 
 artifacts=`pwd`/target/release
 # bundle up mac and windows installer stuff
@@ -285,6 +294,7 @@ popd > /dev/null
 
 echo "copying artifacts to $dist"
 cp $artifacts/*-plugin.zip $dist/plugins
+cp community/target/release/geoserver-*-plugin.zip $dist/plugins
 for a in `ls $artifacts/*.zip | grep -v plugin`; do
   cp $a $dist
 done
