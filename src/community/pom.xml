@@ -92,6 +92,7 @@
         <module>authkey</module>
         <module>printing</module>
         <module>release</module>
+        <module>bkprst</module>
         <module>feature-aggregate</module>
         <module>importer</module>
         <module>cluster</module>
