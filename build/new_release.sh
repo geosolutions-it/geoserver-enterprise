@@ -223,12 +223,13 @@ fi
 if [ -z $SKIP_DEPLOY ]; then
   echo "Deploy release"
   mvn -U clean deploy -DskipTests -P $PROFILES
+  cd community && mvn clean deploy -DskipTests -PcommunityRelease && cd ..
 fi
 
 mvn $MAVEN_FLAGS assembly:attached
 
 # build comunity
-cd community && mvn assembly:attached && cd ..
+cd community && mvn clean install assembly:attached -DskipTests -PcommunityRelease && cd ..
 
 # copy over the artifacts
 if [ ! -e $DIST_PATH ]; then
