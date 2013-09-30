@@ -96,6 +96,7 @@
         <module>feature-aggregate</module>
         <module>importer</module>
         <module>cluster</module>
+        <module>activemq</module>
       </modules>
     </profile>
     <profile>      
