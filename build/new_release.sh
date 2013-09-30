@@ -220,6 +220,11 @@ if [ -z $SKIP_BUILD ]; then
   popd > /dev/null
 fi
 
+if [ -z $SKIP_DEPLOY ]; then
+  echo "Deploy release"
+  mvn -U clean deploy -DskipTests -P $PROFILES
+fi
+
 mvn $MAVEN_FLAGS assembly:attached
 
 # copy over the artifacts
