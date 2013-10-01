@@ -18,9 +18,6 @@ import org.geoserver.catalog.DimensionPresentation;
  */
 public class DimensionInfoImpl implements DimensionInfo {
 
-    /** serialVersionUID */
-    private static final long serialVersionUID = -2978192474130857785L;
-
     boolean enabled;
 
     String attribute;
@@ -30,11 +27,7 @@ public class DimensionInfoImpl implements DimensionInfo {
     DimensionPresentation presentation;
 
     BigDecimal resolution;
-    
-    String units;
-    
-    String unitSymbol;
-    
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -74,34 +67,13 @@ public class DimensionInfoImpl implements DimensionInfo {
     public void setResolution(BigDecimal resolution) {
         this.resolution = resolution;
     }
-    
-    public String getUnits() {
-        return units;
-    }
 
-    public void setUnits(String units) {
-        this.units = units;
-    }
 
-    public String getUnitSymbol() {
-        return unitSymbol;
-    }
-
-    public void setUnitSymbol(String unitSymbol) {
-        this.unitSymbol = unitSymbol;
-    }
-    
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DimensionInfoImpl [attribute=").append(attribute);
-        sb.append(", endAttribute=").append(endAttribute);
-        sb.append(", enabled=").append(enabled);
-        sb.append(", units=").append(units);
-        sb.append(", unitSymbol=").append(unitSymbol);
-        sb.append(", presentation=").append(presentation);
-        sb.append(", resolution=").append(resolution).append("]");
-        return sb.toString();
+        return "DimensionInfoImpl [attribute=" + attribute + ", endAttribute=" + endAttribute
+                + "enabled=" + enabled + ", presentation=" + presentation
+                + ", resolution=" + resolution + "]";
     }
 
     @Override
@@ -111,8 +83,6 @@ public class DimensionInfoImpl implements DimensionInfo {
         result = prime * result + ((attribute == null) ? 0 : attribute.hashCode());
         result = prime * result + ((endAttribute == null) ? 0 : endAttribute.hashCode());
         result = prime * result + (enabled ? 1231 : 1237);
-        result = prime * result + ((units == null) ? 0 : units.hashCode());
-        result = prime * result + ((unitSymbol == null) ? 0 : unitSymbol.hashCode());
         result = prime * result + ((presentation == null) ? 0 : presentation.hashCode());
         result = prime * result + ((resolution == null) ? 0 : resolution.hashCode());
         return result;
@@ -131,16 +101,6 @@ public class DimensionInfoImpl implements DimensionInfo {
             if (other.attribute != null)
                 return false;
         } else if (!attribute.equals(other.attribute))
-            return false;
-        if (units == null) {
-            if (other.units != null)
-                return false;
-        } else if (!units.equals(other.units))
-            return false;
-        if (unitSymbol == null) {
-            if (other.unitSymbol != null)
-                return false;
-        } else if (!unitSymbol.equals(other.unitSymbol))
             return false;
         if (enabled != other.enabled)
             return false;
