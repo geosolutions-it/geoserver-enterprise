@@ -3,7 +3,6 @@ package org.geoserver.wps.gs;
 import java.io.File;
 
 import org.geoserver.data.test.MockData;
-import org.geoserver.wps.WPSStorageCleaner;
 import org.geoserver.wps.WPSTestSupport;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.gce.geotiff.GeoTiffFormat;
@@ -53,7 +52,7 @@ public class StoreCoverageTest extends WPSTestSupport {
         assertTrue(url.startsWith("http://localhost:8080/geoserver/temp/wps/DEM"));
         String fileName = url.substring(url.lastIndexOf('/') + 1);
 
-        File wpsTemp =  new File(/*getDataDirectory().root()*/WPSStorageCleaner.getWpsOutputStorage(), "temp/wps");
+        File wpsTemp = new File(getDataDirectory().root(), "temp/wps");
         File tiffFile = new File(wpsTemp, fileName);
 
         assertTrue(tiffFile.exists());
