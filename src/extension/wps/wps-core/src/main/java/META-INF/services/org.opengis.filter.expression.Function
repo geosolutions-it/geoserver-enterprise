@@ -1,0 +1,2 @@
+org.geoserver.wps.raster.algebra.FilterFunction_max
+org.geoserver.wps.raster.algebra.FilterFunction_min
