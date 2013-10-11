@@ -3,20 +3,19 @@ package org.geoserver.wps.gs;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 
 import javax.media.jai.RasterFactory;
-import javax.media.jai.iterator.RectIter;
-import javax.media.jai.iterator.RectIterFactory;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.geoserver.wps.raster.GridCoverage2DRIA;
 import org.geotools.coverage.CoverageFactoryFinder;
+import org.geotools.coverage.GridSampleDimension;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
+import org.geotools.coverage.grid.GridGeometry2D;
+import org.geotools.coverage.grid.ViewType;
 import org.geotools.geometry.Envelope2D;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 
@@ -92,6 +91,15 @@ public class Coverage2RenderedImageAdapterTest extends TestCase {
                 null, new Color[][]{colors}, null);
     }
 
+    private static void view(RenderedImage ri, GridGeometry2D gg, GridSampleDimension[] gsd) {
+        final GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
+
+        GridCoverage2D rendered = factory.create("Merged coverage", ri,
+                gg, gsd, null, null);
+
+        rendered.view(ViewType.RENDERED).show();
+    }
+
     public void testSame() throws InterruptedException {
         GridCoverage2D src = createTestCoverage(500, 500, 0,0, 10,10);
         GridCoverage2D dst = createTestCoverage(500, 500, 0,0, 10,10);
@@ -109,6 +117,15 @@ public class Coverage2RenderedImageAdapterTest extends TestCase {
         pdst = cria.mapSourcePoint(psrc, 0);
         assertNull(pdst);
 
+//        src.view(ViewType.RENDERED).show();
+//        dst.view(ViewType.RENDERED).show();
+////        new Viewer(src.view(ViewType.RENDERED).getRenderedImage());
+//        new Viewer(getName(), cria);
+
+//        view(cria, dst.getGridGeometry(), src.getSampleDimensions());
+
+//        Viewer.show(src);
+//        Thread.sleep(15000);
     }
 
     public void testSameWorldSmallerDstRaster() throws InterruptedException {
@@ -121,14 +138,18 @@ public class Coverage2RenderedImageAdapterTest extends TestCase {
         Point2D psrc = new Point2D.Double(13d,16d); // this is on dst gc
         Point2D pdst = cria.mapSourcePoint(psrc, 0);
         assertNotNull("Can't convert " + psrc, pdst);
-        assertEquals(6.5d, pdst.getX());
-        assertEquals(8d, pdst.getY());
+        assertEquals(26d, pdst.getX());
+        assertEquals(32d, pdst.getY());
 
         //--- external points should not be remapped
         psrc = new Point2D.Double(600d,600d); // this is on dst gc
         pdst = cria.mapSourcePoint(psrc, 0);
         assertNull(pdst);
 
+//        src.view(ViewType.RENDERED).show();
+//        dst.view(ViewType.RENDERED).show();
+//        new Viewer(getName(), cria);
+//        Thread.sleep(15000);
     }
 
     /**
@@ -139,48 +160,27 @@ public class Coverage2RenderedImageAdapterTest extends TestCase {
         GridCoverage2D src = createTestCoverage(500,500, 0,0 ,10,10);
         GridCoverage2D dst = createTestCoverage(500,500, 0,0 ,5,5);
 
+//        double nodata[] = src.getSampleDimension(0).getNoDataValues();
+
         GridCoverage2DRIA cria = GridCoverage2DRIA.create(src, dst, NODATA);
 
-        //--- origin of source is outside dest
+        //--- internal points should halves coords (no interp on coords)
         Point2D psrc = new Point2D.Double(0d,0d);
         Point2D pdst = cria.mapSourcePoint(psrc, 0);
-        assertNull(pdst);
-        
-        //--- looking for origin of dest
-        psrc = new Point2D.Double(0d,250d); // this is on dst gc
-        pdst = cria.mapSourcePoint(psrc, 0);
-        assertNotNull(pdst);
+        System.out.println(pdst);
         assertEquals(0d, pdst.getX());
-        assertEquals(0d, pdst.getY());
-        psrc=cria.mapDestPoint(pdst, 0);
-        assertNotNull(psrc);
-        assertEquals(0d, psrc.getX());
-        assertEquals(250d, psrc.getY());
+        assertEquals(250d, pdst.getY());
 
-        psrc = new Point2D.Double(250d,500d); // this is in src gc but outside dest
+        psrc = new Point2D.Double(20d,30d); // this is on dst gc
         pdst = cria.mapSourcePoint(psrc, 0);
-        assertNull(pdst);
-        
-        psrc = new Point2D.Double(249d,499d); // this is in src gc but outside dest
-        pdst = cria.mapSourcePoint(psrc, 0);
-        assertNotNull(pdst);
-        assertEquals(498d, pdst.getX());
-        assertEquals(498d, pdst.getY());        
-        // there should be no point in destination that gives nodata
-        // as there is source everywhere
-        Raster data= cria.getData();
-        final RectIter iterator = RectIterFactory.create(data, null);
-        iterator.startPixels();
-        while(!iterator.finishedLines()){
-            while(!iterator.finishedPixels()){
-                double val=iterator.getSampleDouble();
-                Assert.assertFalse("Value should not be noData", NODATA== val);
-                iterator.nextPixel();
-            }
-            iterator.nextLine();
-        }
-        
-        
+        assertEquals(10d, pdst.getX());
+        assertEquals(250d + 15d, pdst.getY());
+        System.out.println(pdst);
+
+//        src.view(ViewType.RENDERED).show();
+//        dst.view(ViewType.RENDERED).show();
+//        new Viewer(getName(), cria);
+//        Thread.sleep(15000);
     }
 
     /**
@@ -194,31 +194,24 @@ public class Coverage2RenderedImageAdapterTest extends TestCase {
         GridCoverage2DRIA cria = GridCoverage2DRIA.create(src, dst, NODATA);
 
         //--- internal points should halves coords (no interp on coords)
-        Point2D psrc = new Point2D.Double(0d,499d); // this is on src gc and outside dest gc
+        Point2D psrc = new Point2D.Double(0d,499d); // this is on dst gc
         Point2D pdst = cria.mapSourcePoint(psrc, 0);
-        assertNull(pdst);
-        double val = cria.getData().getSampleFloat(0, 0, 0);
-        assertEquals("Value should be noData", NODATA, val);
-        
-        psrc = new Point2D.Double(200d,200d); // this is inside src gc and inside dest gc
-        pdst = cria.mapSourcePoint(psrc, 0);
-        assertNotNull(pdst);
-        assertEquals(0d, pdst.getX());
-        assertEquals(400d, pdst.getY());
-        
-        psrc = new Point2D.Double(400d,200d); // this is inside src gc and inside dest gc
-        pdst = cria.mapSourcePoint(psrc, 0);
         assertNotNull(pdst);
         assertEquals(200d, pdst.getX());
-        assertEquals(400d, pdst.getY());
+        assertEquals(299d, pdst.getY());
 
         //--- points not inside dest but inside src shoud be remapped on a novalue cell
         psrc = new Point2D.Double(0d,0d); // this is on dst gc
         pdst = cria.mapSourcePoint(psrc, 0);
         assertNull(pdst); // should not map on src raster
-        val = cria.getData().getSampleFloat(0, 0, 0);
+
+        double val = cria.getData().getSampleFloat(0, 0, 0);
         assertEquals("Value should be noData", NODATA, val);
 
+//        src.view(ViewType.RENDERED).show();
+//        dst.view(ViewType.RENDERED).show();
+//        new Viewer(getName(), cria);
+//        Thread.sleep(20000);
     }
 
 
