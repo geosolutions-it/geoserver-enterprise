@@ -54,6 +54,8 @@ public class CoverageInfoImpl extends ResourceInfoImpl implements CoverageInfo {
     protected List<String> responseSRS = new ArrayList<String>();
     
     protected Map parameters = new HashMap();
+    
+    protected String nativeCoverageName;
 
     protected CoverageInfoImpl() {
     }
@@ -269,6 +271,20 @@ public class CoverageInfoImpl extends ResourceInfoImpl implements CoverageInfo {
                 return false;
         } else if (!supportedFormats.equals(other.getSupportedFormats()))
             return false;
+        if (nativeCoverageName == null) {
+            if (other.getNativeCoverageName() != null)
+                return false;
+        } else if (!nativeCoverageName.equals(other.getNativeCoverageName()))
+            return false;
         return true;
+    }
+    
+
+    public String getNativeCoverageName() {
+        return nativeCoverageName;
+    }
+
+    public void setNativeCoverageName(String nativeCoverageName) {
+        this.nativeCoverageName = nativeCoverageName;
     }
 }

@@ -43,6 +43,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.operation.transform.AffineTransform2D;
 import org.geotools.temporal.object.DefaultPeriodDuration;
+import org.geotools.util.NumberRange;
 import org.geotools.util.logging.Logging;
 import org.geotools.xml.transform.TransformerBase;
 import org.geotools.xml.transform.Translator;
@@ -256,8 +257,9 @@ public class Wcs10DescribeCoverageTransformer extends TransformerBase {
          * DOCUMENT ME!
          * 
          * @param lonLatEnvelope
+         * @throws IOException 
          */
-        private void handleLonLatEnvelope(CoverageInfo ci, ReferencedEnvelope referencedEnvelope) {
+        private void handleLonLatEnvelope(CoverageInfo ci, ReferencedEnvelope referencedEnvelope) throws IOException {
 
             CoverageStoreInfo csinfo = ci.getStore();
             
@@ -405,7 +407,7 @@ public class Wcs10DescribeCoverageTransformer extends TransformerBase {
             SimpleDateFormat timeFormat = dimensions.getTimeFormat();
             start("wcs:temporalDomain");
             if(timeInfo.getPresentation() == DimensionPresentation.LIST) {
-                for(Date date : dimensions.getTimeDomain()) {
+                for(Object date : dimensions.getTimeDomain()) {
                     element("gml:timePosition", timeFormat.format(date));
                 }
             } else {
@@ -499,8 +501,9 @@ public class Wcs10DescribeCoverageTransformer extends TransformerBase {
          * 
          * @param ci
          * @param field
+         * @throws IOException 
          */
-        private void handleRange(CoverageInfo ci) {
+        private void handleRange(CoverageInfo ci) throws IOException {
             // rangeSet
             start("wcs:rangeSet");
             start("wcs:RangeSet");
@@ -559,9 +562,21 @@ public class Wcs10DescribeCoverageTransformer extends TransformerBase {
                     element("wcs:label", "ELEVATION");
                     start("wcs:values");
                     
-                    TreeSet<Double> elevations = dimensions.getElevationDomain();
+                    TreeSet<Object> rawElevations = dimensions.getElevationDomain();
+                    // we cannot expose ranges, so if we find them, we turn them into
+                    // their mid point
+                    TreeSet<Double> elevations = new TreeSet<Double>();
+                    for (Object raw : rawElevations) {
+                        if(raw instanceof Double) {
+                            elevations.add((Double) raw);
+                        } else {
+                            NumberRange<Double> range = (NumberRange<Double>) raw;
+                            double midValue = (range.getMinimum() + range.getMaximum()) / 2;
+                            elevations.add(midValue);
+                        }
+                    }
                     for(Double elevation : elevations) {
-                    	element("wcs:singleValue", Double.toString(elevation));
+                        element("wcs:singleValue", Double.toString(elevation));
                     }
                     element("wcs:default", Double.toString(elevations.first()));
                    

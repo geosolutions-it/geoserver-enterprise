@@ -549,9 +549,10 @@ public class Wcs10CapsTransformer extends TransformerBase {
         /**
          * 
          * @param referencedEnvelope
+         * @throws IOException 
          */
         private void handleEnvelope(ReferencedEnvelope referencedEnvelope, DimensionInfo timeInfo, 
-                ReaderDimensionsAccessor dimensions) {
+                ReaderDimensionsAccessor dimensions) throws IOException {
             AttributesImpl attributes = new AttributesImpl();
 
             attributes.addAttribute("", "srsName", "srsName", "", /* "WGS84(DD)" */ "urn:ogc:def:crs:OGC:1.3:CRS84");
@@ -697,8 +698,9 @@ public class Wcs10CapsTransformer extends TransformerBase {
         /**
          * 
          * @param cv
+         * @throws IOException 
          */
-        private void handleCoverageOfferingBrief(CoverageInfo cv) {
+        private void handleCoverageOfferingBrief(CoverageInfo cv) throws IOException {
             if (cv.isEnabled()) {
                 start("wcs:CoverageOfferingBrief");
 

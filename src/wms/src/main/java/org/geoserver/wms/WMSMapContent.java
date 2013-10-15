@@ -10,12 +10,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.IndexColorModel;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.image.palette.InverseColorMapOp;
 import org.geotools.map.Layer;
 import org.geotools.map.MapContent;
 import org.geotools.renderer.lite.RendererUtilities;
+import org.geotools.renderer.lite.StreamingRenderer;
 
 /**
  * Extends DefaultMapContext to provide the whole set of request parameters a WMS GetMap request can
@@ -287,6 +290,22 @@ public class WMSMapContent extends MapContent {
      */
     public void setAbstract(final String contextAbstract){
         getUserData().put("abstract", contextAbstract);
+    }
+    
+    public double getScaleDenominator() {
+        return getScaleDenominator(false);
+    }
+
+    public double getScaleDenominator(boolean considerDPI) {
+        Map<String, Object> hints = new HashMap<String, Object>();
+        if(considerDPI) {
+            double dpi = RendererUtilities.getDpi(getRequest().getFormatOptions());
+            hints.put(StreamingRenderer.DPI_KEY, dpi);
+        }
+        return RendererUtilities.calculateOGCScale(
+                getRenderingArea(),
+                getRequest().getWidth(),
+                hints);
     }
 
 }

@@ -1,21 +1,69 @@
 package org.geoserver.wms.capabilities;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+
 import junit.framework.TestCase;
+
+import org.geoserver.catalog.DimensionInfo;
+import org.geoserver.catalog.DimensionPresentation;
+import org.geoserver.catalog.impl.DimensionInfoImpl;
+import org.geoserver.util.ISO8601Formatter;
+import org.geoserver.wms.WMS;
+import org.geoserver.wms.capabilities.DimensionHelper.Mode;
+import org.xml.sax.Attributes;
+
+import com.vividsolutions.jts.util.Assert;
 
 /**
  * A test for proper ISO8601 formatting.
  * @author Ian Schneider <ischneider@opengeo.org>
  */
 public class DimensionHelperTest extends TestCase {
+
+    protected DimensionHelper dimensionHelper;
+
+    @Override
+    public void setUp() {
+
+        dimensionHelper = new DimensionHelper(Mode.WMS13, WMS.get()) {
+
+            @Override
+            protected void element(String element, String content, Attributes atts) {
+                // Capabilities_1_3_0_Translator.this.element(element, content, atts);
+            }
+
+            @Override
+            protected void element(String element, String content) {
+                // Capabilities_1_3_0_Translator.this.element(element, content);
+            }
+        };
+    }
+    
+    public void testGetCustomDomainRepresentation() {
+        final String[] vals=new String[]{"value with spaces", "value"}; 
+        final List<String> values=new ArrayList<String>();
+        for (String val : vals)
+            values.add(val);
+        DimensionInfo dimensionInfo=new DimensionInfoImpl();
+        dimensionInfo.setPresentation(DimensionPresentation.LIST);
+        dimensionInfo.setResolution(new BigDecimal(1));
+        String customDimRepr=dimensionHelper.getCustomDomainRepresentation(dimensionInfo, values);
+        //value with spaces,value
+        Assert.equals(customDimRepr, vals[0]+","+vals[1]);
+        //System.out.print(vals.toString());
+
+    }
     
     public void testNegativeYears() {
-        DimensionHelper.ISO8601Formatter fmt = new DimensionHelper.ISO8601Formatter();
+        ISO8601Formatter fmt = new ISO8601Formatter();
         
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -49,7 +97,7 @@ public class DimensionHelperTest extends TestCase {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         
-        DimensionHelper.ISO8601Formatter fmt = new DimensionHelper.ISO8601Formatter();
+        ISO8601Formatter fmt = new ISO8601Formatter();
         
         GregorianCalendar cal = new GregorianCalendar();
         Random r = new Random();
@@ -67,7 +115,7 @@ public class DimensionHelperTest extends TestCase {
     public void testPadding() throws ParseException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        DimensionHelper.ISO8601Formatter fmt = new DimensionHelper.ISO8601Formatter();
+        ISO8601Formatter fmt = new ISO8601Formatter();
         
         assertEquals("0010-01-01T00:01:10.001Z", fmt.format(df.parse("0010-01-01T00:01:10.001")));
         assertEquals("0100-01-01T00:01:10.011Z", fmt.format(df.parse("0100-01-01T00:01:10.011")));

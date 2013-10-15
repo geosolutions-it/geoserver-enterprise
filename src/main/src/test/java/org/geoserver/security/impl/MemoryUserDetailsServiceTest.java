@@ -316,7 +316,8 @@ public class MemoryUserDetailsServiceTest extends AbstractUserDetailsServiceTest
         Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(store);
         XPath xpath = XPathFactory.newInstance().newXPath();
         String encrypted = xpath.evaluate("//entry[@key='passwd']", dom.getDocumentElement());
-        assertTrue((prefix+"secret").equals(encrypted));
+        assertTrue(("secret").equals(encrypted));
+//        assertTrue((prefix+"secret").equals(encrypted));
         XStreamPersister xs = new XStreamPersisterFactory().createXMLPersister();
 
         FileInputStream fin = new FileInputStream(store);

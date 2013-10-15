@@ -799,13 +799,14 @@ public class GetCapabilitiesTransformer extends TransformerBase {
          * Calls super.handleFeatureType to add common FeatureType content such as Name, Title and
          * LatLonBoundingBox, and then writes WMS specific layer properties as Styles, Scale Hint,
          * etc.
+         * @throws RuntimeException 
          * 
          * @throws IOException
          * 
          * @task TODO: write wms specific elements.
          */
         @SuppressWarnings("deprecation")
-        protected void handleLayer(final LayerInfo layer) {
+        protected void handleLayer(final LayerInfo layer) throws RuntimeException, IOException {
             // HACK: by now all our layers are queryable, since they reference
             // only featuretypes managed by this server
             AttributesImpl qatts = new AttributesImpl();
@@ -861,10 +862,7 @@ public class GetCapabilitiesTransformer extends TransformerBase {
                 handleAdditionalBBox(bbox, srs, layer);
             }
 
-            // handle dimensions
-            String timeMetadata = null;
-            String elevationMetadata = null;
-            
+            // handle dimensions            
             if (layer.getType() == Type.VECTOR) {
                 dimensionHelper.handleVectorLayerDimensions(layer);
             } else if (layer.getType() == Type.RASTER) {

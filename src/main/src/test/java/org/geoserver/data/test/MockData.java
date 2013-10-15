@@ -825,7 +825,7 @@ public class MockData implements TestData {
         writer.write("<styles default=\"" + styleName + "\"/>\n");
         
         // envelope
-        CoordinateReferenceSystem crs = reader.getCrs();
+        CoordinateReferenceSystem crs = reader.getCoordinateReferenceSystem();
         GeneralEnvelope envelope = reader.getOriginalEnvelope();
         GeneralEnvelope wgs84envelope = CoverageStoreUtils.getWGS84LonLatEnvelope(envelope);
         final String nativeCrsName = CRS.lookupIdentifier(crs, false);
@@ -848,7 +848,7 @@ public class MockData implements TestData {
                 minCP[1] + (envelope.getSpan(1) / 20.0)
             };
         final GeneralEnvelope subEnvelope = new GeneralEnvelope(minCP, maxCP);
-        subEnvelope.setCoordinateReferenceSystem(reader.getCrs());
+        subEnvelope.setCoordinateReferenceSystem(reader.getCoordinateReferenceSystem());
 
         parameters.put(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName().toString(),
             new GridGeometry2D(reader.getOriginalGridRange(), subEnvelope));

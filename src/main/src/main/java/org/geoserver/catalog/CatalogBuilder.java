@@ -32,6 +32,7 @@ import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
+import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.data.FeatureSource;
 import org.geotools.data.ows.CRSEnvelope;
 import org.geotools.data.ows.Layer;
@@ -44,6 +45,7 @@ import org.geotools.referencing.CRS;
 import org.geotools.referencing.CRS.AxisOrder;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.resources.image.ImageUtilities;
+import org.geotools.util.NumberRange;
 import org.geotools.util.Version;
 import org.geotools.util.logging.Logging;
 import org.opengis.coverage.grid.Format;
@@ -814,7 +816,7 @@ public class CatalogBuilder {
         }
 
         CoverageStoreInfo csinfo = (CoverageStoreInfo) store;
-        AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) catalog
+        GridCoverage2DReader reader = (GridCoverage2DReader) catalog
                 .getResourcePool().getGridCoverageReader(csinfo, GeoTools.getDefaultHints());
 
         if (reader == null)
@@ -828,7 +830,7 @@ public class CatalogBuilder {
      * Builds a coverage from a geotools grid coverage reader.
      * @param customParameters 
      */
-    public CoverageInfo buildCoverage(AbstractGridCoverage2DReader reader, Map customParameters) throws Exception {
+    public CoverageInfo buildCoverage(GridCoverage2DReader reader, Map customParameters) throws Exception {
         if (store == null || !(store instanceof CoverageStoreInfo)) {
             throw new IllegalStateException("Coverage store not set.");
         }
@@ -846,7 +848,7 @@ public class CatalogBuilder {
         }
         cinfo.setNamespace(namespace);
 
-        CoordinateReferenceSystem nativeCRS = reader.getCrs();
+        CoordinateReferenceSystem nativeCRS = reader.getOriginalEnvelope().getCoordinateReferenceSystem();
         cinfo.setNativeCRS(nativeCRS);
 
         // mind the default projection policy, Coverages do not have a flexible
@@ -921,23 +923,6 @@ public class CatalogBuilder {
         parameters.remove(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName().toString());
 
         cinfo.getDimensions().addAll(getCoverageDimensions(gc.getSampleDimensions()));
-        // TODO:
-        // dimentionNames = getDimensionNames(gc);
-        /*
-         * StringBuilder cvName =null; int count = 0; while (true) { final StringBuilder key = new
-         * StringBuilder(gc.getName().toString()); if (count > 0) { key.append("_").append(count); }
-         * 
-         * Map coverages = dataConfig.getCoverages(); Set cvKeySet = coverages.keySet(); boolean
-         * key_exists = false;
-         * 
-         * for (Iterator it = cvKeySet.iterator(); it.hasNext();) { String cvKey = ((String)
-         * it.next()).toLowerCase(); if (cvKey.endsWith(key.toString().toLowerCase())) { key_exists
-         * = true; } }
-         * 
-         * if (!key_exists) { cvName = key; break; } else { count++; } }
-         * 
-         * String name = cvName.toString();
-         */
         String name = gc.getName().toString();
         cinfo.setName(name);
         cinfo.setNativeName(name);
@@ -1012,27 +997,42 @@ public class CatalogBuilder {
 
         for (int i = 0; i < length; i++) {
             CoverageDimensionInfo dim = catalog.getFactory().createCoverageDimension();
-            dim.setName(sampleDimensions[i].getDescription().toString(Locale.getDefault()));
+            GridSampleDimension sd = sampleDimensions[i];
+            String name = sd.getDescription().toString(Locale.getDefault());
+            dim.setName(name);
 
             StringBuilder label = new StringBuilder("GridSampleDimension".intern());
-            final Unit uom = sampleDimensions[i].getUnits();
+            final Unit uom = sd.getUnits();
 
+            String uName = name.toUpperCase();
             if (uom != null) {
                 label.append("(".intern());
                 parseUOM(label, uom);
                 label.append(")".intern());
+                dim.setUnit(uom.toString());
+            } else if(uName.startsWith("RED") || uName.startsWith("GREEN") || uName.startsWith("BLUE")) {
+                // radiance in SI
+                dim.setUnit("W.m-2.Sr-1");
             }
+            
+            dim.setDimensionType(sd.getSampleDimensionType());
 
             label.append("[".intern());
-            label.append(sampleDimensions[i].getMinimumValue());
+            label.append(sd.getMinimumValue());
             label.append(",".intern());
-            label.append(sampleDimensions[i].getMaximumValue());
+            label.append(sd.getMaximumValue());
             label.append("]".intern());
 
             dim.setDescription(label.toString());
-            dim.setRange(sampleDimensions[i].getRange());
 
-            final List<Category> categories = sampleDimensions[i].getCategories();
+            if (sd.getRange() != null) {
+                dim.setRange(sd.getRange());    
+            }
+            else {
+                dim.setRange(NumberRange.create(sd.getMinimumValue(), sd.getMaximumValue()));
+            }
+            
+            final List<Category> categories = sd.getCategories();
             if (categories != null) {
                 for (Category cat : categories) {
 
@@ -1047,7 +1047,7 @@ public class CatalogBuilder {
                     }
                 }
             }
-
+            
             dims.add(dim);
         }
 

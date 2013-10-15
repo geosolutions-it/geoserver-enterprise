@@ -799,8 +799,10 @@ public class Capabilities_1_3_0_Transformer extends TransformerBase {
         }
 
         /**
+         * @throws IOException 
+         * @throws RuntimeException 
          */
-        protected void handleLayer(final LayerInfo layer) {
+        protected void handleLayer(final LayerInfo layer) throws RuntimeException, IOException {
             boolean queryable = wmsConfig.isQueryable(layer);
             AttributesImpl qatts = attributes("queryable", queryable ? "1" : "0");
             Integer cascadedHopCount = wmsConfig.getCascadedHopCount(layer);

@@ -29,6 +29,7 @@ import org.geoserver.wms.map.MetatileMapOutputFormat;
 import org.geoserver.wms.map.RenderedImageMap;
 import org.geoserver.wms.map.RenderedImageMapOutputFormat;
 import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
+import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.data.FeatureSource;
 import org.geotools.data.Query;
 import org.geotools.data.QueryCapabilities;
@@ -52,6 +53,7 @@ import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.Rule;
 import org.geotools.styling.Style;
 import org.geotools.util.logging.Logging;
+import org.opengis.coverage.grid.GridCoverageReader;
 import org.opengis.feature.Feature;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.filter.Filter;
@@ -375,7 +377,7 @@ public class GetMap {
                 // Adding a coverage layer
                 //
                 // /////////////////////////////////////////////////////////
-                final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) mapLayerInfo
+                final GridCoverage2DReader reader = (GridCoverage2DReader) mapLayerInfo
                         .getCoverageReader();
                 if (reader != null) {
 

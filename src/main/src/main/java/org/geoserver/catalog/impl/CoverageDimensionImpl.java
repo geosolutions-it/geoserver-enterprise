@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.geoserver.catalog.CoverageDimensionInfo;
 import org.geotools.util.NumberRange;
+import org.opengis.coverage.SampleDimensionType;
 
 public class CoverageDimensionImpl implements CoverageDimensionInfo {
 
@@ -26,12 +27,26 @@ public class CoverageDimensionImpl implements CoverageDimensionInfo {
     NumberRange range;
 
     List<Double> nullValues = new ArrayList();
+
+    String unit;
+    
+    SampleDimensionType dimensionType;
     
     public CoverageDimensionImpl() {
     }
 
     public CoverageDimensionImpl(String id) {
         this.id = id;
+    }
+    
+    public CoverageDimensionImpl(CoverageDimensionImpl other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.description = other.description;
+        this.range = other.range;
+        this.nullValues = other.nullValues;
+        this.unit = other.unit;
+        this.dimensionType = other.dimensionType;
     }
 
     public void setId(String id) {
@@ -74,6 +89,24 @@ public class CoverageDimensionImpl implements CoverageDimensionInfo {
         this.nullValues = nullValues;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public SampleDimensionType getDimensionType() {
+        return dimensionType;
+    }
+
+    @Override
+    public void setDimensionType(SampleDimensionType dimensionType) {
+        this.dimensionType = dimensionType;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

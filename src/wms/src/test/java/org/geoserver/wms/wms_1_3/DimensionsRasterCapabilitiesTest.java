@@ -50,7 +50,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check we have the wms:Dimension    
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
         assertXpathEvaluatesTo("0.0", "//wms:Layer/wms:Dimension/@default", dom);
-        assertXpathEvaluatesTo("0.0/100.0/100.0", "//wms:Layer/wms:Dimension", dom);
+        assertXpathEvaluatesTo("0.0/100.0/0", "//wms:Layer/wms:Dimension", dom);
     }
     
     public void testElevationDiscreteNoResolution() throws Exception {
@@ -114,7 +114,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check we have the wms:Dimension        
         assertXpathEvaluatesTo("time", "//wms:Layer/wms:Dimension/@name", dom);
         assertXpathEvaluatesTo("current", "//wms:Layer/wms:Dimension/@default", dom);
-        assertXpathEvaluatesTo("2008-10-31T00:00:00.000Z/2008-11-01T00:00:00.000Z/P1D", "//wms:Layer/wms:Dimension", dom);
+        assertXpathEvaluatesTo("2008-10-31T00:00:00.000Z/2008-11-01T00:00:00.000Z/PT1S", "//wms:Layer/wms:Dimension", dom);
     }
     
     public void testTimeResolution() throws Exception {

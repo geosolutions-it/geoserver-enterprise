@@ -371,7 +371,7 @@ public class GetFeatureInfo {
                 // could probably optimize)
                 //
                 parameter.setValue(new GridGeometry2D(new GridEnvelope2D(integerRasterArea), reader
-                        .getOriginalGridToWorld(PixelInCell.CELL_CENTER), reader.getCrs()));
+                        .getOriginalGridToWorld(PixelInCell.CELL_CENTER), reader.getCoordinateReferenceSystem()));
             }
 
         }

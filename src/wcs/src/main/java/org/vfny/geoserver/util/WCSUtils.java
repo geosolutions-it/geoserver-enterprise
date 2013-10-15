@@ -24,8 +24,8 @@ import org.geoserver.wcs.WCSInfo;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.coverage.grid.GridGeometry2D;
-import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.DecimationPolicy;
+import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.OverviewPolicy;
 import org.geotools.coverage.processing.CoverageProcessor;
 import org.geotools.coverage.processing.operation.Interpolate;
@@ -373,7 +373,7 @@ public class WCSUtils {
      * @throws WcsException if the coverage size exceeds the configured limits
      */
     public static void checkInputLimits(WCSInfo info, CoverageInfo meta, 
-            AbstractGridCoverage2DReader reader, GridGeometry2D gridGeometry) throws WcsException {
+            GridCoverage2DReader reader, GridGeometry2D gridGeometry) throws WcsException {
         // do we have to check a limit at all?
         long limit = info.getMaxInputMemory() * 1024;
         if(limit <= 0) {
@@ -386,7 +386,7 @@ public class WCSUtils {
             // if necessary reproject back to the original CRS
             GeneralEnvelope requestedEnvelope = new GeneralEnvelope(gridGeometry.getEnvelope());
             final CoordinateReferenceSystem requestCRS = requestedEnvelope.getCoordinateReferenceSystem();
-            final CoordinateReferenceSystem nativeCRS = reader.getCrs();
+            final CoordinateReferenceSystem nativeCRS = reader.getCoordinateReferenceSystem();
             if(!CRS.equalsIgnoreMetadata(requestCRS, nativeCRS)) {
                 requestedEnvelope = CRS.transform(CRS.findMathTransform(requestCRS, nativeCRS, true), requestedEnvelope);
             }

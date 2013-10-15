@@ -61,8 +61,8 @@ import org.geoserver.wms.decoration.WatermarkDecoration;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.coverage.grid.GridGeometry2D;
-import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
+import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.gce.imagemosaic.ImageMosaicFormat;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.image.ImageWorker;
@@ -752,7 +752,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
         // Get the reader
         //
         final Feature feature = mapContent.layers().get(0).getFeatureSource().getFeatures().features().next();
-        final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) feature.getProperty("grid").getValue();
+        final GridCoverage2DReader reader = (GridCoverage2DReader) feature.getProperty("grid").getValue();
         final Object params = feature.getProperty("params").getValue();
 
         // 
@@ -808,7 +808,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
         //
         // Dead best available coverage and render it
         //        
-        final CoordinateReferenceSystem coverageCRS= reader.getCrs();
+        final CoordinateReferenceSystem coverageCRS= reader.getCoordinateReferenceSystem();
         final GridGeometry2D readGG;
         final boolean equalsMetadata=CRS.equalsIgnoreMetadata(mapCRS, coverageCRS);
         boolean sameCRS;
@@ -1180,7 +1180,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
      * @throws IOException
      */
     private static GridCoverage2D readBestCoverage(
-            final AbstractGridCoverage2DReader reader, 
+            final GridCoverage2DReader reader, 
             final Object params,
             final ReferencedEnvelope envelope,
             final Rectangle requestedRasterArea,
@@ -1194,7 +1194,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
         //
         ////
         try {
-            final CoordinateReferenceSystem coverageCRS=reader.getCrs();
+            final CoordinateReferenceSystem coverageCRS=reader.getCoordinateReferenceSystem();
             final CoordinateReferenceSystem requestCRS= envelope.getCoordinateReferenceSystem();
             final ReferencedEnvelope coverageEnvelope=new ReferencedEnvelope(reader.getOriginalEnvelope());
             if(CRS.equalsIgnoreMetadata(coverageCRS, requestCRS)){
@@ -1314,8 +1314,7 @@ public class RenderedImageMapOutputFormat extends AbstractMapOutputFormat {
      * @return
      */
     static List<RasterSymbolizer> getRasterSymbolizers(WMSMapContent mc, int layerIndex) {
-        double scaleDenominator = RendererUtilities.calculateOGCScale(mc.getRenderingArea(),
-                mc.getMapWidth(), null);
+        double scaleDenominator = mc.getScaleDenominator();
         Layer layer = mc.layers().get(layerIndex);
         FeatureType featureType = layer.getFeatureSource().getSchema();
         Style style = layer.getStyle();
