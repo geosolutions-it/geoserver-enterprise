@@ -481,10 +481,10 @@ abstract class DimensionHelper {
 
         if (DimensionPresentation.LIST == dimension.getPresentation()) {
             for (String value : values) {
-                buff.append(value);
+                buff.append(value.trim());
                 buff.append(",");
             }
-            metadata = buff.substring(0, buff.length() - 1).toString();
+            metadata = buff.substring(0, buff.length() - 1);
 
         } else if (DimensionPresentation.DISCRETE_INTERVAL == dimension.getPresentation()) {
             buff.append(values.get(0));

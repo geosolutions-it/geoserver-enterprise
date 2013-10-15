@@ -48,7 +48,7 @@ public class DimensionHelperTest extends TestCase {
     }
     
     public void testGetCustomDomainRepresentation() {
-        final String[] vals=new String[]{"value with spaces", "value"}; 
+        final String[] vals=new String[]{"value with spaces", "value", "  other values "}; 
         final List<String> values=new ArrayList<String>();
         for (String val : vals)
             values.add(val);
@@ -56,8 +56,8 @@ public class DimensionHelperTest extends TestCase {
         dimensionInfo.setPresentation(DimensionPresentation.LIST);
         dimensionInfo.setResolution(new BigDecimal(1));
         String customDimRepr=dimensionHelper.getCustomDomainRepresentation(dimensionInfo, values);
-        //value with spaces,value
-        Assert.equals(customDimRepr, vals[0]+","+vals[1]);
+        //value with spaces,value,other value
+        Assert.equals(customDimRepr, vals[0]+","+vals[1]+","+vals[2].trim());
         //System.out.print(vals.toString());
 
     }
