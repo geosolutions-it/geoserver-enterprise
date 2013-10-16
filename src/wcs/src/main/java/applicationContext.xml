@@ -36,5 +36,7 @@
     </bean>
     
     <bean id="cqlKvpParser" class="org.geoserver.ows.kvp.CQLFilterKvpParser"/>
-    
+
+    <!-- disposes of all coverages created during GetCoverage calls -->
+    <bean id="coverageCleaner" class="org.geoserver.wcs.CoverageCleanerCallback"/>    
 </beans>
