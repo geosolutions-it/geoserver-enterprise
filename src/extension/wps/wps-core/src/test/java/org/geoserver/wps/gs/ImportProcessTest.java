@@ -29,7 +29,7 @@ public class ImportProcessTest extends GeoServerTestSupport {
                 rawSource, CRS.decode("EPSG:4326"));
 
         ImportProcess importer = new ImportProcess(getCatalog());
-        String result = importer.execute(forced, MockData.CITE_PREFIX, MockData.CITE_PREFIX,
+        String result = importer.execute(forced, null, MockData.CITE_PREFIX, MockData.CITE_PREFIX,
                 "Buildings2", null, null, null);
 
         checkBuildings2(result);
@@ -44,7 +44,7 @@ public class ImportProcessTest extends GeoServerTestSupport {
                 null).getFeatures();
 
         ImportProcess importer = new ImportProcess(getCatalog());
-        String result = importer.execute(rawSource, MockData.CITE_PREFIX, MockData.CITE_PREFIX,
+        String result = importer.execute(rawSource, null, MockData.CITE_PREFIX, MockData.CITE_PREFIX,
                 "Buildings2", CRS.decode("EPSG:4326"), null, null);
 
         checkBuildings2(result);
