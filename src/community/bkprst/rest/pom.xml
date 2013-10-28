@@ -7,13 +7,13 @@
 	<parent>
 		<groupId>org.geoserver.community</groupId>
 		<artifactId>bkprst</artifactId>
-		<version>2.2-ENTERPRISE-SNAPSHOT</version>
+		<version>2.2-CIOK-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
 	<artifactId>bkprst-rest</artifactId>
 	<packaging>jar</packaging>
 	<name>GeoServer Backup/Restore tool ReST interface</name>
-  <version>2.2-ENTERPRISE-SNAPSHOT</version>
+  <version>2.2-CIOK-SNAPSHOT</version>
   
 	<dependencies>
 		<dependency>

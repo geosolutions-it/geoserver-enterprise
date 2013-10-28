@@ -4,13 +4,13 @@
     <parent>
       <groupId>org.geoserver</groupId>
       <artifactId>community</artifactId>
-      <version>2.2-ENTERPRISE-SNAPSHOT</version>
+      <version>2.2-CIOK-SNAPSHOT</version>
     </parent>
 
     <groupId>org.geoserver</groupId>
     <artifactId>geoserver-jms</artifactId>
     <!-- Use the same version as GeoServer here, at least for the moment -->
-    <version>2.2-ENTERPRISE-SNAPSHOT</version>
+    <version>2.2-CIOK-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>GeoServer Enterprise JMS modules</name>
