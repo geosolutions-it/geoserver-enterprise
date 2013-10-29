@@ -1529,7 +1529,7 @@
 
  <properties>
   <gs.version>2.2-CIOK-SNAPSHOT</gs.version>
-  <gt.version>8-ENTERPRISE-SNAPSHOT</gt.version>
+  <gt.version>8-CIOK-SNAPSHOT</gt.version>
   <gwc.version>1.3-RC5</gwc.version>
   <spring.version>3.1.4.RELEASE</spring.version>
   <spring.security.version>3.1.0.RELEASE</spring.security.version> 
