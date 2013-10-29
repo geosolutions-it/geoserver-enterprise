@@ -12,6 +12,13 @@ import java.math.BigDecimal;
  * @author Andrea Aime - GeoSolutions
  */
 public interface DimensionInfo extends Serializable {
+    
+    /** Default value for elevation dimension 'units'. **/
+    public static final String ELEVATION_UNITS          = "EPSG:5030";
+    /** Default value for elevation dimension 'unitSymbol'. **/
+    public static final String ELEVATION_UNIT_SYMBOL    = "m";
+    /** Default value for time dimension 'unitSymbol'. **/
+    public static final String TIME_UNITS               = "ISO8601";
 
     /**
      * Whether this dimension is enabled or not
@@ -62,5 +69,24 @@ public interface DimensionInfo extends Serializable {
     public BigDecimal getResolution();
 
     public void setResolution(BigDecimal resolution);
-
+    
+    /**
+     * The units attribute for the elevation dimension. This method has to affect
+     * on the time dimension.
+     * 
+     * @return the value for units
+     */
+    public String getUnits();
+    
+    public void setUnits(String units);
+    
+    /**
+     * The unitSymbol attribute for the elevation dimension. This method has to affect
+     * on the time dimension.
+     * 
+     * @return the value for unitSymbol
+     */
+    public String getUnitSymbol();
+    
+    public void setUnitSymbol(String unitSymbol);
 }

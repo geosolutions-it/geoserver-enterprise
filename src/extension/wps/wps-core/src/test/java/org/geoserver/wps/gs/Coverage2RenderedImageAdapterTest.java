@@ -13,7 +13,6 @@ import javax.media.jai.iterator.RectIterFactory;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.geoserver.wps.raster.GridCoverage2DRIA;
 import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;

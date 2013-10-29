@@ -12,8 +12,14 @@ import static org.geotools.coverage.grid.io.GridCoverage2DReader.TIME_DOMAIN;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -23,6 +29,7 @@ import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.util.DateRange;
 import org.geotools.util.NumberRange;
+import org.geotools.util.Utilities;
 import org.geotools.util.logging.Logging;
 
 /**
@@ -32,6 +39,9 @@ import org.geotools.util.logging.Logging;
  * @author Andrea Aime - GeoSolutions
  */
 public class ReaderDimensionsAccessor {
+
+    /** UTC_TIME_ZONE */
+    private static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
 
     private static final Logger LOGGER = Logging.getLogger(ReaderDimensionsAccessor.class);
 
@@ -76,10 +86,17 @@ public class ReaderDimensionsAccessor {
         
     };
 
-    private GridCoverage2DReader reader;
+    private final GridCoverage2DReader reader;
+
+    private final List<String> metadataNames= new ArrayList<String>();
 
     public ReaderDimensionsAccessor(GridCoverage2DReader reader) throws IOException {
+        Utilities.ensureNonNull("reader", reader);
         this.reader = reader;
+        final String[] dimensions = reader.getMetadataNames();
+        if (dimensions != null) {
+            metadataNames.addAll(Arrays.asList(dimensions));
+        }
     }
 
     /**
@@ -101,6 +118,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public TreeSet<Object> getTimeDomain() throws IOException {
+        if (!hasTime()) {
+            Collections.emptySet();
+        }
         final SimpleDateFormat df = getTimeFormat();
         String domain = reader.getMetadataValue(TIME_DOMAIN);
         String[] timeInstants = domain.split("\\s*,\\s*");
@@ -158,6 +178,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public Date getMaxTime() throws IOException {
+        if (!hasTime()) {
+            return null;
+        }
         final String currentTime = reader
                 .getMetadataValue(AbstractGridCoverage2DReader.TIME_DOMAIN_MAXIMUM);
         if (currentTime == null) {
@@ -177,6 +200,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public Date getMinTime() throws IOException {
+        if (!hasTime()) {
+            return null;
+        }
         final String currentTime = reader
                 .getMetadataValue(AbstractGridCoverage2DReader.TIME_DOMAIN_MINIMUM);
         if (currentTime == null) {
@@ -196,7 +222,7 @@ public class ReaderDimensionsAccessor {
      */
     public SimpleDateFormat getTimeFormat() {
         final SimpleDateFormat df = new SimpleDateFormat(UTC_PATTERN);
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        df.setTimeZone(UTC_TIME_ZONE);
         return df;
     }
 
@@ -217,6 +243,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public TreeSet<Object> getElevationDomain() throws IOException {
+        if (!hasElevation()) {
+            return null;
+        }
         // parse the values from the reader, they are exposed as strings...
         String[] elevationValues = reader.getMetadataValue(ELEVATION_DOMAIN).split(",");
         TreeSet<Object> elevations = new TreeSet<Object>(ELEVATION_COMPARATOR);
@@ -240,6 +269,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public Double getMaxElevation() throws IOException {
+        if (!hasElevation()) {
+            return null;
+        }
         final String elevation = reader
                 .getMetadataValue(AbstractGridCoverage2DReader.ELEVATION_DOMAIN_MAXIMUM);
         if (elevation == null) {
@@ -259,6 +291,9 @@ public class ReaderDimensionsAccessor {
      * @throws IOException 
      */
     public Double getMinElevation() throws IOException {
+        if (!hasElevation()) {
+            return null;
+        }
         final String elevation = reader
                 .getMetadataValue(AbstractGridCoverage2DReader.ELEVATION_DOMAIN_MINIMUM);
         if (elevation == null) {
@@ -270,7 +305,31 @@ public class ReaderDimensionsAccessor {
             throw new RuntimeException("Failed to get minimum elevation from coverage reader", e);
         }
     }
+    
+    /**
+     * Lists the custom domains of a raster data set
+     * @return
+     */
+    public List<String> getCustomDomains() {
+        if (metadataNames.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Set<String> names = new HashSet<String>(metadataNames);
+        TreeSet<String> result = new TreeSet<String>();
+        for (String name : names) {
+            if(name.startsWith("HAS_") && name.endsWith("_DOMAIN")) {
+                String dimension = name.substring(4, name.length() - 7);
+                if(names.contains(dimension + "_DOMAIN") 
+                        && !"TIME".equals(dimension) && !"ELEVATION".equals(dimension)) {
+                    result.add(dimension);
+                }
+            }
+        }
 
+        return new ArrayList<String>(result);
+    }
+
+    /**
      * Return the domain datatype (if available)
      * @param domainName
      * @return
