@@ -212,10 +212,6 @@
     <bean id="rasterAlgebra" class="org.geoserver.wps.raster.algebra.RasterAlgebraProcess">
       <constructor-arg index="0" ref="catalog"/>
     </bean>
-        
-    <bean id="jiffle" class="org.geoserver.wps.raster.algebra.JiffleProcess">
-      <constructor-arg index="0" ref="catalog"/>
-    </bean>
     <!-- 
        ==================================================================
        Deal with temporary files

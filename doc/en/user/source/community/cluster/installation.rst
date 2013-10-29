@@ -14,7 +14,7 @@ You need to add the following dependencies:
 
 .. code-block:: xml
 
-  jms-commons-2.2-ENTERPRISE-SNAPSHOT.jar
+  jms-commons-2.2-CIOK-SNAPSHOT.jar
   jms-api-1.1-rev-1.jar
   xbean-spring-3.5.jar
   spring-jms-3.1.4.RELEASE.jar
@@ -56,7 +56,7 @@ The Geoserver JMS module adds the following deps
 
 .. code-block:: xml
 
-  jms-geoserver-2.2-ENTERPRISE-SNAPSHOT.jar
+  jms-geoserver-2.2-CIOK-SNAPSHOT.jar
 
 GeoServer JMS ActiveMQ module
 -----------------------------
@@ -65,7 +65,7 @@ The Geoserver JMS ActiveMQ module adds the following deps:
 
 .. code-block:: xml
 
-  jms-activeMQ-2.2-ENTERPRISE-SNAPSHOT.jar
+  jms-activeMQ-2.2-CIOK-SNAPSHOT.jar
 
 plus ActiveMQ specific dependencies:
 
