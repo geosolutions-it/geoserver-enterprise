@@ -53,7 +53,7 @@ public class StoreCoverageTest extends WPSTestSupport {
         assertTrue(url.startsWith("http://localhost:8080/geoserver/temp/wps/DEM"));
         String fileName = url.substring(url.lastIndexOf('/') + 1);
 
-        File wpsTemp =  new File(/*getDataDirectory().root()*/WPSStorageCleaner.getWpsOutputStorage(), "temp/wps");
+        File wpsTemp =  new File(getDataDirectory().root(), "temp/wps");
         File tiffFile = new File(wpsTemp, fileName);
 
         assertTrue(tiffFile.exists());

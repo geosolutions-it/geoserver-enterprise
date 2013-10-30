@@ -50,7 +50,7 @@ public class WPSStorageCleaner extends TimerTask {
             String wpsOutputStorage = GeoServerExtensions.getProperty("WPS_OUTPUT_STORAGE");
             File temp = null;
             if (wpsOutputStorage == null || !new File(wpsOutputStorage).exists())
-                temp = dataDirectory.findOrCreateDataDir("temp/wps");
+                temp = dataDirectory.findOrCreateDir("temp/wps");
             else {
                 temp = new File(wpsOutputStorage, "wps");
             }

@@ -44,7 +44,7 @@ import com.sun.media.jai.util.ImageUtil;
  * @author Simone Giannecchini, GeoSolutions SAS
  *
  */
-public class BaseRasterAlgebraTest extends WPSTestSupport{
+public abstract class BaseRasterAlgebraTest extends WPSTestSupport{
     
     // dem coverages
     public static QName srtm_39_04_1 = new QName(WCS_URI, "srtm_39_04_1", WCS_PREFIX);
