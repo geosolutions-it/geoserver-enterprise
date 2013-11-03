@@ -1,3 +1,7 @@
+/* Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 package org.geoserver.security.decorators;
 
 import java.util.List;
@@ -123,11 +127,18 @@ public class DecoratingLayerInfo extends AbstractDecorator<LayerInfo> implements
 
     public void setQueryable(boolean _queryableEnabled) {
         delegate.setQueryable(_queryableEnabled);
-
     }
 
     public boolean isQueryable() {
         return delegate.isQueryable();
+    }
+
+    public void setOpaque(boolean _opaqueEnabled) {
+        delegate.setOpaque(_opaqueEnabled);
+    }
+
+    public boolean isOpaque() {
+        return delegate.isOpaque();
     }
 
     @Override
@@ -148,5 +159,25 @@ public class DecoratingLayerInfo extends AbstractDecorator<LayerInfo> implements
     @Override
     public List<LayerIdentifierInfo> getIdentifiers() {
         return delegate.getIdentifiers();
+    }
+
+    @Override
+    public String getTitle() {
+        return delegate.getTitle();
+    }
+
+    @Override
+    public void setTitle(String title) {
+        delegate.setTitle(title);
+    }
+
+    @Override
+    public String getAbstract() {
+        return delegate.getAbstract();
+    }
+
+    @Override
+    public void setAbstract(String abstractTxt) {
+        delegate.setAbstract(abstractTxt);
     }
 }

@@ -1,5 +1,5 @@
-/* Copyright (c) 2001 - 2007 TOPP - www.openplans.org. All rights reserved.
- * This code is licensed under the GPL 2.0 license, availible at the root
+/* Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
+ * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
 package org.geoserver.wms;
@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
@@ -30,6 +31,7 @@ import org.geoserver.catalog.LayerGroupInfo;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.MetadataMap;
 import org.geoserver.catalog.NamespaceInfo;
+import org.geoserver.catalog.PublishedInfo;
 import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.catalog.StyleInfo;
 import org.geoserver.catalog.WMSLayerInfo;
@@ -44,7 +46,6 @@ import org.geoserver.wms.WMSInfo.WMSInterpolation;
 import org.geoserver.wms.WatermarkInfo.Position;
 import org.geoserver.wms.featureinfo.GetFeatureInfoOutputFormat;
 import org.geoserver.wms.map.RenderedImageMapResponse;
-import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.data.FeatureSource;
 import org.geotools.data.Query;
@@ -63,6 +64,8 @@ import org.geotools.referencing.CRS;
 import org.geotools.referencing.CRS.AxisOrder;
 import org.geotools.styling.Style;
 import org.geotools.util.Converters;
+import org.geotools.util.DateRange;
+import org.geotools.util.NumberRange;
 import org.geotools.util.Range;
 import org.geotools.util.Version;
 import org.geotools.util.logging.Logging;
@@ -73,6 +76,7 @@ import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.GeneralParameterValue;
+import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.parameter.ParameterValue;
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -116,6 +120,10 @@ public class WMS implements ApplicationContextAware {
     public static final String LOOP_CONTINUOUSLY = "loopContinuously";
 
     public static final Boolean LOOP_CONTINUOUSLY_DEFAULT = Boolean.FALSE;
+    
+    public static final String SCALEHINT_MAPUNITS_PIXEL = "scalehintMapunitsPixel";
+    
+    public static final Boolean SCALEHINT_MAPUNITS_PIXEL_DEFAULT = Boolean.FALSE;
     
     static final Logger LOGGER = Logging.getLogger(WMS.class);
 
@@ -172,7 +180,7 @@ public class WMS implements ApplicationContextAware {
     public static final String KML_KMSCORE = "kmlKmscore";
 
     public static final int KML_KMSCORE_DEFAULT = 40;
-
+    
     /**
      * the WMS Animator animatorExecutor service
      */
@@ -188,7 +196,7 @@ public class WMS implements ApplicationContextAware {
         this.geoserver = geoserver;
     }
 
-    private Catalog getCatalog() {
+    public Catalog getCatalog() {
         return geoserver.getCatalog();
     }
 
@@ -483,6 +491,10 @@ public class WMS implements ApplicationContextAware {
     public Boolean getLoopContinuously() {
        return getMetadataValue(LOOP_CONTINUOUSLY, LOOP_CONTINUOUSLY_DEFAULT, Boolean.class);
     }
+    
+    public Boolean getScalehintUnitPixel(){
+        return getMetadataValue(SCALEHINT_MAPUNITS_PIXEL, SCALEHINT_MAPUNITS_PIXEL_DEFAULT, Boolean.class);
+    }
 
     int getMetadataPercentage(MetadataMap metadata, String key, int defaultValue) {
         Integer parsedValue = Converters.convert(metadata.get(key), Integer.class);
@@ -754,6 +766,13 @@ public class WMS implements ApplicationContextAware {
         }
     }
 
+    /**
+     * Returns true if the layer is opaque
+     */
+    public boolean isOpaque(LayerInfo layer) {
+        return layer.isOpaque();
+    }
+
     public Integer getCascadedHopCount(LayerInfo layer) {
         if (!(layer.getResource() instanceof WMSLayerInfo)) {
             return null;
@@ -771,9 +790,15 @@ public class WMS implements ApplicationContextAware {
     }
 
     public boolean isQueryable(LayerGroupInfo layerGroup) {
-        for (LayerInfo layer : layerGroup.getLayers()) {
-            if (!isQueryable(layer)) {
-                return false;
+        for (PublishedInfo published : layerGroup.getLayers()) {
+            if (published instanceof LayerInfo) {
+                if (!isQueryable((LayerInfo) published)) {
+                    return false;
+                }
+            } else {
+                if (!isQueryable((LayerGroupInfo) published)) {
+                    return false;
+                }
             }
         }
         return true;
@@ -802,8 +827,11 @@ public class WMS implements ApplicationContextAware {
         ReaderDimensionsAccessor dimensions = new ReaderDimensionsAccessor(reader);
         // pass down time
         final DimensionInfo timeInfo = metadata.get(ResourceInfo.TIME, DimensionInfo.class);
-        final List<GeneralParameterDescriptor> parameterDescriptors = readParametersDescriptor
-                .getDescriptor().descriptors();
+        // add the descriptors for custom dimensions 
+        final List<GeneralParameterDescriptor> parameterDescriptors = 
+                new ArrayList<GeneralParameterDescriptor>(readParametersDescriptor.getDescriptor().descriptors());
+        Set<ParameterDescriptor<List>> dynamicParameters = reader.getDynamicParameters();
+        parameterDescriptors.addAll(dynamicParameters);
         if (timeInfo != null && timeInfo.isEnabled()) {
             // handle "current"
             List<Object> fixedTimes = new ArrayList<Object>(times);
@@ -851,7 +879,62 @@ public class WMS implements ApplicationContextAware {
                 }
             }
         }
+        
+        // custom dimensions
+        final Map<String, String> rawKvpMap = request.getRawKvp();
+        List<String> customDomains = new ArrayList(dimensions.getCustomDomains());
+        if (rawKvpMap != null) {
+            for (Map.Entry<String, String> kvp : rawKvpMap.entrySet()) {
+                String name = kvp.getKey();
+                if (name.regionMatches(true, 0, "dim_", 0, 4)) {
+                    name = name.substring(4);
+                    name = caseInsensitiveLookup(customDomains, name);
+                    if(name != null) {
+                        // remove it so that we don't have to set the default value
+                        customDomains.remove(name);
+                        final DimensionInfo customInfo = metadata.get(ResourceInfo.CUSTOM_DIMENSION_PREFIX + name,
+                                DimensionInfo.class);
+                        if (dimensions.hasDomain(name) && customInfo != null && customInfo.isEnabled()) {
+                            final ArrayList<String> val = new ArrayList<String>(1);
+                            if(kvp.getValue().indexOf(",")>0){
+                                String[] elements = kvp.getValue().split(",");
+                                val.addAll(Arrays.asList(elements));
+                            }else{
+                                val.add(kvp.getValue());
+                            }
+                            readParameters = CoverageUtils.mergeParameter(
+                                parameterDescriptors, readParameters, val, name);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // see if we have any custom domain for which we have to set the default value
+        if(!customDomains.isEmpty()) {
+            for (String name : customDomains) {
+                final DimensionInfo customInfo = metadata.get(ResourceInfo.CUSTOM_DIMENSION_PREFIX + name,
+                        DimensionInfo.class);
+                if (customInfo != null && customInfo.isEnabled()) {
+                    final ArrayList<String> val = new ArrayList<String>(1);
+                    val.add(dimensions.getCustomDomainDefaultValue(name));
+                    readParameters = CoverageUtils.mergeParameter(
+                        parameterDescriptors, readParameters, val, name);
+                }
+            }
+        }
+
         return readParameters;
+    }
+
+    private String caseInsensitiveLookup(List<String> names, String name) {
+        for (String s : names) {
+            if(name.equalsIgnoreCase(s)) {
+                return s;
+            }
+        }
+        
+        return null;
     }
 
     public Collection<RenderedImageMapResponse> getAvailableMapResponses() {
