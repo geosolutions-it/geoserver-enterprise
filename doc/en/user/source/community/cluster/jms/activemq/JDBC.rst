@@ -1,5 +1,5 @@
-JDBC Master Slave
-=================
+JDBC Master/Slave HA Set-Up
+===========================
 
 If you are using pure JDBC and not using the high performance journal then you are generally relying on your database as your single point of failure and persistence engine. If you do not have really high performance requirements this approach can make a lot of sense as you have a single persistence engine to backup and manage etc.
 
@@ -126,3 +126,11 @@ The following example shows how to configure the ActiveMQ broker in JDBC Master 
     -->  
   
   </beans>
+
+References
+----------
+[JDBC Master Slave]
+   http://activemq.apache.org/jdbc-master-slave.html
+
+[Shared File System Master Slave]
+   http://activemq.apache.org/shared-file-system-master-slave.html

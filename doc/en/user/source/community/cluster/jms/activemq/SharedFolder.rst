@@ -1,5 +1,5 @@
-Shared File System Master Slave
--------------------------------
+Shared File System Master/Slave Set-Up
+========================================
 
 Basically you can run as many brokers as you wish from the same shared file system directory.
 The first broker to grab the exclusive lock on the file is the master broker.
@@ -84,3 +84,11 @@ So the following topology is created after a restart of an old master...
 	NFSv3 Warning
   In the event of an abnormal NFSv3 client termination (i.e., the ActiveMQ master broker), the NFSv3 server will not timeout the lock that is held by that client. This effectively renders the ActiveMQ data directory inaccessible because the ActiveMQ slave broker can't acquire the lock and therefore cannot start up. The only solution to this predicament with NFSv3 is to reboot all ActiveMQ instances to reset everything.
   Use of NFSv4 is another solution because it's design includes timeouts for locks. When using NFSv4 and the client holding the lock experiences an abnormal termination, by design, the lock is released after 30 seconds, allowing another client to grab the lock. For more information about this, see this blog entry.
+
+References
+----------
+[JDBC Master Slave]
+   http://activemq.apache.org/jdbc-master-slave.html
+
+[Shared File System Master Slave]
+   http://activemq.apache.org/shared-file-system-master-slave.html
