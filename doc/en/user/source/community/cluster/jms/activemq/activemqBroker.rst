@@ -1,4 +1,8 @@
-HOWTO configure ActiveMQ broker
+.. module:: activemq.activemqBroker
+
+.. _activemq.activemqBroker:
+
+How-To configure ActiveMQ broker
 ===============================
 
 Deploy the produced activemqBroker.war in your tomcat instance and check the extracted webapp. You may locate a file called activemq-jmx.properties which will help you to configure your instance with the most important paramenters.
