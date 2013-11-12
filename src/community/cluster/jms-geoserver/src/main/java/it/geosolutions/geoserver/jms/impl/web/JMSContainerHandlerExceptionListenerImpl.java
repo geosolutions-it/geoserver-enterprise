@@ -1,4 +1,4 @@
-/* Copyright (c) 2001 - 2011 TOPP - www.openplans.org. All rights reserved.
+/* Copyright (c) 2001 - 2013 TOPP - www.openplans.org. All rights reserved.
  * This code is licensed under the GPL 2.0 license, availible at the root
  * application directory.
  */
@@ -9,13 +9,16 @@ import it.geosolutions.geoserver.jms.client.JMSContainerHandlerExceptionListener
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
+/**
+ * 
+ * @author carlo cancellieri - geosolutions sas
+ *
+ */
 public class JMSContainerHandlerExceptionListenerImpl implements
 		JMSContainerHandlerExceptionListener {
 
 	private FeedbackPanel fp;
 	private Session session;
-
-	// private RequestCycle rc;
 
 	public JMSContainerHandlerExceptionListenerImpl() {
 	}

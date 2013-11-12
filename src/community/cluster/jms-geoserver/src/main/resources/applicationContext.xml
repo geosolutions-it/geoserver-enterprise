@@ -16,7 +16,28 @@
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 
 	<context:annotation-config />
+
+	<!-- REST INTERFACE -->
+
+	<bean id="jmsRestConfigMapping" class="org.geoserver.rest.RESTMapping">
+		<property name="routes">
+			<map>
+				<entry>
+					<key>
+						<value>/cluster</value>
+					</key>
+					<value>JMSResourceFinder</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 	
+	<bean id="JMSResourceFinder"
+		class="it.geosolutions.geoserver.jms.impl.rest.ClusterResourceFinder" />
+		
+	<bean id="JMSController"
+		class="it.geosolutions.geoserver.jms.impl.rest.Controller" />
+
 	<!-- CONFIGURATION EXTENSIONS -->
 
 	<bean id="JMSConfigDirConfiguration"
@@ -24,11 +45,11 @@
 	</bean>
 
 	<!-- Needed to JMSConfigDirConfiguration bean -->
-<!-- 	<bean id="JMSPropertyPlaceholderConfigurer" -->
-<!-- 		class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer"> -->
-<!-- 		<constructor-arg ref="dataDirectory" /> -->
-<!-- 		<property name="location" value="file:cluster.properties" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="JMSPropertyPlaceholderConfigurer" -->
+	<!-- class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer"> -->
+	<!-- <constructor-arg ref="dataDirectory" /> -->
+	<!-- <property name="location" value="file:cluster.properties" /> -->
+	<!-- </bean> -->
 
 	<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
 	<!-- <bean id="connectionFactory" -->
