@@ -69,8 +69,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testElevationDefault() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
 
         // we should get only one square
         assertEquals("TimeElevation.0", getFeatureAt(baseFeatureInfo, 20, 10));
@@ -80,8 +79,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testElevationSingle() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&elevation=1.0";
 
         // we should get only one square
@@ -93,8 +91,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testElevationListMulti() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&elevation=1.0,3.0";
 
         // we should get second and last
@@ -106,8 +103,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
 
     public void testElevationListExtra() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&elevation=1.0,3.0,5.0";
 
         // we should get second and last
@@ -119,8 +115,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
 
     public void testElevationInterval() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&elevation=1.0/3.0";
 
         // we should get all but the first
@@ -132,8 +127,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
 
     public void testElevationIntervalResolution() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&elevation=1.0/4.0/2.0";
 
         // we should get only one square
@@ -144,7 +138,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testTimeDefault() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
 
         // we should get only one square
         assertNull(getFeatureAt(baseFeatureInfo, 20, 10));
@@ -154,7 +148,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testTimeCurrent() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&time=CURRENT";
 
         // we should get only one square
@@ -165,7 +159,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testTimeSingle() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&time=2011-05-02";
 
         // we should get the second
@@ -177,7 +171,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testTimeListMulti() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&time=&time=2011-05-02,2011-05-04";
 
         // we should get the second and fourth
@@ -188,7 +182,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
     }
 
     public void testTimeListExtra() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         // adding a extra elevation that is simply not there, should not break
         String base = baseFeatureInfo + "&time=&time=2011-05-02,2011-05-04,2011-05-10";
 
@@ -201,7 +195,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
 
     public void testTimeInterval() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&time=2011-05-02/2011-05-05";
 
         // last three squares
@@ -213,7 +207,7 @@ public class DimensionsVectorGetFeatureInfoTest extends WMSDimensionsTestSupport
 
     public void testTimeIntervalResolution() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         String base = baseFeatureInfo + "&time=2011-05-01/2011-05-04/P2D";
 
         // first and third

@@ -135,6 +135,16 @@
       <enabled>false</enabled>
     </snapshots>
   </repository>
+
+  <repository>
+   <id>fuse</id>
+   <name>Fuse repository</name>
+   <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+   <snapshots>
+     <enabled>false</enabled>
+   </snapshots>
+  </repository> 
+
  </repositories>
 
  <pluginRepositories>

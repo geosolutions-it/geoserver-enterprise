@@ -6,7 +6,6 @@ package org.geoserver.wms.wms_1_3;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 
-import org.geoserver.catalog.DimensionInfo;
 import org.geoserver.catalog.DimensionPresentation;
 import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.wms.WMSDimensionsTestSupport;
@@ -21,17 +20,9 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         assertXpathEvaluatesTo("1", "count(//wms:Layer[wms:Name='sf:watertemp'])", dom);
         assertXpathEvaluatesTo("0", "count(//wms:Layer/wms:Dimension)", dom);
     }
-    
-    public void testDefaultElevationUnits() throws Exception {
-        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.LIST, null, null, null);
-        Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
-        
-        assertXpathEvaluatesTo(DimensionInfo.ELEVATION_UNITS, "//wms:Layer/wms:Dimension/@units", dom);
-        assertXpathEvaluatesTo(DimensionInfo.ELEVATION_UNIT_SYMBOL, "//wms:Layer/wms:Dimension/@unitSymbol", dom);
-    }
 
     public void testElevationList() throws Exception {
-        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.LIST, null, UNITS, UNIT_SYMBOL);
+        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.LIST, null);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);
@@ -39,16 +30,15 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check dimension has been declared
         assertXpathEvaluatesTo("1", "count(//wms:Layer/wms:Dimension)", dom);
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
-        assertXpathEvaluatesTo(UNITS, "//wms:Layer/wms:Dimension/@units", dom);
-        assertXpathEvaluatesTo(UNIT_SYMBOL, "//wms:Layer/wms:Dimension/@unitSymbol", dom);
+        assertXpathEvaluatesTo("EPSG:5030", "//wms:Layer/wms:Dimension/@units", dom);
+        assertXpathEvaluatesTo("m", "//wms:Layer/wms:Dimension/@unitSymbol", dom);
         // check we have the wms:Dimension        
         assertXpathEvaluatesTo("0.0", "//wms:Layer/wms:Dimension/@default", dom);
         assertXpathEvaluatesTo("0.0,100.0", "//wms:Layer/wms:Dimension", dom);
     }
     
     public void testElevationContinuous() throws Exception {
-        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.CONTINUOUS_INTERVAL, 
-                null, UNITS, UNIT_SYMBOL);
+        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.CONTINUOUS_INTERVAL, null);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);
@@ -56,8 +46,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check dimension has been declared
         assertXpathEvaluatesTo("1", "count(//wms:Layer/wms:Dimension)", dom);
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
-        assertXpathEvaluatesTo(UNITS, "//wms:Layer/wms:Dimension/@units", dom);
-        assertXpathEvaluatesTo(UNIT_SYMBOL, "//wms:Layer/wms:Dimension/@unitSymbol", dom);
+        assertXpathEvaluatesTo("EPSG:5030", "//wms:Layer/wms:Dimension/@units", dom);
         // check we have the wms:Dimension    
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
         assertXpathEvaluatesTo("0.0", "//wms:Layer/wms:Dimension/@default", dom);
@@ -65,8 +54,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
     }
     
     public void testElevationDiscreteNoResolution() throws Exception {
-        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.DISCRETE_INTERVAL, 
-                null, UNITS, UNIT_SYMBOL);
+        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.DISCRETE_INTERVAL, null);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);
@@ -74,8 +62,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check dimension has been declared
         assertXpathEvaluatesTo("1", "count(//wms:Layer/wms:Dimension)", dom);
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
-        assertXpathEvaluatesTo(UNITS, "//wms:Layer/wms:Dimension/@units", dom);
-        assertXpathEvaluatesTo(UNIT_SYMBOL, "//wms:Layer/wms:Dimension/@unitSymbol", dom);
+        assertXpathEvaluatesTo("EPSG:5030", "//wms:Layer/wms:Dimension/@units", dom);
         // check we have the wms:Dimension        
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
         assertXpathEvaluatesTo("0.0", "//wms:Layer/wms:Dimension/@default", dom);
@@ -83,8 +70,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
     }
     
     public void testElevationDiscreteManualResolution() throws Exception {
-        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.DISCRETE_INTERVAL, 
-                10.0, UNITS, UNIT_SYMBOL);
+        setupRasterDimension(ResourceInfo.ELEVATION, DimensionPresentation.DISCRETE_INTERVAL, 10.0);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);
@@ -92,8 +78,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
         // check dimension has been declared
         assertXpathEvaluatesTo("1", "count(//wms:Layer/wms:Dimension)", dom);
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
-        assertXpathEvaluatesTo(UNITS, "//wms:Layer/wms:Dimension/@units", dom);
-        assertXpathEvaluatesTo(UNIT_SYMBOL, "//wms:Layer/wms:Dimension/@unitSymbol", dom);
+        assertXpathEvaluatesTo("EPSG:5030", "//wms:Layer/wms:Dimension/@units", dom);
         // check we have the wms:Dimension        
         assertXpathEvaluatesTo("elevation", "//wms:Layer/wms:Dimension/@name", dom);
         assertXpathEvaluatesTo("0.0", "//wms:Layer/wms:Dimension/@default", dom);
@@ -101,7 +86,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
     }
     
     public void testTimeList() throws Exception {
-        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.LIST, null, null, null);
+        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.LIST, null);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);
@@ -117,7 +102,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
     }
     
     public void testTimeContinuous() throws Exception {
-        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.CONTINUOUS_INTERVAL, null, null, null);
+        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.CONTINUOUS_INTERVAL, null);
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         //print(dom);
@@ -133,8 +118,7 @@ public class DimensionsRasterCapabilitiesTest extends WMSDimensionsTestSupport {
     }
     
     public void testTimeResolution() throws Exception {
-        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.DISCRETE_INTERVAL, 
-                new Double(1000 * 60 * 60 * 12), null, null);
+        setupRasterDimension(ResourceInfo.TIME, DimensionPresentation.DISCRETE_INTERVAL, new Double(1000 * 60 * 60 * 12));
         
         Document dom = dom(get("wms?request=getCapabilities&version=1.3.0"), false);
         // print(dom);

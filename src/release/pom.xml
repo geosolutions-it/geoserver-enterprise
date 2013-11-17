@@ -114,11 +114,11 @@
    <artifactId>oracle</artifactId>
    <version>${project.version}</version>
   </dependency>
-  <dependency>
+  <!--dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>db2</artifactId>
    <version>${project.version}</version>
-  </dependency>
+  </dependency-->
   <dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>imagemap</artifactId>

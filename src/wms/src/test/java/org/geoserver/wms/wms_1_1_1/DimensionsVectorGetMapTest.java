@@ -35,8 +35,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testElevationDefault() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION), "image/png");
@@ -49,8 +48,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testElevationSingle() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&elevation=1.0", "image/png");
@@ -63,8 +61,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testElevationListMulti() throws Exception {
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&elevation=1.0,3.0", "image/png");
@@ -78,8 +75,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testElevationListExtra() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&elevation=1.0,3.0,5.0", "image/png");
@@ -93,8 +89,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testElevationInterval() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&elevation=1.0/3.0", "image/png");
@@ -108,8 +103,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testElevationIntervalResolution() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, 
-                null, UNITS, UNIT_SYMBOL);
+        setupVectorDimension(ResourceInfo.ELEVATION, "elevation", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&elevation=0.0/4.0/2.0", "image/png");
@@ -122,7 +116,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testTimeDefault() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION), "image/png");
@@ -135,7 +129,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testTimeCurrent() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&time=CURRENT", "image/png");
@@ -148,7 +142,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
     
     public void testTimeCurrentForEmptyLayer() throws Exception {
-        setupVectorDimension("TimeElevationEmpty", ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension("TimeElevationEmpty", ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION_EMPTY) + "&time=CURRENT", "image/png");
@@ -161,7 +155,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testTimeSingle() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&time=2011-05-02", "image/png");
@@ -174,7 +168,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     }
 
     public void testTimeListMulti() throws Exception {
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&time=2011-05-02,2011-05-04",
@@ -189,7 +183,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testTimeListExtra() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION)
@@ -204,7 +198,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
     
     public void testTimeListAnimated() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         MockHttpServletResponse response = getAsServletResponse("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION)
@@ -222,7 +216,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testTimeInterval() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&time=2011-05-02/2011-05-05",
@@ -237,7 +231,7 @@ public class DimensionsVectorGetMapTest extends WMSDimensionsTestSupport {
 
     public void testTimeIntervalResolution() throws Exception {
         // adding a extra elevation that is simply not there, should not break
-        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null, null, null);
+        setupVectorDimension(ResourceInfo.TIME, "time", DimensionPresentation.LIST, null);
         BufferedImage image = getAsImage("wms?service=WMS&version=1.1.1&request=GetMap"
                 + "&bbox=-180,-90,180,90&styles=&Format=image/png&width=80&height=40&srs=EPSG:4326"
                 + "&layers=" + getLayerId(V_TIME_ELEVATION) + "&time=2011-05-01/2011-05-04/P2D",

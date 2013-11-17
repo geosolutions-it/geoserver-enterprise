@@ -26,11 +26,11 @@ import org.geoserver.catalog.MetadataMap;
 @SuppressWarnings("serial")
 public class MetadataMapModel implements IModel, IChainingModel {
 
-    protected IModel model;
+    IModel model;
 
-    protected String expression;
+    String expression;
 
-    protected Class<?> target;
+    Class<?> target;
 
     public MetadataMapModel(MetadataMap map, String expression, Class<?> target) {
         this(new MetadataMapWrappingModel(map), expression, target);
@@ -54,10 +54,6 @@ public class MetadataMapModel implements IModel, IChainingModel {
 
     public void detach() {
         model.detach();
-    }
-    
-    public String getExpression() {
-        return expression;
     }
 
     private static class MetadataMapWrappingModel implements IModel {

@@ -33,7 +33,7 @@
      <artifactId>feature-aggregate</artifactId>
      <version>${project.version}</version>
    </dependency>
-   <dependency>
+   <!--dependency>
       <groupId>org.geoserver.community</groupId>
       <artifactId>bkprst-core</artifactId>
      <version>${project.version}</version>
@@ -42,7 +42,7 @@
       <groupId>org.geoserver.community</groupId>
       <artifactId>bkprst-rest</artifactId>
      <version>${project.version}</version>
-   </dependency>  
+   </dependency-->
    <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>jms-activeMQ</artifactId>

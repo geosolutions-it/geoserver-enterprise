@@ -52,6 +52,6 @@ public class LoggingStartupContextListenerTest extends TestCase {
         assertNotNull(appender);
         assertTrue(appender instanceof FileAppender);
 
-        assertEquals(new File(tmp, "foo.log").getCanonicalPath(), ((FileAppender)appender).getFile());
+        assertEquals(new File(tmp, "foo.log").getCanonicalPath().toLowerCase(), ((FileAppender)appender).getFile().toLowerCase());
     }
 }
