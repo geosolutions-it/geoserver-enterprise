@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" xmlns:types="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep/encodedTypes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+    <q1:findRuoliForPersonaInApplication xmlns:q1="http://interfaces.policy.iride2.csi.it">
+      <in0 href="#id1" />
+      <in1 href="#id2" />
+    </q1:findRuoliForPersonaInApplication>
+    <q2:Identita id="id1" xsi:type="q2:Identita" xmlns:q2="urn:iride2simIridepep">
+      <codFiscale xsi:type="xsd:string">%CODICEFISCALE%</codFiscale>
+      <cognome xsi:type="xsd:string">%COGNOME%</cognome>
+      <idProvider xsi:type="xsd:string">%PROVIDER%</idProvider>
+      <livelloAutenticazione xsi:type="xsd:int">%LIVELLOAUTH%</livelloAutenticazione>
+      <mac xsi:type="xsd:string">%MAC%</mac>
+      <nome xsi:type="xsd:string">%NOME%</nome>
+      <rappresentazioneInterna xsi:type="xsd:string">%FULLUSER%</rappresentazioneInterna>
+      <timestamp xsi:type="xsd:string">%TIMESTAMP%</timestamp>
+    </q2:Identita>
+    <q3:Application id="id2" xsi:type="q3:Application" xmlns:q3="urn:iride2simIridepep">
+      <id xsi:type="xsd:string">%APPLICATION%</id>
+    </q3:Application>
+  </soap:Body>
+</soap:Envelope>

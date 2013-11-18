@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" xmlns:intf="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:iride2simIridepep" xmlns:tns2="http://exceptions.policy.iride2.csi.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="urn:iride2simIridepep" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://exceptions.policy.iride2.csi.it"/>
+   <import namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="Identita">
+    <sequence>
+     <element name="codFiscale" nillable="true" type="soapenc:string"/>
+     <element name="cognome" nillable="true" type="soapenc:string"/>
+     <element name="idProvider" nillable="true" type="soapenc:string"/>
+     <element name="livelloAutenticazione" type="xsd:int"/>
+     <element name="mac" nillable="true" type="soapenc:string"/>
+     <element name="nome" nillable="true" type="soapenc:string"/>
+     <element name="rappresentazioneInterna" nillable="true" type="soapenc:string"/>
+     <element name="timestamp" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CSIException">
+    <sequence>
+     <element name="nestedExcClassName" nillable="true" type="soapenc:string"/>
+     <element name="nestedExcMsg" nillable="true" type="soapenc:string"/>
+     <element name="stackTraceMessage" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="UnrecoverableException">
+    <complexContent>
+     <extension base="tns1:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns1:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CommunicationException">
+    <complexContent>
+     <extension base="tns1:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserException">
+    <complexContent>
+     <extension base="tns1:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InternalException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IdProviderNotFoundException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MalformedUsernameException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CertOutsideValidityException">
+    <complexContent>
+     <extension base="tns2:CertException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CertRevokedException">
+    <complexContent>
+     <extension base="tns2:CertException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Application">
+    <sequence>
+     <element name="id" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="UseCase">
+    <sequence>
+     <element name="appId" nillable="true" type="tns1:Application"/>
+     <element name="id" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="IdentitaNonAutenticaException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NoSuchUseCaseException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NoSuchApplicationException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Ruolo">
+    <sequence>
+     <element name="codiceDominio" nillable="true" type="soapenc:string"/>
+     <element name="codiceRuolo" nillable="true" type="soapenc:string"/>
+     <element name="mnemonico" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="BadRuoloException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Actor">
+    <sequence>
+     <element name="appId" nillable="true" type="tns1:Application"/>
+     <element name="id" nillable="true" type="soapenc:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://exceptions.policy.iride2.csi.it" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="urn:iride2simIridepep"/>
+   <import namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="CertException">
+    <complexContent>
+     <extension base="tns1:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="urn:iride2simIridepep"/>
+   <import namespace="http://exceptions.policy.iride2.csi.it"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_tns1_Ruolo">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Ruolo[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_tns1_UseCase">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:UseCase[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_tns1_Actor">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Actor[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="findUseCasesForPersonaInApplicationRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:Application">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordRequest">
+
+      <wsdl:part name="in0" type="soapenc:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="soapenc:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaAutorizzataInUseCaseRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:UseCase">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaAutorizzataInUseCaseResponse">
+
+      <wsdl:part name="isPersonaAutorizzataInUseCaseReturn" type="xsd:boolean">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IdProviderNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:IdProviderNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInUseCaseResponse">
+
+      <wsdl:part name="findRuoliForPersonaInUseCaseReturn" type="impl:ArrayOf_tns1_Ruolo">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns1:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaCertificatoResponse">
+
+      <wsdl:part name="identificaCertificatoReturn" type="tns1:Identita">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="CertRevokedException">
+
+      <wsdl:part name="fault" type="tns1:CertRevokedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaSchemaRequest">
+
+      <wsdl:part name="in0" type="tns1:Ruolo">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaInRuoloResponse">
+
+      <wsdl:part name="isPersonaInRuoloReturn" type="xsd:boolean">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInApplicationResponse">
+
+      <wsdl:part name="findRuoliForPersonaInApplicationReturn" type="impl:ArrayOf_tns1_Ruolo">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:UseCase">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IdentitaNonAutenticaException">
+
+      <wsdl:part name="fault" type="tns1:IdentitaNonAutenticaException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InternalException">
+
+      <wsdl:part name="fault" type="tns1:InternalException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isIdentitaAutenticaRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:UseCase">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthException">
+
+      <wsdl:part name="fault" type="tns1:AuthException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MalformedUsernameException">
+
+      <wsdl:part name="fault" type="tns1:MalformedUsernameException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInApplicationRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:Application">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordResponse">
+
+      <wsdl:part name="identificaUserPasswordReturn" type="tns1:Identita">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="BadRuoloException">
+
+      <wsdl:part name="fault" type="tns1:BadRuoloException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseResponse">
+
+      <wsdl:part name="getInfoPersonaInUseCaseReturn" type="soapenc:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isIdentitaAutenticaResponse">
+
+      <wsdl:part name="isIdentitaAutenticaReturn" type="xsd:boolean">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordPINRequest">
+
+      <wsdl:part name="in0" type="soapenc:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="soapenc:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in2" type="soapenc:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaCertificatoRequest">
+
+      <wsdl:part name="in0" type="soapenc:base64Binary">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaSchemaResponse">
+
+      <wsdl:part name="getInfoPersonaSchemaReturn" type="soapenc:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:Application">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="CertOutsideValidityException">
+
+      <wsdl:part name="fault" type="tns1:CertOutsideValidityException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UnrecoverableException">
+
+      <wsdl:part name="fault" type="tns1:UnrecoverableException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationResponse">
+
+      <wsdl:part name="findActorsForPersonaInApplicationReturn" type="impl:ArrayOf_tns1_Actor">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseResponse">
+
+      <wsdl:part name="findActorsForPersonaInUseCaseReturn" type="impl:ArrayOf_tns1_Actor">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaInRuoloRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:Ruolo">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInUseCaseRequest">
+
+      <wsdl:part name="in0" type="tns1:Identita">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="tns1:UseCase">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordPINResponse">
+
+      <wsdl:part name="identificaUserPasswordPINReturn" type="tns1:Identita">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUseCasesForPersonaInApplicationResponse">
+
+      <wsdl:part name="findUseCasesForPersonaInApplicationReturn" type="impl:ArrayOf_tns1_UseCase">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="NoSuchUseCaseException">
+
+      <wsdl:part name="fault" type="tns1:NoSuchUseCaseException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="NoSuchApplicationException">
+
+      <wsdl:part name="fault" type="tns1:NoSuchApplicationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="iride2simIridepep">
+
+      <wsdl:operation name="identificaUserPassword" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:identificaUserPasswordRequest" name="identificaUserPasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:identificaUserPasswordResponse" name="identificaUserPasswordResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthException" name="AuthException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MalformedUsernameException" name="MalformedUsernameException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPasswordPIN" parameterOrder="in0 in1 in2">
+
+         <wsdl:input message="impl:identificaUserPasswordPINRequest" name="identificaUserPasswordPINRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:identificaUserPasswordPINResponse" name="identificaUserPasswordPINResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthException" name="AuthException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MalformedUsernameException" name="MalformedUsernameException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaCertificato" parameterOrder="in0">
+
+         <wsdl:input message="impl:identificaCertificatoRequest" name="identificaCertificatoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:identificaCertificatoResponse" name="identificaCertificatoResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:CertRevokedException" name="CertRevokedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:CertOutsideValidityException" name="CertOutsideValidityException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaAutorizzataInUseCase" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:isPersonaAutorizzataInUseCaseRequest" name="isPersonaAutorizzataInUseCaseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isPersonaAutorizzataInUseCaseResponse" name="isPersonaAutorizzataInUseCaseResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaInRuolo" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:isPersonaInRuoloRequest" name="isPersonaInRuoloRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isPersonaInRuoloResponse" name="isPersonaInRuoloResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:BadRuoloException" name="BadRuoloException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCase" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:getInfoPersonaInUseCaseRequest" name="getInfoPersonaInUseCaseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getInfoPersonaInUseCaseResponse" name="getInfoPersonaInUseCaseResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInUseCase" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:findRuoliForPersonaInUseCaseRequest" name="findRuoliForPersonaInUseCaseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findRuoliForPersonaInUseCaseResponse" name="findRuoliForPersonaInUseCaseResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInApplication" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:findRuoliForPersonaInApplicationRequest" name="findRuoliForPersonaInApplicationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findRuoliForPersonaInApplicationResponse" name="findRuoliForPersonaInApplicationResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaInApplication" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:findUseCasesForPersonaInApplicationRequest" name="findUseCasesForPersonaInApplicationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findUseCasesForPersonaInApplicationResponse" name="findUseCasesForPersonaInApplicationResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplication" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:findActorsForPersonaInApplicationRequest" name="findActorsForPersonaInApplicationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findActorsForPersonaInApplicationResponse" name="findActorsForPersonaInApplicationResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCase" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:findActorsForPersonaInUseCaseRequest" name="findActorsForPersonaInUseCaseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findActorsForPersonaInUseCaseResponse" name="findActorsForPersonaInUseCaseResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isIdentitaAutentica" parameterOrder="in0">
+
+         <wsdl:input message="impl:isIdentitaAutenticaRequest" name="isIdentitaAutenticaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isIdentitaAutenticaResponse" name="isIdentitaAutenticaResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaSchema" parameterOrder="in0">
+
+         <wsdl:input message="impl:getInfoPersonaSchemaRequest" name="getInfoPersonaSchemaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getInfoPersonaSchemaResponse" name="getInfoPersonaSchemaResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:BadRuoloException" name="BadRuoloException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="iride2simIridepepSoapBinding" type="impl:iride2simIridepep">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="identificaUserPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaUserPasswordRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaUserPasswordResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MalformedUsernameException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MalformedUsernameException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdProviderNotFoundException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPasswordPIN">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaUserPasswordPINRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaUserPasswordPINResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MalformedUsernameException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MalformedUsernameException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdProviderNotFoundException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaCertificato">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaCertificatoRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaCertificatoResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CertRevokedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CertRevokedException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdProviderNotFoundException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CertOutsideValidityException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CertOutsideValidityException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaAutorizzataInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isPersonaAutorizzataInUseCaseRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isPersonaAutorizzataInUseCaseResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchUseCaseException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaInRuolo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isPersonaInRuoloRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isPersonaInRuoloResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="BadRuoloException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="BadRuoloException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInfoPersonaInUseCaseRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInfoPersonaInUseCaseResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchUseCaseException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findRuoliForPersonaInUseCaseRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findRuoliForPersonaInUseCaseResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchUseCaseException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findRuoliForPersonaInApplicationRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findRuoliForPersonaInApplicationResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findUseCasesForPersonaInApplicationRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findUseCasesForPersonaInApplicationResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInApplicationRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInApplicationResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInUseCaseRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInUseCaseResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchApplicationException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NoSuchUseCaseException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IdentitaNonAutenticaException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isIdentitaAutentica">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isIdentitaAutenticaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isIdentitaAutenticaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaSchema">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInfoPersonaSchemaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://interfaces.policy.iride2.csi.it" use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInfoPersonaSchemaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="BadRuoloException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="BadRuoloException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InternalException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UnrecoverableException" namespace="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="iride2simIridepepService">
+
+      <wsdl:port binding="impl:iride2simIridepepSoapBinding" name="iride2simIridepep">
+
+         <wsdlsoap:address location="http://localhost:8085/iride2simApplIridepepWsfad/services/iride2simIridepep"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
