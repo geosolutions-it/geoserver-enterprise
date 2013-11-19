@@ -29,7 +29,7 @@
 		</property>
 	</bean>
 
-	<amq:broker useJmx="false" persistent="true"
+	<amq:broker useJmx="false" persistent="false"
 		xmlns="http://activemq.apache.org/schema/core" startAsync="true" dataDirectory="${activemq.base}">
 
 		<destinationInterceptors>
