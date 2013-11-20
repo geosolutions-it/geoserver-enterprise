@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Topic;
 
 import org.geotools.util.logging.Logging;
 import org.springframework.jms.core.JmsTemplate;
@@ -53,7 +53,7 @@ public class JMSPublisher {
      * 
      * @throws JMSException
      */
-    public <S extends Serializable, O> void publish(final Destination destination,
+    public <S extends Serializable, O> void publish(final Topic destination,
             final JmsTemplate jmsTemplate, final Properties props, final O object)
             throws JMSException {
         try {
