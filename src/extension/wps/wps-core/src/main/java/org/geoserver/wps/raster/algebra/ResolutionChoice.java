@@ -87,7 +87,13 @@ public enum ResolutionChoice {
             }
             return pixelScales.get(0);
         }
+    },PROVIDED {
+        @Override
+        public double compute(List<Double> pixelScales) {
+            return 0;
+        }
     };
+    
     
     
     public abstract double compute(List<Double> pixelScales);

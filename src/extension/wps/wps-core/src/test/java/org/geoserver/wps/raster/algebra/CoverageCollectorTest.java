@@ -44,7 +44,7 @@ public class CoverageCollectorTest extends BaseRasterAlgebraTest{
         final CoverageCollector collector= new CoverageCollector(catalog,ResolutionChoice.getDefault(),GeoTools.getDefaultHints());
         filter.accept(collector, null);
         
-        final HashMap<String, GridCoverage2D> coverages = collector.getCoverages();
+        final HashMap<String, GridCoverage2D> coverages = (HashMap<String, GridCoverage2D>) collector.getCoverages();
         Assert.assertNotNull(coverages);
         Assert.assertEquals("Wrong number of coverages found:"+coverages.size(),2,coverages.size());
         Assert.assertNotNull("Null gridcoverage found: srtm_39_04_1", coverages.get("wcs:srtm_39_04_1"));
@@ -65,7 +65,7 @@ public class CoverageCollectorTest extends BaseRasterAlgebraTest{
         final CoverageCollector collector= new CoverageCollector(catalog,ResolutionChoice.getDefault(),GeoTools.getDefaultHints());
         filter.accept(collector, null);
         
-        final HashMap<String, GridCoverage2D> coverages = collector.getCoverages();
+        final HashMap<String, GridCoverage2D> coverages = (HashMap<String, GridCoverage2D>) collector.getCoverages();
         Assert.assertNotNull(coverages);
         Assert.assertEquals("Wrong number of coverages found:"+coverages.size(),1,coverages.size());
         Assert.assertNotNull("Wrong number of coverages found:", coverages.get("wcs:srtm_39_04_1"));
@@ -84,7 +84,7 @@ public class CoverageCollectorTest extends BaseRasterAlgebraTest{
         final CoverageCollector collector= new CoverageCollector(catalog,ResolutionChoice.getDefault(),GeoTools.getDefaultHints());
         filter.accept(collector, null);
         
-        final HashMap<String, GridCoverage2D> coverages = collector.getCoverages();
+        final HashMap<String, GridCoverage2D> coverages = (HashMap<String, GridCoverage2D>) collector.getCoverages();
         Assert.assertNotNull(coverages);
         Assert.assertEquals("Wrong number of coverages found:"+coverages.size(),1,coverages.size());
         Assert.assertNotNull("Null gridcoverage found: world", coverages.get("wcs:srtm_39_04_1"));
@@ -104,7 +104,7 @@ public class CoverageCollectorTest extends BaseRasterAlgebraTest{
         final CoverageCollector collector= new CoverageCollector(catalog,ResolutionChoice.getDefault(),GeoTools.getDefaultHints());
         filter.accept(collector, null);
         
-        final HashMap<String, GridCoverage2D> coverages = collector.getCoverages();
+        final HashMap<String, GridCoverage2D> coverages = (HashMap<String, GridCoverage2D>) collector.getCoverages();
         Assert.assertNotNull(coverages);
         Assert.assertEquals("Wrong number of coverages found:"+coverages.size(),2,coverages.size());
         Assert.assertNotNull("Null gridcoverage found: srtm_39_04_1", coverages.get("wcs:srtm_39_04_1"));
@@ -125,7 +125,7 @@ public class CoverageCollectorTest extends BaseRasterAlgebraTest{
         final CoverageCollector collector= new CoverageCollector(catalog,ResolutionChoice.getDefault(),GeoTools.getDefaultHints());
         filter.accept(collector, null);
         
-        final HashMap<String, GridCoverage2D> coverages = collector.getCoverages();
+        final HashMap<String, GridCoverage2D> coverages = (HashMap<String, GridCoverage2D>) collector.getCoverages();
         Assert.assertNotNull(coverages);
         Assert.assertEquals("Wrong number of coverages found:"+coverages.size(),2,coverages.size());
         Assert.assertNotNull("Null gridcoverage found: srtm_39_04_1", coverages.get("wcs:srtm_39_04_1"));

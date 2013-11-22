@@ -216,6 +216,11 @@
     <bean id="jiffle" class="org.geoserver.wps.raster.algebra.JiffleProcess">
       <constructor-arg index="0" ref="catalog"/>
     </bean>
+    
+    <!--  Execution manager, the thing that actually orchestrates the process execution -->
+    <bean id="algebricProcess" class="org.geoserver.wps.AlgebricProcess">
+        <constructor-arg ref="catalog" />
+    </bean>
     <!-- 
        ==================================================================
        Deal with temporary files

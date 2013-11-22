@@ -84,42 +84,9 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author Simone Giannecchini, GeoSolutions SAS
  * TODO make the logic to choose the final {@link AffineTransform2D} more generic and if possible customizable.
  */
-public class CoverageCollector extends DefaultFilterVisitor implements FilterVisitor, ExpressionVisitor {
+public class CoverageCollector extends AbstractCoverageCollector {
     
     private final static Logger LOGGER= Logging.getLogger(CoverageCollector.class);
-
-    /** The {@link CoverageInfo} objects that we need.*/
-    private final Set<CoverageInfo> coverageNames= new HashSet<CoverageInfo>();
-    
-    /** The coverage to be used as reference for the computation of the final {@link GridGeometry2D}.*/
-    private CoverageInfo referenceCoverage;
-    
-    /** GeoServer {@link Catalog} to be used to extract the {@link CoverageInfo} information.*/
-    private final Catalog catalog;
-
-    /** Reference {@link CoordinateReferenceSystem}.*/
-    private CoordinateReferenceSystem referenceCRS;
-
-    /** Final envelope that contains the intersection of the various envelopes. It shall not be empty*/
-    private ReferencedEnvelope finalEnvelope;
-    
-    private final Hints hints;
-
-    /** Final {@link GridGeometry2D}.*/
-    private GridGeometry2D finalGridGeometry;
-    
-    /** Map that maps names to {@link GridCoverage2D} instances. At the end of the visit it contains all the coverages used in the {@link Filter}.*/
-    private Map<String, GridCoverage2D> coverages;
-
-    private ResolutionChoice resolutionChoice;
-
-    /** The list of Pixel Size on the X axis.*/
-    private List<Double> pixelSizesX= new ArrayList<Double>();
-
-    /** The list Pixel Size on the Y axis.*/
-    private List<Double> pixelSizesY= new ArrayList<Double>();
-
-    private Geometry roi; 
     
     /**
      * Constructor.
@@ -139,14 +106,18 @@ public class CoverageCollector extends DefaultFilterVisitor implements FilterVis
      * @param hints2
      */
     public CoverageCollector(Catalog catalog, ResolutionChoice resolutionChoice, Geometry roi, Hints hints) {
-        Utilities.ensureNonNull("resolutionChoice", resolutionChoice);
-        Utilities.ensureNonNull("catalog", catalog);
-        Utilities.ensureNonNull("hints", hints);
-        
-        this.catalog = catalog;
-        this.hints=hints.clone();
-        this.roi=roi;
-        this.resolutionChoice=resolutionChoice;
+        super(catalog,resolutionChoice,roi,hints);
+    }
+
+    @Override
+    public Object visit(Function function, Object arg1) {
+        Utilities.ensureNonNull("function", function);
+
+        final List<Expression> params = function.getParameters();
+        for (Expression exp : params) {
+            exp.accept(this, null);
+        }
+        return null;
     }
 
     /**
@@ -156,23 +127,29 @@ public class CoverageCollector extends DefaultFilterVisitor implements FilterVis
     @Override
     public Object visit(PropertyName expression, Object data) {
         org.geotools.util.Utilities.ensureNonNull("expression", expression);
-        
+
         // === get and check name
-        final String name=expression.getPropertyName();     
+        final String name = expression.getPropertyName();
         // checks
-        if(name==null||name.length()<=0){
-            throw new IllegalArgumentException("Unable to extract property name from the provided expression:"+expression); 
+        if (name == null || name.length() <= 0) {
+            throw new IllegalArgumentException(
+                    "Unable to extract property name from the provided expression:" + expression);
         }
-        visitCoverage(name);       
-        
+        visitCoverage(name);
+
         // return
         return null;
     }
 
+    
+    public void collect(List<String> inputs) {
+        throw new UnsupportedOperationException("Operation not supported");
+    }
+    
     /**
      * @param name
      */
-    private void visitCoverage(String name) {
+    protected void visitCoverage(String name) {
         // === extract from catalog and check the coverage
         final CoverageInfo coverage = catalog.getCoverageByName(name);
         if(coverage==null){
@@ -237,39 +214,14 @@ public class CoverageCollector extends DefaultFilterVisitor implements FilterVis
                 // add to the set as this is not a reference coverage
                 coverageNames.add(coverage);
             }
-        }
-        
-    }
-
-    /**
-     * Retrieves a {@link Map} that contains the source {@link GridCoverage2D} along with its name
-     * as the key in order to use it later on.
-     * 
-     * @return a {@link Map} that contains the source {@link GridCoverage2D} along with its name
-     * as the key in order to use it later on.
-     * 
-     * @throws IOException in case something bad happens when reading the {@link GridCoverage2D}.
-     */
-    public synchronized HashMap<String, GridCoverage2D> getCoverages() throws IOException {
-        
-        // compute final GridGeometry
-        try {
-            prepareFinalGridGeometry();
-        } catch (Exception e) {
-            throw new IOException(e);
-        }
-        
-        // prepare coverages
-        prepareCoveragesList();
-        
-        return new HashMap<String, GridCoverage2D>(coverages);
+        }        
     }
 
     /**
      * @throws IOException 
      * 
      */
-    private void prepareCoveragesList() throws IOException {
+    protected void prepareCoveragesList() throws IOException {
         // === checks, we don't want to build this twice
         if(coverages!=null){
             return;
@@ -318,7 +270,7 @@ public class CoverageCollector extends DefaultFilterVisitor implements FilterVis
      * @throws Exception 
      * 
      */
-    private void prepareFinalGridGeometry() throws Exception {
+    protected void prepareFinalGridGeometry() throws Exception {
         if(finalGridGeometry==null){
             // prepare the envelope and make sure the CRS is set
             
@@ -369,58 +321,6 @@ public class CoverageCollector extends DefaultFilterVisitor implements FilterVis
                     envelope,
                     hints
             );            
-        }
-       
-    }
-
-    /**
-     * Provides access to the {@link GridGeometry2D} created for further processing.
-     * 
-     * @return
-     * @throws IOException 
-     */
-    public synchronized GridGeometry2D getGridGeometry() throws IOException {
-        try {
-            prepareFinalGridGeometry();
-        } catch (Exception e) {
-            throw new IOException(e);
-        }
-        prepareCoveragesList();
-        return finalGridGeometry;
-    }
-    
-    /**
-     * Perform clean up on internal resources.
-     * 
-     * <p>
-     * Using this {@link CoverageCollector} after this method has been invoked may result in 
-     * unexpected behaviors.
-     * 
-     */
-    public synchronized void dispose(){
-        // === clean up
-        coverageNames.clear();
-        if(coverages!=null){
-            // clean
-            for(GridCoverage2D gc:coverages.values()){
-                CoverageCleanerCallback.disposeCoverage(gc);
-            }
-            
-            // clean map
-            coverages.clear();
-        }
-        
-        
-    }
-
-    @Override
-    public Object visit(Function function, Object arg1) {
-        Utilities.ensureNonNull("function", function);
-        
-        final List<Expression> params = function.getParameters();
-        for(Expression exp:params){
-            exp.accept(this, null);
-        }
-        return null;
+        }      
     }
 }
