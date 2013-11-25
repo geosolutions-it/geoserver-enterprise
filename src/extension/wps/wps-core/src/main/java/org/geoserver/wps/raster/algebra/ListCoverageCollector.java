@@ -18,12 +18,9 @@ package org.geoserver.wps.raster.algebra;
 
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,10 +29,14 @@ import javax.media.jai.JAI;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CoverageInfo;
-import org.geoserver.wcs.CoverageCleanerCallback;
+import org.geoserver.wps.raster.GridCoverage2DRIA;
+import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
+import org.geotools.coverage.processing.CoverageProcessor;
+import org.geotools.coverage.processing.operation.Crop;
+import org.geotools.coverage.processing.operation.Resample;
 import org.geotools.factory.Hints;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.JTS;
@@ -45,17 +46,15 @@ import org.geotools.referencing.operation.builder.GridToEnvelopeMapper;
 import org.geotools.referencing.operation.matrix.XAffineTransform;
 import org.geotools.referencing.operation.transform.AffineTransform2D;
 import org.geotools.util.NullProgressListener;
-import org.geotools.util.Utilities;
 import org.geotools.util.logging.Logging;
-import org.opengis.coverage.grid.GridEnvelope;
 import org.opengis.coverage.grid.GridGeometry;
-import org.opengis.filter.Filter;
 import org.opengis.filter.FilterVisitor;
 import org.opengis.filter.expression.ExpressionVisitor;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.geometry.Envelope;
 import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterValue;
+import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.referencing.operation.MathTransform;
@@ -84,7 +83,36 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class ListCoverageCollector extends AbstractCoverageCollector {
 
+    private static ParameterValueGroup resampleParams;
+
+    private static ParameterValueGroup cropParams;
+
+    static {
+
+        // ///////////////////////////////////////////////////////////////////
+        //
+        // Caching parameters for performing the various operations.
+        //
+        // ///////////////////////////////////////////////////////////////////
+        final CoverageProcessor processor = new CoverageProcessor(new Hints(
+                Hints.LENIENT_DATUM_SHIFT, Boolean.TRUE));
+        resampleParams = processor.getOperation("Resample").getParameters();
+        cropParams = processor.getOperation("CoverageCrop").getParameters();
+    }
+
     private final static Logger LOGGER = Logging.getLogger(ListCoverageCollector.class);
+
+    private GridGeometry gridGeo;
+
+    private ReferencedEnvelope referenceEnvelope;
+
+    private ParameterValue<String> suggestedTileSizeParam;
+
+    private ParameterValue<Boolean> streamingReadParam;
+
+    private Resample resampleOp;
+
+    private Crop cropOp;
 
     /**
      * Constructor.
@@ -103,12 +131,33 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
      * @param roi
      * @param hints2
      */
-    public ListCoverageCollector(Catalog catalog, ReferencedEnvelope roi, GridGeometry gridGeo,
-            Hints hints) {
-        super(catalog, ResolutionChoice.PROVIDED, null, hints);        
+    public ListCoverageCollector(Catalog catalog, ReferencedEnvelope referenceEnvelope,
+            GridGeometry gridGeo, Hints hints) {
+        super(catalog, ResolutionChoice.PROVIDED, null, hints);
+
+        this.referenceEnvelope = referenceEnvelope;
+        this.gridGeo = gridGeo;
+
+        suggestedTileSizeParam = AbstractGridFormat.SUGGESTED_TILE_SIZE.createValue();
+        final ImageLayout layout = RIFUtil.getImageLayoutHint(hints);
+        if (layout != null && layout.isValid(ImageLayout.TILE_HEIGHT_MASK)
+                && layout.isValid(ImageLayout.TILE_WIDTH_MASK)) {
+            suggestedTileSizeParam.setValue(String.valueOf(layout.getTileWidth(null)) + ","
+                    + String.valueOf(layout.getTileHeight(null)));
+        } else {
+            // default
+            suggestedTileSizeParam.setValue(String.valueOf(JAI.getDefaultTileSize().width) + ","
+                    + String.valueOf(JAI.getDefaultTileSize().height));
+        }
+
+        streamingReadParam = AbstractGridFormat.USE_JAI_IMAGEREAD.createValue();
+        streamingReadParam.setValue(true);
+
+        resampleOp = new Resample();
+
+        cropOp = new Crop();
     }
 
-    
     /**
      * @param catalog2
      * @param resolutionChoice2
@@ -119,7 +168,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             Hints hints) {
         super(catalog, resolutionChoice, roi, hints);
     }
-    
+
     /**
      * {@link PropertyName} properties indicate coverage names as per the instance in which this process is running.
      * 
@@ -148,66 +197,187 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             if (!(tempTransform instanceof AffineTransform)) {
                 throw new IllegalArgumentException(
                         "Grid to world tranform is not an AffineTransform:" + name);
+
             }
-            AffineTransform tr = (AffineTransform) tempTransform;
+            if (resolutionChoice != ResolutionChoice.PROVIDED) {
 
-            if (referenceCoverage == null) {
-                // set the first use as reference coverage
-                referenceCoverage = coverage;
-                referenceCRS = referenceCoverage.getCRS();
+                AffineTransform tr = (AffineTransform) tempTransform;
 
-                try {
-                    finalEnvelope = referenceCoverage.getNativeBoundingBox();
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, e.getMessage(), e);
+                if (referenceCoverage == null) {
+                    // set the first use as reference coverage
+                    referenceCoverage = coverage;
+                    referenceCRS = referenceCoverage.getCRS();
+
+                    try {
+                        finalEnvelope = referenceCoverage.getNativeBoundingBox();
+                    } catch (Exception e) {
+                        LOGGER.log(Level.WARNING, e.getMessage(), e);
+                    }
+
+                    // resolution
+                    pixelSizesX.add(XAffineTransform.getScaleX0(tr));
+                    pixelSizesY.add(XAffineTransform.getScaleY0(tr));
+
+                } else {
+
+                    // === we already have a reference coverage
+                    boolean reproject = false;
+
+                    // get envelope and crs
+                    final CoordinateReferenceSystem crs = coverage.getCRS();
+                    ReferencedEnvelope envelope = null;
+                    try {
+                        envelope = coverage.getNativeBoundingBox();
+
+                        // reproject the coverage envelope if needed
+                        if (!CRS.equalsIgnoreMetadata(crs, referenceCRS)) {
+                            envelope = envelope.transform(referenceCRS, true);
+                            reproject = true;
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    // intersect the reference envelope with the coverage one
+                    finalEnvelope = new ReferencedEnvelope(finalEnvelope.intersection(envelope),
+                            this.referenceCRS);
+
+                    // resolution
+                    if (!reproject) {
+                        pixelSizesX.add(XAffineTransform.getScaleX0(tr));
+                        pixelSizesY.add(XAffineTransform.getScaleY0(tr));
+                    } else {
+                        // simulate reprojection
+                        tr = new GridToEnvelopeMapper(coverage.getGrid().getGridRange(), envelope)
+                                .createAffineTransform();
+                        pixelSizesX.add(XAffineTransform.getScaleX0(tr));
+                        pixelSizesY.add(XAffineTransform.getScaleY0(tr));
+                    }
+
+                    // add to the set as this is not a reference coverage
+                    coverageNames.add(coverage);
                 }
-
-                // resolution
-                pixelSizesX.add(XAffineTransform.getScaleX0(tr));
-                pixelSizesY.add(XAffineTransform.getScaleY0(tr));
-
             } else {
-                // === we already have a reference coverage
-                boolean reproject = false;
+                if (referenceCRS == null) {
+                    // Selection of the reference CRS
+                    referenceCRS = referenceEnvelope.getCoordinateReferenceSystem();
+                    // definition of the final envelope
+                    finalEnvelope = new ReferencedEnvelope(referenceEnvelope, this.referenceCRS);
+                    // Coverages map
+                    coverages = new HashMap<String, GridCoverage2D>();
+                    // Final GridGeometry object created only for avoiding the calculation on the "prepareFinalGridGeometry()" method
+                    finalGridGeometry = new GridGeometry2D(gridGeo);
+                }
 
                 // get envelope and crs
                 final CoordinateReferenceSystem crs = coverage.getCRS();
                 ReferencedEnvelope envelope = null;
+                boolean reproject = false;
                 try {
-                    envelope = coverage.getNativeBoundingBox();
-
-                    // reproject the coverage envelope if needed
+                    // reproject the reference envelope if needed
                     if (!CRS.equalsIgnoreMetadata(crs, referenceCRS)) {
-                        envelope = envelope.transform(referenceCRS, true);
+
+                        envelope = new ReferencedEnvelope(finalEnvelope.transform(crs, true));
                         reproject = true;
+                    } else {
+                        // Else the reference envelope is taken
+                        envelope = new ReferencedEnvelope(finalEnvelope, referenceCRS);
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
-                // intersect the reference envelope with the coverage one
-                finalEnvelope = new ReferencedEnvelope(finalEnvelope.intersection(envelope),
-                        this.referenceCRS);
+                // Definition of the gridGeometry associated to the envelope
+                GridGeometry gridGeom = new GridGeometry2D(gridGeo.getGridRange(), envelope);
 
-                // resolution
-                if (!reproject) {
-                    pixelSizesX.add(XAffineTransform.getScaleX0(tr));
-                    pixelSizesY.add(XAffineTransform.getScaleY0(tr));
-                } else {
-                    // simulate reprojection
-                    tr = new GridToEnvelopeMapper(coverage.getGrid().getGridRange(), envelope)
-                            .createAffineTransform();
-                    pixelSizesX.add(XAffineTransform.getScaleX0(tr));
-                    pixelSizesY.add(XAffineTransform.getScaleY0(tr));
+                // Definition of the parameters associated to the gridGeometry
+                final ParameterValue<GridGeometry2D> readGG = AbstractGridFormat.READ_GRIDGEOMETRY2D
+                        .createValue();
+                readGG.setValue(gridGeom);
+                // Reading of the coverage in the source CRS in the defined envelope
+                GridCoverage2D coverageInSrcCRS = null;
+                try {
+                    coverageInSrcCRS = (GridCoverage2D) coverage.getGridCoverageReader(
+                            new NullProgressListener(), hints).read(
+                            new GeneralParameterValue[] { streamingReadParam, readGG,
+                                    suggestedTileSizeParam });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
 
-                // add to the set as this is not a reference coverage
-                coverageNames.add(coverage);
+                // If the reprojection must be done, the image is reprojected to the final CRS and cropped to the reference envelope
+                GridCoverage2D coverageInDestCRS;
+                if (reproject) {
+                    final ParameterValueGroup param = (ParameterValueGroup) resampleParams.clone();
+                    param.parameter("source").setValue(coverageInSrcCRS);
+                    param.parameter("CoordinateReferenceSystem").setValue(referenceCRS);
+
+                    coverageInDestCRS = (GridCoverage2D) resampleOp.doOperation(param, hints);
+
+                    final ParameterValueGroup paramCrop = (ParameterValueGroup) cropParams.clone();
+                    paramCrop.parameter("source").setValue(coverageInDestCRS);
+                    paramCrop.parameter("envelope").setValue(referenceEnvelope);
+
+                    coverageInDestCRS = (GridCoverage2D) cropOp.doOperation(paramCrop, hints);
+                } else {
+                    coverageInDestCRS = coverageInSrcCRS;
+                }
+                // Selection of the no data
+                double noDataValue = 0;
+
+                Object noData = null;
+                // Selection of the properties associated to the coverage reprojected
+                Map coverageProperties = coverageInDestCRS.getProperties();
+                Object noDataFinal = coverageProperties.get("GC_NODATA");
+                // Check if the NODATA is defined in the last coverage created
+                if (noDataFinal != null) {
+
+                    if (noData instanceof Number) {
+                        noDataValue = ((Number) noData).doubleValue();
+                    } else {
+                        // If the value is not a Number then the No Data is taken from the source
+                        // image properties and then set as a final image properties
+                        try {
+                            noData = ((GridCoverage2D) coverage.getGridCoverage(null, hints))
+                                    .getProperty("GC_NODATA");
+                        } catch (IOException e) {
+                            LOGGER.log(Level.FINER, e.getMessage(), e);
+                        }
+
+                        if (noData instanceof Number) {
+                            noDataValue = ((Number) noData).doubleValue();
+                            coverageProperties.put("GC_NODATA", noDataValue);
+                        }
+                    }
+                } else {
+                    // If the value is not a present then the No Data is taken from the source
+                    // image properties and then set as a final image properties
+                    try {
+                        noData = ((GridCoverage2D) coverage.getGridCoverage(null, hints))
+                                .getProperty("GC_NODATA");
+                    } catch (IOException e) {
+                        LOGGER.log(Level.FINER, e.getMessage(), e);
+                    }
+
+                    if (noData instanceof Number) {
+                        noDataValue = ((Number) noData).doubleValue();
+                        coverageProperties.put("GC_NODATA", noDataValue);
+                    }
+                }
+                // Expansion to the final GridGeometry already defined
+                GridCoverage2DRIA expandedIMG = GridCoverage2DRIA.create(coverageInDestCRS,
+                        (GridGeometry2D) gridGeo, noDataValue);
+                // Creation of the coverage associated
+                GridCoverage2D finalCoverage = CoverageFactoryFinder.getGridCoverageFactory(hints)
+                        .create(coverageInDestCRS.getName(), expandedIMG, (GridGeometry2D) gridGeo,
+                                coverageInDestCRS.getSampleDimensions(), null, coverageProperties);
+
+                // add to the set
+                coverages.put(coverage.prefixedName(), finalCoverage);
             }
         }
-
     }
- 
+
     /**
      * @throws IOException
      * 
@@ -245,12 +415,12 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
         // === we have other grid coverage beside the reference one, let's process them
         // add the reference one
         coverages = new HashMap<String, GridCoverage2D>();
+
         coverages.put(
                 referenceCoverage.prefixedName(),
                 (GridCoverage2D) referenceCoverage.getGridCoverageReader(
                         new NullProgressListener(), hints).read(
                         new GeneralParameterValue[] { streamingRead, readGG, suggestedTileSize }));
-
         // add the others with proper reprojection if needed
         for (CoverageInfo cov : coverageNames) {
             coverages.put(
@@ -301,10 +471,11 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                 throw new IllegalStateException("Final envelope is empty!");
             }
 
+            // G2W transform
             double finalScaleX = resolutionChoice.compute(pixelSizesX);
             double finalScaleY = resolutionChoice.compute(pixelSizesY);
-            // G2W transform
-            final AffineTransform2D g2w = new AffineTransform2D(finalScaleX, 0, 0, -finalScaleY,// TODO make this generic with respect to CRS
+
+            final MathTransform g2w = new AffineTransform2D(finalScaleX, 0, 0, -finalScaleY,// TODO make this generic with respect to CRS
                     envelope.getLowerCorner().getOrdinate(0), envelope.getUpperCorner()
                             .getOrdinate(1));
 
