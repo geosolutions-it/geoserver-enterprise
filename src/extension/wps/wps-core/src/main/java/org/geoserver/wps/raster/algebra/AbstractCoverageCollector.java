@@ -51,7 +51,7 @@ public abstract class AbstractCoverageCollector extends DefaultFilterVisitor imp
     protected GridGeometry2D finalGridGeometry;
 
     /** Map that maps names to {@link GridCoverage2D} instances. At the end of the visit it contains all the coverages used in the {@link Filter}. */
-    protected Map<String, GridCoverage2D> coverages;
+    protected Map<String, GridCoverage2D> coverages = new HashMap<String, GridCoverage2D>();
 
     protected ResolutionChoice resolutionChoice;
 

@@ -5,6 +5,7 @@ import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 import javax.xml.namespace.QName;
 
 import org.geoserver.data.test.MockData;
+import org.geoserver.wps.raster.algebra.AlgebricProcess;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.geometry.GeneralEnvelope;
