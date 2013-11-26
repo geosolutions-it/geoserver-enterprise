@@ -31,6 +31,17 @@ import org.opengis.util.ProgressListener;
 
 import com.google.common.collect.Lists;
 
+/**
+ * This process takes in input N coverages and executes an algebraic operation on them. The input coverages are passed as a single String which
+ * contains the coverage names. The coverage objects are taken from the GeoServer catalog. The operation is indicated by the {@link Operator} object.
+ * The destination No Data value can be set as a Double value. If the input No Data are more than one value, an input Minimum and Maximum value for
+ * the No Data range can be defined. Finally, the output BoundingBox, Width and Height are supplied for displaying the image to the screen. This
+ * process takes the input coverages and selects only the parts of each images which are contained inside the provided bounding box and, with the
+ * resolution indicated by 
+ * 
+ * @author Nicola Lagomarsini GeoSolutions SAS.
+ * 
+ */
 public class AlgebricProcess implements GSProcess {
 
     Catalog catalog;
@@ -50,11 +61,11 @@ public class AlgebricProcess implements GSProcess {
             // Operation to execute
             @DescribeParameter(name = "operation", description = "Operation to execute") Operator operation,
             // Destination No Data value
-            @DescribeParameter(name = "destinationNoData", description = "Destination NoData value") Double destNoData,
+            @DescribeParameter(name = "destinationNoData", description = "Destination NoData value", min = 0) Double destNoData,
             // Minimum No Data value to execute
-            @DescribeParameter(name = "NoDataMin", description = "Minimum No Data used for calculations", min=0) Double noDataMin,
+            @DescribeParameter(name = "NoDataMin", description = "Minimum No Data used for calculations", min = 0) Double noDataMin,
             // Maximum No Data value to execute
-            @DescribeParameter(name = "NoDataMax", description = "Maximum No Data used for calculations", min=0) Double noDataMax,
+            @DescribeParameter(name = "NoDataMax", description = "Maximum No Data used for calculations", min = 0) Double noDataMax,
             // output image parameters
             @DescribeParameter(name = "outputBBOX", description = "Bounding box of the output") ReferencedEnvelope outputEnv,
             @DescribeParameter(name = "outputWidth", description = "Width of output raster in pixels") Integer outputWidth,
@@ -109,38 +120,38 @@ public class AlgebricProcess implements GSProcess {
 
         // Algebric process
         AlgebricCoverageProcess process = new AlgebricCoverageProcess();
-        
+
         Range noData = null;
-        
+
         int dataType = coverages.get(0).getRenderedImage().getSampleModel().getDataType();
-        
-        if(noDataMin == null && noDataMax !=null){
+
+        if (noDataMin == null && noDataMax != null) {
             noDataMin = noDataMax;
-        }else if(noDataMax == null && noDataMin !=null){
+        } else if (noDataMax == null && noDataMin != null) {
             noDataMax = noDataMin;
         }
-        
-        if(noDataMax != null && noDataMin !=null){
-            switch(dataType){
+
+        if (noDataMax != null && noDataMin != null) {
+            switch (dataType) {
             case DataBuffer.TYPE_BYTE:
-                noData = RangeFactory.create(noDataMin.byteValue(), true,
-                        noDataMax.byteValue(), true);
+                noData = RangeFactory.create(noDataMin.byteValue(), true, noDataMax.byteValue(),
+                        true);
                 break;
             case DataBuffer.TYPE_USHORT:
-                noData = RangeFactory.createU(noDataMin.shortValue(), true,
-                        noDataMax.shortValue(), true);
+                noData = RangeFactory.createU(noDataMin.shortValue(), true, noDataMax.shortValue(),
+                        true);
                 break;
             case DataBuffer.TYPE_SHORT:
-                noData = RangeFactory.create(noDataMin.shortValue(), true,
-                        noDataMax.shortValue(), true);
+                noData = RangeFactory.create(noDataMin.shortValue(), true, noDataMax.shortValue(),
+                        true);
                 break;
             case DataBuffer.TYPE_INT:
-                noData = RangeFactory.create(noDataMin.intValue(), true,
-                        noDataMax.intValue(), true);
+                noData = RangeFactory
+                        .create(noDataMin.intValue(), true, noDataMax.intValue(), true);
                 break;
             case DataBuffer.TYPE_FLOAT:
-                noData = RangeFactory.create(noDataMin.floatValue(), true,
-                        noDataMax.floatValue(), true, true);
+                noData = RangeFactory.create(noDataMin.floatValue(), true, noDataMax.floatValue(),
+                        true, true);
                 break;
             case DataBuffer.TYPE_DOUBLE:
                 noData = RangeFactory.create(noDataMin.doubleValue(), true,
@@ -152,9 +163,5 @@ public class AlgebricProcess implements GSProcess {
         }
         return process.execute(coverages, operation, null, noData, destNoData, hints);
     }
-    
-    
-    
-    
 
 }

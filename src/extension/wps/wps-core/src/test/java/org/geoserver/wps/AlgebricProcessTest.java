@@ -7,6 +7,7 @@ import javax.xml.namespace.QName;
 import org.geoserver.data.test.MockData;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
+import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.util.NullProgressListener;
@@ -105,12 +106,12 @@ public class AlgebricProcessTest extends WPSTestSupport {
             ReferencedEnvelope coverageEnv = new ReferencedEnvelope(coverage.getEnvelope2D());
 
             Envelope coverage_env = coverageEnv;
-            Envelope world_env = coverageEnv;
-
+            Envelope world_env = worldEnv;
+            
             assertTrue(worldEnv.contains(coverage_env) && coverageEnv.contains(world_env));
         } else {
             System.err
-                    .println("AlgebricProcessTest.testWithTwoCoverages() not executed because the images are not present");
+                    .println("WARNING:AlgebricProcessTest.testWithTwoCoverages() not executed because the images are not present");
         }
 
     }
@@ -137,13 +138,13 @@ public class AlgebricProcessTest extends WPSTestSupport {
             ReferencedEnvelope coverageEnv = new ReferencedEnvelope(coverage.getEnvelope2D());
 
             Envelope coverage_env = coverageEnv;
-            Envelope world_env = coverageEnv;
-
+            Envelope world_env = worldEnv;
+           
             assertTrue(worldEnv.contains(coverage_env) && coverageEnv.contains(world_env));
 
         } else {
             System.err
-                    .println("AlgebricProcessTest.testWithTwoCoverages() not executed because the images are not present");
+                    .println("WARNING:AlgebricProcessTest.testWithTwoCoverages() not executed because the images are not present");
         }
 
     }

@@ -313,15 +313,17 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                     param.parameter("CoordinateReferenceSystem").setValue(referenceCRS);
 
                     coverageInDestCRS = (GridCoverage2D) resampleOp.doOperation(param, hints);
-
-                    final ParameterValueGroup paramCrop = (ParameterValueGroup) cropParams.clone();
-                    paramCrop.parameter("source").setValue(coverageInDestCRS);
-                    paramCrop.parameter("envelope").setValue(referenceEnvelope);
-
-                    coverageInDestCRS = (GridCoverage2D) cropOp.doOperation(paramCrop, hints);
+ 
                 } else {
                     coverageInDestCRS = coverageInSrcCRS;
                 }
+                
+                final ParameterValueGroup paramCrop = (ParameterValueGroup) cropParams.clone();
+                paramCrop.parameter("source").setValue(coverageInDestCRS);
+                paramCrop.parameter("envelope").setValue(referenceEnvelope);
+
+                coverageInDestCRS = (GridCoverage2D) cropOp.doOperation(paramCrop, hints);
+                
                 // Selection of the no data
                 double noDataValue = 0;
 
@@ -350,7 +352,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                         }
                     }
                 } else {
-                    // If the value is not a present then the No Data is taken from the source
+                    // If the value is not present then the No Data is taken from the source
                     // image properties and then set as a final image properties
                     try {
                         noData = ((GridCoverage2D) coverage.getGridCoverage(null, hints))
@@ -364,13 +366,31 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                         coverageProperties.put("GC_NODATA", noDataValue);
                     }
                 }
-                // Expansion to the final GridGeometry already defined
-                GridCoverage2DRIA expandedIMG = GridCoverage2DRIA.create(coverageInDestCRS,
-                        (GridGeometry2D) gridGeo, noDataValue);
+                
+                Envelope finalCoverageEnvelope = coverageInDestCRS.getEnvelope();
+                
+                ReferencedEnvelope finalRefEnv = new ReferencedEnvelope(finalCoverageEnvelope);
+                
+                com.vividsolutions.jts.geom.Envelope refEnv = finalEnvelope;
+                
                 // Creation of the coverage associated
-                GridCoverage2D finalCoverage = CoverageFactoryFinder.getGridCoverageFactory(hints)
-                        .create(coverageInDestCRS.getName(), expandedIMG, (GridGeometry2D) gridGeo,
-                                coverageInDestCRS.getSampleDimensions(), null, coverageProperties);
+                GridCoverage2D finalCoverage;
+                
+                if(!finalRefEnv.contains(refEnv)){ 
+                    // Expansion to the final GridGeometry already defined
+                    GridCoverage2DRIA expandedIMG = GridCoverage2DRIA.create(coverageInDestCRS,
+                            (GridGeometry2D) gridGeo, noDataValue);
+                    
+                    finalCoverage = CoverageFactoryFinder.getGridCoverageFactory(hints)
+                            .create(coverageInDestCRS.getName(), expandedIMG, (GridGeometry2D) gridGeo,
+                                    coverageInDestCRS.getSampleDimensions(), null, coverageProperties);
+                    
+                }else{
+                    finalCoverage = CoverageFactoryFinder.getGridCoverageFactory(hints)
+                            .create(coverageInDestCRS.getName(), coverageInDestCRS.getRenderedImage(), (GridGeometry2D) gridGeo,
+                                    coverageInDestCRS.getSampleDimensions(), null, coverageProperties);
+                }
+
 
                 // add to the set
                 coverages.put(coverage.prefixedName(), finalCoverage);
