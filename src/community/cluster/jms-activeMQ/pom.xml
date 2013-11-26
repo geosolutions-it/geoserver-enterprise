@@ -17,11 +17,11 @@
 	<name>GeoServer JMS ActiveMQ module</name>
 
 	<dependencies>
-		<dependency>
+		<!--dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-commons</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency-->
 
 		<!-- dependency>
 			<groupId>org.geoserver</groupId>
@@ -31,7 +31,7 @@
 		
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-all</artifactId>
+			<artifactId>activemq-client</artifactId>
 			<version>5.8.0</version>
 			<exclusions>
 				<exclusion>

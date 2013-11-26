@@ -20,11 +20,6 @@
   	</description>
 	<display-name>ActiveMQ Console</display-name>
 
-<!-- 	<context-param> -->
-<!-- 		<param-name>contextConfigLocation</param-name> -->
-<!-- 		<param-value>/WEB-INF/classes/applicationContext.xml</param-value> -->
-<!-- 	</context-param> -->
-
 	<!-- pick up all spring application contexts -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
