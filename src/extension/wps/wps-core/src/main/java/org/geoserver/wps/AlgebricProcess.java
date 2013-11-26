@@ -2,8 +2,10 @@ package org.geoserver.wps;
 
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 import it.geosolutions.jaiext.range.Range;
+import it.geosolutions.jaiext.range.RangeFactory;
 
 import java.awt.Rectangle;
+import java.awt.image.DataBuffer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +51,10 @@ public class AlgebricProcess implements GSProcess {
             @DescribeParameter(name = "operation", description = "Operation to execute") Operator operation,
             // Destination No Data value
             @DescribeParameter(name = "destinationNoData", description = "Destination NoData value") Double destNoData,
-            // No Data value to execute
-            @DescribeParameter(name = "NoDataRange", description = "No Data Range used for calculations") Range noData,
+            // Minimum No Data value to execute
+            @DescribeParameter(name = "NoDataMin", description = "Minimum No Data used for calculations", min=0) Double noDataMin,
+            // Maximum No Data value to execute
+            @DescribeParameter(name = "NoDataMax", description = "Maximum No Data used for calculations", min=0) Double noDataMax,
             // output image parameters
             @DescribeParameter(name = "outputBBOX", description = "Bounding box of the output") ReferencedEnvelope outputEnv,
             @DescribeParameter(name = "outputWidth", description = "Width of output raster in pixels") Integer outputWidth,
@@ -105,8 +109,52 @@ public class AlgebricProcess implements GSProcess {
 
         // Algebric process
         AlgebricCoverageProcess process = new AlgebricCoverageProcess();
-
+        
+        Range noData = null;
+        
+        int dataType = coverages.get(0).getRenderedImage().getSampleModel().getDataType();
+        
+        if(noDataMin == null && noDataMax !=null){
+            noDataMin = noDataMax;
+        }else if(noDataMax == null && noDataMin !=null){
+            noDataMax = noDataMin;
+        }
+        
+        if(noDataMax != null && noDataMin !=null){
+            switch(dataType){
+            case DataBuffer.TYPE_BYTE:
+                noData = RangeFactory.create(noDataMin.byteValue(), true,
+                        noDataMax.byteValue(), true);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                noData = RangeFactory.createU(noDataMin.shortValue(), true,
+                        noDataMax.shortValue(), true);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                noData = RangeFactory.create(noDataMin.shortValue(), true,
+                        noDataMax.shortValue(), true);
+                break;
+            case DataBuffer.TYPE_INT:
+                noData = RangeFactory.create(noDataMin.intValue(), true,
+                        noDataMax.intValue(), true);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                noData = RangeFactory.create(noDataMin.floatValue(), true,
+                        noDataMax.floatValue(), true, true);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                noData = RangeFactory.create(noDataMin.doubleValue(), true,
+                        noDataMax.doubleValue(), true, true);
+                break;
+            default:
+                throw new IllegalArgumentException("Wrong coverage data type");
+            }
+        }
         return process.execute(coverages, operation, null, noData, destNoData, hints);
     }
+    
+    
+    
+    
 
 }

@@ -1,8 +1,6 @@
 package org.geoserver.wps;
 
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
-import it.geosolutions.jaiext.range.Range;
-import it.geosolutions.jaiext.range.RangeFactory;
 
 import javax.xml.namespace.QName;
 
@@ -90,7 +88,7 @@ public class AlgebricProcessTest extends WPSTestSupport {
             ReferencedEnvelope worldEnv = new ReferencedEnvelope(-180, 180, -90, 90, EPSG_4326);
 
             GridCoverage2D coverage = process.execute(null, "srtm_39_04_1_mod,srtm_39_04_2",
-                    Operator.SUM, null, null, worldEnv, BBOX_DIM, BBOX_DIM,
+                    Operator.SUM, null, null, null, worldEnv, BBOX_DIM, BBOX_DIM,
                     new NullProgressListener());
 
             assertNotNull(coverage);
@@ -121,10 +119,8 @@ public class AlgebricProcessTest extends WPSTestSupport {
         if (testExecuted) {
             ReferencedEnvelope worldEnv = new ReferencedEnvelope(-90, 90, -90, 90, EPSG_4326);
 
-            Range noData = RangeFactory.create((byte) 0, true, (byte) 0, true);
-
             GridCoverage2D coverage = process.execute(null,
-                    "acque_sotterranee,acque_superficiali,aree_agricole", Operator.SUM, 0d, noData,
+                    "acque_sotterranee,acque_superficiali,aree_agricole", Operator.SUM, 0d, 0d, 0d,
                     worldEnv, BBOX_DIM, BBOX_DIM, new NullProgressListener());
 
             assertNotNull(coverage);
