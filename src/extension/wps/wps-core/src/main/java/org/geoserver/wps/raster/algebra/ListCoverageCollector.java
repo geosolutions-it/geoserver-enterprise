@@ -217,8 +217,8 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                 throw new RuntimeException(e);
             }
 
-            // intersect the reference envelope with the coverage one to check if we ahve to skip it
-            if(!envelope.intersects((BoundingBox)finalEnvelope)){
+            // intersect the reference envelope with the coverage one
+            if(envelope.intersects((BoundingBox)finalEnvelope)){
                 if(LOGGER.isLoggable(Level.INFO)){
                     LOGGER.log(Level.INFO,"This coverage does not intersect provided area ");
                 }                   
