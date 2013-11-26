@@ -20,7 +20,6 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,10 +28,7 @@ import javax.media.jai.JAI;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CoverageInfo;
-import org.geoserver.wps.raster.GridCoverage2DRIA;
-import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.grid.GridCoverage2D;
-import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.factory.Hints;
@@ -82,15 +78,11 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class ListCoverageCollector extends AbstractCoverageCollector {
 
-    private final static Logger LOGGER=Logging.getLogger(ListCoverageCollector.class);
-
-    private ReferencedEnvelope referenceEnvelope;
+    private final static Logger LOGGER = Logging.getLogger(ListCoverageCollector.class);
 
     private ParameterValue<String> suggestedTileSizeParam;
 
     private ParameterValue<Boolean> streamingReadParam;
-
-    private GridCoverageFactory gridCoverageFactory;
 
     /**
      * Constructor.
@@ -109,19 +101,17 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
      * @param roi
      * @param hints2
      */
-    public ListCoverageCollector(Catalog catalog,
-            GridGeometry2D gridGeo, Hints hints) {
+    public ListCoverageCollector(Catalog catalog, GridGeometry2D gridGeo, Hints hints) {
         super(catalog, ResolutionChoice.PROVIDED, null, hints);
 
-        // coverage factory
-        gridCoverageFactory = CoverageFactoryFinder.getGridCoverageFactory(hints);
+        Envelope outputBbox = gridGeo.getEnvelope();
         
         // Selection of the reference CRS
-        referenceCRS = referenceEnvelope.getCoordinateReferenceSystem();
-        
+        referenceCRS = outputBbox.getCoordinateReferenceSystem();
+
         // definition of the final envelope
-        finalEnvelope = new ReferencedEnvelope(referenceEnvelope, this.referenceCRS);
-        
+        finalEnvelope = new ReferencedEnvelope(outputBbox);
+
         // Final GridGeometry object created only for avoiding the calculation on the "prepareFinalGridGeometry()" method
         finalGridGeometry = new GridGeometry2D(gridGeo);
 
@@ -191,17 +181,18 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
     private void resolutionProvided(final CoverageInfo coverageInfo) {
 
         try {
-            // SG missing  background values for imagemosaic
+            // SG missing background values for imagemosaic
             final GridCoverageReader gridCoverageReader = coverageInfo.getGridCoverageReader(
                     new NullProgressListener(), hints);
             // is it null?
-            if(gridCoverageReader==null){
-                if(LOGGER.isLoggable(Level.INFO)){
-                    LOGGER.log(Level.INFO,"Unable to find a read for this coverage info: "+coverageInfo.toString());
-                }            
+            if (gridCoverageReader == null) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, "Unable to find a read for this coverage info: "
+                            + coverageInfo.toString());
+                }
                 return;
             }
-            
+
             // check envelope intersection
             // get envelope and crs
             final CoordinateReferenceSystem crs = coverageInfo.getCRS();
@@ -218,16 +209,16 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             }
 
             // intersect the reference envelope with the coverage one
-            if(envelope.intersects((BoundingBox)finalEnvelope)){
-                if(LOGGER.isLoggable(Level.INFO)){
-                    LOGGER.log(Level.INFO,"This coverage does not intersect provided area ");
-                }                   
+            if (!envelope.intersects((BoundingBox) finalEnvelope)) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, "This coverage does not intersect provided area ");
+                }
                 return;// SKIP This one
-                
+
             }
         } catch (Exception e) {
-            if(LOGGER.isLoggable(Level.INFO)){
-                LOGGER.log(Level.INFO,e.getLocalizedMessage(),e);
+            if (LOGGER.isLoggable(Level.INFO)) {
+                LOGGER.log(Level.INFO, e.getLocalizedMessage(), e);
             }
             return;
         }
@@ -243,19 +234,18 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
      * @throws MismatchedDimensionException
      * @throws IllegalStateException
      */
-    private void resolutionMissing(final CoverageInfo coverageInfo)
-            throws RuntimeException {
-
+    private void resolutionMissing(final CoverageInfo coverageInfo) throws RuntimeException {
 
         // pixel scale
-        MathTransform tempTransform =  coverageInfo.getGrid().getGridToCRS();
+        MathTransform tempTransform = coverageInfo.getGrid().getGridToCRS();
         if (!(tempTransform instanceof AffineTransform)) {
             throw new IllegalArgumentException(
-                    "Grid to world tranform is not an AffineTransform for coverage: " + coverageInfo.getName());
+                    "Grid to world tranform is not an AffineTransform for coverage: "
+                            + coverageInfo.getName());
 
         }
-        AffineTransform tr = (AffineTransform)tempTransform;
-        
+        AffineTransform tr = (AffineTransform) tempTransform;
+
         if (referenceCoverage == null) {
             // set the first use as reference coverage
             referenceCoverage = coverageInfo;
@@ -323,13 +313,16 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
         }
 
         // === make sure we read in streaming and we read just what we need
-        final ParameterValue<Boolean> streamingRead = AbstractGridFormat.USE_JAI_IMAGEREAD.createValue();
+        final ParameterValue<Boolean> streamingRead = AbstractGridFormat.USE_JAI_IMAGEREAD
+                .createValue();
         streamingRead.setValue(true);
 
-        final ParameterValue<GridGeometry2D> readGG = AbstractGridFormat.READ_GRIDGEOMETRY2D.createValue();
+        final ParameterValue<GridGeometry2D> readGG = AbstractGridFormat.READ_GRIDGEOMETRY2D
+                .createValue();
         readGG.setValue(finalGridGeometry);
 
-        final ParameterValue<String> suggestedTileSize = AbstractGridFormat.SUGGESTED_TILE_SIZE.createValue();
+        final ParameterValue<String> suggestedTileSize = AbstractGridFormat.SUGGESTED_TILE_SIZE
+                .createValue();
         final ImageLayout layout = RIFUtil.getImageLayoutHint(hints);
         if (layout != null && layout.isValid(ImageLayout.TILE_HEIGHT_MASK)
                 && layout.isValid(ImageLayout.TILE_WIDTH_MASK)) {
@@ -340,119 +333,40 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             suggestedTileSize.setValue(String.valueOf(JAI.getDefaultTileSize().width) + ","
                     + String.valueOf(JAI.getDefaultTileSize().height));
         }
-        final GeneralParameterValue[] parameters = new GeneralParameterValue[] { streamingRead, readGG,suggestedTileSize };
+        final GeneralParameterValue[] parameters = new GeneralParameterValue[] { streamingRead,
+                readGG, suggestedTileSize };
 
         // now prepare the target coverages to match the target GridGeometry
 
         // === we have other grid coverage beside the reference one, let's process them
         // add the reference one
         coverages = new HashMap<String, GridCoverage2D>();
-        if(resolutionChoice!=ResolutionChoice.PROVIDED){
-            coverages.put(
-                    referenceCoverage.prefixedName(),
-                    (GridCoverage2D) referenceCoverage.getGridCoverageReader(
-                            new NullProgressListener(), hints).read(
-                            parameters));
-            // add the others with proper reprojection if needed
-            for (CoverageInfo coverageInfo : coverageNames) {
-                final String prefixedName = coverageInfo.prefixedName();
-                final GridCoverageReader gridCoverageReader = coverageInfo.getGridCoverageReader(new NullProgressListener(), hints);            // is it null?
-                if(gridCoverageReader==null){
-                    if(LOGGER.isLoggable(Level.INFO)){
-                        LOGGER.log(Level.INFO,"Unable to find a read for this coverage info: "+coverageInfo.toString());
-                    }            
-                    return;
-                }
-                final GridCoverage2D coverage = (GridCoverage2D) gridCoverageReader.read(parameters);
-                // is it null?
-                if(coverage==null){
-                    if(LOGGER.isLoggable(Level.INFO)){
-                        LOGGER.log(Level.INFO,"Unable to read any coverage for the provided GG2D");
-                    }            
-                    return;
-                }
-                coverages.put(
-                        prefixedName,
-                        coverage);
-            }
-        }else{
-            for (CoverageInfo coverageInfo : coverageNames) {
-                final String prefixedName = coverageInfo.prefixedName();
-                final GridCoverageReader gridCoverageReader = coverageInfo.getGridCoverageReader(new NullProgressListener(), hints);
-                // is it null?
-                if(gridCoverageReader==null){
-                    if(LOGGER.isLoggable(Level.INFO)){
-                        LOGGER.log(Level.INFO,"Unable to find a read for this coverage info: "+coverageInfo.toString());
-                    }            
-                    return;
-                }
-                final GridCoverage2D coverage = (GridCoverage2D) gridCoverageReader.read(parameters);
-                // is it null?
-                if(coverage==null){
-                    if(LOGGER.isLoggable(Level.INFO)){
-                        LOGGER.log(Level.INFO,"Unable to read any coverage for the provided GG2D");
-                    }            
-                    return;
-                }
-                
-                // manage no data and resolution
-             // Selection of the no data
-                double noDataValue = 0;
-
-                Object noData = null;
-                // Selection of the properties associated to the coverage reprojected
-                Map coverageProperties = coverage.getProperties();
-                Object noDataFinal = coverageProperties.get("GC_NODATA");
-                // Check if the NODATA is defined in the last coverage created
-                if (noDataFinal != null) {
-
-                    if (noData instanceof Number) {
-                        noDataValue = ((Number) noData).doubleValue();
-                    } else {
-                        // If the value is not a Number then the No Data is taken from the source
-                        // image properties and then set as a final image properties
-                        try {
-                            noData = ((GridCoverage2D) coverageInfo.getGridCoverage(null, hints))
-                                    .getProperty("GC_NODATA");
-                        } catch (IOException e) {
-                            LOGGER.log(Level.FINER, e.getMessage(), e);
-                        }
-
-                        if (noData instanceof Number) {
-                            noDataValue = ((Number) noData).doubleValue();
-                            coverageProperties.put("GC_NODATA", noDataValue);
-                        }
-                    }
-                } else {
-                    // If the value is not a present then the No Data is taken from the source
-                    // image properties and then set as a final image properties
-                    try {
-                        noData = ((GridCoverage2D) coverageInfo.getGridCoverage(null, hints))
-                                .getProperty("GC_NODATA");
-                    } catch (IOException e) {
-                        LOGGER.log(Level.FINER, e.getMessage(), e);
-                    }
-
-                    if (noData instanceof Number) {
-                        noDataValue = ((Number) noData).doubleValue();
-                        coverageProperties.put("GC_NODATA", noDataValue);
-                    }
-                }
-                
-                // Expansion to the final GridGeometry already defined
-                GridCoverage2DRIA expandedIMG = GridCoverage2DRIA.create(coverage,
-                        (GridGeometry2D) finalGridGeometry, noDataValue);
-                // Creation of the coverage associated
-                GridCoverage2D finalCoverage = gridCoverageFactory
-                        .create(coverage.getName(), expandedIMG, (GridGeometry2D) finalGridGeometry,
-                                coverage.getSampleDimensions(), null, coverageProperties);                
-                
-                // add it 
-                coverages.put(
-                        prefixedName,
-                        finalCoverage);
+        if (resolutionChoice != ResolutionChoice.PROVIDED) {
+            coverages.put(referenceCoverage.prefixedName(), (GridCoverage2D) referenceCoverage
+                    .getGridCoverageReader(new NullProgressListener(), hints).read(parameters));
         }
-      }
+        // add the others with proper reprojection if needed
+        for (CoverageInfo coverageInfo : coverageNames) {
+            final String prefixedName = coverageInfo.prefixedName();
+            final GridCoverageReader gridCoverageReader = coverageInfo.getGridCoverageReader(
+                    new NullProgressListener(), hints); // is it null?
+            if (gridCoverageReader == null) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, "Unable to find a read for this coverage info: "
+                            + coverageInfo.toString());
+                }
+                return;
+            }
+            final GridCoverage2D coverage = (GridCoverage2D) gridCoverageReader.read(parameters);
+            // is it null?
+            if (coverage == null) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, "Unable to read any coverage for the provided GG2D");
+                }
+                return;
+            }
+            coverages.put(prefixedName, coverage);
+        }
     }
 
     /**

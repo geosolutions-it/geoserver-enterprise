@@ -8,7 +8,6 @@ import org.geoserver.data.test.MockData;
 import org.geoserver.wps.raster.algebra.AlgebricProcess;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
-import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.util.NullProgressListener;
@@ -84,7 +83,7 @@ public class AlgebricProcessTest extends WPSTestSupport {
         process = new AlgebricProcess(catalog);
     }
 
-    public void testWithTwoCoverages() {
+    public void testWithTwoCoverages() throws Exception {
 
         if (testExecuted) {
             ReferencedEnvelope worldEnv = new ReferencedEnvelope(-180, 180, -90, 90, EPSG_4326);
@@ -117,7 +116,7 @@ public class AlgebricProcessTest extends WPSTestSupport {
 
     }
 
-    public void testWithThreeCoverages() {
+    public void testWithThreeCoverages() throws Exception {
         if (testExecuted) {
             ReferencedEnvelope worldEnv = new ReferencedEnvelope(-90, 90, -90, 90, EPSG_4326);
 
