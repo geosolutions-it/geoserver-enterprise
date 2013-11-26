@@ -7,10 +7,19 @@ package org.geoserver.test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.geoserver.data.test.MockData;
+import org.geoserver.security.GeoServerRoleService;
+import org.geoserver.security.GeoServerRoleStore;
+import org.geoserver.security.GeoServerSecurityManager;
+import org.geoserver.security.GeoServerUserGroupService;
+import org.geoserver.security.GeoServerUserGroupStore;
+import org.geoserver.security.impl.GeoServerRole;
+import org.geoserver.security.impl.GeoServerUser;
+import org.geoserver.security.impl.GeoServerUserGroup;
 
 
 
@@ -68,5 +77,42 @@ public abstract class GeoServerTestSupport extends GeoServerAbstractTestSupport 
         getTestData().copyToFeatureTypeDirectory( new ByteArrayInputStream(body.getBytes()), featureTypeName, template );
     }
 
+    protected void addUser(String username, String password, List<String> groups, List<String> roles) throws Exception {
+        GeoServerSecurityManager secMgr = getSecurityManager();
+        GeoServerUserGroupService ugService = secMgr.loadUserGroupService("default");
+
+        GeoServerUserGroupStore ugStore = ugService.createStore();
+        GeoServerUser user = ugStore.createUserObject(username, password, true);
+        ugStore.addUser(user);
+
+        if (groups != null && !groups.isEmpty()) {
+            for (String groupName : groups) {
+                GeoServerUserGroup group = ugStore.getGroupByGroupname(groupName);
+                if (group == null) {
+                    group = ugStore.createGroupObject(groupName, true);
+                    ugStore.addGroup(group);
+                }
+    
+                ugStore.associateUserToGroup(user, group);
+            }
+        }
+        ugStore.store();
+
+        if (roles != null && !roles.isEmpty()) {
+            GeoServerRoleService roleService = secMgr.getActiveRoleService();
+            GeoServerRoleStore roleStore = roleService.createStore();
+            for (String roleName : roles) {
+                GeoServerRole role = roleStore.getRoleByName(roleName);
+                if (role == null) {
+                    role = roleStore.createRoleObject(roleName);
+                    roleStore.addRole(role);
+                }
+
+                roleStore.associateRoleToUser(role, username);
+            }
+
+            roleStore.store();
+        }
+    }
     
 }

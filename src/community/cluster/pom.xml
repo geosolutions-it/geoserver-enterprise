@@ -15,10 +15,9 @@
 
     <name>GeoServer Enterprise JMS modules</name>
 
-    
 <profiles>
 	<profile>
-		<id>jms-client</id>
+		<id>activemq</id>
 		<activation>
 			<property>
 				<name>all</name>
@@ -26,13 +25,11 @@
 			</property>
 		</activation>
 		<modules>
-			<module>jms-commons</module>
-			<module>jms-commons-impl</module>
-			<module>jms-client</module>
+			<module>activemqBroker</module>
 		</modules>
 	</profile>
 	<profile>
-		<id>jms-server</id>
+		<id>cluster</id>
 		<activation>
 			<property>
 				<name>all</name>
@@ -41,11 +38,9 @@
 		</activation>
 		<modules>
 			<module>jms-commons</module>
-			<module>jms-commons-impl</module>
-			<module>jms-server</module>
-			<module>jms-server-impl</module>
+			<module>jms-geoserver</module>
+			<module>jms-activeMQ</module>
 		</modules>
 	</profile>
-        
 </profiles>
 </project>

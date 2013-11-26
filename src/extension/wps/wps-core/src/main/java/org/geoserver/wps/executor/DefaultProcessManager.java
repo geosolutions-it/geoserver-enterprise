@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.geoserver.platform.ExtensionPriority;
+import org.geoserver.threadlocals.ThreadLocalsTransfer;
 import org.geoserver.wps.WPSException;
 import org.geoserver.wps.executor.ExecutionStatus.ProcessState;
 import org.geoserver.wps.resource.WPSResourceManager;
@@ -191,38 +192,53 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         Map<String, Object> inputs;
 
         ExecutionStatusEx status;
+        
+        ThreadLocalsTransfer threadLocalTransfer;
 
         public ProcessCallable(Map<String, Object> inputs, ExecutionStatusEx status) {
             this.inputs = inputs;
             this.status = status;
+            this.threadLocalTransfer = new ThreadLocalsTransfer();
         }
 
         @Override
         public Map<String, Object> call() throws Exception {
-            resourceManager.setCurrentExecutionId(status.getExecutionId());
-            status.setPhase(ProcessState.RUNNING);
-            ProcessListener listener = status.listener;
-            Name processName = status.getProcessName();
-            ProcessFactory pf = Processors.createProcessFactory(processName);
-            if (pf == null) {
-                throw new WPSException("No such process: " + processName);
-            }
+            
 
-            // execute the process
-            Map<String, Object> result = null;
+            
             try {
-                Process p = pf.create(processName);
-                result = p.execute(inputs, listener);
-                if (listener.exception != null) {
-                    throw new WPSException("Process failed: " + listener.exception.getMessage(),
-                            listener.exception);
+                // transfer the thread locals to this execution context
+                threadLocalTransfer.apply();
+                
+                resourceManager.setCurrentExecutionId(status.getExecutionId());
+                status.setPhase(ProcessState.RUNNING);
+                ProcessListener listener = status.listener;
+                Name processName = status.getProcessName();
+                ProcessFactory pf = Processors.createProcessFactory(processName);
+                if (pf == null) {
+                    throw new WPSException("No such process: " + processName);
                 }
-                return result;
+                
+                // execute the process
+                Map<String, Object> result = null;
+                try {
+                    Process p = pf.create(processName);
+                    result = p.execute(inputs, listener);
+                    if (listener.exception != null) {
+                        throw new WPSException("Process failed: " + listener.exception.getMessage(),
+                                listener.exception);
+                    }
+                    return result;
+                    
+                } finally {
+                    // update status unless cancelled
+                    if (status.getPhase() == ProcessState.RUNNING) {
+                        status.setPhase(ProcessState.COMPLETED);
+                    }
+                }
             } finally {
-                // update status unless cancelled
-                if (status.getPhase() == ProcessState.RUNNING) {
-                    status.setPhase(ProcessState.COMPLETED);
-                }
+                // clean up the thread locals
+                threadLocalTransfer.cleanup();
             }
         }
 

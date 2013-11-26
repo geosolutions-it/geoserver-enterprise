@@ -1,0 +1,9 @@
+To perform tests using Jetty (similar things for Tomcat) use the Start class in the web-app project under /src/test/java/.
+Setup two different run with the following arguments: (Datadir should be different)
+Run 1 arguments:
+-Djetty.port=8080 -DCLUSTER_CONFIG_DIR=/tmp/cluster0/ -DGEOSERVER_DATA_DIR=${ABSOLUTE_PATH}/data0/ -DGEOSERVER_LOG_LOCATION=${ABSOLUTE_PATH}/data0/log/geoserver.log -DGWC_DISKQUOTA_DISABLED=true -DGWC_METASTORE_DISABLED=true -DGEOWEBCACHE_CACHE_DIR=/tmp/gwc0
+Run 2 arguments:
+-Djetty.port=8081 -DCLUSTER_CONFIG_DIR=/tmp/cluster1/ -DGEOSERVER_DATA_DIR=${ABSOLUTE_PATH}/data1/ -DGEOSERVER_LOG_LOCATION=${ABSOLUTE_PATH}/data1/log/geoserver.log -DGWC_DISKQUOTA_DISABLED=true -DGWC_METASTORE_DISABLED=true -DGEOWEBCACHE_CACHE_DIR=/tmp/gwc1
+
+NOTE:
+- jetty.port is specific for jetty and can be set also in jetty.property (environment will override it)

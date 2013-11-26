@@ -1,0 +1,36 @@
+<assembly>
+  <id>cluster-plugin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>release/target/dependency</directory>
+      <outputDirectory></outputDirectory>
+      <includes>
+        <include>jms-*.jar</include>
+        <include>xbean-spring-3.5.jar</include>
+        <include>spring-jms-3.1.4.RELEASE.jar</include>       
+        <include>spring-aop-3.1.4.RELEASE.jar</include>
+        <include>spring-tx-3.1.4.RELEASE.jar</include>
+        <include>spring-beans-3.1.4.RELEASE.jar</include>
+        <include>spring-core-3.1.4.RELEASE.jar</include>
+        <include>spring-asm-3.1.4.RELEASE.jar</include>
+        <include>spring-context-3.1.4.RELEASE.jar</include>
+        <include>spring-context-support-3.1.4.RELEASE.jar</include>
+        <include>spring-expression-3.1.4.RELEASE.jar</include>
+        <include>spring-webmvc-3.1.4.RELEASE.jar</include>
+        <include>spring-web-3.1.4.RELEASE.jar</include>
+        <include>spring-tx-3.1.4.RELEASE.jar</include>
+        <include>spring-jdbc-3.1.4.RELEASE.jar</include>
+        <include>activemq-*.jar</include>
+        <include>geronimo-*.jar</include>
+        <include>proton-*.jar</include>
+        <include>bcpkix-jdk15on-1.47.jar</include>
+        <include>bcprov-jdk15on-1.47.jar</include>
+        <include>hawtbuf-1.9.jar</include>   
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>

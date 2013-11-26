@@ -155,7 +155,7 @@
     <bean id="sldStylePPIO" class="org.geoserver.wps.ppio.SLDStylePPIO" />
     <bean id="urlPPIO" class="org.geoserver.wps.ppio.URLPPIO" />
     <bean id="jaitoolsRangePPIO" class="org.geoserver.wps.ppio.JAIToolsRangePPIO"/>
-    
+    <bean id="featureAttributePPIO" class="org.geoserver.wps.ppio.FeatureAttributePPIO" />
     
     <!-- Register the GeoServer factory and processes -->
     <bean id="geoserverProcessFactory" class="org.geoserver.wps.jts.SpringBeanProcessFactory">
@@ -178,7 +178,18 @@
     <bean id="storeCoverageProcess" class="org.geoserver.wps.gs.StoreCoverage" >
       <constructor-arg index="0" ref="wpsStorageCleaner"></constructor-arg>
     </bean>
+    <bean id="cmdLineProcess" class="org.geoserver.wps.gs.CmdLine">
+		<constructor-arg index="0" ref="geoServer"/>
+	</bean>
+	<bean id="toFeature" class="org.geoserver.wps.gs.ToFeature" />
+	<bean id="wfsLog" class="org.geoserver.wps.gs.WFSLog">
+		<constructor-arg index="0" ref="geoServer"/>
+	</bean>
     <bean id="rasterZonalStatistics" class="org.geotools.process.raster.gs.RasterZonalStatistics" />
+    <bean id="rasterRiskSummaryProcess" class="org.geoserver.wps.gs.RasterStatistics">
+		<constructor-arg index="0" ref="geoServer"/>
+	</bean>
+    
     <bean id="rangeLookupProcess" class="org.geotools.process.raster.gs.RangeLookupProcess" />
     <bean id="addCoveragesProcess" class="org.geotools.process.raster.gs.AddCoveragesProcess" />
     
@@ -197,7 +208,19 @@
     <bean id="getFullCoverage" class="org.geoserver.wps.gs.GetFullCoverage">
       <constructor-arg index="0" ref="catalog"/>
     </bean>
+
+    <bean id="rasterAlgebra" class="org.geoserver.wps.raster.algebra.RasterAlgebraProcess">
+      <constructor-arg index="0" ref="catalog"/>
+    </bean>
+        
+    <bean id="jiffle" class="org.geoserver.wps.raster.algebra.JiffleProcess">
+      <constructor-arg index="0" ref="catalog"/>
+    </bean>
     
+    <!--  Execution manager, the thing that actually orchestrates the process execution -->
+    <bean id="algebricProcess" class="org.geoserver.wps.AlgebricProcess">
+        <constructor-arg ref="catalog" />
+    </bean>
     <!-- 
        ==================================================================
        Deal with temporary files
