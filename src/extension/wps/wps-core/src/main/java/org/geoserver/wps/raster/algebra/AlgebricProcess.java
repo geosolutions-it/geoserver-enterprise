@@ -93,6 +93,7 @@ public class AlgebricProcess implements GSProcess {
         // Get the gridGeometry
         final GridGeometry2D destGridGeometry = collector.getGridGeometry();
         // Cycle on all the source coverages
+        final GeoTiffFormat format = new GeoTiffFormat();
         for (Map.Entry<String, GridCoverage2D> entry : mapCoverage.entrySet()) {
             // use GridCoverage2DRIA for adapting GridGeometry between sources
             GridCoverage2D coverage = entry.getValue();
@@ -100,28 +101,45 @@ public class AlgebricProcess implements GSProcess {
             if (coverage == null) {
                 continue;
             }
+//            GridCoverageWriter writer1 = format.getWriter(new File("/home/geosolutions/original.tiff"));
+//            try {
+//                writer1.write(coverage, null);
+//            } catch (IOException e) {
+//            } finally {
+//                try {
+//                    writer1.dispose();
+//                } catch (Throwable e) {
+//                }
+//            }
+            
             // Setting of the input coverage to the desired resolution
             final GridCoverage2DRIA input = GridCoverage2DRIA
-                    .create(coverage, destGridGeometry,
-                            org.geotools.resources.coverage.CoverageUtilities
-                                    .getBackgroundValues(coverage)[0]);
+                    .create(coverage, 
+                            destGridGeometry,
+                            org.geotools.resources.coverage.CoverageUtilities.getBackgroundValues(coverage)[0]
+                            ); 
+            
             // Selection of the Properties associated to the coverage
             Map coverageProperties = coverage.getProperties();
-            // Creation of the coverage associated
-            GridEnvelope2D gridEnv = destGridGeometry.getGridRange2D();
-            GridEnvelope2D imgBounds = new GridEnvelope2D(input.getBounds());
 
-            GridCoverage2D finalCoverage;
-
-            if (imgBounds.contains(gridEnv)) {
-                finalCoverage = gridCoverageFactory.create(coverage.getName(), input,
-                        (GridGeometry2D) destGridGeometry, coverage.getSampleDimensions(), null,
-                        coverageProperties);
-            } else {
-                GridGeometry2D geo = new GridGeometry2D(imgBounds, destGridGeometry.getEnvelope());
-                finalCoverage = gridCoverageFactory.create(coverage.getName(), input, geo,
-                        coverage.getSampleDimensions(), null, coverageProperties);
-            }
+            GridCoverage2D finalCoverage = gridCoverageFactory.create(
+                    coverage.getName(), 
+                    input, 
+                    destGridGeometry,
+                    coverage.getSampleDimensions(), 
+                    null, 
+                    coverageProperties);
+            
+//            GridCoverageWriter writer = format.getWriter(new File("/home/geosolutions/gc2ria.tiff"));
+//            try {
+//                writer.write(finalCoverage, null);
+//            } catch (IOException e) {
+//            } finally {
+//                try {
+//                    writer.dispose();
+//                } catch (Throwable e) {
+//                }
+//            }
 
             // Addition to the coverages list
             coverages.add(finalCoverage);
@@ -140,17 +158,18 @@ public class AlgebricProcess implements GSProcess {
 
         GridCoverage2D finalCoverage = process.execute(coverages, operation, null, noData,
                 destNoData, hints);
-        final GeoTiffFormat format = new GeoTiffFormat();
-        GridCoverageWriter writer = format.getWriter(new File("/home/geosolutions/test.tiff"));
-        try {
-            writer.write(finalCoverage, null);
-        } catch (IOException e) {
-        } finally {
-            try {
-                writer.dispose();
-            } catch (Throwable e) {
-            }
-        }
+        
+        
+//        GridCoverageWriter writer = format.getWriter(new File("/home/geosolutions/test.tiff"));
+//        try {
+//            writer.write(finalCoverage, null);
+//        } catch (IOException e) {
+//        } finally {
+//            try {
+//                writer.dispose();
+//            } catch (Throwable e) {
+//            }
+//        }
 
         return finalCoverage;
     }
