@@ -94,6 +94,14 @@ public class GridCoverage2DRIA extends GeometricOpImage {
     private int maxX;
 
     private int maxY;
+    
+    private int minXSrc;
+
+    private int minYSrc;
+    
+    private int maxXSrc;
+
+    private int maxYSrc;
 
     private RandomIter iter;
 
@@ -181,6 +189,15 @@ public class GridCoverage2DRIA extends GeometricOpImage {
             final double[] nodata) {
 
         super(sources, layout, configuration, cobbleSources, extender, interp, nodata);
+        
+        maxX=minX+width-1;
+        maxY=minX+height-1;
+        
+        PlanarImage srcIMG = PlanarImage.wrapRenderedImage(src.getRenderedImage());
+        minXSrc = srcIMG.getMinX();
+        minYSrc = srcIMG.getMinY();
+        maxXSrc = srcIMG.getMaxX()-1;
+        maxYSrc = srcIMG.getMaxY()-1;
 
         // put aside ths source GridCoverage2D
         this.src = src;
@@ -218,10 +235,6 @@ public class GridCoverage2DRIA extends GeometricOpImage {
         }
         PlanarImage srcImage=PlanarImage.wrapRenderedImage(src.getRenderedImage());
         if (!(lpad==rpad&&rpad==tpad&&tpad==bpad&&bpad==0)) {// there is need to extend
-            minX = srcImage.getMinX();
-            maxX = srcImage.getMaxX()-1;
-            minY = srcImage.getMinY();
-            maxY = srcImage.getMaxY()-1;
             Rectangle bounds = new Rectangle(
                     srcImage.getMinX() - lpad, 
                     srcImage.getMinY() - tpad, 
@@ -229,10 +242,6 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                     srcImage.getHeight() + tpad + bpad);
             iter = RandomIterFactory.create(srcImage.getExtendedData(bounds, extender), bounds);
         } else {
-            minX = srcImage.getMinX();
-            maxX = srcImage.getMaxX()-1;
-            minY = srcImage.getMinY();
-            maxY = srcImage.getMaxY()-1;
             iter = RandomIterFactory.create(srcImage, srcImage.getBounds());
         }
         
@@ -650,7 +659,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                     int xfrac = (int) ((coords[0] - xint) * precH);
                     int yfrac = (int) ((coords[1] - yint) * precV);
 
-                    if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                    if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                         /* Fill with a background color. */
                         if (setBackground) {
                             for (int b = 0; b < dstBands; b++) {
@@ -800,7 +809,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                 int xfrac = (int) ((coords[0] - xint) * precH);
                 int yfrac = (int) ((coords[1] - yint) * precV);
 
-                if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
@@ -888,7 +897,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                 int xfrac = (int) ((coords[0] - xint) * precH);
                 int yfrac = (int) ((coords[1] - yint) * precV);
 
-                if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
@@ -976,7 +985,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                 int xfrac = (int) ((coords[0] - xint) * precH);
                 int yfrac = (int) ((coords[1] - yint) * precV);
 
-                if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
@@ -1056,7 +1065,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                 int yint = floor(coords[1]);
                 float xfrac = (float)(coords[0] - xint);
                 float yfrac = (float)(coords[1] - yint);
-                if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
@@ -1135,7 +1144,7 @@ public class GridCoverage2DRIA extends GeometricOpImage {
                 int yint = floor(coords[1]);
                 float xfrac = (float)(coords[0] - xint);
                 float yfrac = (float)(coords[1] - yint);
-                if (xint < minX || xint > maxX || yint < minY || yint > maxY) {
+                if (xint < minXSrc || xint > maxXSrc || yint < minYSrc || yint > maxYSrc ) {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
