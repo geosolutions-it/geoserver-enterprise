@@ -260,22 +260,22 @@ popd > /dev/null
 pushd $artifacts > /dev/null
 
 # setup doc artifacts
-if [ -e user ]; then
-  unlink user
-fi
-if [ -e developer ]; then
-  unlink developer
-fi
+#if [ -e user ]; then
+#  unlink user
+#fi
+#if [ -e developer ]; then
+#  unlink developer
+#fi
 
-ln -sf ../../../doc/en/user/build/html user
-ln -sf ../../../doc/en/developer/build/html developer
-htmldoc=geoserver-$tag-htmldoc.zip
-if [ -e $htmldoc ]; then
-  rm -f $htmldoc 
-fi
-zip -r $htmldoc user developer
-unlink user
-unlink developer
+#ln -sf ../../../doc/en/user/build/html user
+#ln -sf ../../../doc/en/developer/build/html developer
+#htmldoc=geoserver-$tag-htmldoc.zip
+#if [ -e $htmldoc ]; then
+#  rm -f $htmldoc 
+#fi
+#zip -r $htmldoc user developer
+#unlink user
+#unlink developer
 
 # clean up source artifact
 if [ -e tmp ]; then
