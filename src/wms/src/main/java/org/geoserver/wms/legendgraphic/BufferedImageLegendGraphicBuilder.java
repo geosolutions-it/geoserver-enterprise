@@ -22,7 +22,10 @@ import java.util.Map;
 import org.geoserver.platform.ServiceException;
 import org.geoserver.wms.GetLegendGraphicRequest;
 import org.geoserver.wms.map.ImageUtils;
+import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.data.DataUtilities;
+import org.geotools.data.Parameter;
+import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.SchemaException;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
@@ -30,6 +33,7 @@ import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.feature.type.GeometryDescriptorImpl;
 import org.geotools.feature.type.GeometryTypeImpl;
 import org.geotools.geometry.jts.LiteShape2;
+import org.geotools.process.Processors;
 import org.geotools.renderer.lite.RendererUtilities;
 import org.geotools.renderer.lite.StyledShapePainter;
 import org.geotools.renderer.style.SLDStyleFactory;
@@ -56,6 +60,7 @@ import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.feature.type.GeometryType;
+import org.opengis.feature.type.Name;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Literal;
@@ -68,6 +73,7 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import org.geotools.process.function.ProcessFunction;
 
 /**
  * Template {@linkPlain org.vfny.geoserver.responses.wms.GetLegendGraphicProducer} based on
@@ -240,8 +246,38 @@ public class BufferedImageLegendGraphicBuilder {
                 titleImage=getLayerTitle(layer,  w, h, transparent, request);
             }
             
-            final boolean buildRasterLegend = (!strict && layer == null && LegendUtils
-                    .checkRasterSymbolizer(gt2Style)) || LegendUtils.checkGridLayer(layer);
+            // Check for rendering transformation
+            boolean hasVectorTransformation = false;
+            boolean hasRasterTransformation = false;
+            List<FeatureTypeStyle> ftsList = gt2Style.featureTypeStyles();
+            for (int i=0; i<ftsList.size(); i++) {
+                FeatureTypeStyle fts = ftsList.get(i);
+                Expression exp = fts.getTransformation();
+                if (exp != null) {
+                    ProcessFunction processFunction = (ProcessFunction) exp;
+                    Name processName = processFunction.getProcessName();
+                    Map<String, Parameter<?>> outputs = Processors.getResultInfo(processName,
+                            null);
+                    if (outputs.isEmpty()) {
+                        continue;
+                    }
+                    Parameter<?> output = outputs.values().iterator().next(); // we assume there is only one output
+                    if (SimpleFeatureCollection.class.isAssignableFrom(output.getType())) {
+                        hasVectorTransformation = true;
+                        break;
+                    } else if (GridCoverage2D.class.isAssignableFrom(output.getType())) {
+                        hasRasterTransformation = true;
+                        break;
+                    }
+                
+                }
+            }
+
+            final boolean buildRasterLegend = 
+                        (!strict && layer == null && LegendUtils.checkRasterSymbolizer(gt2Style)) || 
+                        (LegendUtils.checkGridLayer(layer) && !hasVectorTransformation) || 
+                        hasRasterTransformation;
+            
             if (buildRasterLegend) {
                 final RasterLayerLegendHelper rasterLegendHelper = new RasterLayerLegendHelper(request,gt2Style,ruleName);
                 final BufferedImage image = rasterLegendHelper.getLegend();
