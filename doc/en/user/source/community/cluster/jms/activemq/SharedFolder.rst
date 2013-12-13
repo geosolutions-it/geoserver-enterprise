@@ -1,5 +1,5 @@
 Shared File System Master/Slave Set-Up
-========================================
+======================================
 
 Basically you can run as many brokers as you wish from the same shared file system directory.
 The first broker to grab the exclusive lock on the file is the master broker.
@@ -71,7 +71,7 @@ So the following topology is created after a restart of an old master...
 
   Note that the requirements of this failover system are a distributed file system like a SAN for which exclusive file locks work reliably. If you do not have such a thing available then consider using MasterSlave instead which implements something similar but working on commodity hardware using local file systems which ActiveMQ does the replication.
 
-	OCFS2 Warning
+  OCFS2 Warning
 
   Was testing using OCFS2 and both brokers thought they had the master lock - this is because "OCFS2 only supports locking with 'fcntl' and not 'lockf and flock', therefore mutex file locking from Java isn't supported."
 
@@ -81,7 +81,7 @@ So the following topology is created after a restart of an old master...
 
   GFS: fully supports Cluster-wide flocks and POSIX locks and is supported.
 
-	NFSv3 Warning
+  NFSv3 Warning
   In the event of an abnormal NFSv3 client termination (i.e., the ActiveMQ master broker), the NFSv3 server will not timeout the lock that is held by that client. This effectively renders the ActiveMQ data directory inaccessible because the ActiveMQ slave broker can't acquire the lock and therefore cannot start up. The only solution to this predicament with NFSv3 is to reboot all ActiveMQ instances to reset everything.
   Use of NFSv4 is another solution because it's design includes timeouts for locks. When using NFSv4 and the client holding the lock experiences an abnormal termination, by design, the lock is released after 30 seconds, allowing another client to grab the lock. For more information about this, see this blog entry.
 
