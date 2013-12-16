@@ -22,7 +22,6 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.geoserver.platform.ServiceException;
 import org.geoserver.wms.GetLegendGraphicRequest;
 import org.geoserver.wms.map.ImageUtils;
 import org.geotools.coverage.grid.GridCoverage2D;
@@ -31,6 +30,7 @@ import org.geotools.renderer.i18n.ErrorKeys;
 import org.geotools.renderer.i18n.Errors;
 import org.geotools.renderer.lite.RendererUtilities;
 import org.geotools.renderer.lite.StreamingRenderer;
+import org.geotools.renderer.style.ExpressionExtractor;
 import org.geotools.styling.ColorMapEntry;
 import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.RasterSymbolizer;
@@ -42,6 +42,7 @@ import org.opengis.feature.type.FeatureType;
 import org.opengis.feature.type.PropertyDescriptor;
 import org.opengis.feature.type.PropertyType;
 import org.opengis.filter.expression.Expression;
+import org.opengis.filter.expression.Literal;
 import org.opengis.style.ChannelSelection;
 
 /**
@@ -358,6 +359,14 @@ public class LegendUtils {
 		Expression quantity = entry.getQuantity();
 		ensureNotNull(quantity, "quantity");
 		Double quantityString = quantity.evaluate(null, Double.class);
+		if(quantityString == null && quantity instanceof Literal) {
+		    String quantityExp = quantity.evaluate(null, String.class);
+		    quantity = ExpressionExtractor.extractCqlExpressions(quantityExp);
+		    if(!(quantity instanceof Literal)) {
+		        quantityString = quantity.evaluate(null, Double.class);
+		    }
+		}
+		
 		ensureNotNull(quantityString, "quantityString");
 		return quantityString.doubleValue();
 	}
