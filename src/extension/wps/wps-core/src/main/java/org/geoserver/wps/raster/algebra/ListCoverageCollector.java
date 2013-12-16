@@ -16,10 +16,14 @@
  */
 package org.geoserver.wps.raster.algebra;
 
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +36,8 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.factory.Hints;
+import org.geotools.gce.imagemosaic.ImageMosaicFormat;
+import org.geotools.gce.imagemosaic.ImageMosaicReader;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -105,7 +111,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
         super(catalog, ResolutionChoice.PROVIDED, null, hints);
 
         Envelope outputBbox = gridGeo.getEnvelope();
-        
+
         // Selection of the reference CRS
         referenceCRS = outputBbox.getCoordinateReferenceSystem();
 
@@ -312,6 +318,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             return;
         }
 
+        
         // === make sure we read in streaming and we read just what we need
         final ParameterValue<Boolean> streamingRead = AbstractGridFormat.USE_JAI_IMAGEREAD
                 .createValue();
@@ -333,8 +340,79 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
             suggestedTileSize.setValue(String.valueOf(JAI.getDefaultTileSize().width) + ","
                     + String.valueOf(JAI.getDefaultTileSize().height));
         }
-        final GeneralParameterValue[] parameters = new GeneralParameterValue[] { streamingRead,
-                readGG, suggestedTileSize };
+        
+        //Settings of the read parameters
+        GeneralParameterValue[] parameters = null;
+        
+        // Check if ImageMosaicReader is used
+        for (CoverageInfo coverageInfo : coverageNames) {
+            final GridCoverageReader gridCoverageReader = coverageInfo.getGridCoverageReader(
+                    new NullProgressListener(), hints); // is it null?
+            if (gridCoverageReader == null) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, "Unable to find a read for this coverage info: "
+                            + coverageInfo.toString());
+                }
+                return;
+            }else if(gridCoverageReader instanceof ImageMosaicReader){
+                
+                Map<String, Serializable> params = coverageInfo.getParameters();
+                int numParameters = 3;
+                
+                Set<String> keys = params.keySet();
+                
+                ParameterValue<Boolean> allowMultiThreading = null;
+                ParameterValue<Color> inputTransparentColor = null;
+                ParameterValue<Integer> maxAllowedTiles = null;
+                               
+                for(String key : keys){                                      
+                    if(key.equalsIgnoreCase(ImageMosaicFormat.ALLOW_MULTITHREADING.getName().toString())){
+                        allowMultiThreading = ImageMosaicFormat.ALLOW_MULTITHREADING.createValue();
+                        allowMultiThreading.setValue(Boolean.parseBoolean(params.get(key).toString()));                        
+                        numParameters++;
+                    }else if(key.equalsIgnoreCase(ImageMosaicFormat.INPUT_TRANSPARENT_COLOR.getName().toString())){                        
+                        String parsedColor = params.get(key).toString();
+                        if(parsedColor.isEmpty()){
+                             continue;
+                        }
+                        inputTransparentColor = ImageMosaicFormat.INPUT_TRANSPARENT_COLOR.createValue();
+                        int colorInteger =  Long.decode(parsedColor).intValue();                     
+                        Color color = new Color(colorInteger);
+                        inputTransparentColor.setValue(color); 
+                        numParameters++;
+                    }else if(key.equalsIgnoreCase(ImageMosaicFormat.MAX_ALLOWED_TILES.getName().toString())){
+                        maxAllowedTiles = ImageMosaicFormat.MAX_ALLOWED_TILES.createValue();
+                        maxAllowedTiles.setValue(Integer.parseInt(params.get(key).toString())); 
+                        numParameters++;
+                    }else{
+                        continue;
+                    }                                       
+                }
+                parameters = new GeneralParameterValue[numParameters];
+                
+                parameters[0] = streamingRead;
+                parameters[1] = readGG;
+                parameters[2] = suggestedTileSize;
+                
+                int finalNumPar = numParameters +1;
+                
+                for(int i = 3; i < finalNumPar; i++){
+                    if(allowMultiThreading !=null){
+                        parameters[i] = allowMultiThreading;
+                        allowMultiThreading = null;
+                    }else if(inputTransparentColor !=null){
+                        parameters[i] = inputTransparentColor;
+                        inputTransparentColor = null;
+                    }else if(maxAllowedTiles !=null){
+                        parameters[i] = maxAllowedTiles;
+                        maxAllowedTiles = null;
+                    }
+                }
+            }else{
+                parameters = new GeneralParameterValue[] { streamingRead,
+                        readGG, suggestedTileSize };
+            }
+        }
 
         // now prepare the target coverages to match the target GridGeometry
 
