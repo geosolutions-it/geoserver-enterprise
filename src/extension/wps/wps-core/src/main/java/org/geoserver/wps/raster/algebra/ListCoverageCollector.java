@@ -354,7 +354,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                             + coverageInfo.toString());
                 }
                 return;
-            }else if(gridCoverageReader instanceof ImageMosaicReader){
+            }else{
                 
                 Map<String, Serializable> params = coverageInfo.getParameters();
                 int numParameters = 3;
@@ -408,9 +408,6 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
                         maxAllowedTiles = null;
                     }
                 }
-            }else{
-                parameters = new GeneralParameterValue[] { streamingRead,
-                        readGG, suggestedTileSize };
             }
         }
 
