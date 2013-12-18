@@ -168,9 +168,7 @@ public class ListCoverageCollector extends AbstractCoverageCollector {
     protected void visitCoverage(String name) {
         // === extract from catalog and check the coverage
         final CoverageInfo coverage = catalog.getCoverageByName(name);
-        if (coverage == null) {
-            throw new IllegalArgumentException("Unable to locate coverage:" + name);
-        } else {
+        if (coverage != null) {
             if (resolutionChoice != ResolutionChoice.PROVIDED) {
 
                 resolutionMissing(coverage);
