@@ -6,7 +6,7 @@ Building and Installing the JMS Cluster modules
 ===============================================
 
 Building
-----------------------------
+--------
 
 To build the standalone broker you only need to add the **activemq** profile to the maven command line:
 
@@ -20,7 +20,7 @@ The standalone ActiveMQ broker:
 
 .. code-block:: xml
   
-  ./community/cluster/activemqBroker/activemq_webapp/target/activemq.war
+  ./community/cluster/activemqBroker/target/activemqBroker*.war
 
 The geoserver including the cluster plugin:
 
@@ -112,7 +112,7 @@ plus ActiveMQ specific dependencies:
   hawtbuf-1.9.jar
   
 Description of the JMS Clustering Extension
-================================================
+===========================================
 
 The GeoServer Master/slave integration is implemented using JMS, Spring and a MOM (Message Oriented Middleware), in particular ActiveMQ.
 The schema in Illustration  represents a complete high level design of Master/Slave platform.
@@ -231,7 +231,7 @@ Here is an example of its content (automatically generated):
   readOnly=disabled
 
 The GUI
--------
+=======
 
 To access to the GUI setting page, login into geoserver and click on the clustering menu:
 
@@ -244,6 +244,11 @@ The setting page will be shown as below:
 .. figure:: images/Clustering_settings.png
    :align: center
    :alt: Illustration: JMS GUI clustering settings
+   
+**Note:** each change to this interface is immediately applied to the geoserver and the cluster configuration. Changes are stored in memory, if you need to keep changes for the next reboot you need to persist them using the save button.
+
+Parameters
+----------
 
 Name of this instance
 ^^^^^^^^^^^^^^^^^^^^^
@@ -292,5 +297,30 @@ Read only
 ^^^^^^^^^
 
 Enable the **ReadOnly** mode. When true the geoserver instance will not persists changes to the catalog and settings on the disk (changes are only applied in memory). This can be useful if you still whant to share the GEOSERVER_DATA_DIR (which is not needed by this cluster configuration).
+
+
+REST interface
+==============
+
+The REST interface is quite simple since since it simply maps a properties file to the \*/rest/cluster URL.
+
+All the changes to the configuration can be applied via the rest interface using a POST. Note that each change is immediately applied to the target geoserver and stored into the configuration file so those changes will be used also at the next reboot.
+
+To check the status of the cluster you can call the GET request at:
+
+.. code-block:: xml
+
+  http://localhost:8080/geoserver/rest/cluster[.{xml|html|json}]
+
+To modify the cluster configuration use a POST at the \*/rest/cluster url.
+
+Here is a configuration example using curl:
+
+.. code-block:: xml
+
+  curl -u admin:geoserver -X POST -H "Content-type: text/xml" 
+	 * http://localhost:8080/geoserver/rest/cluster 
+	 * -d "<properties><property name=\"brokerURL\" value=\"tcp://localhost:61616\"/><property name=\"instanceName\" value=\"7fcc646c-3c34-4814-831d-c9c289379201\"/><property name=\"connection\" value=\"disabled\"/><property name=\"topicName\" value=\"VirtualTopic.&gt;\"/><property name=\"toggleSlave\" value=\"false\"/><property name=\"readOnly\" value=\"disabled\"/><property name=\"toggleMaster\" value=\"true\"/></properties>"
+
 
   

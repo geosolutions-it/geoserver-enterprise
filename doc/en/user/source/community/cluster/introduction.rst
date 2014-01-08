@@ -2,8 +2,8 @@
 
 .. _introduction:
 
-Introduction
-============
+Clustering
+==========
 
 Objective of this document is to provide suggestions about how to best exploit the HW resources required with respect to the various software components of interests, namely, Apache Tomcat, GeoServer, and GeoWebCache in order to, on a side, implement an High Availability set up for each one of them to minimize the possibility of a service downtime and on the other side to achieve the maximum possible scalability in terms of number of concurrent requests that can be served for the unit of time with an acceptable response time. In the remaining part of this document we will assume that the reader possesses a decent knowledge of what the various software components do as well as the protocols they support. We will delve only into specifics related to the topic being discussed, that is properly dimensioning the deployment. In order to obtain reproducible numbers for the dimensioning of a host for GeoServer/GeoWebcache and Apache Tomcat capable to serve a certain number of concurrent requests, we have setup a 
 test environment and launched different stress-test against it, in order to test its limits.
@@ -17,6 +17,7 @@ Clustering GeoServer is required to implement an Highly Available set up as well
    :alt: Illustration: Geoserver in cluster deploy
    
 
+   
 GeoServer Limitations
 ---------------------
 
@@ -58,9 +59,10 @@ when you have more than 4 CPU, and if you are normally CPU bound, setup multiple
 
 References
 """"""""""
-http://bugs.sun.com/view_bug.do?bug_id=6508591
-http://www.java.net/node/661354
-http://forums.java.net/jive/thread.jspa?forumID=69&threadID=21275
+
+- http://bugs.sun.com/view_bug.do?bug_id=6508591
+- http://www.java.net/node/661354
+- http://forums.java.net/jive/thread.jspa?forumID=69&threadID=21275
 
 Where the data is located
 """""""""""""""""""""""""
@@ -76,7 +78,7 @@ Once all of the above configuration changes are completed the cluster is ready f
 
 
 Backoffice/Production configuration (separate Data Directory)
-=============================================================
+-------------------------------------------------------------
 
 When a cluster of geoserver with shared data directory is configured it’s advisable to setup an offline GeoServer working off a copy of the cluster data directory (staging area), make changes until a new satisfactory configuration layout is reached, and then propagate the changes to the production cluster with the following steps:
 
@@ -94,18 +96,18 @@ This approach starts showing its limitations when any of the following situation
    
    
 Master/Slave cluster with shared Data Directory
-===============================================
+-----------------------------------------------
 
 To understand how a cluster of geoserver with shared data directory works, we have to explain how the configuration is actually handled.
 
 In Memory Catalog
------------------
+"""""""""""""""""
 Besides the fact that the internal configuration for GeoServer is stored by default in XML files, it is worth to point out that currently the persistence subsystem loads thoroughly in memory at start up ( or reload ) the entire internal configuration as it is defined inside the XML files in the data directory assuming, after that time, that the configuration resides actually in memory.
 
 The infrastructure within the GeoServer codebase that manages the in memory copy of the internal configuration is called catalog (which should not be confused with the OGC concept of catalog) and contains the GeoServer’s internal object model where all the information of the internal configuration are represented by in memory java objects and relations; access to the catalog is guarded via specific locks from both the user interface as well as from the REST interface in order to ensure that proper access it it’s guaranteed in every moment.
 
 Perform changes
----------------
+"""""""""""""""
 Changing something into the catalog via the GUI or via the REST interface in this configuration is not a simple or atomic operation.
 The fact that the internal catalog is kept pinned in memory by the GeoServer is relevant especially in a clustered environment since whenever a configuration change is made in one instance of GeoServer (the **master**) the other instances (the **slaves**) should not be aware of the change unless a full configuration reload is issued, moreover the internal configuration and catalog of GeoServer during a configuration reload is in an inconsistent state until when the loading has been performed and all the configuration objects have been created.
 
@@ -114,3 +116,47 @@ Along the same line it is worth to point out that when working with a cluster of
 .. figure:: images/geoserver_simple_clustering_deploy.png
    :align: center
    :alt: Illustration: Geoserver in cluster: deploy schema
+   
+   
+JMS Clustering Extension
+------------------------
+
+There exists various approaches with GeoServer to implement a clustered deployment, based on different mixes of data directory sharing plus configuration reload. However, these techniques have intrinsic limitations in terms of scalability therefore we decided to create a specific GeoServer Clustering Extension in order to overcome them. It is worth to point out that what we are going to describe is designed to work with GeoServer 2.4 stable series as well as with the 2.5.x. Our approach is shown in Illustration .
+
+.. figure:: images/Schema.png
+   :align: center
+   :alt: Illustration  Clustering Solution for GeoServer
+
+We have implemented a robust Master/Slave approach which leverages on a Message Oriented Middleware (MOM) where:
+The Masters (yes, we can have more than one, read on...) accept changes to the internal configuration, persist them on their own data directory but also forward them to the Slaves via the MOM
+The Slaves should not be used to change  their configuration from either REST or the User Interface, since are configured to inject configuration changes disseminated by the Master(s) via the MOM
+The MOM is used to make the Master and the Slave exchange messages in a durable fashion
+Each Slave has its own data directory and it is responsible for keeping it aligned with the Master's one. In case a Slave goes down when it goes up again he might receive a bunch of JMS messages to align its configuration to the Master's one.
+A Node can be both Master and Slave at the same time, this means that we don't have a single point of failure, i.e. the Master itself
+
+Summarizing, the Master as well as each Slave use a private data directory, Slaves receive changes from the Master, which is the only one where configuration changes are allowed, via JMS messages. Such messages transport GeoServer configuration objects that the Slaves inject directly in their own in-memory configuration and then persist on disk on their data directory, completely removing the need for a configuration reload for each configuration change.
+
+Building, Installing, Configuring and Using the JMS Clustering Extension
+------------------------------------------------------------------------
+
+In the following sections we are going to talk about how build buid, install and use the JMS Clustering extension for GeoServer.
+
+.. toctree:: 
+   :maxdepth: 1
+
+   jms/installation
+
+ActiveMQ Broker Usage and Configuration as MOM
+----------------------------------------------
+
+We deliver a web application based on ActiveMQ which is preconfigured to be used with the GeoServer jms cluster module plugin as the MOM.
+Additional information can be found a the links below
+
+.. toctree:: 
+   :maxdepth: 1
+
+   jms/activemq/activemqBroker
+   jms/activemq/JDBC
+   jms/activemq/SharedFolder
+   
+   
