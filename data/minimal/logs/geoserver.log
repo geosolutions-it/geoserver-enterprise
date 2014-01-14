@@ -1,0 +1,302 @@
+2013-12-13 18:24:42,157 WARN [config.CustomEditorConfigurer] - Passing PropertyEditor instances into CustomEditorConfigurer is deprecated: use PropertyEditorRegistrars or PropertyEditor class names instead. Offending key [org.geotools.util.Version; offending editor instance: org.geoserver.platform.util.VersionPropertyEditor@15136019
+2013-12-13 18:24:43,175 INFO [geoserver.global] - 
+----------------------------------
+- GEOSERVER_DATA_DIR: C:\work\geoserver\trunk.git\geoserver\data\minimal
+----------------------------------
+2013-12-13 18:24:43,820 INFO [org.geoserver] - Loaded style 'line'
+2013-12-13 18:24:43,824 INFO [org.geoserver] - Loaded style 'point'
+2013-12-13 18:24:43,827 INFO [org.geoserver] - Loaded style 'polygon'
+2013-12-13 18:24:43,831 INFO [org.geoserver] - Loaded style 'raster'
+2013-12-13 18:24:43,832 WARN [org.geoserver] - No default workspace was found.
+2013-12-13 18:24:43,842 INFO [org.geoserver] - Loaded workspace 'it.geosolutions'
+2013-12-13 18:24:43,884 INFO [org.geoserver] - Loaded workspace 'topp'
+2013-12-13 18:24:44,037 INFO [storage.DefaultStorageFinder] - *****************************************************************************************************************************************************
+2013-12-13 18:24:44,037 INFO [storage.DefaultStorageFinder] - *** Found Java environment variable GEOSERVER_DATA_DIR set to C:\work\geoserver\trunk.git\geoserver\data\minimal, using it as the default prefix. ***
+2013-12-13 18:24:44,037 INFO [storage.DefaultStorageFinder] - *****************************************************************************************************************************************************
+2013-12-13 18:24:44,037 INFO [config.XMLConfiguration] - Will look for geowebcache.xml in 'C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc'
+2013-12-13 18:24:44,246 INFO [gwc.layer] - Initializing GWC configuration based on GeoServer's Catalog
+2013-12-13 18:24:44,250 INFO [gwc.layer] - GeoServer TileLayer store base directory is: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc-layers
+2013-12-13 18:24:44,251 INFO [gwc.layer] - Loading tile layers from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc-layers
+2013-12-13 18:24:44,267 INFO [gwc.layer] - GWC configuration based on GeoServer's Catalog loaded successfuly
+2013-12-13 18:24:44,267 INFO [layer.TileLayerDispatcher] - Configuration GeoServer Catalog Configuration contained no layers.
+2013-12-13 18:24:44,268 WARN [config.XMLConfiguration] - Found no configuration file in config directory, will create one at 'C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc\geowebcache.xml' from template jar:file:/C:/Users/Alessio/.m2/repository/org/geowebcache/gwc-core/1.5.0/gwc-core-1.5.0.jar!/geowebcache_empty.xml
+2013-12-13 18:24:44,432 INFO [config.XMLConfiguration] - Configuration file validated fine.
+2013-12-13 18:24:44,443 INFO [config.XMLConfiguration] - Initializing GridSets from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc
+2013-12-13 18:24:44,444 INFO [config.XMLConfiguration] - Initializing layers from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc
+2013-12-13 18:24:44,444 INFO [layer.TileLayerDispatcher] - Configuration C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc contained no layers.
+2013-12-13 18:24:44,507 INFO [storage.MetastoreRemover] - Cleaning up the old disk quota database
+2013-12-13 18:24:44,531 INFO [diskquota.ConfigLoader] - DiskQuota configuration not found: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc\geowebcache-diskquota.xml
+2013-12-13 18:24:44,546 INFO [diskquota.ConfigLoader] - DiskQuota configuration not found: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc\geowebcache-diskquota.xml
+2013-12-13 18:24:44,550 INFO [diskquota.DiskQuotaMonitor] - Setting up disk quota periodic enforcement task
+2013-12-13 18:24:44,553 INFO [diskquota.DiskQuotaMonitor] - 0 layers configured with their own quotas. 
+2013-12-13 18:24:44,554 INFO [diskquota.DiskQuotaMonitor] - 0 layers attached to global quota 500,0 MB
+2013-12-13 18:24:44,578 INFO [diskquota.DiskQuotaMonitor] - Disk quota periodic enforcement task set up every 10 SECONDS
+2013-12-13 18:24:44,711 INFO [org.geoserver] - Loaded service 'wfs', enabled
+2013-12-13 18:24:44,758 INFO [org.geoserver] - Loaded service 'wms', enabled
+2013-12-13 18:24:44,779 INFO [org.geoserver] - Loaded service 'wcs', enabled
+2013-12-13 18:24:44,794 INFO [gwc.config] - Initializing GeoServer specific GWC configuration from gwc-gs.xml
+2013-12-13 18:24:44,961 INFO [ows.OWSHandlerMapping] - Mapped URL path [/gwc/service/**] onto handler 'dispatcher'
+2013-12-13 18:24:45,036 INFO [geowebcache.GeoWebCacheDispatcher] - Invoked setServletPrefix(gwc)
+2013-12-13 18:24:45,054 INFO [georss.GeoRSSPoller] - Initializing GeoRSS poller in a background job...
+2013-12-13 18:24:45,056 INFO [georss.GeoRSSPoller] - No enabled GeoRSS feeds found, poller will not run.
+2013-12-13 18:24:45,302 INFO [rest.RESTDispatcher] - Created RESTDispatcher with 13 paths
+2013-12-13 18:24:45,397 INFO [wms.WMSService] - Will NOT recombine tiles for non-tiling clients.
+2013-12-13 18:24:45,397 INFO [wms.WMSService] - Will proxy requests to backend that are not getmap or getcapabilities.
+2013-12-13 18:24:45,500 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows/**] onto handler 'dispatcher'
+2013-12-13 18:24:45,500 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows] onto handler 'dispatcher'
+2013-12-13 18:24:45,520 INFO [org.geoserver] - GeoServer configuration lock is enabled
+2013-12-13 18:24:45,932 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs/*] onto handler 'dispatcher'
+2013-12-13 18:24:45,932 INFO [ows.OWSHandlerMapping] - Mapped URL path [/TestWfsPost] onto handler 'wfsTestServlet'
+2013-12-13 18:24:45,932 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs] onto handler 'dispatcher'
+2013-12-13 18:24:52,159 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms/*] onto handler 'dispatcher'
+2013-12-13 18:24:52,160 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms] onto handler 'dispatcher'
+2013-12-13 18:24:52,320 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate] onto handler 'dispatcher'
+2013-12-13 18:24:52,320 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate/*] onto handler 'dispatcher'
+2013-12-13 18:24:52,348 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs] onto handler 'dispatcher'
+2013-12-13 18:24:52,348 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs/**] onto handler 'dispatcher'
+2013-12-13 18:24:54,959 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml] onto handler 'dispatcher'
+2013-12-13 18:24:54,959 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/*] onto handler 'dispatcher'
+2013-12-13 18:24:54,959 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/icon/**/*] onto handler 'kmlIconService'
+2013-12-13 18:24:55,163 INFO [rest.proxy] - Proxy init'd pretty much ok.
+2013-12-13 18:24:55,163 WARN [geoserver.proxy] - Failed to open configuration for Proxy module. Using default. Exception:java.io.FileNotFoundException: C:\work\geoserver\trunk.git\geoserver\data\minimal\proxy\proxy.xml (Impossibile trovare il file specificato)
+2013-12-13 18:24:56,861 INFO [geoserver.security] - Start security migration
+2013-12-13 18:24:56,898 INFO [geoserver.security] - Information regarding the master password is in: C:\work\geoserver\trunk.git\geoserver\data\minimal\security\masterpw.info
+2013-12-13 18:24:57,733 WARN [geoserver.security] - Strong cryptograhpy is NOT available
+Download and install of policy files recommended
+from http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html
+2013-12-13 18:24:58,513 INFO [geoserver.security] - Start encrypting configuration passwords using pbePasswordEncoder
+2013-12-13 18:24:58,596 INFO [geoserver.security] - End encrypting configuration passwords
+2013-12-13 18:24:58,834 INFO [security.xml] - Successful lock: C:\work\geoserver\trunk.git\geoserver\data\minimal\security\usergroup\default\users.xml.lock
+2013-12-13 18:24:58,894 INFO [security.xml] - Successful lock: C:\work\geoserver\trunk.git\geoserver\data\minimal\security\role\default\roles.xml.lock
+2013-12-13 18:24:58,902 INFO [geoserver.security] - Start storing roles for service named default
+2013-12-13 18:24:58,977 INFO [geoserver.security] - Storing roles successful for service named default
+2013-12-13 18:24:58,977 INFO [geoserver.security] - Start reloading roles for service named default
+2013-12-13 18:24:58,994 INFO [geoserver.security] - Reloading roles successful for service named default
+2013-12-13 18:24:58,997 INFO [geoserver.security] - Adjusted last modified for file: C:\work\geoserver\trunk.git\geoserver\data\minimal\security\role\default\roles.xml
+2013-12-13 18:24:58,998 INFO [geoserver.security] - Start storing user/grous for service named default
+2013-12-13 18:24:59,007 INFO [geoserver.security] - Storing user/grous successful for service named default
+2013-12-13 18:24:59,007 INFO [geoserver.security] - Start reloading user/grous for service named default
+2013-12-13 18:24:59,015 INFO [geoserver.security] - Reloading user/groups successful for service named default
+2013-12-13 18:24:59,019 INFO [geoserver.security] - Adjusted last modified for file: C:\work\geoserver\trunk.git\geoserver\data\minimal\security\usergroup\default\users.xml
+2013-12-13 18:24:59,020 INFO [geoserver.security] - End security migration
+2013-12-13 18:25:13,814 ERROR [wicket.RequestCycle] - Can't instantiate page using constructor public org.geoserver.web.data.store.NewDataPage()
+org.apache.wicket.WicketRuntimeException: Can't instantiate page using constructor public org.geoserver.web.data.store.NewDataPage()
+	at org.apache.wicket.session.DefaultPageFactory.createPage(DefaultPageFactory.java:212)
+	at org.apache.wicket.session.DefaultPageFactory.newPage(DefaultPageFactory.java:57)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.newPage(BookmarkablePageRequestTarget.java:298)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.getPage(BookmarkablePageRequestTarget.java:320)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.processEvents(BookmarkablePageRequestTarget.java:234)
+	at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
+	at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
+	at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
+	at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
+	at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
+	at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)
+	at org.apache.wicket.protocol.http.WicketServlet.doGet(WicketServlet.java:138)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:707)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:820)
+	at org.springframework.web.servlet.mvc.ServletWrappingController.handleRequestInternal(ServletWrappingController.java:159)
+	at org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)
+	at org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:923)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:852)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:882)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:778)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:707)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:820)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:487)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1093)
+	at org.geoserver.filters.ThreadLocalsCleanupFilter.doFilter(ThreadLocalsCleanupFilter.java:27)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.filters.SpringDelegatingFilter$Chain.doFilter(SpringDelegatingFilter.java:74)
+	at org.geoserver.wms.animate.AnimatorFilter.doFilter(AnimatorFilter.java:70)
+	at org.geoserver.filters.SpringDelegatingFilter$Chain.doFilter(SpringDelegatingFilter.java:70)
+	at org.geoserver.filters.SpringDelegatingFilter.doFilter(SpringDelegatingFilter.java:45)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.platform.AdvancedDispatchFilter.doFilter(AdvancedDispatchFilter.java:49)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:311)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:68)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:116)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:83)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:72)
+	at org.geoserver.security.filter.GeoServerCompositeFilter.doFilter(GeoServerCompositeFilter.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:68)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:113)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:72)
+	at org.geoserver.security.filter.GeoServerCompositeFilter.doFilter(GeoServerCompositeFilter.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.geoserver.security.filter.GeoServerAnonymousAuthenticationFilter.doFilter(GeoServerAnonymousAuthenticationFilter.java:53)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:68)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:182)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:72)
+	at org.geoserver.security.filter.GeoServerCompositeFilter.doFilter(GeoServerCompositeFilter.java:91)
+	at org.geoserver.security.filter.GeoServerUserNamePasswordAuthenticationFilter.doFilter(GeoServerUserNamePasswordAuthenticationFilter.java:115)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:68)
+	at org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter.doFilter(RememberMeAuthenticationFilter.java:146)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:72)
+	at org.geoserver.security.filter.GeoServerCompositeFilter.doFilter(GeoServerCompositeFilter.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:68)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:87)
+	at org.geoserver.security.filter.GeoServerSecurityContextPersistenceFilter$1.doFilter(GeoServerSecurityContextPersistenceFilter.java:52)
+	at org.geoserver.security.filter.GeoServerCompositeFilter$NestedFilterChain.doFilter(GeoServerCompositeFilter.java:72)
+	at org.geoserver.security.filter.GeoServerCompositeFilter.doFilter(GeoServerCompositeFilter.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:323)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:173)
+	at org.geoserver.security.GeoServerSecurityFilterChainProxy.doFilter(GeoServerSecurityFilterChainProxy.java:134)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:346)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:259)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.filters.LoggingFilter.doFilter(LoggingFilter.java:75)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.filters.GZIPFilter.doFilter(GZIPFilter.java:42)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.filters.SessionDebugFilter.doFilter(SessionDebugFilter.java:47)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.geoserver.filters.FlushSafeFilter.doFilter(FlushSafeFilter.java:43)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.vfny.geoserver.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:109)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:360)
+	at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:181)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:726)
+	at org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:405)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:324)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:505)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.headerComplete(HttpConnection.java:828)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:514)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:211)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:380)
+	at org.mortbay.jetty.bio.SocketConnector$Connection.run(SocketConnector.java:228)
+	at org.mortbay.thread.BoundedThreadPool$PoolThread.run(BoundedThreadPool.java:450)
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at org.apache.wicket.session.DefaultPageFactory.createPage(DefaultPageFactory.java:192)
+	... 93 more
+Caused by: java.lang.IllegalArgumentException: java.io.File parameter must be a directory. [target\test-classes\config]
+	at org.osjava.sj.loader.JndiLoader.loadDirectory(JndiLoader.java:110)
+	at org.osjava.sj.loader.JndiLoader.loadDirectory(JndiLoader.java:104)
+	at org.osjava.sj.SimpleContext.<init>(SimpleContext.java:98)
+	at org.osjava.sj.SimpleContextFactory.getInitialContext(SimpleContextFactory.java:69)
+	at javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:667)
+	at javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:288)
+	at javax.naming.InitialContext.init(InitialContext.java:223)
+	at javax.naming.InitialContext.<init>(InitialContext.java:175)
+	at org.geotools.factory.GeoTools.getInitialContext(GeoTools.java:594)
+	at org.geotools.jdbc.JDBCJNDIDataStoreFactory.isAvailable(JDBCJNDIDataStoreFactory.java:142)
+	at org.geotools.data.DataAccessFinder.getAvailableDataStores(DataAccessFinder.java:212)
+	at org.geotools.data.DataStoreFinder.getAvailableDataStores(DataStoreFinder.java:116)
+	at org.geotools.data.DataAccessFinder.getAvailableDataStores(DataAccessFinder.java:195)
+	at org.vfny.geoserver.util.DataStoreUtils.getAvailableDataStoreFactories(DataStoreUtils.java:342)
+	at org.geoserver.web.data.store.NewDataPage.getAvailableDataStores(NewDataPage.java:170)
+	at org.geoserver.web.data.store.NewDataPage.<init>(NewDataPage.java:49)
+	... 98 more
+2013-12-13 18:27:32,046 WARN [config.CustomEditorConfigurer] - Passing PropertyEditor instances into CustomEditorConfigurer is deprecated: use PropertyEditorRegistrars or PropertyEditor class names instead. Offending key [org.geotools.util.Version; offending editor instance: org.geoserver.platform.util.VersionPropertyEditor@1839474b
+2013-12-13 18:27:32,779 INFO [geoserver.global] - 
+----------------------------------
+- GEOSERVER_DATA_DIR: C:\work\geoserver\trunk.git\geoserver\data\minimal
+----------------------------------
+2013-12-13 18:27:33,138 INFO [org.geoserver] - Loaded style 'line'
+2013-12-13 18:27:33,139 INFO [org.geoserver] - Loaded style 'point'
+2013-12-13 18:27:33,140 INFO [org.geoserver] - Loaded style 'polygon'
+2013-12-13 18:27:33,141 INFO [org.geoserver] - Loaded style 'raster'
+2013-12-13 18:27:33,143 INFO [org.geoserver] - Loaded default workspace it.geosolutions
+2013-12-13 18:27:33,151 INFO [org.geoserver] - Loaded workspace 'it.geosolutions'
+2013-12-13 18:27:33,155 INFO [org.geoserver] - Loaded workspace 'topp'
+2013-12-13 18:27:33,321 INFO [storage.DefaultStorageFinder] - *****************************************************************************************************************************************************
+2013-12-13 18:27:33,321 INFO [storage.DefaultStorageFinder] - *** Found Java environment variable GEOSERVER_DATA_DIR set to C:\work\geoserver\trunk.git\geoserver\data\minimal, using it as the default prefix. ***
+2013-12-13 18:27:33,321 INFO [storage.DefaultStorageFinder] - *****************************************************************************************************************************************************
+2013-12-13 18:27:33,321 INFO [config.XMLConfiguration] - Will look for geowebcache.xml in 'C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc'
+2013-12-13 18:27:33,545 INFO [gwc.layer] - Initializing GWC configuration based on GeoServer's Catalog
+2013-12-13 18:27:33,545 INFO [gwc.layer] - GeoServer TileLayer store base directory is: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc-layers
+2013-12-13 18:27:33,546 INFO [gwc.layer] - Loading tile layers from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc-layers
+2013-12-13 18:27:33,563 INFO [gwc.layer] - GWC configuration based on GeoServer's Catalog loaded successfuly
+2013-12-13 18:27:33,563 INFO [layer.TileLayerDispatcher] - Configuration GeoServer Catalog Configuration contained no layers.
+2013-12-13 18:27:33,563 INFO [config.XMLConfiguration] - Found configuration file in C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc
+2013-12-13 18:27:33,654 INFO [config.XMLConfiguration] - Configuration file validated fine.
+2013-12-13 18:27:33,667 INFO [config.XMLConfiguration] - Initializing GridSets from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc
+2013-12-13 18:27:33,667 INFO [config.XMLConfiguration] - Initializing layers from C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc
+2013-12-13 18:27:33,667 INFO [layer.TileLayerDispatcher] - Configuration C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc contained no layers.
+2013-12-13 18:27:33,725 INFO [storage.MetastoreRemover] - Cleaning up the old disk quota database
+2013-12-13 18:27:33,746 INFO [diskquota.ConfigLoader] - DiskQuota configuration not found: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc\geowebcache-diskquota.xml
+2013-12-13 18:27:33,760 INFO [diskquota.ConfigLoader] - DiskQuota configuration not found: C:\work\geoserver\trunk.git\geoserver\data\minimal\gwc\geowebcache-diskquota.xml
+2013-12-13 18:27:33,764 INFO [diskquota.DiskQuotaMonitor] - Setting up disk quota periodic enforcement task
+2013-12-13 18:27:33,766 INFO [diskquota.DiskQuotaMonitor] - 0 layers configured with their own quotas. 
+2013-12-13 18:27:33,767 INFO [diskquota.DiskQuotaMonitor] - 0 layers attached to global quota 500,0 MB
+2013-12-13 18:27:33,785 INFO [diskquota.DiskQuotaMonitor] - Disk quota periodic enforcement task set up every 10 SECONDS
+2013-12-13 18:27:33,950 INFO [org.geoserver] - Loaded service 'wfs', enabled
+2013-12-13 18:27:33,997 INFO [org.geoserver] - Loaded service 'wms', enabled
+2013-12-13 18:27:34,024 INFO [org.geoserver] - Loaded service 'wcs', enabled
+2013-12-13 18:27:34,061 INFO [org.geoserver] - Loaded service 'WPSInfoImpl-53aba481:142ecffc2fc:-7fff', enabled
+2013-12-13 18:27:34,140 INFO [gwc.config] - Initializing GeoServer specific GWC configuration from gwc-gs.xml
+2013-12-13 18:27:34,586 INFO [ows.OWSHandlerMapping] - Mapped URL path [/gwc/service/**] onto handler 'dispatcher'
+2013-12-13 18:27:34,652 INFO [geowebcache.GeoWebCacheDispatcher] - Invoked setServletPrefix(gwc)
+2013-12-13 18:27:34,677 INFO [georss.GeoRSSPoller] - Initializing GeoRSS poller in a background job...
+2013-12-13 18:27:34,678 INFO [georss.GeoRSSPoller] - No enabled GeoRSS feeds found, poller will not run.
+2013-12-13 18:27:34,905 INFO [rest.RESTDispatcher] - Created RESTDispatcher with 13 paths
+2013-12-13 18:27:34,976 INFO [wms.WMSService] - Will NOT recombine tiles for non-tiling clients.
+2013-12-13 18:27:34,976 INFO [wms.WMSService] - Will proxy requests to backend that are not getmap or getcapabilities.
+2013-12-13 18:27:35,046 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows/**] onto handler 'dispatcher'
+2013-12-13 18:27:35,046 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows] onto handler 'dispatcher'
+2013-12-13 18:27:35,067 INFO [org.geoserver] - GeoServer configuration lock is enabled
+2013-12-13 18:27:35,451 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs/*] onto handler 'dispatcher'
+2013-12-13 18:27:35,451 INFO [ows.OWSHandlerMapping] - Mapped URL path [/TestWfsPost] onto handler 'wfsTestServlet'
+2013-12-13 18:27:35,451 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs] onto handler 'dispatcher'
+2013-12-13 18:27:41,813 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms/*] onto handler 'dispatcher'
+2013-12-13 18:27:41,813 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms] onto handler 'dispatcher'
+2013-12-13 18:27:41,940 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate] onto handler 'dispatcher'
+2013-12-13 18:27:41,941 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate/*] onto handler 'dispatcher'
+2013-12-13 18:27:41,963 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs] onto handler 'dispatcher'
+2013-12-13 18:27:41,963 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs/**] onto handler 'dispatcher'
+2013-12-13 18:27:44,833 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml] onto handler 'dispatcher'
+2013-12-13 18:27:44,833 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/*] onto handler 'dispatcher'
+2013-12-13 18:27:44,833 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/icon/**/*] onto handler 'kmlIconService'
+2013-12-13 18:27:46,834 INFO [geoserver.wps] - Found 89 bindable processes in Deprecated processes
+2013-12-13 18:27:46,862 INFO [geoserver.wps] - Found 29 bindable processes in Vector processes
+2013-12-13 18:27:46,881 INFO [geoserver.wps] - Found 48 bindable processes in Geometry processes
+2013-12-13 18:27:46,889 INFO [geoserver.wps] - Found 11 bindable processes in Raster processes
+2013-12-13 18:27:46,896 INFO [geoserver.wps] - Found 4 bindable processes in GeoServer specific processes
+2013-12-13 18:27:48,350 WARN [geoserver.security] - C:\work\geoserver\trunk.git\geoserver\data\minimal\security\masterpw.info is a security risk. Please read this file and remove it afterward
+2013-12-13 18:32:39,428 ERROR [wicket.Session] - Exception when detaching/serializing page
+java.lang.OutOfMemoryError: PermGen space
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Class.java:2436)
+	at java.lang.Class.getDeclaredMethod(Class.java:1937)
+	at java.io.ObjectStreamClass.getPrivateMethod(ObjectStreamClass.java:1377)
+	at java.io.ObjectStreamClass.access$1700(ObjectStreamClass.java:50)
+	at java.io.ObjectStreamClass$2.run(ObjectStreamClass.java:436)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.io.ObjectStreamClass.<init>(ObjectStreamClass.java:411)
+	at java.io.ObjectStreamClass.lookup(ObjectStreamClass.java:308)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1114)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1518)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1483)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1400)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1158)
+	at java.io.ObjectOutputStream.writeArray(ObjectOutputStream.java:1346)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1154)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1518)
+	at java.io.ObjectOutputStream.defaultWriteObject(ObjectOutputStream.java:422)
+	at org.apache.wicket.Component.writeObject(Component.java:4660)
+	at sun.reflect.GeneratedMethodAccessor79.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at java.io.ObjectStreamClass.invokeWriteObject(ObjectStreamClass.java:940)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1469)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1400)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1158)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1518)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1483)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1400)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1158)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1518)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1483)

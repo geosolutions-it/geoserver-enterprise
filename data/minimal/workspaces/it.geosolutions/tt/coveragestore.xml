@@ -1,0 +1,12 @@
+<coverageStore>
+  <id>CoverageStoreInfoImpl-53aba481:142ecffc2fc:-7ffe</id>
+  <name>tt</name>
+  <description>tt</description>
+  <type>GeoTIFF</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-78ff667e:12476299803:-7fff</id>
+  </workspace>
+  <__default>false</__default>
+  <url>file://C:\work\geoserver\trunk.git\geoserver\data\release\coverages\img_sample\Pk50095.tif</url>
+</coverageStore>

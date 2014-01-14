@@ -1,0 +1,45 @@
+<global>
+  <settings>
+    <contact>
+      <address>Via Poggio alle Viti, 1157</address>
+      <addressCity>Massarosa</addressCity>
+      <addressCountry>Italy</addressCountry>
+      <addressPostalCode>55054</addressPostalCode>
+      <addressState>LU</addressState>
+      <addressType>Work</addressType>
+      <contactEmail>info@geo-solutions.it</contactEmail>
+      <contactOrganization>GeoSolutions S.A.S.</contactOrganization>
+      <contactPerson>Admin</contactPerson>
+      <contactPosition>Admin</contactPosition>
+      <contactVoice>+39 339 8844549</contactVoice>
+    </contact>
+    <charset>UTF-8</charset>
+    <numDecimals>8</numDecimals>
+    <onlineResource>http://geoserver.org</onlineResource>
+    <verbose>false</verbose>
+    <verboseExceptions>false</verboseExceptions>
+  </settings>
+  <jai>
+    <allowInterpolation>false</allowInterpolation>
+    <recycling>false</recycling>
+    <tilePriority>5</tilePriority>
+    <tileThreads>7</tileThreads>
+    <memoryCapacity>0.5</memoryCapacity>
+    <memoryThreshold>0.75</memoryThreshold>
+    <imageIOCache>false</imageIOCache>
+    <pngAcceleration>true</pngAcceleration>
+    <jpegAcceleration>true</jpegAcceleration>
+    <allowNativeMosaic>true</allowNativeMosaic>
+  </jai>
+  <coverageAccess>
+    <maxPoolSize>10</maxPoolSize>
+    <corePoolSize>5</corePoolSize>
+    <keepAliveTime>30000</keepAliveTime>
+    <queueType>UNBOUNDED</queueType>
+    <imageIOCacheThreshold>10240</imageIOCacheThreshold>
+  </coverageAccess>
+  <updateSequence>8</updateSequence>
+  <featureTypeCacheSize>0</featureTypeCacheSize>
+  <globalServices>true</globalServices>
+  <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
+</global>
