@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+
+ <parent>
+   <groupId>org.opengeo</groupId>
+   <artifactId>suite</artifactId>
+   <version>2.3-SNAPSHOT</version>
+ </parent>
+
+ <groupId>org.opengeo</groupId>
+ <artifactId>styler</artifactId>
+ <packaging>jar</packaging>
+ <name>OpenGeo Suite Styler</name>
+
+ <build>
+   <plugins>
+     <plugin>
+       <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="${basedir}/script"/>
+                <exec executable="jsbuild" failonerror="true"> 
+                  <arg line="-o ${basedir}/script"/> 
+                  <arg line="build.cfg"/>
+                </exec>
+                <mkdir dir="${build.directory}/styler"/>
+                <copy todir="${build.directory}/styler">
+                  <fileset dir="${basedir}" includes="*.html"/>
+                  <fileset dir="${basedir}" includes="externals/**"/>
+                  <fileset dir="${basedir}" includes="script/**"/>
+                  <fileset dir="${basedir}" includes="theme/**"/>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>install</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <war destfile="${build.directory}/styler.war" webxml="${basedir}/src/main/webapp/WEB-INF/web.xml">
+                  <fileset dir="${build.directory}/styler" includes="**/*"/>
+                </war>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>clean</id>
+            <phase>clean</phase>
+            <configuration>
+              <tasks>
+                <delete dir="${basedir}/script"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+     </plugin>
+   </plugins>
+ </build>
+
+</project>

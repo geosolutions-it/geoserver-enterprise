@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<NamedLayer> <Name> area landmarks </Name>
+    <UserStyle>
+    
+    
+    <!--
+        All "H" cfcc  are water ** blue/no outline (should be rendered using the water_polygon layer, labeled here)
+        The rest ("D") are broken in two groups:
+        
+          a) park-like things ("green")
+               D82  |     65233  Cemetery
+               D85  |     23902  State or local park or forest
+	       D10  |      2601  Military installation or reservation
+               D81  |      2558  Golf course
+               D84  |      1875  National forest or other Federal land
+               D83  |      1731  National Park Service land
+	       D28  |       429  Campground
+               
+               NOTE: this is all D8 (cfcc_1 = 'D' and cfcc_2='8')
+                              + D10 + D28 
+               
+          b) commercial/concrete things ("grey")
+               All other "D" things  (ie. cfcc_1 = 'D' AND not(cfcc_2='8' or cfcc = 'D10' or cfcc = 'D28') )
+        
+        There are a few others:
+           E23  |     10267  Island   ** make them green too...
+     -->
+     
+     
+     <!--
+        We draw the parks first, then the lakes, then the industrial (using different featuretypesytyles).
+        This is because, parks tend to be "on top of lakes" instead of having a hole for the lake.  This
+        make it look much nicer because if you dont do them separately, then you have lakes underneath
+        your parks, and they will not show up.
+     -->
+
+       
+         <FeatureTypeStyle>
+            
+<!-- island -->
+
+      <Rule>
+                   <!-- "E23" -->
+		<ogc:Filter> 
+
+	    		     <ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>cfcc</ogc:PropertyName>
+				<ogc:Literal>E23</ogc:Literal>
+	    		     </ogc:PropertyIsEqualTo>
+
+		</ogc:Filter>
+ 
+		<MaxScaleDenominator>300000</MaxScaleDenominator>
+
+                <PolygonSymbolizer>
+                    <Fill>
+                        <CssParameter name="fill">
+                            <ogc:Literal>#A9CD8F</ogc:Literal>
+                        </CssParameter>
+                        <CssParameter name="fill-opacity">
+                            <ogc:Literal>1.0</ogc:Literal>
+                        </CssParameter>
+                    </Fill>
+                    <Stroke>
+                        <CssParameter name="stroke">
+                            <ogc:Literal>#BFBFBF</ogc:Literal>
+                        </CssParameter>
+                    </Stroke>
+                </PolygonSymbolizer>
+            </Rule>
+ </FeatureTypeStyle>     
+
+
+
+        <FeatureTypeStyle>
+            
+<!-- park and green spaces -->
+
+      <Rule>
+                   <!-- all D8? + "D10" + "D28" -->
+		<ogc:Filter> 
+		    <ogc:Or>
+		         <ogc:And>
+		           <ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>cfcc_1</ogc:PropertyName>
+				<ogc:Literal>D</ogc:Literal>
+	    		   </ogc:PropertyIsEqualTo>
+	    		   <ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>cfcc_2</ogc:PropertyName>
+				<ogc:Literal>8</ogc:Literal>
+	    		   </ogc:PropertyIsEqualTo>
+		         </ogc:And>
+		         <ogc:Or>
+		             <ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>cfcc</ogc:PropertyName>
+				<ogc:Literal>D10</ogc:Literal>
+	    		     </ogc:PropertyIsEqualTo>
+	    		     <ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>cfcc</ogc:PropertyName>
+				<ogc:Literal>D28</ogc:Literal>
+	    		     </ogc:PropertyIsEqualTo>
+		        </ogc:Or>
+		    </ogc:Or>
+		</ogc:Filter>
+ 
+		<MaxScaleDenominator>300000</MaxScaleDenominator>
+
+                <PolygonSymbolizer>
+                    <Fill>
+                        <CssParameter name="fill">
+                            <ogc:Literal>#A9CD8F</ogc:Literal>
+                        </CssParameter>
+                        <CssParameter name="fill-opacity">
+                            <ogc:Literal>1.0</ogc:Literal>
+                        </CssParameter>
+                    </Fill>
+                    <Stroke>
+                        <CssParameter name="stroke">
+                            <ogc:Literal>#BFBFBF</ogc:Literal>
+                        </CssParameter>
+                    </Stroke>
+                </PolygonSymbolizer>
+            </Rule>
+ </FeatureTypeStyle>  
+ <!-- water -->  
+ <!--FeatureTypeStyle>
+          
+             <Rule>
+	    		<ogc:Filter>
+	    		
+	    			<ogc:PropertyIsEqualTo>
+	    				<ogc:PropertyName>cfcc_1</ogc:PropertyName>
+	    				<ogc:Literal>H</ogc:Literal>
+	    			</ogc:PropertyIsEqualTo>	    			
+	    		
+	    		</ogc:Filter>
+	     		<MaxScaleDenominator>900000</MaxScaleDenominator>
+	                    <PolygonSymbolizer>
+	                        <Fill>
+	                            <CssParameter name="fill">
+	                                <ogc:Literal>#99B3CC</ogc:Literal>
+	                            </CssParameter>
+	                            <CssParameter name="fill-opacity">
+	                                <ogc:Literal>1.0</ogc:Literal>
+	                            </CssParameter>
+	                        </Fill>
+	                        <Stroke>
+	                            <CssParameter name="stroke">
+	                                <ogc:Literal>BFBFBF</ogc:Literal>
+	                            </CssParameter>
+	                            
+	    
+	                        </Stroke>
+	                    </PolygonSymbolizer>
+            </Rule>
+</FeatureTypeStyle-->
+<FeatureTypeStyle>
+    <!-- URBAN	 -->            
+		 <Rule>
+		          <!-- cfcc_1 = 'D' and NOT (D8? + "D10" + "D28")-->
+			<ogc:Filter>
+			    
+			    <ogc:And>
+			       <ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>cfcc_1</ogc:PropertyName>
+					<ogc:Literal>D</ogc:Literal>
+	    			</ogc:PropertyIsEqualTo>
+	    			<ogc:Not>
+	    			   <!-- from above -->
+	    			  		 <ogc:Or>
+				   		         <ogc:And>
+				   		           <ogc:PropertyIsEqualTo>
+				   				<ogc:PropertyName>cfcc_1</ogc:PropertyName>
+				   				<ogc:Literal>D</ogc:Literal>
+				   	    		   </ogc:PropertyIsEqualTo>
+				   	    		   <ogc:PropertyIsEqualTo>
+				   				<ogc:PropertyName>cfcc_2</ogc:PropertyName>
+				   				<ogc:Literal>8</ogc:Literal>
+				   	    		   </ogc:PropertyIsEqualTo>
+				   		         </ogc:And>
+				   		         <ogc:Or>
+				   		             <ogc:PropertyIsEqualTo>
+				   				<ogc:PropertyName>cfcc</ogc:PropertyName>
+				   				<ogc:Literal>D10</ogc:Literal>
+				   	    		     </ogc:PropertyIsEqualTo>
+				   	    		     <ogc:PropertyIsEqualTo>
+				   				<ogc:PropertyName>cfcc</ogc:PropertyName>
+				   				<ogc:Literal>D28</ogc:Literal>
+				   	    		     </ogc:PropertyIsEqualTo>
+				   		        </ogc:Or>
+		  				  </ogc:Or>
+		    
+	    			</ogc:Not>
+			    </ogc:And>
+			    
+			</ogc:Filter>
+				<MaxScaleDenominator>300000</MaxScaleDenominator>
+
+
+			    <PolygonSymbolizer>
+				<Fill>
+				    <CssParameter name="fill">
+					<ogc:Literal>#A5A5A5</ogc:Literal>
+				    </CssParameter>
+				    <CssParameter name="fill-opacity">
+					<ogc:Literal>1.0</ogc:Literal>
+				    </CssParameter>
+				</Fill>
+				<Stroke>
+				    <CssParameter name="stroke">
+					<ogc:Literal>#6E6E6E</ogc:Literal>
+				    </CssParameter>
+
+
+				</Stroke>
+			    </PolygonSymbolizer>
+    </Rule>
+  </FeatureTypeStyle>  
+
+
+
+
+
+
+
+
+    
+  <FeatureTypeStyle>
+<!-- label -->     
+    <Rule>
+                        <ogc:Filter>
+				<ogc:Not>
+                                <ogc:PropertyIsEqualTo>
+                                        <ogc:PropertyName>cfcc_1</ogc:PropertyName>
+                                        <ogc:Literal>H</ogc:Literal>
+                                </ogc:PropertyIsEqualTo>
+				</ogc:Not>
+                        </ogc:Filter>
+		
+		<MaxScaleDenominator>300000</MaxScaleDenominator>
+
+    	<TextSymbolizer>
+		    <Label>
+				<ogc:PropertyName>laname</ogc:PropertyName>
+		    </Label>
+
+		    <Font>
+				<CssParameter name="font-family">Verdana</CssParameter>
+				<CssParameter name="font-style">Normal</CssParameter>
+				<CssParameter name="font-size">12</CssParameter>
+				<CssParameter name="font-weight">bold</CssParameter>
+		    </Font>
+		    <LabelPlacement>
+		    <PointPlacement>
+		    	<AnchorPoint>
+		    	  <AnchorPointX>
+		    	  0.5
+		    	  </AnchorPointX>
+		    	  <AnchorPointY>
+		    	  0.5
+		    	  </AnchorPointY>
+		    	</AnchorPoint>
+		    </PointPlacement>
+		    </LabelPlacement>		    
+		    <Halo>
+			    <Radius>
+			   		<ogc:Literal>1</ogc:Literal>
+			    </Radius>
+			    <Fill>
+			    	<CssParameter name="fill">#FFFFFF</CssParameter>
+			    	<CssParameter name="fill-opacity">.5</CssParameter>
+			    </Fill>
+		    </Halo>
+
+		    <Fill>
+				<CssParameter name="fill">#000000</CssParameter>
+		    </Fill>
+
+			<VendorOption name="group">true</VendorOption>
+
+		</TextSymbolizer>
+    </Rule>
+            
+            
+        </FeatureTypeStyle>
+
+
+
+ <!-- water -->
+
+ <FeatureTypeStyle>
+
+             <Rule>
+                        <ogc:Filter>
+
+                                <ogc:PropertyIsEqualTo>
+                                        <ogc:PropertyName>cfcc_1</ogc:PropertyName>
+                                        <ogc:Literal>H</ogc:Literal>
+                                </ogc:PropertyIsEqualTo>
+
+                        </ogc:Filter>
+
+
+                <MinScaleDenominator>20000</MinScaleDenominator>
+                <MaxScaleDenominator>300000</MaxScaleDenominator>
+
+        <TextSymbolizer>
+                    <Label>
+                                <ogc:PropertyName>laname</ogc:PropertyName>
+                    </Label>
+
+                    <Font>
+                                <CssParameter name="font-family">Verdana</CssParameter>
+                                <CssParameter name="font-style">Normal</CssParameter>
+                                <CssParameter name="font-size">12</CssParameter>
+                                <CssParameter name="font-weight">bold</CssParameter>
+                    </Font>
+                    <LabelPlacement>
+                    <PointPlacement>
+                        <AnchorPoint>
+                          <AnchorPointX>
+                          0.5
+                          </AnchorPointX>
+                          <AnchorPointY>
+                          0.5
+                          </AnchorPointY>
+                        </AnchorPoint>
+                    </PointPlacement>
+                    </LabelPlacement>
+                    <Halo>
+                            <Radius>
+                                        <ogc:Literal>1</ogc:Literal>
+                            </Radius>
+                            <Fill>
+                                <CssParameter name="fill">#FFFFFF</CssParameter>
+                                <CssParameter name="fill-opacity">.5</CssParameter>
+                            </Fill>
+                    </Halo>
+
+                    <Fill>
+                                <CssParameter name="fill">#000000</CssParameter>
+                    </Fill>
+
+			<VendorOption name="group">true</VendorOption>
+
+
+                </TextSymbolizer>
+
+
+
+
+            </Rule>
+</FeatureTypeStyle>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </UserStyle>
+    </NamedLayer>
+</StyledLayerDescriptor>

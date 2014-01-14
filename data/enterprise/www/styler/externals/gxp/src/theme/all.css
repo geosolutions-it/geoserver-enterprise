@@ -1,0 +1,45 @@
+
+.x-btn .add {
+    background-image: url(img/add.png);
+}
+
+.x-btn .delete {
+    background-image: url(img/delete.png);
+}
+
+.x-btn .duplicate {
+    background-image: url(img/silk/arrow_divide.png);
+}
+
+.x-btn .save {
+    background-image: url(img/accept.png);
+}
+
+.x-btn .cancel {
+    background-image: url(img/decline.png);
+}
+
+.x-btn .edit {
+    background-image: url(img/pencil.png);
+}
+
+.gx-filterbuilder .x-toolbar {
+    background: transparent;
+    border: none !important;
+}
+
+/* gx_embedmapdialog */
+.gx-field-label {
+    font-weight: bold;
+    margin: 4px;
+    vertical-align: baseline;
+}
+.gx-export-section {
+    padding: 10px 10px 5px 10px;
+    margin-bottom: 0;
+}
+
+/* fixes textarea scrollbar issue in FF on OSX */
+.ext-gecko.ext-mac textarea.x-form-field {
+    padding: 1px 2px;
+}

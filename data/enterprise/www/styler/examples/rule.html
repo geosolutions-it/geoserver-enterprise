@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>Rule Panel</title>
+    <link rel="stylesheet" type="text/css" href="../externals/ext/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../externals/ux/colorpicker/color-picker.ux.css" />
+    <link rel="stylesheet" type="text/css" href="../externals/ext/resources/css/xtheme-gray.css" />
+    <link rel="stylesheet" type="text/css" href="../externals/openlayers/theme/default/style.css" />
+    <link rel="stylesheet" type="text/css" href="../theme/css/styler.css" />
+    
+    <script type="text/javascript" src="../externals/ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../externals/ext/ext-all.js"></script>
+    <script type="text/javascript" src="../externals/ux/colorpicker/color-picker.ux.js"></script>
+    <script type="text/javascript" src="../script/OpenLayers.js"></script>
+    <script type="text/javascript" src="../externals/geoext/lib/GeoExt.js"></script>
+    <script type="text/javascript" src="../externals/gxp/src/script/loader.js"></script>
+    <script type="text/javascript" src="../script/Styler.js"></script>
+    <script>
+    
+    Ext.BLANK_IMAGE_URL = "../theme/img/blank.gif";
+
+    var rule = new OpenLayers.Rule({
+        symbolizer: {
+            "Polygon": {
+                fillColor: "yellow",
+                fillOpacity: 0.5,
+                strokeColor: "blue",
+                strokeWidth: 2
+            }
+        },
+        filter: new OpenLayers.Filter.Logical({
+            type: OpenLayers.Filter.Logical.OR,
+            filters: [
+                new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: "population",
+                    value: 1000
+                }),
+                new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LESS_THAN,
+                    property: "income",
+                    value: 1000
+                })
+            ]
+        })
+    });
+    
+    var win = null;
+    var format = new OpenLayers.Format.SLD();
+    function showSLD() {
+        var text = format.write({
+            namedLayers: {
+                "mylayer": {
+                    name: "mylayer",
+                    userStyles: [{
+                        name: "mystyle",
+                        rules: [rule]
+                    }]
+                }
+            }
+        });
+        if(!win) {
+            win = new Ext.Window({
+                title: "SLD",
+                layout: "fit",
+                closeAction: "hide",
+                height: 300,
+                width: 450,
+                plain: true,
+                modal: true,
+                items: [{
+                    xtype: "textarea",
+                    value: text
+                }]
+            });
+        } else {
+            win.items.items[0].setValue(text);
+        }
+        win.show();
+    }
+
+    var panel;
+    function showPanel() {
+        panel = new Ext.Window({
+            title: "Rule Panel",
+            width: 310,
+            layout: "fit",
+            items: [{
+                xtype: "gx_rulepanel",
+                autoHeight: false,
+                autoScroll: true,
+                rule: rule,
+                nestedFilters: false,
+                symbolType: "Polygon",
+                attributes: new GeoExt.data.AttributeStore({
+                    url: "data/describe_feature_type.xml",
+                    ignore: {name: "the_geom"}
+                })
+            }],
+            bbar: ["->", {
+                text: "View SLD",
+                handler: showSLD
+            }]
+        });
+        
+        panel.show();
+    }
+    Ext.onReady(showPanel);
+    </script>
+</head>
+<body>
+    <div id="panel"></div>
+</body>
+</html>
