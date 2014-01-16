@@ -1202,7 +1202,7 @@
       <descriptor>enterprise/bin.xml</descriptor>
       <descriptor>enterprise/ext-oracle.xml</descriptor>
       <descriptor>enterprise/ext-sqlserver.xml</descriptor>
-      <descriptor>enterprise/ext-jpg-turbo.xml</descriptor>
+      <!-- descriptor>enterprise/ext-jpg-turbo.xml</descriptor -->
       <descriptor>enterprise/ext-gdal.xml</descriptor>
       <descriptor>enterprise/ext-pyramid.xml</descriptor>
       <descriptor>enterprise/ext-charts.xml</descriptor>
