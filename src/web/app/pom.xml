@@ -1056,7 +1056,7 @@
         </dependency>
       </dependencies>
     </profile>
-    <profile>
+    <!-- profile>
       <id>libjpeg-turbo</id>
       <dependencies>
         <dependency>
@@ -1065,9 +1065,9 @@
           <version>${gs.version}</version>
         </dependency>
       </dependencies>
-		</profile>
+	</profile -->
     <profile>
-			<id>netcdf</id>
+		<id>netcdf</id>
       <dependencies>
         <dependency>
           <groupId>org.geotools</groupId>
