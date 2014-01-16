@@ -179,6 +179,101 @@
       <artifactId>xmlunit</artifactId>
       <scope>test</scope>
     </dependency>
+	  <dependency>
+	   <groupId>org.geotools</groupId>
+	   <artifactId>gt-arcsde-common</artifactId>
+	   <version>${gt.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geotools</groupId>
+	   <artifactId>gt-arcsde</artifactId>
+	   <version>${gt.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geotools</groupId>
+	   <artifactId>gt-imagepyramid</artifactId>
+	   <version>${gt.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geotools</groupId>
+	   <artifactId>gt-imageio-ext-gdal</artifactId>
+	   <version>${gt.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>sqlserver</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>oracle</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>charts</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency> 
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>jp2k</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency> 
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>gdal</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency> 
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>arcsde</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>control-flow</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>wps-core</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>web-wps</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>monitor-core</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver.extension</groupId>
+	   <artifactId>monitor-hibernate</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+	   <groupId>org.geoserver</groupId>
+	   <artifactId>xslt</artifactId>
+	   <version>${gs.version}</version>
+	  </dependency>
+	  <dependency>
+		 <groupId>org.geoserver.extension</groupId>
+		 <artifactId>inspire</artifactId>
+		 <version>${gs.version}</version>
+	  </dependency>
+	  <!-- dependency>
+		 <groupId>org.geoserver.community</groupId>
+		 <artifactId>libjpeg-turbo</artifactId>
+		 <version>${gs.version}</version>
+	  </dependency -->
+	  <dependency>
+		 <groupId>org.geoserver.community</groupId>
+		 <artifactId>printing</artifactId>
+		 <version>${gs.version}</version>
+	  </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -286,7 +381,7 @@
 				<manifestEntries>
 					<GeoServerModule>core</GeoServerModule>
 					<Application-Name>${project.build.finalname}</Application-Name>
-					<Project-Version>${gs.version}</Project-Version>
+					<Project-Version>${project.version}</Project-Version>
 					<Iteration-Name>${iteration}</Iteration-Name>
 					<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
 					<Git-Revision>${build.commit.id}</Git-Revision>
@@ -316,12 +411,12 @@
 
   <profiles>
     <profile>
-      <id>release</id>
+      <id>enterprise</id>
       <properties>
         <configDirectory>${basedir}/../../../data</configDirectory>
-        <configId>release</configId>
+        <configId>enterprise</configId>
       </properties>
-    </profile>
+	</profile>
 
     <profile>
       <id>arcsde</id>
