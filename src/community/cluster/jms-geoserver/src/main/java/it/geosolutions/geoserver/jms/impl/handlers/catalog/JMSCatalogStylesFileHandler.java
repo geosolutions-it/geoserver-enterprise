@@ -23,7 +23,6 @@ import java.io.File;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.geoserver.catalog.Catalog;
-import org.geotools.util.logging.Logging;
 import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 import com.thoughtworks.xstream.XStream;
@@ -35,14 +34,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6421638425464046597L;
-
-	final static java.util.logging.Logger LOGGER = Logging
-			.getLogger(JMSCatalogStylesFileHandler.class);
-
 	private final Catalog catalog;
 
 	public JMSCatalogStylesFileHandler(Catalog catalog, XStream xstream,

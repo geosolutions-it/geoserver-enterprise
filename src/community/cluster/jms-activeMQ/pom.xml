@@ -17,17 +17,17 @@
 	<name>GeoServer JMS ActiveMQ module</name>
 
 	<dependencies>
-		<!--dependency>
+		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-commons</artifactId>
 			<version>${project.version}</version>
-		</dependency-->
+		</dependency>
 
-		<!-- dependency>
+		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>jms-geoserver</artifactId>
 			<version>${project.version}</version>
-		</dependency-->
+		</dependency>
 		
 		<dependency>
 			<groupId>org.apache.activemq</groupId>

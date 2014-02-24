@@ -35,7 +35,6 @@ import org.geoserver.catalog.StyleInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.catalog.event.CatalogEvent;
 import org.geoserver.catalog.event.CatalogRemoveEvent;
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -45,14 +44,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSCatalogRemoveEventHandler extends JMSCatalogEventHandler {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6421638425464046598L;
-
-	final static java.util.logging.Logger LOGGER = Logging
-			.getLogger(JMSCatalogRemoveEventHandler.class);
-
 	private final Catalog catalog;
 	private final ToggleSwitch producer;
 

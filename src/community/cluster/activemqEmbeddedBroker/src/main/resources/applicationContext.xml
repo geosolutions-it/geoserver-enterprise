@@ -22,10 +22,6 @@
 	
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 	<context:annotation-config />
-	
-	<!-- COMMENT OUT TO USE EXTERNAL BROKER -->
-
-
 	<!-- Allows us to use system properties as variables in this configuration 
 		file -->
 	<bean

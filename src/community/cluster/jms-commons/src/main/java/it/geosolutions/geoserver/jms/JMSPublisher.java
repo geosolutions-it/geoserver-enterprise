@@ -53,9 +53,11 @@ public class JMSPublisher {
      * 
      * @throws JMSException
      */
-    public <S extends Serializable, O> void publish(final Topic destination,
-            final JmsTemplate jmsTemplate, final Properties props, final O object)
-            throws JMSException {
+    public <S extends Serializable, O> void publish(
+            final Topic destination,
+            final JmsTemplate jmsTemplate, 
+            final Properties props, 
+            final O object) throws JMSException {
         try {
 
             final JMSEventHandler<S, O> handler = jmsManager.getHandler(object);

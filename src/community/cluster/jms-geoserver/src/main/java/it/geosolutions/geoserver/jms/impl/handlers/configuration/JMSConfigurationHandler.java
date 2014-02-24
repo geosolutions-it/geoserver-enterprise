@@ -4,10 +4,8 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.configuration;
 
+import it.geosolutions.geoserver.jms.JMSEventHandler;
 import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
-import it.geosolutions.geoserver.jms.impl.handlers.JMSEventHandlerImpl;
-
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -20,15 +18,7 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 public abstract class JMSConfigurationHandler<TYPE> extends
-		JMSEventHandlerImpl<String, TYPE> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8208466391619901813L;
-
-	final static java.util.logging.Logger LOGGER = Logging
-			.getLogger(JMSConfigurationHandler.class);
-
+		JMSEventHandler<String, TYPE> {
 	public JMSConfigurationHandler(final XStream xstream,
 			Class<JMSEventHandlerSPI<String, TYPE>> clazz) {
 		super(xstream,clazz);

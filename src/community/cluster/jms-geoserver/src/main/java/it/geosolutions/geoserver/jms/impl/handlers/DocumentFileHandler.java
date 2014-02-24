@@ -4,12 +4,12 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers;
 
+import it.geosolutions.geoserver.jms.JMSEventHandler;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.FileHandler;
 
 import org.apache.commons.io.IOUtils;
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -21,14 +21,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class DocumentFileHandler extends
-		JMSEventHandlerImpl<String, DocumentFile> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6421638425464046597L;
-
-	final static java.util.logging.Logger LOGGER = Logging.getLogger(FileHandler.class);
-
+		JMSEventHandler<String, DocumentFile> {
 	public DocumentFileHandler(XStream xstream, Class clazz) {
 		super(xstream, clazz);
 	}
