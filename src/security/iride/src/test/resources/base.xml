@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <ns1:findRuoliForPersonaInApplicationResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://interfaces.policy.iride2.csi.it">
+   <findRuoliForPersonaInApplicationReturn xsi:type="soapenc:Array" soapenc:arrayType="ns2:Ruolo[1]" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns2="urn:PolicyEnforcerBase">
+    <item href="#id0"/>
+   </findRuoliForPersonaInApplicationReturn>
+  </ns1:findRuoliForPersonaInApplicationResponse>
+  <multiRef id="id0" soapenc:root="0" soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns3:Ruolo" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns3="urn:PolicyEnforcerBase">
+   <codiceRuolo xsi:type="xsd:string">BASEUSER_SIIG</codiceRuolo>
+   <mnemonico xsi:type="xsd:string">BASEUSER_SIIG@ENTI_RUPAR</mnemonico>
+   <codiceDominio xsi:type="xsd:string">ENTI_RUPAR</codiceDominio>
+  </multiRef>
+ </soapenv:Body>
+</soapenv:Envelope>
