@@ -51,6 +51,7 @@ import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.filter.Filters;
 import org.geotools.filter.IllegalFilterException;
+import org.geotools.filter.function.EnvFunction;
 import org.geotools.filter.function.RenderingTransformation;
 import org.geotools.filter.visitor.SimplifyingFilterVisitor;
 import org.geotools.geometry.DirectPosition2D;
@@ -237,7 +238,7 @@ public class GetFeatureInfo {
             FeatureCollection collection = null;
             if (layer.getType() == MapLayerInfo.TYPE_VECTOR) {
                 final Map<String, String> viewParam = viewParams != null ? viewParams.get(i) : null;
-				collection = identifyVectorLayer(filters, x, y, buffer, viewParam,
+                collection = identifyVectorLayer(filters, x, y, buffer, viewParam,
                         requestedCRS, width, height, bbox, ff, results, i, layer, rules, maxFeatures,
                         times, elevations, names, transformation);
             } else if (layer.getType() == MapLayerInfo.TYPE_RASTER) {
@@ -420,10 +421,24 @@ public class GetFeatureInfo {
             return null;
         }
 
+        Name coverageName = cinfo.getQualifiedName();
+        return identifyCoverage(position, coverage, coverageName);
+    }
+
+    /**
+     * @param position
+     * @param coverage
+     * @param coverageName
+     * @return
+     * @throws SchemaException
+     */
+    private FeatureCollection identifyCoverage(DirectPosition position,
+            final GridCoverage2D coverage, Name coverageName)
+            throws SchemaException {
         FeatureCollection pixel = null;
         try {
             final double[] pixelValues = coverage.evaluate(position, (double[]) null);
-            pixel = wrapPixelInFeatureCollection(coverage, pixelValues, cinfo.getQualifiedName());
+            pixel = wrapPixelInFeatureCollection(coverage, pixelValues, coverageName);
         } catch (PointOutsideCoverageException e) {
             // it's fine, users might legitimately query point outside, we just don't
             // return anything
@@ -439,7 +454,7 @@ public class GetFeatureInfo {
             List<FeatureCollection> results, int i, final MapLayerInfo layer, final List<Rule> rules,
             final int maxFeatures, List<Object> times, List<Object> elevations, final String[] propertyNames,
             Expression transformation)
-            throws IOException {
+            throws IOException, SchemaException {
 
         CoordinateReferenceSystem dataCRS = layer.getCoordinateReferenceSystem();
 
@@ -540,22 +555,40 @@ public class GetFeatureInfo {
         FeatureCollection<? extends FeatureType, ? extends Feature> match;
         match = featureSource.getFeatures(q);
 
+        GridCoverage2D coverage = null;
         // if we have a rendering transformation we apply it to the output FeatureCollection
         if(transformation != null) {
-            match = (FeatureCollection<? extends FeatureType, ? extends Feature>) transformation
+            
+            EnvFunction.setLocalValue("wms_bbox", bbox);
+            /*EnvFunction.setLocalValue("wms_crs", mapContent.getRenderingArea().getCoordinateReferenceSystem());
+            EnvFunction.setLocalValue("wms_srs", mapContent.getRequest().getSRS());*/
+            EnvFunction.setLocalValue("wms_width", width);
+            EnvFunction.setLocalValue("wms_height", height);
+            Object transformed = transformation
                     .evaluate(match);
+            if(transformed instanceof GridCoverage2D) {
+                coverage = (GridCoverage2D)transformed;
+            } else {
+                match = (FeatureCollection<? extends FeatureType, ? extends Feature>) transformed;
+            }
         }
-        
-        // if we could not include the rules filter into the query, post process in
-        // memory
-        if (!Filter.INCLUDE.equals(postFilter)) {
-        	match = new FilteringFeatureCollection(match, postFilter);
+        if(coverage == null) {
+            // if we could not include the rules filter into the query, post process in
+            // memory
+            if (!Filter.INCLUDE.equals(postFilter)) {
+            	match = new FilteringFeatureCollection(match, postFilter);
+            }
+    
+            // this was crashing Gml2FeatureResponseDelegate due to not setting
+            // the featureresults, thus not being able of querying the SRS
+            // if (match.getCount() > 0) {
+            return match;
+        } else {
+         // set the requested position in model space for this request
+            final Coordinate middle = WMS.pixelToWorld(x, y, bbox, width, height);
+            DirectPosition position = new DirectPosition2D(requestedCRS, middle.x, middle.y);
+            return identifyCoverage(position, coverage, new NameImpl(typeName));
         }
-
-        // this was crashing Gml2FeatureResponseDelegate due to not setting
-        // the featureresults, thus not being able of querying the SRS
-        // if (match.getCount() > 0) {
-        return match;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
