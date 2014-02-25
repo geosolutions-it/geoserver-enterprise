@@ -50,7 +50,7 @@
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
 			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
 		<managementContext>
-			<managementContext createConnector="${activemq.usejmx}"
+			<managementContext createConnector="${activemq.usejmx}" connectorPath="${activemq.base}/management"
 				connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
 		</managementContext>
 
@@ -82,7 +82,6 @@
 				</tempUsage>
 			</systemUsage>
 		</systemUsage>
-
 
 		<!-- The transport connectors expose ActiveMQ over a given protocol to 
 			clients and other brokers. For more information, see: http://activemq.apache.org/configuring-transports.html -->

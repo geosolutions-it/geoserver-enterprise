@@ -42,7 +42,7 @@
 			</virtualDestinationInterceptor>
 		</destinationInterceptors>
 
-	</amq:broker>
+	</broker>
 
 	<broker id="broker" brokerName="router" persistent="true"
 		useJmx="true" xmlns="http://activemq.apache.org/schema/core"

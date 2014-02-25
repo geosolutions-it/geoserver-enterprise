@@ -15,25 +15,41 @@ import java.io.IOException;
  */
 final public class ConnectionConfiguration implements JMSConfigurationExt {
 
-    public static final String CONNECTION_KEY = "connection";
+	public static final String CONNECTION_KEY = "connection";
 
-    public static final ConnectionConfigurationStatus DEFAULT_CONNECTION_STATUS = ConnectionConfigurationStatus.disabled;
+	// times to test (connection)
+	public static final String CONNECTION_RETRY_KEY = "connection.retry";
+	public static final Integer DEFAULT_CONNECTION_RETRY = 3;
 
-    public static enum ConnectionConfigurationStatus {
-        enabled, disabled
-    }
+	// millisecs to wait between tests (connection)
+	public static final String CONNECTION_MAXWAIT_KEY = "connection.maxwait";
+	public static final Long  DEFAULT_CONNECTION_MAXWAIT = 1000L;
 
-    @Override
-    public void initDefaults(JMSConfiguration config) throws IOException {
-        String status = null;
+	public static final ConnectionConfigurationStatus DEFAULT_CONNECTION_STATUS = ConnectionConfigurationStatus.disabled;
 
-        config.putConfiguration(CONNECTION_KEY,
-                status != null ? status : DEFAULT_CONNECTION_STATUS.toString());
-    }
+	public static enum ConnectionConfigurationStatus {
+		enabled, disabled
+	}
 
-    @Override
-    public boolean override(JMSConfiguration config) throws IOException {
-        return config.override(CONNECTION_KEY, DEFAULT_CONNECTION_STATUS);
-    }
+	@Override
+	public void initDefaults(JMSConfiguration config) throws IOException {
+		config.putConfiguration(CONNECTION_KEY,
+				DEFAULT_CONNECTION_STATUS.toString());
+		config.putConfiguration(CONNECTION_RETRY_KEY,
+				DEFAULT_CONNECTION_RETRY.toString());
+		config.putConfiguration(CONNECTION_MAXWAIT_KEY,
+				DEFAULT_CONNECTION_MAXWAIT.toString());
+	}
+
+	@Override
+	public boolean override(JMSConfiguration config) throws IOException {
+		boolean override = config.override(CONNECTION_KEY,
+				DEFAULT_CONNECTION_STATUS);
+		override |= config.override(CONNECTION_RETRY_KEY,
+				DEFAULT_CONNECTION_RETRY);
+		override |= config.override(CONNECTION_MAXWAIT_KEY,
+				DEFAULT_CONNECTION_MAXWAIT);
+		return override;
+	}
 
 }

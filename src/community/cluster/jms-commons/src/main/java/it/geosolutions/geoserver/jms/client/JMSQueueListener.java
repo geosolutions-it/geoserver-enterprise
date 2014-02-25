@@ -112,8 +112,8 @@ public class JMSQueueListener extends JMSApplicationListener implements
                             + "\', be shure to load that SPI into your context.");
                 }
 
-                Enumeration<String> keys = message.getPropertyNames();
-                Properties options = new Properties();
+                final Enumeration<String> keys = message.getPropertyNames();
+                final Properties options = new Properties();
                 while (keys.hasMoreElements()) {
                     String key = keys.nextElement();
                     options.put(key, message.getObjectProperty(key));
