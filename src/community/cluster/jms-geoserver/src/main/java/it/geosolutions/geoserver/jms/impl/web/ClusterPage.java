@@ -156,10 +156,10 @@ public class ClusterPage extends GeoServerSecuredPage {
                 ReadOnlyGeoServerLoader loader = getReadOnlyGeoServerLoader();
                 if (loader.isEnabled()) {
                     readOnlyInfo.getModel().setObject("disabled");
-                    loader.setEnabled(false);
+                    loader.enable(false);
                 } else {
                     readOnlyInfo.getModel().setObject("enabled");
-                    loader.setEnabled(true);
+                    loader.enable(true);
                 }
                 target.addComponent(this.getParent());
             }

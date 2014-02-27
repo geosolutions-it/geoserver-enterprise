@@ -6,7 +6,6 @@ package org.geoserver.config;
 
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
-import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration.ReadOnlyConfigurationStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,12 +42,7 @@ public class ReadOnlyGeoServerLoader extends DefaultGeoServerLoader {
 
 	@PostConstruct
 	private void init() {
-		Object statusObj = config
-				.getConfiguration(ReadOnlyConfiguration.READ_ONLY_KEY);
-		if (statusObj == null) {
-			statusObj = ReadOnlyConfiguration.DEFAULT_READ_ONLY_VALUE;
-		}
-		setEnabled(ReadOnlyConfigurationStatus.valueOf(statusObj.toString()).equals(ReadOnlyConfigurationStatus.enabled));
+		enabled = ReadOnlyConfiguration.isReadOnly(config);
 	}
 
 	protected synchronized void loadCatalog(Catalog catalog, XStreamPersister xp)
@@ -80,7 +74,7 @@ public class ReadOnlyGeoServerLoader extends DefaultGeoServerLoader {
 		return enabled;
 	}
 
-	public synchronized void setEnabled(boolean enabled) {
+	public synchronized void enable(boolean enabled) {
 		this.enabled = enabled;
 		if (enabled) {
 			// remove Default persister

@@ -16,6 +16,8 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
+import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
+import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFile;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFileHandler;
 
@@ -36,10 +38,16 @@ import com.thoughtworks.xstream.XStream;
 public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 	private final Catalog catalog;
 
+	private JMSConfiguration config;
+
 	public JMSCatalogStylesFileHandler(Catalog catalog, XStream xstream,
 			Class clazz) {
 		super(xstream, clazz);
 		this.catalog = catalog;
+	}
+
+	public void setConfig(JMSConfiguration config) {
+		this.config = config;
 	}
 
 	@Override
@@ -47,21 +55,26 @@ public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 		if (event == null) {
 			throw new NullArgumentException("Incoming object is null");
 		}
-		try {
-
-			final String fileName = File.separator + "styles" + File.separator
-					+ event.getPath().getName();
-			final File file = new File(GeoserverDataDirectory
-					.getGeoserverDataDirectory().getCanonicalPath(), fileName);
-			event.writeTo(file);
-			return true;
-		} catch (Exception e) {
-			if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
-				LOGGER.severe(this.getClass()
-						+ " is unable to synchronize the incoming event: "
-						+ event);
-			throw e;
+		if (config == null) {
+			throw new IllegalStateException("Unable to load configuration");
+		} else if (!ReadOnlyConfiguration.isReadOnly(config)) {
+			try {
+				final String fileName = File.separator + "styles"
+						+ File.separator + event.getPath().getName();
+				final File file = new File(GeoserverDataDirectory
+						.getGeoserverDataDirectory().getCanonicalPath(),
+						fileName);
+				event.writeTo(file);
+				return true;
+			} catch (Exception e) {
+				if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+					LOGGER.severe(this.getClass()
+							+ " is unable to synchronize the incoming event: "
+							+ event);
+				throw e;
+			}
 		}
+		return true;
 	}
 
 }
