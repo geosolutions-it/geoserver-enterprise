@@ -33,6 +33,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDParticle;
@@ -1380,20 +1381,35 @@ public class ResourcePool {
     public void writeStyle( StyleInfo style, InputStream in ) throws IOException {
         synchronized ( styleCache ) {
             File styleFile = dataDir().findOrCreateStyleSldFile(style);
-            BufferedOutputStream out = new BufferedOutputStream( new FileOutputStream( styleFile ) );
-            
-            try {
-                IOUtils.copy( in, out );
-                out.flush();
-                
-                clear(style);
-            }
-            finally {
-                out.close();
-            }
+            writeStyle(in, styleFile);
+            clear(style);
         }
     }
     
+	/**
+	 * Safe write on styleFile the passed inputStream
+	 * 
+	 * @param in
+	 *            the new stream to write to styleFile
+	 * @param styleFile
+	 *            file to update
+	 * @throws IOException
+	 */
+	public static void writeStyle(final InputStream in, final File styleFile)
+			throws IOException {
+		File temporaryFile = File.createTempFile(styleFile.getName(), null);
+		BufferedOutputStream out = new BufferedOutputStream(
+				new FileOutputStream(temporaryFile));
+		try {
+			IOUtils.copy(in, out);
+			out.flush();
+		} finally {
+			out.close();
+		}
+		// move the file
+		org.geoserver.data.util.IOUtils.rename(temporaryFile, styleFile);
+	}
+
     /**
      * Deletes a style from the configuration.
      * 
