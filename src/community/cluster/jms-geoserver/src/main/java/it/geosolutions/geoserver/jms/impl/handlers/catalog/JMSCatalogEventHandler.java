@@ -4,16 +4,16 @@
  */
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
+import java.util.logging.Level;
+
+import it.geosolutions.geoserver.jms.JMSEventHandler;
 import it.geosolutions.geoserver.jms.JMSEventHandlerSPI;
-import it.geosolutions.geoserver.jms.impl.handlers.JMSEventHandlerImpl;
 
 import javax.jms.JMSException;
 
 import org.geoserver.catalog.CatalogInfo;
 import org.geoserver.catalog.event.CatalogEvent;
 import org.geoserver.catalog.impl.CatalogImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -25,15 +25,7 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 public abstract class JMSCatalogEventHandler extends
-		JMSEventHandlerImpl<String, CatalogEvent> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8208466391619901813L;
-
-	final static Logger LOGGER = LoggerFactory
-			.getLogger(JMSCatalogEventHandler.class);
-
+		JMSEventHandler<String, CatalogEvent> {
 	public JMSCatalogEventHandler(final XStream xstream,
 			Class<JMSEventHandlerSPI<String, CatalogEvent>> clazz) {
 		super(xstream,clazz);
@@ -64,9 +56,9 @@ public abstract class JMSCatalogEventHandler extends
 		final Object source= xstream.fromXML(s);
 		if (source instanceof CatalogEvent) {
 			final CatalogEvent ev = (CatalogEvent) source;
-			if (LOGGER.isDebugEnabled()) {
+			if (LOGGER.isLoggable(Level.FINE)) {
 				final CatalogInfo info = ev.getSource();
-				LOGGER.debug("Incoming message event of type CatalogEvent: "
+				LOGGER.fine("Incoming message event of type CatalogEvent: "
 						+ info.getId());
 			}
 			return ev;

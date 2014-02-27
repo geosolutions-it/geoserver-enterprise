@@ -22,7 +22,6 @@ import org.geoserver.config.GeoServer;
 import org.geoserver.config.GeoServerInfo;
 import org.geoserver.config.JAIInfo;
 import org.geoserver.config.SettingsInfo;
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -32,10 +31,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSGeoServerHandler extends JMSConfigurationHandler<JMSGlobalModifyEvent> {
-    private static final long serialVersionUID = -6421638425464046597L;
-
-    final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSGeoServerHandler.class);
-
     private final GeoServer geoServer;
 
     private final ToggleSwitch producer;

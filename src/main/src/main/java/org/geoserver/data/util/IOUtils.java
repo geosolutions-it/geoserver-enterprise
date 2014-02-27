@@ -397,10 +397,7 @@ public class IOUtils {
      */
     public static void xStreamPersist(File f, Object obj, XStreamPersister xp) throws IOException {
         //first save to a temp file
-        File temp = new File(f.getParentFile(),f.getName()+".tmp");
-        if ( temp.exists() ) {
-            temp.delete();
-        }
+        File temp = File.createTempFile(f.getName(),null);
         
         BufferedOutputStream out = null;
         try{

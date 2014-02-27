@@ -5,10 +5,12 @@
 package it.geosolutions.geoserver.jms.impl.handlers.catalog;
 
 import it.geosolutions.geoserver.jms.JMSEventHandler;
+import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFile;
 import it.geosolutions.geoserver.jms.impl.handlers.DocumentFileHandlerSPI;
 
 import org.geoserver.catalog.Catalog;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -21,6 +23,9 @@ public class JMSCatalogStylesFileHandlerSPI extends DocumentFileHandlerSPI {
 	
 	final Catalog catalog;
 	final XStream xstream;
+	
+	@Autowired
+	public JMSConfiguration config;
 	
 	public JMSCatalogStylesFileHandlerSPI(final int priority, Catalog cat, XStream xstream) {
 		super(priority,xstream);
@@ -38,7 +43,9 @@ public class JMSCatalogStylesFileHandlerSPI extends DocumentFileHandlerSPI {
 
 	@Override
 	public JMSEventHandler<String,DocumentFile> createHandler() {
-		return new JMSCatalogStylesFileHandler(catalog,xstream,JMSCatalogStylesFileHandlerSPI.class);
+		JMSCatalogStylesFileHandler styleHandler = new JMSCatalogStylesFileHandler(catalog,xstream,JMSCatalogStylesFileHandlerSPI.class);
+		styleHandler.setConfig(config);
+		return styleHandler;
 	}
 
 

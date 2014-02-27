@@ -4,14 +4,15 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
 	threshold="null" debug="false">
 
-	<appender name="rolling" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="jmx.log" />
-		<!-- <param name="File" value="${catalina.base}/logs/geobatch.log" /> -->
-		<param name="DatePattern" value="yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{ISO8601} %5p %24C{1}:%L - %m%n" />
-		</layout>
-	</appender>
+  <appender name="rolling" class="org.apache.log4j.RollingFileAppender"> 
+    <param name="file" value="activemq.log"/>
+    <param name="MaxFileSize" value="1MB"/>
+    <!-- Keep 3 backup files -->
+    <param name="MaxBackupIndex" value="3"/>
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d{ISO8601} %5p %24C{1}:%L - %m%n" /> 
+    </layout> 
+  </appender> 	
 
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
@@ -34,8 +35,8 @@
 	</logger>
 
 	<root>
-		<level value="debug" />
-<!-- 		<appender-ref ref="rolling" /> -->
+		<level value="info" />
+ 		<appender-ref ref="rolling" />
 		<appender-ref ref="console" />
 	</root>
 

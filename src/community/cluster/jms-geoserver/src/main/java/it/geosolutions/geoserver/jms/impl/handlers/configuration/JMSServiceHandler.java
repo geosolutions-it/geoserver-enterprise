@@ -14,7 +14,6 @@ import java.util.List;
 import org.apache.commons.lang.NullArgumentException;
 import org.geoserver.config.GeoServer;
 import org.geoserver.config.ServiceInfo;
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -25,10 +24,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSServiceHandler extends JMSConfigurationHandler<JMSServiceModifyEvent> {
-    private static final long serialVersionUID = -6421638425464046597L;
-
-    final static java.util.logging.Logger LOGGER = Logging.getLogger(JMSServiceHandler.class);
-
     private final GeoServer geoServer;
 
     private final ToggleSwitch producer;

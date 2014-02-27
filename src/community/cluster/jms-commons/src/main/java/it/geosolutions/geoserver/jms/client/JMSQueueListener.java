@@ -100,43 +100,38 @@ public class JMSQueueListener extends JMSApplicationListener implements
         if (message instanceof ObjectMessage) {
 
             final ObjectMessage objMessage = (ObjectMessage) (message);
-            final Object obj = objMessage.getObject();
+            final Serializable obj = objMessage.getObject();
 
-            if (obj instanceof Serializable) {
-                final Serializable serialized = (Serializable) (obj);
-                try {
-                    // lookup the SPI handler, search is performed using the
-                    // name
-                    final JMSEventHandler<Serializable, Object> handler = jmsManager
-                            .getHandlerByClassName(generatorClass);
-                    if (handler == null) {
-                        throw new JMSException("Unable to find SPI named \'" + generatorClass
-                                + "\', be shure to load that SPI into your context.");
-                    }
-
-                    Enumeration<String> keys = message.getPropertyNames();
-                    Properties options = new Properties();
-                    while (keys.hasMoreElements()) {
-                        String key = keys.nextElement();
-                        options.put(key, message.getObjectProperty(key));
-                    }
-                    handler.setProperties(options);
-
-                    // try to synchronize object locally
-                    if (!handler.synchronize(handler.deserialize(serialized))) {
-                        throw new JMSException("Unable to synchronize message locally.\n SPI: "
-                                + generatorClass);
-                    }
-
-                } catch (Exception e) {
-                    final JMSException jmsE = new JMSException(e.getLocalizedMessage());
-                    jmsE.initCause(e);
-                    throw jmsE;
+            try {
+                // lookup the SPI handler, search is performed using the
+                // name
+                final JMSEventHandler<Serializable, Object> handler = jmsManager
+                        .getHandlerByClassName(generatorClass);
+                if (handler == null) {
+                    throw new JMSException("Unable to find SPI named \'" + generatorClass
+                            + "\', be shure to load that SPI into your context.");
                 }
 
-            } else {
-                throw new JMSException("Bad object into ObjectMessage");
+                final Enumeration<String> keys = message.getPropertyNames();
+                final Properties options = new Properties();
+                while (keys.hasMoreElements()) {
+                    String key = keys.nextElement();
+                    options.put(key, message.getObjectProperty(key));
+                }
+                handler.setProperties(options);
+
+                // try to synchronize object locally
+                if (!handler.synchronize(handler.deserialize(obj))) {
+                    throw new JMSException("Unable to synchronize message locally.\n SPI: "
+                            + generatorClass);
+                }
+
+            } catch (Exception e) {
+                final JMSException jmsE = new JMSException(e.getLocalizedMessage());
+                jmsE.initCause(e);
+                throw jmsE;
             }
+
         } else
             throw new JMSException("Unrecognized message type for catalog incoming event");
     }

@@ -52,7 +52,7 @@ public class Controller {
 	}
 
 	public void setReadOnly(final boolean set) {
-		loader.setEnabled(set);
+		loader.enable(set);
 		config.putConfiguration(ReadOnlyConfiguration.READ_ONLY_KEY, Boolean
 				.valueOf(set).toString());
 	}

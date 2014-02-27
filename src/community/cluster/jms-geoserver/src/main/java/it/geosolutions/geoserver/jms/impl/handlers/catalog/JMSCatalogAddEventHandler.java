@@ -22,7 +22,6 @@ import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.catalog.event.CatalogAddEvent;
 import org.geoserver.catalog.event.CatalogEvent;
 import org.geoserver.catalog.impl.ModificationProxy;
-import org.geotools.util.logging.Logging;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -34,11 +33,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class JMSCatalogAddEventHandler extends JMSCatalogEventHandler {
-	private static final long serialVersionUID = -6421638425464046597L;
-
-	final static java.util.logging.Logger LOGGER = Logging
-			.getLogger(JMSCatalogAddEventHandler.class);
-
 	private final Catalog catalog;
 	private final ToggleSwitch producer;
 

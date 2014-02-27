@@ -7,6 +7,10 @@ package it.geosolutions.geoserver.jms;
 import java.io.Serializable;
 import java.util.Properties;
 
+import org.geotools.util.logging.Logging;
+
+import com.thoughtworks.xstream.XStream;
+
 /**
  * 
  * <p>
@@ -28,15 +32,26 @@ import java.util.Properties;
  *            the type of the object this handler is able to handle
  */
 public abstract class JMSEventHandler<S extends Serializable, O> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3475796618825492441L;
+	private static final long serialVersionUID = 8208466391619901813L;
 
-	private final Class<JMSEventHandlerSPI<S, O>> generatorClass;
+    protected static final java.util.logging.Logger LOGGER = Logging
+    			.getLogger(JMSEventHandler.class);
+
+    private final Class<JMSEventHandlerSPI<S, O>> generatorClass;
 	
 	private Properties properties;
-	
+
+    protected final XStream xstream;
+    /**
+     * @param xstream an already initialized xstream
+     * @param clazz the SPI class which generate this kind of handler
+     */
+    public JMSEventHandler(final XStream xstream,
+                    Class<JMSEventHandlerSPI<S, O>> clazz) {
+        this.generatorClass = clazz;
+            this.xstream = xstream;
+    }
+    
 	public Properties getProperties(){
 		return properties;
 	}
@@ -45,9 +60,6 @@ public abstract class JMSEventHandler<S extends Serializable, O> {
 		this.properties=properties;
 	}
 
-	public JMSEventHandler(Class<JMSEventHandlerSPI<S, O>> generatorClazz) {
-		this.generatorClass = generatorClazz;
-	}
 
 	/**
 	 * @return the generatorClass

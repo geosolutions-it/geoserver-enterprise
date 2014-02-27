@@ -44,10 +44,10 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
     private boolean verified = false;
 
     // times to test (connection)
-    private final static int max = 3;
+    private static int max;
 
     // millisecs to wait between tests (connection)
-    private final static long maxWait = 200;
+    private static long maxWait;
 
     public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
         super();
@@ -67,6 +67,11 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
     private void init() {
         // change the default autostartup status
         setAutoStartup(false);
+        
+        // times to test (connection)
+        max = Integer.parseInt(config.getConfiguration(ConnectionConfiguration.CONNECTION_RETRY_KEY).toString());
+        // millisecs to wait between tests (connection)
+        maxWait = Long.parseLong(config.getConfiguration(ConnectionConfiguration.CONNECTION_MAXWAIT_KEY).toString());
 
         // check configuration for connection and try to start if needed
         final String startString = config.getConfiguration(ConnectionConfiguration.CONNECTION_KEY);
