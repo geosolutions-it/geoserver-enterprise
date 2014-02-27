@@ -29,9 +29,8 @@
 		</property>
 	</bean>
 
-	<broker id="broker" brokerName="router" persistent="true"
-		useJmx="true" xmlns="http://activemq.apache.org/schema/core"
-		startAsync="true" dataDirectory="${activemq.base}">
+	<amq:broker useJmx="false" persistent="true"
+		xmlns="http://activemq.apache.org/schema/core" startAsync="true" dataDirectory="${activemq.base}">
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
@@ -42,29 +41,33 @@
 			</virtualDestinationInterceptor>
 		</destinationInterceptors>
 
-	</broker>
+	</amq:broker>
 
 	<broker id="broker" brokerName="router" persistent="true"
 		useJmx="true" xmlns="http://activemq.apache.org/schema/core"
-		startAsync="true" dataDirectory="${activemq.base}">
-
+		startAsync="true" >
+<!-- start="false"  -->
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
 			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
 		<managementContext>
-			<managementContext createConnector="true"
-				connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
+			<managementContext createConnector="true" connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
 		</managementContext>
+
+		<!-- <networkConnectors xmlns="http://activemq.apache.org/schema/core"> 
+			<networkConnector uri="multicast://default" name="queues_only" conduitSubscriptions="false" 
+			decreaseNetworkConsumerPriority="false"> <excludedDestinations> <topic physicalName=">"/> 
+			</excludedDestinations> </networkConnector> </networkConnectors> -->
+
 
 		<!-- Configure message persistence for the broker. The default persistence 
 			mechanism is the KahaDB store (identified by the kahaDB tag). For more information, 
 			see: http://activemq.apache.org/persistence.html -->
 		<persistenceAdapter>
-			<kahaDB directory="${activemq.base}/kahadb"
-				lockKeepAlivePeriod="0" />
-
-			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" -->
-			<!-- dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
+			<kahaDB directory="${activemq.base}/kahadb" lockKeepAlivePeriod="0"/>
+			
+<!-- 				<jdbcPersistenceAdapter dataDirectory="activemq-data" -->
+<!-- 					dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
 
 		</persistenceAdapter>
 
@@ -97,16 +100,16 @@
 	<!-- This xbean configuration file supports all the standard spring xml 
 		configuration options -->
 
-	<!-- <bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource"> -->
-	<!-- <property name="serverName" value="localhost" /> -->
-	<!-- <property name="databaseName" value="activemq" /> -->
-	<!-- <property name="portNumber" value="5432" /> -->
-	<!-- <property name="user" value="postgres" /> -->
-	<!-- <property name="password" value="postgres" /> -->
-	<!-- <property name="dataSourceName" value="postgres" /> -->
-	<!-- <property name="initialConnections" value="1" /> -->
-	<!-- <property name="maxConnections" value="30" /> -->
-	<!-- </bean> -->
+<!-- 	<bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource"> -->
+<!-- 		<property name="serverName" value="localhost" /> -->
+<!-- 		<property name="databaseName" value="activemq" /> -->
+<!-- 		<property name="portNumber" value="5432" /> -->
+<!-- 		<property name="user" value="postgres" /> -->
+<!-- 		<property name="password" value="postgres" /> -->
+<!-- 		<property name="dataSourceName" value="postgres" /> -->
+<!-- 		<property name="initialConnections" value="1" /> -->
+<!-- 		<property name="maxConnections" value="30" /> -->
+<!-- 	</bean> -->
 
 	<!-- MySql DataSource Sample Setup -->
 	<!-- <bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" 
