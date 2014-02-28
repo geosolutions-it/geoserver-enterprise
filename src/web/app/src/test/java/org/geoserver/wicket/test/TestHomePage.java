@@ -18,8 +18,7 @@ public class TestHomePage extends WebPage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @param parameters
-     *            Page parameters
+     * @param parameters Page parameters
      */
     public TestHomePage() {
         Component component = componentFactory.createComponent("component");
@@ -29,8 +28,7 @@ public class TestHomePage extends WebPage {
             if (!"component".equals(component.getId()))
                 throw new IllegalArgumentException(
                         "Component factory was asked to produce a componet with "
-                                + "id 'component' but returned one with id '"
-                                + component.getId());
+                                + "id 'component' but returned one with id '" + component.getId());
             add(component);
         }
 

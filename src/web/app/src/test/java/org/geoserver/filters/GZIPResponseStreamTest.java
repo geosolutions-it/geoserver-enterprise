@@ -21,12 +21,12 @@ import org.junit.Test;
 
 import com.mockrunner.mock.web.MockHttpServletResponse;
 
-public class GZIPResponseStreamTest  {
-    
+public class GZIPResponseStreamTest {
+
     @Test
     public void testStream() throws Exception {
-        ByteStreamCapturingHttpServletResponse response = 
-            new ByteStreamCapturingHttpServletResponse(new MockHttpServletResponse());
+        ByteStreamCapturingHttpServletResponse response = new ByteStreamCapturingHttpServletResponse(
+                new MockHttpServletResponse());
         GZIPResponseStream stream = new GZIPResponseStream(response);
         stream.write("Hello world!".getBytes());
         stream.flush();
@@ -35,12 +35,11 @@ public class GZIPResponseStreamTest  {
     }
 
     private byte[] unzip(byte[] zipped) throws Exception {
-        InputStream stream  =
-            new GZIPInputStream(new ByteArrayInputStream(zipped));
+        InputStream stream = new GZIPInputStream(new ByteArrayInputStream(zipped));
         int character;
         ArrayList<Byte> builder = new ArrayList<Byte>();
-        while ((character = stream.read()) != -1){
-            builder.add((byte)character);
+        while ((character = stream.read()) != -1) {
+            builder.add((byte) character);
         }
 
         byte[] results = new byte[builder.size()];
@@ -52,34 +51,30 @@ public class GZIPResponseStreamTest  {
     private static class CapturingByteOutputStream extends ServletOutputStream {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        public void write(int b){
+        public void write(int b) {
             bos.write(b);
         }
 
-        public byte[] toByteArray(){
+        public byte[] toByteArray() {
             return bos.toByteArray();
         }
     }
 
-    private static class ByteStreamCapturingHttpServletResponse 
-        extends HttpServletResponseWrapper {
-            CapturingByteOutputStream myOutputStream;
+    private static class ByteStreamCapturingHttpServletResponse extends HttpServletResponseWrapper {
+        CapturingByteOutputStream myOutputStream;
 
-            public ByteStreamCapturingHttpServletResponse(
-                    HttpServletResponse r){
-                super(r);
-            }
-
-
-
-            public ServletOutputStream getOutputStream() throws IOException {
-                if (myOutputStream == null) 
-                    myOutputStream = new CapturingByteOutputStream();
-                return myOutputStream;
-            }
-
-            public byte[] toByteArray() {
-                return myOutputStream.toByteArray();
-            }
+        public ByteStreamCapturingHttpServletResponse(HttpServletResponse r) {
+            super(r);
         }
+
+        public ServletOutputStream getOutputStream() throws IOException {
+            if (myOutputStream == null)
+                myOutputStream = new CapturingByteOutputStream();
+            return myOutputStream;
+        }
+
+        public byte[] toByteArray() {
+            return myOutputStream.toByteArray();
+        }
+    }
 }

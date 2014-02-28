@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <!-- FIXME: for test only  
+  <bean id="configurationLock" class="org.geoserver.GeoServerConfigurationLock"/>
+-->
+  <!-- Initializes callbacks for locking requests during backups and restores -->
+  <bean id="brlocker" class="org.geoserver.bkprst.BRLockDispatcherCallback">
+    <constructor-arg index="0" ref="configurationLock"/>
+  </bean>
+
+  <!-- Initializes the backup/restore manager with the time (in ms) of the retention of inactive 
+    tasks -->
+  <bean id="brmanager" class="org.geoserver.bkprst.BrManager">
+    <constructor-arg index="0" ref="brlocker"/>
+    <constructor-arg index="1" value="60000"/>
+    <constructor-arg index="2"  ref="dataDirectory"/>
+  </bean>
+
+</beans>

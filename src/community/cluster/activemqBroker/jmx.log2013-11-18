@@ -1,0 +1,28 @@
+2013-11-18 22:48:48,725  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 22:48:48,748  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 22:48:48,866  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 22:48:51,827  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 22:59:45,312  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 22:59:45,324  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 22:59:45,499  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 22:59:48,462  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 23:08:52,890  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 23:08:52,909  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 23:08:53,245  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 23:08:57,143  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 23:18:05,844  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 23:18:05,868  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 23:18:06,198  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 23:18:11,107  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 23:25:09,802  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 23:25:09,830  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 23:25:10,136  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 23:25:15,320  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 23:29:29,002  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 23:29:29,024  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 23:29:29,253  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 23:29:34,172  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099
+2013-11-18 23:34:09,144  INFO NativeMethodAccessorImpl:? - Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2013-11-18 23:34:09,161  INFO NativeMethodAccessorImpl:? - jetty-6.1.8
+2013-11-18 23:34:09,330  INFO NativeMethodAccessorImpl:? - NO JSP Support for /activemq, did not find org.apache.jasper.servlet.JspServlet
+2013-11-18 23:34:13,279  INFO NativeMethodAccessorImpl:? - Started SocketConnector@0.0.0.0:8099

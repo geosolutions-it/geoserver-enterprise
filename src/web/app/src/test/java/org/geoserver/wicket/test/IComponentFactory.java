@@ -17,9 +17,7 @@ public interface IComponentFactory extends Serializable {
     /**
      * Creates the Component to be tested (may be a Page)
      * 
-     * @param id
-     *            The id that must be assigned to the component. Any other id
-     *            will cause an exception
+     * @param id The id that must be assigned to the component. Any other id will cause an exception
      * @return
      */
     Component createComponent(String id);

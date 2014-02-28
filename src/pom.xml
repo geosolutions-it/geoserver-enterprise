@@ -52,6 +52,15 @@
 
  <repositories>
   <repository>
+   <id>geosolutions</id>
+   <name>GeoSolutions Maven Repository</name>
+   <url>http://maven.geo-solutions.it/</url>
+   <snapshots>
+     <enabled>true</enabled>
+   </snapshots>
+  </repository>  
+
+  <repository>
    <id>opengeo</id>
    <name>OpenGeo Maven Repository</name>
    <url>http://repo.opengeo.org/</url>
@@ -77,6 +86,16 @@
       <enabled>false</enabled>
     </snapshots>
   </repository>
+
+  <repository>
+    <!-- needed for JMS deps -->
+    <id>fuse</id>
+    <name>FUSE Source Maven Repository</name>
+    <url>http://repo.fusesource.com/nexus/</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
  </repositories>
 
  <pluginRepositories>
@@ -95,6 +114,64 @@
 
  <dependencyManagement>
   <dependencies>
+    
+    <!-- UNABLE TO IMPORT COMMUNITY MODULES IN SNAPSHOT 
+    since they are never deployed on the mvn repo:
+    http://repo.opengeo.org/org/geoserver/community/
+    -->
+   <!--dependency>
+    <groupId>org.geoserver.community</groupId>
+    <artifactId>wcs2_0-eo</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver.community</groupId>
+    <artifactId>wcs2_0-eo</artifactId>
+    <version>${gs.version}</version>
+    <classifier>tests</classifier>
+   </dependency-->
+    
+    <!-- ======================================== -->
+    <!-- JMS BASE -->
+    <!-- ======================================== -->
+    <dependency>
+      <groupId>javax.jms</groupId>
+      <artifactId>jms-api</artifactId>
+      <version>1.1-rev-1</version>
+    </dependency>    
+  <!-- Needed to solve NamespaceHandler class org.apache.xbean.spring.context.v2.XBeanNamespaceHandler 
+	  for namespace [http://activemq.apache.org/schema/core] not found ClassNotFoundException: 
+	  org.apache.xbean.spring.context.v2.XBeanNamespaceHandler<br> ref: http://codebrane.com/blog/?p=823 -->
+    <dependency>
+	    <groupId>org.apache.xbean</groupId>
+	    <artifactId>xbean-spring</artifactId>
+	    <version>3.5</version>
+	    <exclusions>
+	      <exclusion>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+	      </exclusion>
+	    </exclusions>
+    </dependency>  
+    <dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-jms</artifactId>
+	    <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+	    <groupId>org.geoserver</groupId>
+	    <artifactId>restconfig</artifactId>
+	    <version>${gs.version}</version>
+    </dependency>
+    <dependency>
+	    <groupId>it.geosolutions</groupId>
+	    <artifactId>geoserver-manager</artifactId>
+	    <version>1.5.1</version>
+	    <scope>test</scope>
+    </dependency>
+   <!-- ======================================== -->
+   <!-- JMS BASE (END)-->
+   <!-- ======================================== -->
    <dependency>
     <groupId>org.geoserver</groupId>
     <artifactId>platform</artifactId>
@@ -424,6 +501,13 @@
      <artifactId>gt-imageio-ext-gdal</artifactId>
      <version>${gt.version}</version>
    </dependency>
+   <!-- JAI-Ext-->
+   <dependency>
+     <groupId>it.geosolutions.jaiext.bandmerge</groupId>
+     <artifactId>jt-bandmerge</artifactId>
+     <version>${jaiext.version}</version>
+   </dependency>
+
    <dependency>
      <groupId>org.geotools</groupId>
      <artifactId>gt-arcsde-common</artifactId>
@@ -1007,6 +1091,11 @@
       <artifactId>jfreechart</artifactId>
       <version>1.0.10</version>
     </dependency>
+    <dependency>
+      <groupId>ar.com.hjg</groupId>
+      <artifactId>pngj</artifactId>
+      <version>2.0.1</version>
+    </dependency>
   </dependencies>
  </dependencyManagement>
 
@@ -1196,28 +1285,46 @@
     <version>2.1</version>
     <configuration>
      <descriptors>
-      <descriptor>enterprise/src.xml</descriptor>
-      <descriptor>enterprise/war.xml</descriptor>
-      <descriptor>enterprise/javadoc.xml</descriptor>
-      <descriptor>enterprise/bin.xml</descriptor>
-      <descriptor>enterprise/ext-oracle.xml</descriptor>
-      <descriptor>enterprise/ext-sqlserver.xml</descriptor>
-      <!-- descriptor>enterprise/ext-jpg-turbo.xml</descriptor -->
-      <descriptor>enterprise/ext-gdal.xml</descriptor>
-      <descriptor>enterprise/ext-pyramid.xml</descriptor>
-      <descriptor>enterprise/ext-charts.xml</descriptor>
-      <descriptor>enterprise/ext-wps.xml</descriptor>
-      <descriptor>enterprise/ext-xslt.xml</descriptor>
-      <descriptor>enterprise/ext-jp2k.xml</descriptor>
-      <descriptor>enterprise/ext-arcsde.xml</descriptor>
-      <descriptor>enterprise/ext-monitor.xml</descriptor>
-      <descriptor>enterprise/ext-monitor-hibernate.xml</descriptor>
-      <descriptor>enterprise/ext-inspire.xml</descriptor>
-      <descriptor>enterprise/ext-control-flow.xml</descriptor>
-      <descriptor>enterprise/ext-printing.xml</descriptor>
+      <descriptor>release/src.xml</descriptor>
+      <descriptor>release/war.xml</descriptor>
+      <descriptor>release/javadoc.xml</descriptor>
+      <descriptor>release/bin.xml</descriptor>
+      <descriptor>release/ext-db2.xml</descriptor>
+      <descriptor>release/ext-feature-pregeneralized.xml</descriptor>
+      <descriptor>release/ext-imagemosaic-jdbc.xml</descriptor>
+      <descriptor>release/ext-jp2k.xml</descriptor>
+      <descriptor>release/ext-mysql.xml</descriptor>
+      <descriptor>release/ext-oracle.xml</descriptor>
+      <descriptor>release/ext-arcsde.xml</descriptor>
+      <descriptor>release/ext-pyramid.xml</descriptor>
+      <descriptor>release/ext-gdal.xml</descriptor>
+      <descriptor>release/ext-h2.xml</descriptor>
+      <descriptor>release/ext-sqlserver.xml</descriptor>
+      <descriptor>release/ext-imagemap.xml</descriptor>
+      <descriptor>release/ext-ogr.xml</descriptor>
+      <descriptor>release/ext-excel.xml</descriptor>
+      <descriptor>release/ext-geosearch.xml</descriptor>
+      <descriptor>release/ext-charts.xml</descriptor>
+      <descriptor>release/ext-app-schema.xml</descriptor>
+      <descriptor>release/ext-control-flow.xml</descriptor>
+      <descriptor>release/ext-wps.xml</descriptor>
+      <descriptor>release/ext-querylayer.xml</descriptor>
+      <descriptor>release/ext-teradata.xml</descriptor>
+      <descriptor>release/ext-cas.xml</descriptor>
+      <descriptor>release/ext-monitor.xml</descriptor>
+      <descriptor>release/ext-monitor-hibernate.xml</descriptor>
+      <descriptor>release/ext-xslt.xml</descriptor>
+      <descriptor>release/ext-inspire.xml</descriptor>
+      <descriptor>release/ext-css.xml</descriptor>      
+      <descriptor>release/ext-csw.xml</descriptor>
+      <descriptor>release/ext-dxf.xml</descriptor>
+      <descriptor>release/ext-wcs2_0-eo.xml</descriptor>
+      <descriptor>release/ext-libjpeg-turbo.xml</descriptor>
+      <descriptor>release/ext-importer.xml</descriptor>
+      <descriptor>release/ext-importer-bdb.xml</descriptor>
      </descriptors>
      <finalName>geoserver-2.4-ENTERPRISE-SNAPSHOT</finalName>
-     <outputDirectory>${project.build.directory}/enterprise</outputDirectory>
+     <outputDirectory>${project.build.directory}/release</outputDirectory>
     </configuration>
    </plugin>
 
@@ -1464,7 +1571,9 @@
 
  <modules>
   <module>web</module>
- </modules>
+  <module>community</module>
+  <module>extension</module>
+</modules>
 
  <properties>
   <gs.version>2.4-SNAPSHOT</gs.version>
@@ -1475,6 +1584,7 @@
   <poi.version>3.8</poi.version>
   <wicket.version>1.4.12</wicket.version>
   <ant.version>1.8.4</ant.version>
+  <jaiext.version>1.0-SNAPSHOT</jaiext.version>
   <java.awt.headless>true</java.awt.headless>
   <jvm.opts></jvm.opts>
   <jalopy.phase>disabled</jalopy.phase>
@@ -1537,97 +1647,6 @@
      </plugin>
     </plugins>
    </reporting>
-  </profile>
-
-  <profile>
-    <id>enterprise</id>
-    <activation>
-      <property>
-        <name>enterprise</name>
-      </property>
-    </activation>
-    <dependencies>
-      <dependency>
-        <groupId>org.geowebcache</groupId>
-        <artifactId>gwc-core</artifactId>
-      </dependency>
-    </dependencies>
-    <build>
-    <plugins>
-
-      <!-- grab a geotools dependnecy to figure out its version -->
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <includeGroupIds>org.geotools,org.geowebcache</includeGroupIds>
-              <includeArtifactIds>gt-api,gwc-core</includeArtifactIds>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>${ant.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>ant-contrib</groupId>
-            <artifactId>ant-contrib</artifactId>
-            <version>1.0b3</version>
-          </dependency>
-        </dependencies>
-        <inherited>false</inherited>
-        <executions>
-         <execution>
-          <id>read-manifest</id>
-          <phase>package</phase>
-          <configuration>
-            <tasks>
-               <loadproperties prefix="gt">
-                  <zipentry zipfile="target/dependency/gt-api-${gt.version}.jar" name="META-INF/MANIFEST.MF"/>
-               </loadproperties>
-               <loadproperties prefix="gwc">
-                  <zipentry zipfile="target/dependency/gwc-core-${gwc.version}.jar" name="META-INF/MANIFEST.MF"/>
-               </loadproperties>
-               <copy file="enterprise/VERSION.txt" todir="target" filtering="true">
-                <filterset begintoken="$${" endtoken="}">
-                  <filter token="project.version" value="${project.version}"/>
-                  <filter token="build.revision" value="${build.commit.id}"/>
-                  <filter token="build.branch" value="${build.branch}"/>
-                  <filter token="build.timestamp" value="${build.timestamp}"/>
-                  <filter token="gt.version" value="${gt.version}"/>
-                  <filter token="gt.revision" value="${gt.Git-Revision}"/>
-                  <filter token="gwc.version" value="${gwc.version}"/>
-                  <filter token="gwc.revision" value="${gwc.Implementation-Version}"/>
-                  <filter token="build.hudsonId" value="${build.hudsonId}"/>
-                </filterset>
-               </copy>
-            </tasks>
-          </configuration>
-          <goals>
-            <goal>run</goal>
-          </goals>
-         </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    </build>
-    <modules>
-      <module>extension</module>
-      <module>enterprise</module>
-    </modules>
   </profile>
   
   <profile>

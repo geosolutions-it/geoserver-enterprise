@@ -17,57 +17,59 @@ import org.junit.Test;
 public class BufferedRequestWrapperTest extends RequestWrapperTestSupport {
 
     @Test
-	public void testGetInputStream() throws Exception{
-		for (int i = 0; i < testStrings.length; i++){
-			doInputStreamTest(testStrings[i]);
-		}
-	}
+    public void testGetInputStream() throws Exception {
+        for (int i = 0; i < testStrings.length; i++) {
+            doInputStreamTest(testStrings[i]);
+        }
+    }
 
-	@Test
-	public void testGetReader() throws Exception{
-	    for (int i = 0; i < testStrings.length; i++){
-			doGetReaderTest(testStrings[i]);
-		}
-	}
+    @Test
+    public void testGetReader() throws Exception {
+        for (int i = 0; i < testStrings.length; i++) {
+            doGetReaderTest(testStrings[i]);
+        }
+    }
 
-	public void doInputStreamTest(String testString) throws Exception{
-		HttpServletRequest req = makeRequest(testString, null);
+    public void doInputStreamTest(String testString) throws Exception {
+        HttpServletRequest req = makeRequest(testString, null);
 
-		BufferedRequestWrapper wrapper = new BufferedRequestWrapper(req, testString);
-		ServletInputStream sis = req.getInputStream();
-		byte b[] = new byte[32];
-		int amountRead;
+        BufferedRequestWrapper wrapper = new BufferedRequestWrapper(req, testString);
+        ServletInputStream sis = req.getInputStream();
+        byte b[] = new byte[32];
+        int amountRead;
 
-		while (( sis.readLine(b, 0, 32)) > 0){ /*clear out the request body*/ }
+        while ((sis.readLine(b, 0, 32)) > 0) { /* clear out the request body */
+        }
 
-		sis = wrapper.getInputStream();
-		StringBuffer buff = new StringBuffer();
+        sis = wrapper.getInputStream();
+        StringBuffer buff = new StringBuffer();
 
-		while ((amountRead = sis.readLine(b, 0, 32)) != 0){
-			buff.append(new String(b, 0, amountRead));
-		}
+        while ((amountRead = sis.readLine(b, 0, 32)) != 0) {
+            buff.append(new String(b, 0, amountRead));
+        }
 
-		assertEquals(buff.toString(), testString);
-	}
+        assertEquals(buff.toString(), testString);
+    }
 
-    public void doGetReaderTest(String testString) throws Exception{
-		HttpServletRequest req = makeRequest(testString, null);
+    public void doGetReaderTest(String testString) throws Exception {
+        HttpServletRequest req = makeRequest(testString, null);
 
-		BufferedReader br = req.getReader();
-		while ((br.readLine()) != null){ /* clear out the body */ }
+        BufferedReader br = req.getReader();
+        while ((br.readLine()) != null) { /* clear out the body */
+        }
 
-		BufferedRequestWrapper wrapper = new BufferedRequestWrapper(req, testString);
-		StringBuffer buff = new StringBuffer();
+        BufferedRequestWrapper wrapper = new BufferedRequestWrapper(req, testString);
+        StringBuffer buff = new StringBuffer();
         int c;
-		br = wrapper.getReader();
-		
-		while ((c = br.read()) != -1){
-			buff.append((char)c);
-		}
+        br = wrapper.getReader();
 
-		assertEquals(buff.toString(), testString);
-	}
-    
+        while ((c = br.read()) != -1) {
+            buff.append((char) c);
+        }
+
+        assertEquals(buff.toString(), testString);
+    }
+
     @Test
     public void testMixedRequest() throws Exception {
         String body = "a=1&b=2";
@@ -75,7 +77,8 @@ public class BufferedRequestWrapperTest extends RequestWrapperTestSupport {
         HttpServletRequest req = makeRequest(body, queryString);
 
         BufferedReader br = req.getReader();
-        while ((br.readLine()) != null){ /* clear out the body */ }
+        while ((br.readLine()) != null) { /* clear out the body */
+        }
 
         BufferedRequestWrapper wrapper = new BufferedRequestWrapper(req, body);
         Map params = wrapper.getParameterMap();

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ Copyright (c) 2001 - 2013 OpenPlans - www.openplans.org. All rights reserved.
+ This code is licensed under the GPL 2.0 license, available at the root
+ application directory.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.geoserver</groupId>
+    <artifactId>geoserver</artifactId>
+    <version>2.4-ENTERPRISE-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.geoserver</groupId>
+  <artifactId>community</artifactId>
+  <packaging>pom</packaging>
+  <name>Community Space</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.geoserver</groupId>
+      <artifactId>platform</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+   <plugins>
+     <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>2.1</version>
+      <configuration>
+        <descriptors>
+          <descriptor>release/ext-authkey.xml</descriptor>
+          <descriptor>release/ext-ftp.xml</descriptor>
+          <descriptor>release/ext-printing.xml</descriptor>
+          <descriptor>release/ext-python.xml</descriptor>
+          <descriptor>release/ext-groovy.xml</descriptor>
+          <descriptor>release/ext-javascript.xml</descriptor>
+          <descriptor>release/ext-spatialite.xml</descriptor>
+          <descriptor>release/ext-jdbcconfig.xml</descriptor>
+          <descriptor>release/ext-sfs.xml</descriptor>
+       	  <descriptor>release/ext-dds.xml</descriptor>
+          <descriptor>release/ext-aggregate.xml</descriptor>
+          <descriptor>release/ext-wms-eo.xml</descriptor>
+          <descriptor>release/ext-netcdf.xml</descriptor>
+          <descriptor>release/ext-netcdf-out.xml</descriptor>
+	  
+          <descriptor>release/ext-importer.xml</descriptor>
+          <descriptor>release/ext-cluster.xml</descriptor>
+          <descriptor>release/ext-activeMQ.xml</descriptor>
+        </descriptors>
+      </configuration>
+     </plugin>
+	<plugin>
+		<artifactId>maven-jar-plugin</artifactId>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>test-jar</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<archive>
+				<manifest>
+					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+					<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+				</manifest>
+				<manifestEntries>
+					<GeoServerModule>community</GeoServerModule>
+					<Application-Name>${project.build.finalname}</Application-Name>
+					<Project-Version>${project.version}</Project-Version>
+					<Iteration-Name>${iteration}</Iteration-Name>
+					<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+					<Git-Revision>${build.commit.id}</Git-Revision>
+				</manifestEntries>
+			</archive>
+		</configuration>
+	</plugin>
+   </plugins>
+  </build>
+
+  <modules>
+  </modules>
+   <!-- profiles for individual modules -->
+  <profiles>
+		<!-- ======================================== -->
+		<!-- BACKUP-RESTORE -->
+		<!-- ======================================== -->
+		<profile>
+			<id>bkprst</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>bkprst</module>
+			</modules>
+		</profile>
+		<!-- ======================================== -->
+		<!-- JMS -->
+		<!-- ======================================== -->
+		<profile>
+			<id>cluster</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>cluster</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>activemq</id>
+			<activation>
+				<property>
+					<name>all</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>cluster</module>
+			</modules>
+		</profile>
+  </profiles>
+  
+  <!-- profiles for individual modules -->
+    <!-- profile>
+      <id>wps-raster-algebra</id>
+      <modules>
+        <module>wps-raster-algebra</module>
+      </modules>
+    </profile -->
+
+</project>
