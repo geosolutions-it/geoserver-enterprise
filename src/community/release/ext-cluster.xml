@@ -1,0 +1,37 @@
+<assembly>
+  <id>cluster-plugin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+    
+   <fileSets>
+         <fileSet>
+	     <directory>../release/target/dependency</directory>
+             <outputDirectory></outputDirectory>
+      <includes>
+        <include>jms*.jar</include>
+      </includes>
+ </fileSet>
+ </fileSets>
+   <dependencySets>
+    <dependencySet>
+      <includes>
+        <include>*:jar:*</include>
+      </includes>
+      <excludes>
+        <exclude>*:sources</exclude>
+      </excludes>
+    </dependencySet>
+  <dependencySet>
+    
+    <useProjectArtifact>false</useProjectArtifact>
+   <includes>
+    <include>org.geoserver:jms-geoserver</include>
+    <include>org.geoserver:jms-commons</include>
+    <include>org.geoserver:jms-activeMQ</include>
+   </includes>
+
+  </dependencySet>
+ </dependencySets>
+</assembly>

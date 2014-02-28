@@ -1,0 +1,39 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+  <id>embeddedBroker-plugin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+         <fileSet>
+	     <directory>../release/target/dependency</directory>
+             <outputDirectory></outputDirectory>
+      <includes>
+        <include>jms*.jar</include>
+	<include>*activemqEmbeddedBroker*</include>
+      </includes>
+ </fileSet>
+ </fileSets>
+   <dependencySets>
+    <dependencySet>
+      <includes>
+        <include>*:jar:*</include>
+      </includes>
+      <excludes>
+        <exclude>*:sources</exclude>
+      </excludes>
+    </dependencySet>
+  <dependencySet>
+    
+    <useProjectArtifact>false</useProjectArtifact>
+   <includes>
+    <include>org.geoserver:jms-geoserver</include>
+    <include>org.geoserver:jms-commons</include>
+    <include>org.geoserver:jms-activeMQ</include>
+    <include>org.geoserver:activemqEmbeddedBroker</include>
+   </includes>
+
+  </dependencySet>
+ </dependencySets>
+</assembly>

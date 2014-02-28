@@ -37,6 +37,11 @@
       <version>${gs.version}</version>
     </dependency-->
   
+    <!--dependency>
+      <groupId>org.geoserver.web</groupId>
+      <artifactId>web-sec-ldap</artifactId>
+      <version>${gs.version}</version>
+    </dependency-->
     <dependency>
       <groupId>org.geoserver.extension</groupId>
       <artifactId>wps-core</artifactId>
@@ -80,11 +85,6 @@
     <dependency>
       <groupId>org.geoserver.web</groupId>
       <artifactId>web-sec-jdbc</artifactId>
-      <version>${gs.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.geoserver.web</groupId>
-      <artifactId>web-sec-ldap</artifactId>
       <version>${gs.version}</version>
     </dependency>
     <dependency>
@@ -408,7 +408,17 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.geoserver</groupId>
-				<artifactId>activemqEmbeddedBroker</artifactId>
+				<artifactId>jms-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-geoserver</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geoserver</groupId>
+				<artifactId>jms-activeMQ</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
