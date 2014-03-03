@@ -7,7 +7,7 @@
   <fileSets>
     <fileSet>
       <directory>cluster/activemqBroker/target</directory>
-      <outputDirectory></outputDirectory>
+      <outputDirectory>.</outputDirectory>
       <includes>
         <include>activemqBroker-1.0-SNAPSHOT.war</include>
       </includes>

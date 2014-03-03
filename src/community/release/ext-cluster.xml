@@ -4,34 +4,37 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
-    
+  
    <fileSets>
          <fileSet>
-	     <directory>../release/target/dependency</directory>
-             <outputDirectory></outputDirectory>
-      <includes>
-        <include>jms*.jar</include>
-      </includes>
- </fileSet>
+	     <directory>cluster/jms-activeMQ/target/</directory>
+             <outputDirectory>.</outputDirectory>
+	      <includes>
+		<include>jms-activeMQ*.jar</include>
+	      </includes>
+	      <excludes>
+		<exclude>*-sources*</exclude>
+		<exclude>*-test*</exclude>
+	      </excludes>
+	</fileSet>
+         <fileSet>
+	     <directory>cluster/jms-activeMQ/target/dependency/</directory>
+             <outputDirectory>.</outputDirectory>
+	      <includes>
+		<include>jms-activeMQ*.jar</include>
+		<include>jms-commons*.jar</include>
+		<include>jms-geoserver*.jar</include>
+		<include>jms-api*.jar</include>
+		<include>xbean-spring*.jar</include>
+		<include>spring-jms*.jar</include>
+		<include>commons-io*.jar</include>
+		<include>activemq-client*.jar</include>
+		<include>spring-context*.jar</include>
+	      </includes>
+	      <excludes>
+		<exclude>*-sources*</exclude>
+		<exclude>*-test*</exclude>
+	      </excludes>
+	</fileSet>
  </fileSets>
-   <dependencySets>
-    <dependencySet>
-      <includes>
-        <include>*:jar:*</include>
-      </includes>
-      <excludes>
-        <exclude>*:sources</exclude>
-      </excludes>
-    </dependencySet>
-  <dependencySet>
-    
-    <useProjectArtifact>false</useProjectArtifact>
-   <includes>
-    <include>org.geoserver:jms-geoserver</include>
-    <include>org.geoserver:jms-commons</include>
-    <include>org.geoserver:jms-activeMQ</include>
-   </includes>
-
-  </dependencySet>
- </dependencySets>
 </assembly>
