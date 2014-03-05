@@ -159,6 +159,11 @@
 	    <version>${spring.version}</version>
     </dependency>
     <dependency>
+	    <groupId>org.apache.ant</groupId>
+	    <artifactId>ant</artifactId>
+	    <version>1.7.1</version>
+    </dependency>
+    <dependency>
 	    <groupId>org.geoserver</groupId>
 	    <artifactId>restconfig</artifactId>
 	    <version>${gs.version}</version>
