@@ -212,7 +212,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 //            verify(jmsFactory, "failed to get a JMSFactory");
 //            verified = true;
 //        }
-//        super.stop();
+        super.stop();
         super.shutdown();
     }
 
