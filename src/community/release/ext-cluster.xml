@@ -38,10 +38,6 @@
 		
 		<include>activemq*.jar</include>
 		
-		<include>activemq-client*.jar</include>
-		  <include>geronimo-*.jar</include>
-		  <include>activemq-openwire-legacy*.jar</include>
-		
 		<include>activemq-broker*.jar</include>
 		<include>activemq-kahadb-store*.jar</include>
 		
@@ -50,13 +46,15 @@
 		  <include>proton-*.jar</include>
 		  <include>bcpkix-*.jar</include>
 		  <include>bcprov-*.jar</include>
-		  <include>hawtbuf*.jar</include>
+		  <include>jasypt*.jar</include>
+		  <include>activemq-client*.jar</include>
+		    <include>geronimo-*.jar</include>
+		    <include>activemq-openwire-legacy*.jar</include>
+		    <include>hawtbuf*.jar</include>
 		  
 		<include>activemq-spring*.jar</include>
 		  <include>activemq-pool*.jar</include>
 		  <include>activemq-protobuf*.jar</include>
-		
-		
 		
 	      </includes>
 	      <excludes>

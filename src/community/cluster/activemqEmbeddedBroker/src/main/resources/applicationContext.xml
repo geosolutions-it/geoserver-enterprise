@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!--DOCTYPE beans PUBLIC "-//ACTIVEMQ//DTD//EN" "http://activemq.org/dtd/activemq.dtd"-->
+<!--DOCTYPE beans PUBLIC "-//ACTIVEMQ//DTD//EN" "http://activemq.org/dtd/activemq.dtd" -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jms="http://www.springframework.org/schema/jms" 
-	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:amq="http://activemq.apache.org/schema/core"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -16,10 +14,7 @@
                            http://www.springframework.org/schema/jms/spring-jms.xsd
                            http://activemq.apache.org/schema/core
                            http://activemq.apache.org/schema/core/activemq-core.xsd">
-                         
 
-	
-	
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 	<context:annotation-config />
 	<!-- Allows us to use system properties as variables in this configuration 
@@ -32,9 +27,10 @@
 		</property>
 	</bean>
 
-	<broker id="broker" brokerName="router" persistent="true" start="true" 
+	<amq:broker id="broker" brokerName="router" persistent="true" start="true" networkConnectorStartAsync="true"
 		useJmx="${activemq.usejmx}" xmlns="http://activemq.apache.org/schema/core"
-		startAsync="true" dataDirectory="${activemq.base}">
+		startAsync="true" dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
+		useShutdownHook="false">
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
@@ -44,14 +40,15 @@
 				</virtualDestinations>
 			</virtualDestinationInterceptor>
 		</destinationInterceptors>
-		
+
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
 			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
 		<managementContext>
-			<managementContext createConnector="${activemq.usejmx}" connectorPath="${activemq.base}/management"
-				connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
+			<managementContext createConnector="${activemq.usejmx}"
+				connectorPath="${activemq.base}/management" connectorPort="${activemq.jmx.port}"
+				connectorHost="${activemq.jmx.host}" />
 		</managementContext>
 
 
@@ -90,7 +87,7 @@
 				uri="${activemq.broker.transportConnectors.uri}" />
 		</transportConnectors>
 
-	</broker>
+	</amq:broker>
 
 	<!-- This xbean configuration file supports all the standard spring xml 
 		configuration options -->
@@ -124,38 +121,38 @@
 		Camel (with its web console), see ${ACTIVEMQ_HOME}/conf/camel.xml for more 
 		info Take a look at ${ACTIVEMQ_HOME}/conf/jetty.xml for more details -->
 	<!--import resource="jetty.xml"/ -->
-	
-		
+
+
 	<!-- lets create an embedded ActiveMQ Broker -->
 	<!-- offlineDurableSubscriberTimeout="86400000" offlineDurableSubscriberTaskSchedule="3600000" -->
-<!-- 	<amq:broker useJmx="false" persistent="false"> -->
-<!-- 		<amq:transportConnectors> -->
-<!-- 			<amq:transportConnector uri="vm://localhost:61616" /> -->
-<!-- 		</amq:transportConnectors> -->
-<!-- 	</amq:broker> -->
+	<!-- <amq:broker useJmx="false" persistent="false"> -->
+	<!-- <amq:transportConnectors> -->
+	<!-- <amq:transportConnector uri="vm://localhost:61616" /> -->
+	<!-- </amq:transportConnectors> -->
+	<!-- </amq:broker> -->
 
 
-<!-- 	<broker persistent="false" useJmx="false" -->
-<!-- 		xmlns="http://activemq.apache.org/schema/core"> -->
+	<!-- <broker persistent="false" useJmx="false" -->
+	<!-- xmlns="http://activemq.apache.org/schema/core"> -->
 
-<!-- 		<destinationInterceptors> -->
-<!-- 			<virtualDestinationInterceptor> -->
-<!-- 				<virtualDestinations> -->
-<!-- 					<virtualTopic name=">" prefix="Consumer.*.VirtualTopic.>" -->
-<!-- 						selectorAware="false" /> -->
-<!-- 				</virtualDestinations> -->
-<!-- 			</virtualDestinationInterceptor> -->
-<!-- 		</destinationInterceptors> -->
+	<!-- <destinationInterceptors> -->
+	<!-- <virtualDestinationInterceptor> -->
+	<!-- <virtualDestinations> -->
+	<!-- <virtualTopic name=">" prefix="Consumer.*.VirtualTopic.>" -->
+	<!-- selectorAware="false" /> -->
+	<!-- </virtualDestinations> -->
+	<!-- </virtualDestinationInterceptor> -->
+	<!-- </destinationInterceptors> -->
 
-<!-- 		 http://activemq.apache.org/delete-inactive-destinations.html -->
-<!-- 		<destinationPolicy> -->
-<!-- 			<policyMap> -->
-<!-- 				<policyEntries> -->
-<!-- 					<policyEntry queue=">" gcInactiveDestinations="true" -->
-<!-- 						inactiveTimoutBeforeGC="30000" /> -->
-<!-- 				</policyEntries> -->
-<!-- 			</policyMap> -->
-<!-- 		</destinationPolicy> -->
-<!-- 	</broker> -->
+	<!-- http://activemq.apache.org/delete-inactive-destinations.html -->
+	<!-- <destinationPolicy> -->
+	<!-- <policyMap> -->
+	<!-- <policyEntries> -->
+	<!-- <policyEntry queue=">" gcInactiveDestinations="true" -->
+	<!-- inactiveTimoutBeforeGC="30000" /> -->
+	<!-- </policyEntries> -->
+	<!-- </policyMap> -->
+	<!-- </destinationPolicy> -->
+	<!-- </broker> -->
 
 </beans>

@@ -9,7 +9,7 @@
       <directory>cluster/activemqBroker/target</directory>
       <outputDirectory>.</outputDirectory>
       <includes>
-        <include>activemqBroker-1.0-SNAPSHOT.war</include>
+        <include>activemqBroker-*.war</include>
       </includes>
     </fileSet>
   </fileSets>

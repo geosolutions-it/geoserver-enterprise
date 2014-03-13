@@ -205,16 +205,16 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
         }
     }
-//
-//    @Override
-//    public void shutdown() throws JmsException {
+////
+    @Override
+    public void shutdown() throws JmsException {
 //        if (!verified) {
 //            verify(jmsFactory, "failed to get a JMSFactory");
 //            verified = true;
 //        }
 //        super.stop();
-//        super.shutdown();
-//    }
+        super.shutdown();
+    }
 
     @Override
     protected void handleListenerSetupFailure(Throwable ex, boolean alreadyRecovered) {

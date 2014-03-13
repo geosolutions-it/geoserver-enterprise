@@ -12,7 +12,6 @@
 
 	<groupId>org.geoserver</groupId>
 	<artifactId>activemqEmbeddedBroker</artifactId>
-	<version>2.4-ENTERPRISE-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>GeoServer JMS ActiveMQ Embedded Broker module</name>
 
