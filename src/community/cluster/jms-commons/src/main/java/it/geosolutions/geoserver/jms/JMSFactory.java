@@ -52,4 +52,9 @@ public abstract class JMSFactory {
      */
     public abstract ConnectionFactory getConnectionFactory(Properties configuration);
 
+    /**
+     * This is called when the JMSContainer is disposed, can be used to shutdown used resources.
+     */
+    public abstract void shutdown();
+
 }

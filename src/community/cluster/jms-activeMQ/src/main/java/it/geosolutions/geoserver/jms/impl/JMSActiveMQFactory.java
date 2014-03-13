@@ -31,7 +31,7 @@ public class JMSActiveMQFactory extends JMSFactory {
 
     private String topicName;
 
-    private ConnectionFactory cf;
+    private PooledConnectionFactory cf;
 
     private Topic topic;
 
@@ -82,11 +82,20 @@ public class JMSActiveMQFactory extends JMSFactory {
     public ConnectionFactory getConnectionFactory(Properties configuration) {
         final String configuredBroker = configuration
                 .getProperty(BrokerConfiguration.BROKER_URL_KEY);
-        if (broker == null || !broker.equals(configuredBroker)) {
+        if (broker == null || !broker.equals(configuredBroker) || cf == null) {
             broker = configuredBroker;
             // need to be reinitialized
             cf = new PooledConnectionFactory(broker);
+            cf.start();
         }
         return cf;
+    }
+
+    @Override
+    public void shutdown() {
+        if (cf != null) {
+            cf.stop();
+            cf = null;
+        }
     }
 }
