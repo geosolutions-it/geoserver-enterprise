@@ -2,7 +2,9 @@
   <name>activemqEmbeddedBroker-2.4-ENTERPRISE-SNAPSHOT</name>
   <comment/>
   <projects>
+    <project>jms-activeMQ-2.4-ENTERPRISE-SNAPSHOT</project>
     <project>jms-commons-2.4-ENTERPRISE-SNAPSHOT</project>
+    <project>jms-geoserver-2.4-ENTERPRISE-SNAPSHOT</project>
   </projects>
   <buildSpec>
     <buildCommand>
