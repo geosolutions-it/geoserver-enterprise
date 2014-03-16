@@ -15,6 +15,8 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.Topic;
 
+import org.springframework.beans.factory.DisposableBean;
+
 /**
  * 
  * Implement this interface to add a new implementation to the application.<br/>
@@ -23,38 +25,49 @@ import javax.jms.Topic;
  * @author carlo cancellieri - geosolutions SAS
  * 
  */
-public abstract class JMSFactory {
+public abstract class JMSFactory implements DisposableBean {
 
-    /**
-     * Must return a {@link Destination} configured with the passed property.<br/>
-     * You may leverage on {@link JMSConfiguration#INSTANCE_NAME_KEY}
-     * 
-     * @param configuration
-     * @return a valid destination pointing to a temporary queue to use for responses
-     */
-    public abstract Destination getClientDestination(Properties configuration);
+	/**
+	 * Must return a {@link Destination} configured with the passed property.<br/>
+	 * You may leverage on {@link JMSConfiguration#INSTANCE_NAME_KEY}
+	 * 
+	 * @param configuration
+	 * @return a valid destination pointing to a temporary queue to use for
+	 *         responses
+	 */
+	public abstract Destination getClientDestination(Properties configuration);
 
-    /**
-     * Must return a {@link Destination} configured with the passed property.<br/>
-     * You may leverage on {@link BrokerConfiguration} or {@link ConnectionConfiguration}
-     * 
-     * @param configuration
-     * @return a valid Topic
-     */
-    public abstract Topic getTopic(Properties configuration);
+	/**
+	 * Must return a {@link Destination} configured with the passed property.<br/>
+	 * You may leverage on {@link BrokerConfiguration} or
+	 * {@link ConnectionConfiguration}
+	 * 
+	 * @param configuration
+	 * @return a valid Topic
+	 */
+	public abstract Topic getTopic(Properties configuration);
 
-    /**
-     * Must return a {@link ConnectionFactory} configured with the passed property.<br/>
-     * You may leverage on {@link TopicConfiguration} or {@link ConnectionConfiguration}
-     * 
-     * @param configuration
-     * @return a ConnectionFactory
-     */
-    public abstract ConnectionFactory getConnectionFactory(Properties configuration);
+	/**
+	 * Must return a {@link ConnectionFactory} configured with the passed
+	 * property.<br/>
+	 * You may leverage on {@link TopicConfiguration} or
+	 * {@link ConnectionConfiguration}
+	 * 
+	 * @param configuration
+	 * @return a ConnectionFactory
+	 */
+	public abstract ConnectionFactory getConnectionFactory(
+			Properties configuration);
 
-    /**
-     * This is called when the JMSContainer is disposed, can be used to shutdown used resources.
-     */
-    public abstract void shutdown();
+	/**
+	 * This is called when the JMSContainer is disposed, can be used to shutdown
+	 * used resources.
+	 */
+	public abstract void shutdown();
+
+	@Override
+	public void destroy() throws Exception {
+		shutdown();
+	}
 
 }

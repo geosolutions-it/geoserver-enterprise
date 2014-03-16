@@ -84,8 +84,9 @@ public class JMSActiveMQFactory extends JMSFactory {
                 .getProperty(BrokerConfiguration.BROKER_URL_KEY);
         if (broker == null || !broker.equals(configuredBroker) || cf == null) {
             broker = configuredBroker;
+            
             // need to be reinitialized
-            cf = new PooledConnectionFactory(broker);
+            cf = new PooledConnectionFactory(new TransactionHandlerConnectionFactory(broker));
             cf.start();
         }
         return cf;
@@ -94,7 +95,11 @@ public class JMSActiveMQFactory extends JMSFactory {
     @Override
     public void shutdown() {
         if (cf != null) {
+        	// close all the connections
+        	cf.clear();
+        	// stop the factory
             cf.stop();
+            // set null
             cf = null;
         }
     }

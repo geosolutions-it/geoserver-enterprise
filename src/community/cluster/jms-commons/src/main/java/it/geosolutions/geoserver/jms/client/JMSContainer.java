@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import org.geotools.util.logging.Logging;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
@@ -29,7 +30,7 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
  * @author Carlo Cancellieri - GeoSolutions SAS
  * 
  */
-final public class JMSContainer extends DefaultMessageListenerContainer {
+final public class JMSContainer extends DefaultMessageListenerContainer implements DisposableBean {
 
     private final static Logger LOGGER = Logging.getLogger(JMSContainer.class);
 
@@ -205,16 +206,17 @@ final public class JMSContainer extends DefaultMessageListenerContainer {
 
         }
     }
-////
+
     @Override
     public void shutdown() throws JmsException {
-        if (!verified) {
-            verify(jmsFactory, "failed to get a JMSFactory");
-            verified = true;
-        }
-        jmsFactory.shutdown();
+        disconnect();
         super.shutdown();
     }
+    
+	@Override
+	public void destroy() {
+		shutdown();
+	}
 
     @Override
     protected void handleListenerSetupFailure(Throwable ex, boolean alreadyRecovered) {
