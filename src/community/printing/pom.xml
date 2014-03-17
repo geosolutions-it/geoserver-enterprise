@@ -40,7 +40,7 @@
     <dependency>
       <groupId>org.mapfish.print</groupId>
       <artifactId>print-lib</artifactId>
-      <version>1.2-20101018133712</version>
+      <version>2.0-20140227100000</version>
     </dependency>
   </dependencies>
 

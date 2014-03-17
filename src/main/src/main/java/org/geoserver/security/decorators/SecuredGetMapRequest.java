@@ -41,7 +41,10 @@ public class SecuredGetMapRequest implements GetMapRequest {
     List<Layer> layers = new ArrayList<Layer>();
     List<String> styles = new ArrayList<String>();
     
-
+    // we should add layers to the delegate only once, also if
+    // getFinalURL is called many times
+    boolean layersAddedToDelegate = false; 
+    
     public SecuredGetMapRequest(GetMapRequest delegate) {
         this.delegate = delegate;
     }
@@ -96,6 +99,7 @@ public class SecuredGetMapRequest implements GetMapRequest {
         List<Filter> layerFilters = new ArrayList<Filter>();
         // scan and check the layers
         boolean layerFiltersFound = false;
+        
         for(int i = 0; i < layers.size(); i++) {
             Layer layer = layers.get(i);
             if(layer instanceof SecuredWMSLayer) {
@@ -123,9 +127,10 @@ public class SecuredGetMapRequest implements GetMapRequest {
                         		"have not been implemented yet");
                     }
                 }
-                
-                // add into the request
-                delegate.addLayer(layer, styles.get(i));
+                if(!layersAddedToDelegate) {
+                    // add into the request
+                    delegate.addLayer(layer, styles.get(i));
+                }
             }
         }
         
@@ -144,6 +149,9 @@ public class SecuredGetMapRequest implements GetMapRequest {
             sb.setLength(sb.length() - 1);
             encodedFilter = ResponseUtils.urlEncode(sb.toString());
         }
+        
+        layersAddedToDelegate = true;
+        
         return encodedFilter;
     }
 

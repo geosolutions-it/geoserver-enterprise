@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.geoserver.security.config.SecurityNamedServiceConfig;
 import org.geoserver.security.impl.GeoServerRole;
 import org.geoserver.security.impl.GeoServerUser;
+import org.geoserver.security.xml.XMLGeoserverUser;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,7 +60,7 @@ public abstract class GeoServerPreAuthenticationFilter extends GeoServerSecurity
 
         String cacheKey=authenticateFromCache(this, (HttpServletRequest) request);
 
-        if (SecurityContextHolder.getContext().getAuthentication()==null) {
+        if (authenticationIsRequired((HttpServletRequest) request)) {
             doAuthenticate((HttpServletRequest) request, (HttpServletResponse) response);
             
             Authentication postAuthentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,6 +75,23 @@ public abstract class GeoServerPreAuthenticationFilter extends GeoServerSecurity
         chain.doFilter(request, response);        
     }
             
+
+    /**
+     * @return
+     */
+    private boolean authenticationIsRequired(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null) {
+            return true;
+        }
+        Object principal = authentication.getPrincipal();
+        String preAuthenticatedPrincipal = getPreAuthenticatedPrincipal(request);
+        if(principal != null && preAuthenticatedPrincipal != null) {
+            return !principal.equals(preAuthenticatedPrincipal);
+        }
+        return false;
+    }
+
 
     /**
      * subclasses should return the principal, 
