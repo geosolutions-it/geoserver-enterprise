@@ -604,7 +604,7 @@
 			<id>kmlppio</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.geoserver.extension</groupId>
+					<groupId>org.geoserver.community</groupId>
 					<artifactId>kmlppio</artifactId>
 					<version>${project.version}</version>
 				</dependency>
@@ -614,7 +614,7 @@
 			<id>gpxppio</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.geoserver.extension</groupId>
+					<groupId>org.geoserver.community</groupId>
 					<artifactId>gpxppio</artifactId>
 					<version>${project.version}</version>
 				</dependency>
@@ -696,12 +696,12 @@
 				<dependency>
 					<groupId>org.geoserver.extension</groupId>
 					<artifactId>wps-core</artifactId>
-					<version>${gs.version}</version>
+					<version>${project.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.geoserver.extension</groupId>
 					<artifactId>web-wps</artifactId>
-					<version>${gs.version}</version>
+					<version>${project.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
