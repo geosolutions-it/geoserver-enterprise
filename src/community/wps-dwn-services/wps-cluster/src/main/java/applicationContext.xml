@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-init-method="init">     
+
+    <import resource="applicationContext-processStorageDatasource.xml"/>
+
+	<bean id="clusterManagerProcess" class="org.geoserver.wps.gs.ClusterManagerProcess">
+		<constructor-arg index="0" ref="clusteredProcessStorage"/>
+	</bean>
+
+	<!-- The PPIO that need to be registered into SPI because of their dependencies -->
+	<bean id="executionStatusPPIO" class="org.geoserver.wps.ppio.ExecutionStatusPPIO">
+	  <constructor-arg index="0" ref="geoServer"/>
+      <constructor-arg index="1" ref="wpsResourceManager"/>
+    </bean>
+
+	<bean id="wpsClusterPropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:wps-cluster/wpsCluster.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="searchSystemEnvironment" value="true" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />		
+		<!-- property name="properties">
+			<props>
+				<prop key="prop1">value1</prop> 
+				<prop key="prop2">value2</prop>
+		</props> </property -->
+	</bean>
+
+    <!--=====================================================================-->
+	<!--
+		Need one search processor and one metadata util per persistence unit
+		(i.e. EntityManagerFactory). We're wiring these to the Generic DAOs
+		using an autowire annotation in BaseDAO.
+	-->
+	<bean id="processStorageSearchProcessor" class="com.googlecode.genericdao.search.jpa.JPASearchProcessor">
+		<constructor-arg ref="processStorageMetadataUtil" />
+	</bean>
+
+	<bean id="processStorageMetadataUtil" class="com.googlecode.genericdao.search.jpa.hibernate.HibernateMetadataUtil"
+		factory-method="getInstanceForEntityManagerFactory">
+		<constructor-arg ref="processStorageEntityManagerFactory" />
+	</bean>
+
+    <!--=====================================================================-->
+    <!-- DAOs -->
+    <!--=====================================================================-->
+	<bean id="processStorageDAO" class="org.geoserver.wps.executor.storage.dao.impl.ProcessDescriptorDAOImpl">
+		<property name="searchProcessor" ref="processStorageSearchProcessor" />
+	</bean>
+	    
+    <!--=====================================================================-->
+    <!-- WPS Cluster initializers -->
+    <!--=====================================================================-->
+    <!-- The clustered process runner -->
+    <bean id="clusteredProcessManager" class="org.geoserver.wps.executor.ClusterProcessManager" init-method="init">
+      <constructor-arg ref="geoServer"/>
+      <constructor-arg ref="wpsResourceManager"/>
+      <constructor-arg ref="clusteredProcessStorage"/>
+      <constructor-arg>
+        <list>
+            <value>ClusterManager</value>
+        </list>
+      </constructor-arg>
+      <constructor-arg ref="defaultClusterFilePublisherURLMangler"/>
+      <constructor-arg ref="sendMail"/>
+       <constructor-arg value="${CLUSTER_PROCESS_MANAGER_ID}"/>
+    </bean>
+
+    <!-- Configures some WPS subsystems with the current config values and keeps them up to date -->
+    <bean id="clusteredWpsInitializer" class="org.geoserver.wps.WPSInitializer">
+      <constructor-arg index="0" ref="executionManager"/>
+      <constructor-arg index="1" ref="clusteredProcessManager"/>
+      <constructor-arg index="2" ref="wpsClusterStorageCleaner"/>
+    </bean>
+    
+    <!--=====================================================================-->
+    <!-- Process Storages -->
+    <!--=====================================================================-->
+	<bean id="clusteredProcessStorage" class="org.geoserver.wps.executor.storage.DefaultProcessStorage">
+		<constructor-arg index="0" ref="processStorageDAO" />
+	</bean>
+
+    <!--=====================================================================-->
+    <!-- Cluster File-Publisher URL Manglers -->
+    <!--=====================================================================-->
+	<bean id="defaultClusterFilePublisherURLMangler" class="org.geoserver.wps.executor.util.DefaultClusterFilePublisherURLMangler">
+		<constructor-arg index="0" ref="wpsResourceManager"/>
+	</bean>
+
+    <!--=====================================================================-->
+    <!-- WPS Cluster Resource Cleaner -->
+    <!--=====================================================================-->
+    <!-- Temp storage cleanup -->
+    <bean id="wpsClusterStorageCleaner" class="org.geoserver.wps.WPSClusterStorageCleaner">
+      <constructor-arg index="0" ref="wpsResourceManager" />
+      <constructor-arg index="1" ref="clusteredProcessStorage" />
+      <constructor-arg index="2" value="${CLUSTER_PROCESS_MANAGER_ID}"/>
+      <property name="enabled" value="${wpsClusterStorageCleaner.enabled}" />
+    </bean>
+  
+    <!-- Definition of how often the scheduled task runs -->
+    <bean id="wpsClusterStorageCleanerTask"
+      class="org.springframework.scheduling.timer.ScheduledTimerTask">
+      <property name="delay" value="${wpsClusterStorageCleaner.delay}" />
+      <property name="period" value="${wpsClusterStorageCleaner.period}" />
+      <property name="timerTask" ref="wpsClusterStorageCleaner" />
+    </bean>
+  
+    <!--
+      And finally the class that instantiates the scheduled tasks and
+      makes them run
+    -->
+    <bean id="wpsClusterTimerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean"
+      lazy-init="false">
+      <property name="scheduledTimerTasks">
+        <list>
+          <ref bean="wpsClusterStorageCleanerTask" />
+        </list>
+      </property>
+      <property name="daemon" value="true" />
+    </bean>
+
+	<!-- WPS SendMail bean -->
+	<bean id="sendMail" class="org.geoserver.wps.mail.SendMail">
+    </bean>
+    
+</beans>

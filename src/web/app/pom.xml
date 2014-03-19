@@ -621,6 +621,31 @@
 			</dependencies>
 		</profile>
 		<profile>
+			<id>wps-download</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.geoserver.community</groupId>
+					<artifactId>kmlppio</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.geoserver.community</groupId>
+					<artifactId>gpxppio</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.geoserver.community</groupId>
+					<artifactId>wps-cluster</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.geoserver.community</groupId>
+					<artifactId>wps-download</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
 			<id>istyler</id>
 			<dependencies>
 				<dependency>

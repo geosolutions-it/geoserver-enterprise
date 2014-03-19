@@ -24,6 +24,7 @@ import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.ViewType;
 import org.geotools.geometry.Envelope2D;
+import org.geotools.process.raster.GridCoverage2DRIA;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.junit.Test;
 
