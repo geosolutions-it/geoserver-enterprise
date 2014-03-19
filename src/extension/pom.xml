@@ -79,17 +79,10 @@
       </modules>
     </profile>
 
-	<profile>
-      <id>kmlppio</id>
+    <profile>
+      <id>wps</id>
       <modules>
-        <module>kmlppio</module>
-      </modules>
-    </profile>
-
-	<profile>
-      <id>gpxppio</id>
-      <modules>
-        <module>gpxppio</module>
+        <module>wps</module>
       </modules>
     </profile>
 	
