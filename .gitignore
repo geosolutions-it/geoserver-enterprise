@@ -1,4 +1,5 @@
 target
+bin
 *.class
 
 # Package Files #
@@ -6,3 +7,5 @@ target
 *.war
 *.ear
 .project
+.classpath
+.settings
