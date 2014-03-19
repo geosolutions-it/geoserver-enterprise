@@ -58,16 +58,5 @@ public abstract class JMSFactory implements DisposableBean {
 	 */
 	public abstract ConnectionFactory getConnectionFactory(
 			Properties configuration);
-
-	/**
-	 * This is called when the JMSContainer is disposed, can be used to shutdown
-	 * used resources.
-	 */
-	public abstract void shutdown();
-
-	@Override
-	public void destroy() throws Exception {
-		shutdown();
-	}
-
+    
 }
