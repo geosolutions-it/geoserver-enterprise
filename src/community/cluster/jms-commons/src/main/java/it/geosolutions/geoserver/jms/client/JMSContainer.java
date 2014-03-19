@@ -143,7 +143,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer implemen
         setDestination(jmsFactory.getClientDestination(conf));
         
         // use a CachingConnectionFactory
-        setConnectionFactory(jmsFactory.getConnectionFactory(conf));// new CachingConnectionFactory(
+        setConnectionFactory(jmsFactory.getConnectionFactory(conf));
     }
 
     /**
@@ -206,17 +206,12 @@ final public class JMSContainer extends DefaultMessageListenerContainer implemen
 
         }
     }
-
-    @Override
-    public void shutdown() throws JmsException {
-        disconnect();
-        super.shutdown();
-    }
     
-	@Override
-	public void destroy() {
-		shutdown();
-	}
+    @Override
+    public void destroy() {
+        super.stop();
+        super.destroy();
+    }
 
     @Override
     protected void handleListenerSetupFailure(Throwable ex, boolean alreadyRecovered) {

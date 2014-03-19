@@ -34,7 +34,6 @@
         <descriptors>
           <!--descriptor>release/ext-importer.xml</descriptor-->
           <descriptor>release/ext-cluster.xml</descriptor>
-	  <descriptor>release/ext-embeddedBroker.xml</descriptor>
           <descriptor>release/ext-activeMQ.xml</descriptor>
         </descriptors>
       </configuration>

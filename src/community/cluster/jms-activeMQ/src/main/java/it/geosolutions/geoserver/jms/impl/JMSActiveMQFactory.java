@@ -15,9 +15,7 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.Topic;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.pool.PooledConnectionFactory;
-import org.springframework.jms.connection.CachingConnectionFactory;
 
 /**
  * 
@@ -82,22 +80,33 @@ public class JMSActiveMQFactory extends JMSFactory {
     public ConnectionFactory getConnectionFactory(Properties configuration) {
         final String configuredBroker = configuration
                 .getProperty(BrokerConfiguration.BROKER_URL_KEY);
-        if (broker == null || !broker.equals(configuredBroker) || cf == null) {
+        if (cf==null){
+            // need to be initialized
             broker = configuredBroker;
+            cf = new PooledConnectionFactory(broker);
             
+        } else if (broker == null || !broker.equals(configuredBroker)) {
             // need to be reinitialized
-            cf = new PooledConnectionFactory(new TransactionHandlerConnectionFactory(broker));
-            cf.start();
+            broker = configuredBroker;
+            // clear pending connections
+            try {
+                destroy();
+            } catch (Exception e) {
+                // eat
+            }
+            // create a new connection
+            cf = new PooledConnectionFactory(broker);
+//            cf.start();
         }
         return cf;
     }
 
     @Override
-    public void shutdown() {
+    public void destroy() throws Exception {
         if (cf != null) {
-        	// close all the connections
-        	cf.clear();
-        	// stop the factory
+            // close all the connections
+            cf.clear();
+            // stop the factory
             cf.stop();
             // set null
             cf = null;

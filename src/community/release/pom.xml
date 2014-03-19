@@ -38,11 +38,6 @@
       <artifactId>jms-commons</artifactId>
      <version>${project.version}</version>
    </dependency>
-   <dependency>
-      <groupId>org.geoserver</groupId>
-      <artifactId>activemqEmbeddedBroker</artifactId>
-     <version>${project.version}</version>
-   </dependency>
  </dependencies>
  <build>
   <plugins>
