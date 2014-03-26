@@ -134,9 +134,11 @@ public abstract class GeoServerPreAuthenticatedUserNameFilter extends GeoServerP
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        request.setAttribute(UserNameAlreadyRetrieved, Boolean.TRUE);
-        if (principal!=null)
+        
+        if (principal!=null) {
             request.setAttribute(UserName,principal);
+            request.setAttribute(UserNameAlreadyRetrieved, Boolean.TRUE);
+        }
         return principal;    
     }
     
