@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>     
+
+	<bean id="testWpsClusterDataStorePropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:wps-cluster/dbConfig.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<!--  property name="properties">
+			<props>
+				<prop key="processStorageVendorAdapter.databasePlatform">org.hibernate.dialect.H2Dialect</prop> 
+				<prop key="processStorageDataSource.driverClassName">org.h2.Driver</prop>
+			</props> 
+		</property -->
+	</bean>
+
+	<bean id="testWpsClusterPropertyConfigurer" class="org.geoserver.config.GeoServerPropertyConfigurer">
+		<constructor-arg ref="dataDirectory" />
+		<property name="location" value="file:wps-cluster/wpsCluster.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="searchSystemEnvironment" value="true" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />		
+		<!-- property name="properties">
+			<props>
+				<prop key="prop1">value1</prop> 
+				<prop key="prop2">value2</prop>
+		</props> </property -->
+	</bean>
+
+</beans>
