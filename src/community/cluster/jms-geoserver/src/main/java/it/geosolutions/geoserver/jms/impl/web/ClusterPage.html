@@ -34,8 +34,8 @@
 											</td>
 											<td><label for="toggleMaster"><wicket:message
 														key="toggleMaster">toggleMaster</wicket:message></label> <input
-												id="toggleMaster" style="width: 30px;"
-												class="field text" type="text" wicket:id="toggleMaster" /></td>
+												id="toggleMaster" style="width: 30px;" class="field text"
+												type="text" wicket:id="toggleMaster" /></td>
 										</tr>
 										<tr>
 											<td>
@@ -70,16 +70,23 @@
 												id="readOnly" style="width: 50px;" class="field text"
 												type="text" wicket:id="readOnly" /></td>
 										</tr>
+										<tr>
+											<td>
+												<button type="submit" wicket:id="embeddedBrokerB">
+													<wicket:message key="embeddedBrokerB">embeddedBrokerB</wicket:message>
+												</button>
+											</td>
+											<td><label for="embeddedBroker"><wicket:message
+														key="embeddedBroker">embeddedBroker</wicket:message></label> <input
+												id="readOnly" style="width: 50px;" class="field text"
+												type="text" wicket:id="embeddedBroker" /></td>
+										</tr>
 									</table></li>
-									
-								<li class="button-group selfclear">
 
+								<li class="button-group selfclear">
 									<button type="submit" wicket:id="saveB">
 										<wicket:message key="saveB">submit</wicket:message>
 									</button>
-<!-- 									<button type="submit" wicket:id="resetB"> -->
-<!-- 										<wicket:message key="resetB">reset</wicket:message> -->
-<!-- 									</button> -->
 								</li>
 							</ul>
 						</form>

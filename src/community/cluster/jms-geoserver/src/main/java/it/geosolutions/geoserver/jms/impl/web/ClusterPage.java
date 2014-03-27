@@ -4,10 +4,12 @@
  */
 package it.geosolutions.geoserver.jms.impl.web;
 
+import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.client.JMSContainer;
 import it.geosolutions.geoserver.jms.configuration.BrokerConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
+import it.geosolutions.geoserver.jms.configuration.EmbeddedBrokerConfiguration;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ReadOnlyConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ToggleConfiguration;
@@ -176,13 +178,61 @@ public class ClusterPage extends GeoServerSecuredPage {
                     getConfig().storeConfig();
                     fp.info("Configuration saved");
                 } catch (IOException e) {
-                	if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
-                		LOGGER.severe(e.getLocalizedMessage());
+                    if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+                        LOGGER.severe(e.getLocalizedMessage());
                     fp.error(e.getLocalizedMessage());
                 }
             }
         };
         form.add(save);
+
+        // add Read Only switch
+        final TextField<String> embeddedBrokerInfo = new TextField<String>(
+                EmbeddedBrokerConfiguration.EMBEDDED_BROKER_KEY);
+
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        embeddedBrokerInfo.setType(String.class);
+
+        embeddedBrokerInfo.setOutputMarkupId(true);
+        embeddedBrokerInfo.setOutputMarkupPlaceholderTag(true);
+        embeddedBrokerInfo.setEnabled(false);
+        form.add(embeddedBrokerInfo);
+
+        final AjaxButton embeddedBroker = new AjaxButton(
+                "embeddedBrokerB",
+                new StringResourceModel(EmbeddedBrokerConfiguration.EMBEDDED_BROKER_KEY, this, null)) {
+            /** serialVersionUID */
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target,
+                    org.apache.wicket.markup.html.form.Form<?> form) {
+                JMSFactory factory = getJMSFactory();
+                if (!factory.isEmbeddedBrokerStarted()) {
+                    try {
+                        if (factory.startEmbeddedBroker(getConfig().getConfigurations())) {
+                            embeddedBrokerInfo.getModel().setObject("enabled");
+                        }
+                    } catch (Exception e) {
+                        if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+                            LOGGER.severe(e.getLocalizedMessage());
+                        fp.error(e.getLocalizedMessage());
+                    }
+                } else {
+                    try {
+                        if (factory.stopEmbeddedBroker()) {
+                            embeddedBrokerInfo.getModel().setObject("disabled");
+                        }
+                    } catch (Exception e) {
+                        if (LOGGER.isLoggable(java.util.logging.Level.SEVERE))
+                            LOGGER.severe(e.getLocalizedMessage());
+                        fp.error(e.getLocalizedMessage());
+                    }
+                }
+                target.addComponent(this.getParent());
+            }
+        };
+        form.add(embeddedBroker);
 
         // TODO change status if it is changed due to reset
         // final Button reset = new Button("resetB", new StringResourceModel("reset", this, null)) {
@@ -245,7 +295,8 @@ public class ClusterPage extends GeoServerSecuredPage {
                 if (switchTo) {
                     fp.info("The " + type + " toggle is now ENABLED");
                 } else {
-                    fp.warn("The " + type
+                    fp.warn("The "
+                            + type
                             + " toggle is now DISABLED no event will be posted/received to/from the broker");
                     fp.info("Note that the " + type
                             + " is still registered to the topic destination");
@@ -269,6 +320,10 @@ public class ClusterPage extends GeoServerSecuredPage {
 
     protected JMSContainer getJMSContainer() {
         return getGeoServerApplication().getBeanOfType(JMSContainer.class);
+    }
+
+    protected JMSFactory getJMSFactory() {
+        return getGeoServerApplication().getBeanOfType(JMSFactory.class);
     }
 
     protected ReadOnlyGeoServerLoader getReadOnlyGeoServerLoader() {

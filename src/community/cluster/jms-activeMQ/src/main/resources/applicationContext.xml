@@ -16,12 +16,13 @@
                            http://www.springframework.org/schema/jms/spring-jms.xsd
                            http://activemq.apache.org/schema/core
                            http://activemq.apache.org/schema/core/activemq-core.xsd">
-                         
 
-	
-	
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 	<context:annotation-config />
 
+<!-- 	<import resource="./broker.xml"/> -->
+	
 	<bean id="JMSActiveMQFactory" class="it.geosolutions.geoserver.jms.impl.JMSActiveMQFactory" />	
+
 </beans>
+

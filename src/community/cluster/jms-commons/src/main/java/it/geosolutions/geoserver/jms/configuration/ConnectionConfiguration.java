@@ -23,7 +23,7 @@ final public class ConnectionConfiguration implements JMSConfigurationExt {
 
 	// millisecs to wait between tests (connection)
 	public static final String CONNECTION_MAXWAIT_KEY = "connection.maxwait";
-	public static final Long  DEFAULT_CONNECTION_MAXWAIT = 1000L;
+	public static final Long  DEFAULT_CONNECTION_MAXWAIT = 10000L;
 
 	public static final ConnectionConfigurationStatus DEFAULT_CONNECTION_STATUS = ConnectionConfigurationStatus.disabled;
 
