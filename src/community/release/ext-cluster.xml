@@ -39,7 +39,11 @@
 		<include>activemq*.jar</include>
 		
 		<include>activemq-broker*.jar</include>
+		
 		<include>activemq-kahadb-store*.jar</include>
+		
+		<include>activemq-leveldb-store*.jar</include>
+		  <include>leveldb*.jar</include>
 		
 		<include>activemq-all.jar</include>
 		  <include>activemq-amqp*.jar</include>
@@ -51,6 +55,10 @@
 		    <include>geronimo-*.jar</include>
 		    <include>activemq-openwire-legacy*.jar</include>
 		    <include>hawtbuf*.jar</include>
+		    <include>hawtjni*.jar</include>
+		    <include>hawtdispatch*.jar</include>
+		    
+		  <include>scala*.jar</include>
 		  
 		<include>activemq-spring*.jar</include>
 		  <include>activemq-pool*.jar</include>
