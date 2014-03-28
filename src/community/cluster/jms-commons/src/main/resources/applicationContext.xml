@@ -30,6 +30,11 @@
 	<bean id="JMSBrokerConfiguration"
 		class="it.geosolutions.geoserver.jms.configuration.BrokerConfiguration">
 	</bean>
+	
+	<bean id="JMSEmbeddedBrokerConfiguration"
+		class="it.geosolutions.geoserver.jms.configuration.EmbeddedBrokerConfiguration">
+	</bean>
+	
 
 	<bean id="JMSConnectionConfiguration"
 		class="it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration">

@@ -59,10 +59,6 @@ public class JMSActiveMQFactory extends JMSFactory {
     // embedded broker
     private BrokerService brokerService;
 
-    private final static String BROKER_URL_KEY = "xbeanURL";
-
-    private final static String DEFAULT_BROKER_URL = "./broker.xml";
-
     // <bean id="JMSClientDestination"
     // class="org.apache.activemq.command.ActiveMQQueue">
     // <value="Consumer.${instance.name}.VirtualTopic.${topic.name}" />
@@ -152,12 +148,7 @@ public class JMSActiveMQFactory extends JMSFactory {
             LOGGER.info("Starting the embedded broker");
         }
         if (brokerService == null) {
-            String xBeanBroker = configuration.getProperty(BROKER_URL_KEY);
-            if (xBeanBroker == null || xBeanBroker.isEmpty()) {
-                xBeanBroker = DEFAULT_BROKER_URL;
-                config.putConfiguration(BROKER_URL_KEY, xBeanBroker);
-                config.storeConfig();
-            }
+            String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
             final XBeanBrokerFactory bf = new XBeanBrokerFactory();
             brokerService = bf.createBroker(new URI(xBeanBroker));
         } else {

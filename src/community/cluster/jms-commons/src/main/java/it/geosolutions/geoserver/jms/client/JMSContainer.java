@@ -71,10 +71,12 @@ final public class JMSContainer extends DefaultMessageListenerContainer implemen
         // force no concurrent consumers
         setConcurrentConsumers(1);
         
+        // set to topic
+        setPubSubDomain(true);
+        
         // set subscription durability
-        boolean durable=Boolean.parseBoolean(config.getConfiguration(TopicConfiguration.DURABLE_KEY).toString());
-        setSubscriptionDurable(durable);
-        setPubSubDomain(durable);
+        setSubscriptionDurable(Boolean.parseBoolean(config.getConfiguration(TopicConfiguration.DURABLE_KEY).toString()));
+        
         
         // set subscription ID
         setDurableSubscriptionName(config.getConfiguration(JMSConfiguration.INSTANCE_NAME_KEY).toString());

@@ -19,10 +19,10 @@
 
 	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
 	<context:annotation-config />
-
-<!-- 	<import resource="./broker.xml"/> -->
 	
 	<bean id="JMSActiveMQFactory" class="it.geosolutions.geoserver.jms.impl.JMSActiveMQFactory" />	
 
+	<bean id="JMSActiveMQEmbeddedBrokerConfiguration"
+		class="it.geosolutions.geoserver.jms.impl.ActiveMQEmbeddedBrokerConfiguration" />
 </beans>
 
