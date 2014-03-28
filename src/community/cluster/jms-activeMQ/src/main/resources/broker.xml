@@ -27,6 +27,7 @@
 
 	<broker id="broker" brokerName="embeddedBroker" persistent="${activemq.broker.persistent}"
 		useJmx="true" xmlns="http://activemq.apache.org/schema/core"
+		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
 		startAsync="false">
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
@@ -44,7 +45,7 @@
 
 		<networkConnectors xmlns="http://activemq.apache.org/schema/core">
 			<networkConnector
-				uri="${activemq.transportConnectors.server.discoveryURI}" />
+				uri="${activemq.transportConnectors.server.discoveryURI}"  />
 		</networkConnectors>
 
 		<destinationInterceptors>
@@ -62,10 +63,10 @@
 		<amq:persistenceAdapter>
 			<!-- <kahaDB directory="${activemq.base}/kahadb" -->
 			<!-- lockKeepAlivePeriod="0" /> -->
-			
+
 			<levelDB directory="${activemq.base}/leveldb"
 				lockKeepAlivePeriod="0" />
-				
+
 			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" -->
 			<!-- dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
 		</amq:persistenceAdapter>
@@ -86,10 +87,6 @@
 				</tempUsage>
 			</systemUsage>
 		</systemUsage>
-		<!-- systemUsage> <systemUsage> <memoryUsage> <memoryUsage limit="64 mb" 
-			/> </memoryUsage> <storeUsage> <storeUsage limit="1 gb" /> </storeUsage> 
-			<tempUsage> <tempUsage limit="5 gb" /> </tempUsage> </systemUsage> </systemUsage -->
-
 
 		<!-- The transport connectors expose ActiveMQ over a given protocol to 
 			clients and other brokers. For more information, see: http://activemq.apache.org/configuring-transports.html -->

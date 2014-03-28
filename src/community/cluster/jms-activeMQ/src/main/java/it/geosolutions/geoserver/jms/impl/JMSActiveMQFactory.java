@@ -148,6 +148,9 @@ public class JMSActiveMQFactory extends JMSFactory {
 
     @Override
     public boolean startEmbeddedBroker(final Properties configuration) throws Exception {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Starting the embedded broker");
+        }
         if (brokerService == null) {
             String xBeanBroker = configuration.getProperty(BROKER_URL_KEY);
             if (xBeanBroker == null || xBeanBroker.isEmpty()) {
@@ -159,30 +162,36 @@ public class JMSActiveMQFactory extends JMSFactory {
             brokerService = bf.createBroker(new URI(xBeanBroker));
         } else {
             if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.warning("The embedded broker is already exists, probably it is already started");
+                LOGGER.warning("The embedded broker service already exists, probably it is already started");
+            }
+            if (brokerService.isStarted()) {    
+                if (LOGGER.isLoggable(Level.WARNING)) {
+                    LOGGER.warning("SKIPPING: The embedded broker is already started");
+                }
+                return true;
             }
         }
         if (!brokerService.isStarted()) {
             brokerService.start();
-        } else {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.warning("SKIPPING: The embedded broker is already started");
-            }
         }
         for (int i = -1; i < max; ++i) {
             try {
-                Thread.sleep(maxWait);
-                if (isEmbeddedBrokerStarted()) {
+                if (brokerService.isStarted()) {
+                    if (LOGGER.isLoggable(Level.INFO)) {
+                        LOGGER.info("Embedded broker is now started");
+                    }
                     return true;
-                } else {
-                    return false;
                 }
+                Thread.sleep(maxWait);
             } catch (Exception e1) {
                 if (LOGGER.isLoggable(Level.SEVERE)) {
                     LOGGER.severe("Unable to start the embedded broker" + e1.getLocalizedMessage());
                 }
                 return false;
             }
+        }
+        if (LOGGER.isLoggable(Level.SEVERE)) {
+            LOGGER.severe("Unable to start the embedded broker");
         }
         return false;
     }
@@ -194,25 +203,35 @@ public class JMSActiveMQFactory extends JMSFactory {
 
     @Override
     public boolean stopEmbeddedBroker() throws Exception {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Embedded broker is now stopped");
+        }
         if (brokerService == null) {
             return true;
         }
         brokerService.stop();
         for (int i = -1; i < max; ++i) {
             try {
-                Thread.sleep(maxWait);
-                if (isEmbeddedBrokerStarted()) {
-                    return false;
-                } else {
+                if (!brokerService.isStarted()) {
+                    if (LOGGER.isLoggable(Level.INFO)) {
+                        LOGGER.info("Embedded broker is now stopped");
+                    }
                     brokerService = null;
                     return true;
                 }
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.info("Embedded broker is going to stop: waiting...");
+                }
+                Thread.sleep(maxWait);
             } catch (Exception e1) {
                 if (LOGGER.isLoggable(Level.SEVERE)) {
                     LOGGER.severe("Unable to start the embedded broker" + e1.getLocalizedMessage());
                 }
                 return false;
             }
+        }
+        if (LOGGER.isLoggable(Level.SEVERE)) {
+            LOGGER.severe("Unable to stop the embedded broker");
         }
         return false;
     }

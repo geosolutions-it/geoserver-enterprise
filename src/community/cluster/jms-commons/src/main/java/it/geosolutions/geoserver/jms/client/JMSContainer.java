@@ -6,6 +6,7 @@ package it.geosolutions.geoserver.jms.client;
 
 import it.geosolutions.geoserver.jms.JMSFactory;
 import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration;
+import it.geosolutions.geoserver.jms.configuration.TopicConfiguration;
 import it.geosolutions.geoserver.jms.configuration.ConnectionConfiguration.ConnectionConfigurationStatus;
 import it.geosolutions.geoserver.jms.configuration.JMSConfiguration;
 
@@ -52,25 +53,35 @@ final public class JMSContainer extends DefaultMessageListenerContainer implemen
 
     public JMSContainer(JMSConfiguration config, JMSQueueListener listener) {
         super();
-        
-        // force no concurrence
-        setConcurrentConsumers(1);
+
+        // configuration
+        this.config = config;
         
         // the listener used to handle incoming events
         setMessageListener(listener);
 
-        // configuration
-        this.config = config;
 
     }
 
     @PostConstruct
     private void init() {
-        // change the default autostartup status
+        // change the default autostartup status to false
         setAutoStartup(false);
+        
+        // force no concurrent consumers
+        setConcurrentConsumers(1);
+        
+        // set subscription durability
+        boolean durable=Boolean.parseBoolean(config.getConfiguration(TopicConfiguration.DURABLE_KEY).toString());
+        setSubscriptionDurable(durable);
+        setPubSubDomain(durable);
+        
+        // set subscription ID
+        setDurableSubscriptionName(config.getConfiguration(JMSConfiguration.INSTANCE_NAME_KEY).toString());
         
         // times to test (connection)
         max = Integer.parseInt(config.getConfiguration(ConnectionConfiguration.CONNECTION_RETRY_KEY).toString());
+        
         // millisecs to wait between tests (connection)
         maxWait = Long.parseLong(config.getConfiguration(ConnectionConfiguration.CONNECTION_MAXWAIT_KEY).toString());
 

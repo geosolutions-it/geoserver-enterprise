@@ -19,23 +19,26 @@ final public class TopicConfiguration implements JMSConfigurationExt {
 
     public static final String DEFAULT_TOPIC_NAME = "VirtualTopic.>";
 
-//    @Autowired
-//    JMSPropertyPlaceholderConfigurer commonConfiguration;
+    public static final String DURABLE_KEY = "durable";
+
+    public static final String DEFAULT_DURABLE_NAME = "true";
+
+    // @Autowired
+    // JMSPropertyPlaceholderConfigurer commonConfiguration;
 
     @Override
     public void initDefaults(JMSConfiguration config) throws IOException {
         String url = null;
 
-//        if (commonConfiguration != null) {
-//            url = commonConfiguration.getMergedProperties().getProperty(TOPIC_NAME_KEY);
-//        }
-
         config.putConfiguration(TOPIC_NAME_KEY, url != null ? url : DEFAULT_TOPIC_NAME);
+
+        config.putConfiguration(DURABLE_KEY, url != null ? url : DEFAULT_DURABLE_NAME);
     }
 
     @Override
     public boolean override(JMSConfiguration config) throws IOException {
-        return config.override(TOPIC_NAME_KEY, DEFAULT_TOPIC_NAME);
+        return config.override(TOPIC_NAME_KEY, DEFAULT_TOPIC_NAME)
+                || config.override(DURABLE_KEY, DEFAULT_DURABLE_NAME);
     }
 
 }
