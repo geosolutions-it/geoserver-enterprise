@@ -1,9 +1,0 @@
-To perform tests using Jetty (similar things for Tomcat) Use the Start class in src/test/java/ setting two different run with the following arguments: 
-Run 1 arguments:
--Djetty.port=8081 -Dactivemq.jmx.port=1078 -Djava.security.policy=security.policy -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
-Run 2 arguments:
--Djetty.port=8082 -Dactivemq.jmx.port=1077 -Djava.security.policy=security.policy -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
-
-NOTE:
-- jetty.port is specific for jetty and can be set also in jetty.property (environment will override it)
-- activemq.jmx.port is specific of the defined activemq configuration and can be set into activemq-jmx.properties (environment will override it)
