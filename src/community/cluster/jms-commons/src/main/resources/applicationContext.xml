@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd" -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://activemq.apache.org/schema/core
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<context:component-scan base-package="it.geosoutions.geoserver.jms" />
+
+	<context:annotation-config />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<value>classpath:jms.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- COMMONS -->
+	
+	<!-- A connection to ActiveMQ -->
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" >
+		<property name="brokerURL" value="${broker.url}" />
+	</bean>
+
+<!-- THIS IS NOT SUPPORTED USING Spring-2.5.5 use it on Spring-3.0.5.RELEASE -->
+<!--	<bean id="connectionFactory"-->
+<!--		class="org.springframework.jms.connection.CachingConnectionFactory" depends-on="amqConnectionFactory">-->
+<!--		<constructor-arg index="0" type="ConnectionFactory" ref="amqConnectionFactory" />-->
+<!--		<property name="exceptionListener" ref="jmsExceptionListener" /> -->
+<!--		<property name="sessionCacheSize" value="${connectionfactory.sessionCacheSize}" />-->
+<!--	</bean>-->
+	
+	<bean id="JMSProperties" class="it.geosolutions.geoserver.jms.JMSProperties">
+<!--		<constructor-arg index="0" type="String" value="${instance.name}" />-->
+		<property name="name" value="${instance.name}" />
+<!--		<constructor-arg name="name" value="${instance.name}" />-->
+	</bean>
+
+	<!-- the merge is specified on the *child* collection definition -->
+	<!-- <bean id="Properties" parent="JMSProperties"> -->
+	<!-- <property name="properties"> -->
+	<!-- <props merge="true"> -->
+	<!-- <prop key="sales">sales@example.com</prop> -->
+	<!-- <prop key="support">support@example.co.uk</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<bean id="JMSManager" class="it.geosolutions.geoserver.jms.JMSManager"
+		lazy-init="false" />
+
+</beans>

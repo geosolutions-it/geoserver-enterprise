@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>org.geoserver</groupId>
+      <artifactId>community</artifactId>
+      <version>2.2-ENTERPRISE-SNAPSHOT-DESTINATION-20140328</version>
+    </parent>
+
+    <groupId>org.geoserver</groupId>
+    <artifactId>geoserver-jms</artifactId>
+    <!-- Use the same version as GeoServer here, at least for the moment -->
+    <version>2.2-ENTERPRISE-SNAPSHOT-DESTINATION-20140328</version>
+    <packaging>pom</packaging>
+
+    <name>GeoServer Enterprise JMS modules</name>
+
+    
+<profiles>
+	<profile>
+		<id>jms-client</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<modules>
+			<module>jms-commons</module>
+			<module>jms-commons-impl</module>
+			<module>jms-client</module>
+		</modules>
+	</profile>
+	<profile>
+		<id>jms-server</id>
+		<activation>
+			<property>
+				<name>all</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<modules>
+			<module>jms-commons</module>
+			<module>jms-commons-impl</module>
+			<module>jms-server</module>
+			<module>jms-server-impl</module>
+		</modules>
+	</profile>
+        
+</profiles>
+</project>
