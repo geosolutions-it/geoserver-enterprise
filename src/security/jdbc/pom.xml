@@ -7,12 +7,12 @@
   <parent>
     <groupId>org.geoserver</groupId>    
     <artifactId>security</artifactId>
-    <version>2.2-ENTERPRISE-SNAPSHOT</version>
+    <version>2.2-ENTERPRISE-SNAPSHOT-DESTINATION-20140328</version>
   </parent>
   <groupId>org.geoserver.security</groupId>
   <artifactId>sec-jdbc</artifactId>
   <packaging>jar</packaging>
-  <version>2.2-ENTERPRISE-SNAPSHOT</version>
+  <version>2.2-ENTERPRISE-SNAPSHOT-DESTINATION-20140328</version>
   <name>GeoServer JDBC Security Module</name>
   
   <dependencies>
