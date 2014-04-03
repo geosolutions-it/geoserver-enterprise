@@ -19,6 +19,8 @@
         <include>jt-*</include>
         <include>serializer*</include>
         <include>json-simple-*</include>
+        <include>ant-1.7.1*</include>        
+        <include>ant-launcher-*</include>        
       </includes>
     </fileSet>
   </fileSets>

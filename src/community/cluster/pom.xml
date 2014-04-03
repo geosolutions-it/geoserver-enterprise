@@ -45,7 +45,13 @@
 			<module>jms-server</module>
 			<module>jms-server-impl</module>
 		</modules>
-	</profile>
-        
+	</profile>    
 </profiles>
+    <modules>
+        <module>jms-commons</module>
+        <module>jms-commons-impl</module>
+        <module>jms-server</module>
+        <module>jms-server-impl</module>
+        <module>jms-client</module>
+    </modules> 
 </project>

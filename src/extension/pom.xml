@@ -215,23 +215,9 @@
     <profile>
       <id>release</id>
       <modules>
-        <module>app-schema</module>
-        <module>arcsde</module>
-        <module>sqlserver</module>
-        <module>oracle</module>
-        <module>imagemap</module>
-        <module>gdal</module>
-        <module>jp2k</module>
-        <module>ogr</module>
-        <module>excel</module>
-        <module>charts</module>
         <module>control-flow</module>
         <module>wps</module>
-        <module>querylayer</module>
         <module>monitor</module>
-        <module>xslt</module>
-        <module>inspire</module>
-        <module>libjpeg-turbo</module>
       </modules>
     </profile>
 

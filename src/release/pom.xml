@@ -104,56 +104,13 @@
    <artifactId>gt-app-schema</artifactId>
    <version>${gt.version}</version>
   </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>sqlserver</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>oracle</artifactId>
-   <version>${project.version}</version>
-  </dependency>
+  
   <!--dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>db2</artifactId>
    <version>${project.version}</version>
   </dependency-->
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>imagemap</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>ogr</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>excel</artifactId>
-   <version>${project.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>charts</artifactId>
-   <version>${project.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>jp2k</artifactId>
-   <version>${project.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>gdal</artifactId>
-   <version>${project.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>arcsde</artifactId>
-   <version>${project.version}</version>
-  </dependency>
+  
   <dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>control-flow</artifactId>
@@ -169,11 +126,7 @@
    <artifactId>web-wps</artifactId>
    <version>${project.version}</version>
   </dependency>
-  <dependency>
-   <groupId>org.geoserver.extension</groupId>
-   <artifactId>querylayer</artifactId>
-   <version>${project.version}</version>
-  </dependency>
+  
   <dependency>
    <groupId>org.geoserver.extension</groupId>
    <artifactId>monitor-core</artifactId>
@@ -185,20 +138,20 @@
    <version>${project.version}</version>
   </dependency>
   <dependency>
-   <groupId>org.geoserver</groupId>
-   <artifactId>xslt</artifactId>
-   <version>${project.version}</version>
-  </dependency>
+     <groupId>it.geosolutions.geofence.geoserver</groupId>
+     <artifactId>geofence-security</artifactId>
+     <version>2.2-SNAPSHOT</version>
+   </dependency>
    <dependency>
-     <groupId>org.geoserver.community</groupId>
-     <artifactId>inspire</artifactId>
-     <version>${project.version}</version>
-   </dependency>  
+     <groupId>it.geosolutions.geofence</groupId>
+     <artifactId>geofence-services-api</artifactId>
+     <version>2.2-SNAPSHOT</version>
+   </dependency>
    <dependency>
-     <groupId>org.geoserver.community</groupId>
-     <artifactId>libjpeg-turbo</artifactId>
-     <version>${project.version}</version>
-   </dependency>    
+     <groupId>it.geosolutions.geofence</groupId>
+     <artifactId>geofence-services-api</artifactId>
+     <version>2.2-SNAPSHOT</version>
+   </dependency> 
  </dependencies>
  <build>
   <plugins>

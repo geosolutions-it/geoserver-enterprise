@@ -27,12 +27,8 @@
       <version>2.1</version>
       <configuration>
         <descriptors>
-          <descriptor>release/ext-authkey.xml</descriptor>
           <descriptor>release/ext-printing.xml</descriptor>
-          <descriptor>release/ext-aggregate.xml</descriptor>
-          <descriptor>release/ext-importer.xml</descriptor>
           <descriptor>release/ext-cluster.xml</descriptor>
-          <descriptor>release/ext-activeMQ.xml</descriptor>
         </descriptors>
       </configuration>
      </plugin>
@@ -89,12 +85,8 @@
     <profile>
       <id>communityRelease</id>
       <modules>
-        <module>authkey</module>
         <module>printing</module>
         <module>release</module>
-	<!--module>bkprst</module-->
-        <module>feature-aggregate</module>
-        <module>importer</module>
         <module>cluster</module>
       </modules>
     </profile>
