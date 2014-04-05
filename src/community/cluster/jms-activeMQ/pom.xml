@@ -61,7 +61,7 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-kahadb-store</artifactId>
 			<version>${amq.version}</version>
@@ -79,7 +79,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
@@ -163,7 +163,7 @@
 		</dependency>
 
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-openwire-legacy</artifactId>
 			<version>${amq.version}</version>
@@ -181,10 +181,10 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-http</artifactId>
 			<version>${amq.version}</version>
@@ -202,7 +202,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
