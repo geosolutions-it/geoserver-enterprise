@@ -204,7 +204,7 @@
 			</exclusions>
 		</dependency> -->
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-mqtt</artifactId>
 			<version>${amq.version}</version>
@@ -222,9 +222,9 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 
-		<dependency>
+		<!--dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-stomp</artifactId>
 			<version>${amq.version}</version>
@@ -242,10 +242,10 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 
 		<!-- only 5.9.0 -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-amqp</artifactId>
 			<version>${amq.version}</version>
@@ -263,7 +263,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 		
 		<!-- only 5.8.0
 		<dependency>
