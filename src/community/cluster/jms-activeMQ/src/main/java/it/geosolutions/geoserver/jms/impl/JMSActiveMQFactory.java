@@ -151,6 +151,7 @@ public class JMSActiveMQFactory extends JMSFactory {
             String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
             final XBeanBrokerFactory bf = new XBeanBrokerFactory();
             brokerService = bf.createBroker(new URI(xBeanBroker));
+            brokerService.setEnableStatistics(false);
         } else {
             if (LOGGER.isLoggable(Level.WARNING)) {
                 LOGGER.warning("The embedded broker service already exists, probably it is already started");
@@ -227,6 +228,7 @@ public class JMSActiveMQFactory extends JMSFactory {
         return false;
     }
 
+    @SuppressWarnings("unused")
     @PostConstruct
     private void init() {
         // // times to test (connection)
@@ -249,6 +251,10 @@ public class JMSActiveMQFactory extends JMSFactory {
                         config.putConfiguration(ConnectionConfiguration.CONNECTION_KEY,
                                 ConnectionConfigurationStatus.disabled.toString());
 
+                    }else{
+                        if (LOGGER.isLoggable(Level.SEVERE)) {
+                            LOGGER.severe("Started the embedded broker: "+brokerService.toString());
+                        }                        
                     }
                 } catch (Exception e) {
                     LOGGER.log(Level.SEVERE, e.getMessage(), e);
