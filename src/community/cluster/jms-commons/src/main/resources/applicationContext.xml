@@ -77,7 +77,7 @@
 	<bean id="JMSQueueListener" class="it.geosolutions.geoserver.jms.client.JMSQueueListener" >
 		<constructor-arg index="0" ref="JMSManager" />
 	</bean>
-	
+
 	
 
 
