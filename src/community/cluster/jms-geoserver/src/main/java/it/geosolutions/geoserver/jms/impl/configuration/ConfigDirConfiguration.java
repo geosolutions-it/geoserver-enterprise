@@ -33,6 +33,7 @@ final public class ConfigDirConfiguration implements JMSConfigurationExt {
      * Override the global config dir
      * @throws IOException
      */
+    @SuppressWarnings("unused")
     @PostConstruct
     private void init() throws IOException {
         // check for override
