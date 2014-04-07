@@ -20,7 +20,7 @@ public class EmbeddedBrokerConfiguration implements JMSConfigurationExt {
 
     public static final String EMBEDDED_BROKER_KEY = "embeddedBroker";
 
-    public static final String DEFAULT_EMBEDDED_BROKER_VALUE = ConfigurationStatus.disabled
+    public static final String DEFAULT_EMBEDDED_BROKER_VALUE = ConfigurationStatus.enabled
             .toString();
 
     public static enum ConfigurationStatus {

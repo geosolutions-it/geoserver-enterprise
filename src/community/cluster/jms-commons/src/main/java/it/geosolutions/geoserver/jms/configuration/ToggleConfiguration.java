@@ -14,12 +14,12 @@ final public class ToggleConfiguration implements JMSConfigurationExt {
     public static final String TOGGLE_MASTER_KEY = "toggleMaster";
 
     // the master is disabled by default
-    public static final String DEFAULT_MASTER_STATUS = "false";
+    public static final String DEFAULT_MASTER_STATUS = "true";
 
     public static final String TOGGLE_SLAVE_KEY = "toggleSlave";
 
     // the slave is disabled by default
-    public static final String DEFAULT_SLAVE_STATUS = "false";
+    public static final String DEFAULT_SLAVE_STATUS = "true";
 
     @Override
     public void initDefaults(JMSConfiguration config) {
