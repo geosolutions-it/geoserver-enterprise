@@ -98,7 +98,6 @@
 				name="openwire" 
 				uri="${activemq.transportConnectors.server.uri}" 
 				discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
-				<!-- transportConnector uri="vm://embeddedBroker" /-->
 		</transportConnectors>
 
 		<!-- destroy the spring context on shutdown to stop jetty -->
