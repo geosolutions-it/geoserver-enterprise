@@ -42,7 +42,7 @@ public class JMSActiveMQFactory extends JMSFactory {
     private JMSConfiguration config;
 
     // used to track changes to the configuration
-    private String broker;
+    private String brokerURI;
 
     private String topicName;
 
@@ -56,8 +56,10 @@ public class JMSActiveMQFactory extends JMSFactory {
     // millisecs to wait between tests (connection)
     private static long maxWait;
 
-    // embedded broker
+    // embedded brokerURI
     private BrokerService brokerService;
+
+    private String brokerName;
 
     // <bean id="JMSClientDestination"
     // class="org.apache.activemq.command.ActiveMQQueue">
@@ -99,21 +101,21 @@ public class JMSActiveMQFactory extends JMSFactory {
     // <!-- A connection to ActiveMQ -->
     // <bean id="JMSConnectionFactory"
     // class="org.apache.activemq.ActiveMQConnectionFactory">
-    // <!-- <property name="brokerURL" value="${broker.url}" /> -->
+    // <!-- <property name="brokerURL" value="${brokerURI.url}" /> -->
     // <property name="brokerURL" value="tcp://localhost:61616" />
     // </bean>
     @Override
     public ConnectionFactory getConnectionFactory(Properties configuration) {
-        final String configuredBroker = configuration
-                .getProperty(BrokerConfiguration.BROKER_URL_KEY);
+        brokerURI = configuration.getProperty(BrokerConfiguration.BROKER_URL_KEY);
+        if(isEmbeddedBrokerStarted()&&(brokerURI==null||brokerURI.length()==0)){
+            brokerURI="vm://"+brokerName+"?create=false&waitForStart=5000";
+        }
+        
         if (cf == null) {
             // need to be initialized
-            broker = configuredBroker;
-            cf = new PooledConnectionFactory(broker);
+            cf = new PooledConnectionFactory(brokerURI);
 
-        } else if (broker == null || !broker.equals(configuredBroker)) {
-            // need to be reinitialized
-            broker = configuredBroker;
+        } else if (brokerURI == null || !brokerURI.equals(brokerURI)) {
             // clear pending connections
             try {
                 destroy();
@@ -121,7 +123,7 @@ public class JMSActiveMQFactory extends JMSFactory {
                 // eat
             }
             // create a new connection
-            cf = new PooledConnectionFactory(broker);
+            cf = new PooledConnectionFactory(brokerURI);
             // cf.start();
         }
         return cf;
@@ -145,7 +147,7 @@ public class JMSActiveMQFactory extends JMSFactory {
     @Override
     public boolean startEmbeddedBroker(final Properties configuration) throws Exception {
         if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.info("Starting the embedded broker");
+            LOGGER.info("Starting the embedded brokerURI");
         }
         if (brokerService == null) {
             final String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
@@ -153,16 +155,16 @@ public class JMSActiveMQFactory extends JMSFactory {
             brokerService = bf.createBroker(new URI(xBeanBroker));
             brokerService.setEnableStatistics(false);
             
-            // override the name of the broker using the instance name which should be unique within the network
-            final String instanceName = configuration.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
-            brokerService.setBrokerName(instanceName);
+            // override the name of the brokerURI using the instance name which should be unique within the network
+            brokerName = configuration.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
+            brokerService.setBrokerName(brokerName);
         } else {
             if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.warning("The embedded broker service already exists, probably it is already started");
+                LOGGER.warning("The embedded brokerURI service already exists, probably it is already started");
             }
             if (brokerService.isStarted()) {    
                 if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.warning("SKIPPING: The embedded broker is already started");
+                    LOGGER.warning("SKIPPING: The embedded brokerURI is already started");
                 }
                 return true;
             }
@@ -174,20 +176,20 @@ public class JMSActiveMQFactory extends JMSFactory {
             try {
                 if (brokerService.isStarted()) {
                     if (LOGGER.isLoggable(Level.INFO)) {
-                        LOGGER.info("Embedded broker is now started");
+                        LOGGER.info("Embedded brokerURI is now started");
                     }
                     return true;
                 }
                 Thread.sleep(maxWait);
             } catch (Exception e1) {
                 if (LOGGER.isLoggable(Level.SEVERE)) {
-                    LOGGER.severe("Unable to start the embedded broker" + e1.getLocalizedMessage());
+                    LOGGER.severe("Unable to start the embedded brokerURI" + e1.getLocalizedMessage());
                 }
                 return false;
             }
         }
         if (LOGGER.isLoggable(Level.SEVERE)) {
-            LOGGER.severe("Unable to start the embedded broker");
+            LOGGER.severe("Unable to start the embedded brokerURI");
         }
         return false;
     }
@@ -200,7 +202,7 @@ public class JMSActiveMQFactory extends JMSFactory {
     @Override
     public boolean stopEmbeddedBroker() throws Exception {
         if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.info("Embedded broker is now stopped");
+            LOGGER.info("Embedded brokerURI is now stopped");
         }
         if (brokerService == null) {
             return true;
@@ -210,24 +212,24 @@ public class JMSActiveMQFactory extends JMSFactory {
             try {
                 if (!brokerService.isStarted()) {
                     if (LOGGER.isLoggable(Level.INFO)) {
-                        LOGGER.info("Embedded broker is now stopped");
+                        LOGGER.info("Embedded brokerURI is now stopped");
                     }
                     brokerService = null;
                     return true;
                 }
                 if (LOGGER.isLoggable(Level.INFO)) {
-                    LOGGER.info("Embedded broker is going to stop: waiting...");
+                    LOGGER.info("Embedded brokerURI is going to stop: waiting...");
                 }
                 Thread.sleep(maxWait);
             } catch (Exception e1) {
                 if (LOGGER.isLoggable(Level.SEVERE)) {
-                    LOGGER.severe("Unable to start the embedded broker" + e1.getLocalizedMessage());
+                    LOGGER.severe("Unable to start the embedded brokerURI" + e1.getLocalizedMessage());
                 }
                 return false;
             }
         }
         if (LOGGER.isLoggable(Level.SEVERE)) {
-            LOGGER.severe("Unable to stop the embedded broker");
+            LOGGER.severe("Unable to stop the embedded brokerURI");
         }
         return false;
     }
@@ -248,7 +250,7 @@ public class JMSActiveMQFactory extends JMSFactory {
                 try {
                     if (!startEmbeddedBroker(config.getConfigurations())) {
                         if (LOGGER.isLoggable(Level.SEVERE)) {
-                            LOGGER.severe("Unable to start the embedded broker, force status to disabled");
+                            LOGGER.severe("Unable to start the embedded brokerURI, force status to disabled");
                         }
 
                         // change configuration status
@@ -257,7 +259,7 @@ public class JMSActiveMQFactory extends JMSFactory {
 
                     }else{
                         if (LOGGER.isLoggable(Level.SEVERE)) {
-                            LOGGER.severe("Started the embedded broker: "+brokerService.toString());
+                            LOGGER.severe("Started the embedded brokerURI: "+brokerService.toString());
                         }                        
                     }
                 } catch (Exception e) {
@@ -274,7 +276,7 @@ public class JMSActiveMQFactory extends JMSFactory {
                 }
             } else {
                 if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.warning("The broker seems to be already started");
+                    LOGGER.warning("The brokerURI seems to be already started");
                 }
             }
         }
