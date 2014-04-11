@@ -30,10 +30,10 @@
 		</property>
 	</bean>
 
-	<broker id="broker" brokerName="embeddedBroker" persistent="${activemq.broker.persistent}"
+	<broker id="broker" persistent="${activemq.broker.persistent}"
 		useJmx="${activemq.jmx.useJmx}" xmlns="http://activemq.apache.org/schema/core"
 		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
-		startAsync="false">
+		startAsync="false" start="false" >
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
@@ -98,7 +98,7 @@
 				name="openwire" 
 				uri="${activemq.transportConnectors.server.uri}" 
 				discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
-				<transportConnector uri="vm://embeddedBroker" />				
+				<!-- transportConnector uri="vm://embeddedBroker" /-->
 		</transportConnectors>
 
 		<!-- destroy the spring context on shutdown to stop jetty -->
