@@ -148,10 +148,14 @@ public class JMSActiveMQFactory extends JMSFactory {
             LOGGER.info("Starting the embedded broker");
         }
         if (brokerService == null) {
-            String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
+            final String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
             final XBeanBrokerFactory bf = new XBeanBrokerFactory();
             brokerService = bf.createBroker(new URI(xBeanBroker));
             brokerService.setEnableStatistics(false);
+            
+            // override the name of the broker using the instance name which should be unique within the network
+            final String instanceName = configuration.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
+            brokerService.setBrokerName(instanceName);
         } else {
             if (LOGGER.isLoggable(Level.WARNING)) {
                 LOGGER.warning("The embedded broker service already exists, probably it is already started");
