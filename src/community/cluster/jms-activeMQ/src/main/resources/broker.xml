@@ -18,16 +18,16 @@
 	<!-- Allows us to use system properties as variables in this configuration 
 		file -->
 	<bean id="activemq.propertyPlaceholderConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
+<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreUnresolvablePlaceholders" value="false"/>
 		<property name="ignoreResourceNotFound" value="true"/>
-		<property name="locations">
-		    <list>
-		         <value>file:${user.home}/embedded-broker.properties</value>
-		         <value>classpath:embedded-broker.properties</value>
-			</list>
-		</property>
+		<constructor-arg index="0" type="Resource">
+		    <value>classpath:embedded-broker.properties</value>
+		</constructor-arg>
+		<constructor-arg index="1" type="JMSConfiguration" ref="JMSConfiguration" />
+		
 	</bean>
 
 	<broker id="broker" persistent="${activemq.broker.persistent}"

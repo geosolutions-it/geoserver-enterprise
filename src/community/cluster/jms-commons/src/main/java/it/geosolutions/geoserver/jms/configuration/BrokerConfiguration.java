@@ -17,14 +17,8 @@ final public class BrokerConfiguration implements JMSConfigurationExt {
 
 	public static final String BROKER_URL_KEY = "brokerURL";
 
-//	public static final String DEFAULT_BROKER_URL = "vm:(broker:(nio://localhost:0))?marshal=false;";
-	
 	public static final String DEFAULT_BROKER_URL ="";
 	
-//	public static final String DEFAULT_BROKER_URL = "discovery://multicast:/default;";
-	
-//	public static final String DEFAULT_BROKER_URL = "vm://localhost?create=false&waitForStart=5000";
-
 	@Override
 	public void initDefaults(JMSConfiguration config) throws IOException {
 		config.putConfiguration(BROKER_URL_KEY, DEFAULT_BROKER_URL);

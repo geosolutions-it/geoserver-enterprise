@@ -26,6 +26,7 @@ import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.activemq.xbean.XBeanBrokerFactory;
 import org.geotools.util.logging.Logging;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  * 
  */
-public class JMSActiveMQFactory extends JMSFactory {
+public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 
     private final static java.util.logging.Logger LOGGER = Logging
             .getLogger(JMSActiveMQFactory.class);
@@ -60,6 +61,11 @@ public class JMSActiveMQFactory extends JMSFactory {
     private BrokerService brokerService;
 
     private String brokerName;
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+    	// TODO initialize connections in order (first broker, then client)
+    }
 
     // <bean id="JMSClientDestination"
     // class="org.apache.activemq.command.ActiveMQQueue">
@@ -143,6 +149,9 @@ public class JMSActiveMQFactory extends JMSFactory {
             brokerService.stop();
         }
     }
+    
+    @Autowired
+    JMSXBeanBrokerFactory bf;
 
     @Override
     public boolean startEmbeddedBroker(final Properties configuration) throws Exception {
@@ -151,7 +160,7 @@ public class JMSActiveMQFactory extends JMSFactory {
         }
         if (brokerService == null) {
             final String xBeanBroker = configuration.getProperty(ActiveMQEmbeddedBrokerConfiguration.BROKER_URL_KEY);
-            final XBeanBrokerFactory bf = new XBeanBrokerFactory();
+//            final XBeanBrokerFactory bf = new XBeanBrokerFactory();
             brokerService = bf.createBroker(new URI(xBeanBroker));
             brokerService.setEnableStatistics(false);
             
