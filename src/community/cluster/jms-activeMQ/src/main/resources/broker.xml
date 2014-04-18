@@ -24,7 +24,7 @@
 		<property name="ignoreUnresolvablePlaceholders" value="false"/>
 		<property name="ignoreResourceNotFound" value="true"/>
 		<constructor-arg index="0" type="Resource">
-		    <value>classpath:embedded-broker.properties</value>
+		    <value>embedded-broker.properties</value>
 		</constructor-arg>
 		<constructor-arg index="1" type="JMSConfiguration" ref="JMSConfiguration" />
 		

@@ -25,7 +25,7 @@ public class EmbeddedBrokerConfiguration implements JMSConfigurationExt {
 
 	public static final String EMBEDDED_BROKER_PROPERTIES_KEY = "embeddedBrokerProperties";
 
-	public static final String DEFAULT_EMBEDDED_BROKER_PROPERTIES_VALUE = "embeddedBroker.properties";
+	public static final String DEFAULT_EMBEDDED_BROKER_PROPERTIES_VALUE = "embedded-broker.properties";
 
 	public static enum ConfigurationStatus {
 		enabled, disabled;

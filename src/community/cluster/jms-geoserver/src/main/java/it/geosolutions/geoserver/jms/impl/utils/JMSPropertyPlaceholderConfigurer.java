@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
+import org.geoserver.data.util.IOUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
@@ -21,16 +21,16 @@ public class JMSPropertyPlaceholderConfigurer extends
 		PropertyPlaceholderConfigurer implements InitializingBean {
 
 	private final JMSConfiguration config;
-	private final File defaults;
+	private final Resource defaults;
 
 	public JMSPropertyPlaceholderConfigurer(Resource defaultFile,
 			JMSConfiguration config) throws IOException {
-		defaults = defaultFile.getFile();
-		if (!defaults.isFile()) {
+		if (!defaultFile.exists()) {
 			throw new IOException(
 					"Unable to locate the default properties file at:"
 							+ defaultFile);
 		}
+		this.defaults = defaultFile;
 		this.config = config;
 	}
 
@@ -53,7 +53,7 @@ public class JMSPropertyPlaceholderConfigurer extends
 					properties.getPath());
 			if (!properties.isFile()) {
 				// copy the defaults
-				FileUtils.copyFile(defaults, properties);
+				IOUtils.copy(defaults.getInputStream(), properties);
 			}
 		}
 		final Resource res = new FileSystemResource(properties);
