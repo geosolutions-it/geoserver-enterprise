@@ -18,22 +18,23 @@
 	<!-- Allows us to use system properties as variables in this configuration 
 		file -->
 	<bean id="activemq.propertyPlaceholderConfigurer"
-	    class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
-<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+		class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
+		<!-- class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name="ignoreUnresolvablePlaceholders" value="false"/>
-		<property name="ignoreResourceNotFound" value="true"/>
+		<property name="ignoreUnresolvablePlaceholders" value="false" />
+		<property name="ignoreResourceNotFound" value="true" />
 		<constructor-arg index="0" type="Resource">
-		    <value>embedded-broker.properties</value>
+			<value>embedded-broker.properties</value>
 		</constructor-arg>
-		<constructor-arg index="1" type="JMSConfiguration" ref="JMSConfiguration" />
-		
+		<constructor-arg index="1" type="JMSConfiguration"
+			ref="JMSConfiguration" />
+
 	</bean>
 
 	<broker id="broker" persistent="${activemq.broker.persistent}"
 		useJmx="${activemq.jmx.useJmx}" xmlns="http://activemq.apache.org/schema/core"
 		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
-		startAsync="false" start="false" >
+		startAsync="false" start="false">
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
@@ -50,7 +51,7 @@
 
 		<networkConnectors xmlns="http://activemq.apache.org/schema/core">
 			<networkConnector
-				uri="${activemq.transportConnectors.server.discoveryURI}"  />
+				uri="${activemq.transportConnectors.server.discoveryURI}" />
 		</networkConnectors>
 
 		<destinationInterceptors>
@@ -66,12 +67,15 @@
 			mechanism is the KahaDB store (identified by the kahaDB tag). For more information, 
 			see: http://activemq.apache.org/persistence.html -->
 		<amq:persistenceAdapter>
-		
-			<levelDB directory="${activemq.base}/leveldb"
-				lockKeepAlivePeriod="0" />
 
-			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" -->
-			<!-- dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
+		    <kahaDB directory="${activemq.base}/kahadb"
+				lockKeepAlivePeriod="0" />
+		    
+			<!-- levelDB directory="${activemq.base}/leveldb"
+				lockKeepAlivePeriod="0" /-->
+
+			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" dataSource="#postgres-ds" 
+				lockKeepAlivePeriod="0" /> -->
 		</amq:persistenceAdapter>
 
 
@@ -94,10 +98,8 @@
 		<!-- The transport connectors expose ActiveMQ over a given protocol to 
 			clients and other brokers. For more information, see: http://activemq.apache.org/configuring-transports.html -->
 		<transportConnectors>
-			<transportConnector 
-				name="openwire" 
-				uri="${activemq.transportConnectors.server.uri}" 
-				discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
+			<transportConnector name="openwire"
+				uri="${activemq.transportConnectors.server.uri}" discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
 		</transportConnectors>
 
 		<!-- destroy the spring context on shutdown to stop jetty -->

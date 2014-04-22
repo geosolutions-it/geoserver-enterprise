@@ -61,7 +61,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- dependency>
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-kahadb-store</artifactId>
 			<version>${amq.version}</version>
@@ -79,7 +79,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency-->
+		</dependency>
 
 		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
@@ -287,7 +287,7 @@
 		</dependency>
  		-->
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-leveldb-store</artifactId>
 			<version>${amq.version}</version>
@@ -309,7 +309,7 @@
 					<artifactId>ant</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
 
 
 		<dependency>

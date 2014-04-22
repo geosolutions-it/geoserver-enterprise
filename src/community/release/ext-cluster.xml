@@ -42,11 +42,13 @@
 		
 		<include>activemq-kahadb-store*.jar</include>
 		
-		<include>activemq-leveldb-store*.jar</include>
+		<!-- levelDB (version conflicts with css plugin) -->
+		<!--include>activemq-leveldb-store*.jar</include>
 		  <include>leveldb*.jar</include>
-		
+		  <include>scala*.jar</include-->
+		  
 		<include>activemq-all.jar</include>
-		  <include>activemq-amqp*.jar</include>
+		  <!--include>activemq-amqp*.jar</include-->
 		  <include>proton-*.jar</include>
 		  <include>bcpkix-*.jar</include>
 		  <!-- ALREADY IN GEOSERVER -->
@@ -59,7 +61,6 @@
 		    <include>hawtjni*.jar</include>
 		    <include>hawtdispatch*.jar</include>
 		    
-		  <include>scala*.jar</include>
 		  
 		<include>activemq-spring*.jar</include>
 		  <include>activemq-pool*.jar</include>
