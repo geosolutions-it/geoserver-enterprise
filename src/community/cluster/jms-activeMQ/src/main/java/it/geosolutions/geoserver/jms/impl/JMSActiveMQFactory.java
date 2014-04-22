@@ -112,16 +112,16 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
     // </bean>
     @Override
     public ConnectionFactory getConnectionFactory(Properties configuration) {
-        brokerURI = configuration.getProperty(BrokerConfiguration.BROKER_URL_KEY);
-        if(isEmbeddedBrokerStarted()&&(brokerURI==null||brokerURI.length()==0)){
-            brokerURI="vm://"+brokerName+"?create=false&waitForStart=5000";
+        String _brokerURI = configuration.getProperty(BrokerConfiguration.BROKER_URL_KEY);
+        if(isEmbeddedBrokerStarted()&&(_brokerURI==null||_brokerURI.length()==0)){
+        	brokerURI="vm://"+brokerName+"?create=false&waitForStart=5000";
         }
         
         if (cf == null) {
             // need to be initialized
             cf = new PooledConnectionFactory(brokerURI);
 
-        } else if (brokerURI == null || !brokerURI.equals(brokerURI)) {
+        } else if (brokerURI == null || !brokerURI.equals(_brokerURI)) {
             // clear pending connections
             try {
                 destroy();
