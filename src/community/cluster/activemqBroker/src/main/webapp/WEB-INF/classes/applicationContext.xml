@@ -24,52 +24,62 @@
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreUnresolvablePlaceholders" value="false" />
+		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<value>classpath:standalone-broker.properties</value>
 		</property>
 	</bean>
 
-	<amq:broker useJmx="false" persistent="false"
-		xmlns="http://activemq.apache.org/schema/core" startAsync="true" dataDirectory="${activemq.base}">
+
+	<broker id="broker" brokerName="broker-1" persistent="${activemq.broker.persistent}"
+		useJmx="${activemq.jmx.useJmx}" xmlns="http://activemq.apache.org/schema/core"
+		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
+		startAsync="false">
+
+		<!-- The managementContext is used to configure how ActiveMQ is exposed 
+			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
+			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
+		<managementContext>
+			<managementContext createConnector="${activemq.jmx.createConnector}"
+				connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
+		</managementContext>
+
+		<!-- For better performances use VM cursor and small memory limit. For 
+			more information, see: http://activemq.apache.org/message-cursors.html Also, 
+			if your producer is "hanging", it's probably due to producer flow control. 
+			For more information, see: http://activemq.apache.org/producer-flow-control.html -->
+
+		<networkConnectors xmlns="http://activemq.apache.org/schema/core">
+			<networkConnector
+				uri="${activemq.transportConnectors.server.discoveryURI}" />
+		</networkConnectors>
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
 				<virtualDestinations>
-					<virtualTopic name=">" prefix="Consumer.*.VirtualTopic.>"
+					<virtualTopic name=">" prefix="Consumer.*.VirtualTopic."
 						selectorAware="false" />
 				</virtualDestinations>
 			</virtualDestinationInterceptor>
 		</destinationInterceptors>
 
-	</amq:broker>
-
-	<broker id="broker" brokerName="router" persistent="true"
-		useJmx="true" xmlns="http://activemq.apache.org/schema/core"
-		startAsync="true" >
-<!-- start="false"  -->
-		<!-- The managementContext is used to configure how ActiveMQ is exposed 
-			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
-			JVM. For more information, see: http://activemq.apache.org/jmx.html -->
-		<managementContext>
-			<managementContext createConnector="true" connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
-		</managementContext>
-
-		<!-- <networkConnectors xmlns="http://activemq.apache.org/schema/core"> 
-			<networkConnector uri="multicast://default" name="queues_only" conduitSubscriptions="false" 
-			decreaseNetworkConsumerPriority="false"> <excludedDestinations> <topic physicalName=">"/> 
-			</excludedDestinations> </networkConnector> </networkConnectors> -->
-
-
 		<!-- Configure message persistence for the broker. The default persistence 
 			mechanism is the KahaDB store (identified by the kahaDB tag). For more information, 
 			see: http://activemq.apache.org/persistence.html -->
-		<persistenceAdapter>
-			<kahaDB directory="${activemq.base}/kahadb" lockKeepAlivePeriod="0"/>
-			
-<!-- 				<jdbcPersistenceAdapter dataDirectory="activemq-data" -->
-<!-- 					dataSource="#postgres-ds" lockKeepAlivePeriod="0" /> -->
+		<amq:persistenceAdapter>
 
-		</persistenceAdapter>
+
+			<kahaDB directory="${activemq.base}/kahadb"
+				lockKeepAlivePeriod="0" />
+
+			<!-- levelDB directory="${activemq.base}/leveldb" lockKeepAlivePeriod="0" 
+				/ -->
+
+			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" dataSource="#postgres-ds" 
+				lockKeepAlivePeriod="0" /> -->
+		</amq:persistenceAdapter>
+
 
 		<!-- The systemUsage controls the maximum amount of space the broker will 
 			use before slowing down producers. For more information, see: http://activemq.apache.org/producer-flow-control.html -->
@@ -87,29 +97,33 @@
 			</systemUsage>
 		</systemUsage>
 
-
 		<!-- The transport connectors expose ActiveMQ over a given protocol to 
 			clients and other brokers. For more information, see: http://activemq.apache.org/configuring-transports.html -->
 		<transportConnectors>
 			<transportConnector name="openwire"
-				uri="${activemq.broker.transportConnectors.uri}" />
+				uri="${activemq.transportConnectors.server.uri}" discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
 		</transportConnectors>
+
+		<!-- destroy the spring context on shutdown to stop jetty -->
+		<shutdownHooks>
+			<bean xmlns="http://www.springframework.org/schema/beans" class="org.apache.activemq.hooks.SpringContextHook" />
+		</shutdownHooks>
 
 	</broker>
 
 	<!-- This xbean configuration file supports all the standard spring xml 
 		configuration options -->
 
-<!-- 	<bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource"> -->
-<!-- 		<property name="serverName" value="localhost" /> -->
-<!-- 		<property name="databaseName" value="activemq" /> -->
-<!-- 		<property name="portNumber" value="5432" /> -->
-<!-- 		<property name="user" value="postgres" /> -->
-<!-- 		<property name="password" value="postgres" /> -->
-<!-- 		<property name="dataSourceName" value="postgres" /> -->
-<!-- 		<property name="initialConnections" value="1" /> -->
-<!-- 		<property name="maxConnections" value="30" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="postgres-ds" class="org.postgresql.ds.PGPoolingDataSource"> -->
+	<!-- <property name="serverName" value="localhost" /> -->
+	<!-- <property name="databaseName" value="activemq" /> -->
+	<!-- <property name="portNumber" value="5432" /> -->
+	<!-- <property name="user" value="postgres" /> -->
+	<!-- <property name="password" value="postgres" /> -->
+	<!-- <property name="dataSourceName" value="postgres" /> -->
+	<!-- <property name="initialConnections" value="1" /> -->
+	<!-- <property name="maxConnections" value="30" /> -->
+	<!-- </bean> -->
 
 	<!-- MySql DataSource Sample Setup -->
 	<!-- <bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" 
