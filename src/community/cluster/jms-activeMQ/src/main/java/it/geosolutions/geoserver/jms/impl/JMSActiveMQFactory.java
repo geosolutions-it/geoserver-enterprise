@@ -121,6 +121,10 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 
 		final boolean changed = checkBrokerURI(_brokerURI);
 
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info("Using brokerURI: " + brokerURI);
+		}
+		
 		if (cf == null) {
 			// need to be initialized
 			cf = new PooledConnectionFactory(brokerURI);
@@ -128,7 +132,7 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 		} else if (changed) {
 			// clear pending connections
 			try {
-				destroy();
+				destroyConnectionFactory();
 			} catch (Exception e) {
 				// eat
 			}
@@ -146,7 +150,7 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 	private boolean checkBrokerURI(final String _brokerURI) {
 		if (brokerURI == null) {
 			if (_brokerURI == null || _brokerURI.length() == 0) {
-				setDefaultURI();
+				brokerURI = getDefaultURI();
 				return true;
 			} else {
 				// initialize to the new configuration
@@ -159,15 +163,15 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 					if (LOGGER.isLoggable(Level.SEVERE)) {
 						LOGGER.severe(e.getLocalizedMessage());
 					}
-					setDefaultURI();
+					brokerURI = getDefaultURI();
 				}
 				return true;
 			}
 		} else {
 			if (_brokerURI == null || _brokerURI.length() == 0) {
-				// reset to default
-				setDefaultURI();
-				return true;
+				// use the default
+				return checkBrokerURI(getDefaultURI());
+				
 			} else if (brokerURI.equalsIgnoreCase(_brokerURI)) {
 				return false;
 			} else {
@@ -178,19 +182,14 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 		}
 	}
 
-	private void setDefaultURI() {
-		// reset default brokerURI
-		brokerURI = "vm://"
+	private String getDefaultURI() {
+		// default brokerURI
+		return "vm://"
 				+ config.getConfiguration(JMSConfiguration.INSTANCE_NAME_KEY)
 				+ "?create=false&waitForStart=5000";
-		if (LOGGER.isLoggable(Level.WARNING)) {
-			LOGGER.warning("Setting brokerURI to: " + brokerURI);
-		}
-
 	}
 
-	@Override
-	public void destroy() throws Exception {
+	private void destroyConnectionFactory(){
 		if (cf != null) {
 			// close all the connections
 			cf.clear();
@@ -199,9 +198,18 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 			// set null
 			cf = null;
 		}
+	}
+	
+	private void destroyBrokerService() throws Exception{
 		if (brokerService != null) {
 			brokerService.stop();
 		}
+	}
+	
+	@Override
+	public void destroy() throws Exception {
+		destroyConnectionFactory();
+		destroyBrokerService();
 	}
 
 	@Override
