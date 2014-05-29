@@ -17,6 +17,7 @@ import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CatalogException;
 import org.geoserver.catalog.CatalogInfo;
 import org.geoserver.catalog.StyleInfo;
+import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.catalog.event.CatalogAddEvent;
 import org.geoserver.catalog.event.CatalogListener;
 import org.geoserver.catalog.event.CatalogModifyEvent;
@@ -73,10 +74,30 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
             // check if we may publish also the file
             final CatalogInfo info = event.getSource();
             if (info instanceof StyleInfo) {
-                final String fileName = File.separator + "styles" + File.separator
-                        + ((StyleInfo) info).getFilename();
-                final File styleFile = new File(GeoserverDataDirectory.getGeoserverDataDirectory()
-                        .getCanonicalPath(), fileName);
+                final StyleInfo sInfo=((StyleInfo) info);
+                WorkspaceInfo wInfo =sInfo.getWorkspace();
+                File styleFile=null;
+                
+                // make sure we work fine with workspace specific styles
+                if(wInfo!=null){
+                    styleFile=new File(
+                            GeoserverDataDirectory.getGeoserverDataDirectory()+
+                            File.separator+
+                            "workspaces"+
+                            File.separator+
+                            wInfo.getName()+
+                            File.separator+
+                            "styles"+
+                            File.separator+
+                            sInfo.getFilename());
+                    
+                }else{
+                    styleFile=GeoserverDataDirectory.findStyleFile(sInfo.getFilename());
+                }
+                // checks
+                if(!styleFile.exists()||!styleFile.canRead()||!styleFile.isFile()){
+                    throw new IllegalStateException("Unable to find style for event: "+sInfo.toString());
+                }
 
                 // transmit the file
                 jmsPublisher.publish(getTopic(), getJmsTemplate(), options,
