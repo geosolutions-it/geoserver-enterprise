@@ -69,9 +69,9 @@ public class WMSWorkspaceQualifier extends WorkspaceQualifyingCallback {
         for (int i = 0; i < names.size(); i++) {
             String baseName = names.get(i);
             String qualified = qualifyName(baseName, ws);
-            // only qualify if it's not a layer group (and prefer local layers to groups in case of
-            // name clash)
+            
             if (catalog.getLayerByName(qualified) != null
+            		|| catalog.getLayerGroupByName(qualified) != null
                     || catalog.getLayerGroupByName(baseName) == null) {
                 names.set(i, qualified);
             }

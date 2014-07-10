@@ -38,6 +38,7 @@ import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.NamespaceInfo;
 import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.catalog.StyleInfo;
+import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.gwc.config.GWCConfig;
 import org.geoserver.gwc.config.GWCConfigPersister;
 import org.geoserver.gwc.layer.CatalogConfiguration;
@@ -862,6 +863,13 @@ public class GWC implements DisposableBean, InitializingBean {
                 if (layerInfo != null) {
                     NamespaceInfo layerNamespace = layerInfo.getResource().getNamespace();
                     if (namespaceFilter.equals(layerNamespace)) {
+                        return true;
+                    }
+                }
+                LayerGroupInfo layerGroupInfo = catalog.getLayerGroupByName(layerName);
+                if (layerGroupInfo != null && layerGroupInfo.getLayers() != null && layerGroupInfo.getLayers().size() > 0) {
+                	NamespaceInfo layerGroupNamespace = layerGroupInfo.getLayers().get(0).getResource().getNamespace();
+                    if (namespaceFilter.equals(layerGroupNamespace)) {
                         return true;
                     }
                 }
