@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.geoserver</groupId>
 		<artifactId>community</artifactId>
-		<version>2.4-ENTERPRISE-SNAPSHOT</version>
+		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
 	<artifactId>kmlppio</artifactId>
 	<packaging>jar</packaging>
-	<version>2.4-ENTERPRISE-SNAPSHOT</version>
+	<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	<name>KML PPIO for WPS</name>
 	<dependencies>
 		<dependency>

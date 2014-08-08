@@ -8,14 +8,14 @@
 	<parent>
 		<groupId>org.geoserver.community</groupId>
 		<artifactId>bkprst</artifactId>
-		<version>2.4-ENTERPRISE-SNAPSHOT</version>
+		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.geoserver.community</groupId>
 	<artifactId>bkprst-core</artifactId>
 	<packaging>jar</packaging>
 	<name>GeoServer Backup/Restore tool core module</name>
-  <version>2.4-ENTERPRISE-SNAPSHOT</version>
+  <version>2.5-ENTERPRISE-SNAPSHOT</version>
   
 	<dependencies>
 		<dependency>

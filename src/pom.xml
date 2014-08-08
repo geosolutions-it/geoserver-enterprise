@@ -13,7 +13,7 @@
  <groupId>org.geoserver</groupId>
  <artifactId>geoserver</artifactId>
  <packaging>pom</packaging>
- <version>2.4-ENTERPRISE-SNAPSHOT</version>
+ <version>2.5-ENTERPRISE-SNAPSHOT</version>
  <name>GeoServer</name>
 
  <scm>
@@ -1283,7 +1283,7 @@
      <descriptors>
       <descriptor>release/bin.xml</descriptor>
      </descriptors>
-     <finalName>geoserver-2.4-ENTERPRISE-SNAPSHOT</finalName>
+     <finalName>geoserver-2.5-ENTERPRISE-SNAPSHOT</finalName>
      <outputDirectory>${project.build.directory}/release</outputDirectory>
     </configuration>
    </plugin>
@@ -1536,15 +1536,15 @@
 </modules>
 
  <properties>
-  <gs.version>2.4-SNAPSHOT</gs.version>
-  <gt.version>10-SNAPSHOT</gt.version>
-  <gwc.version>1.5.0</gwc.version>
+  <gs.version>2.5-SNAPSHOT</gs.version>
+  <gt.version>11-SNAPSHOT</gt.version>
+  <gwc.version>1.5-SNAPSHOT</gwc.version>
   <spring.version>3.1.4.RELEASE</spring.version>
   <spring.security.version>3.1.0.RELEASE</spring.security.version> 
   <poi.version>3.8</poi.version>
   <wicket.version>1.4.12</wicket.version>
   <ant.version>1.8.4</ant.version>
-  <jaiext.version>1.0-SNAPSHOT</jaiext.version>
+  <imageio-ext.version>1.1.10</imageio-ext.version>
   <java.awt.headless>true</java.awt.headless>
   <jvm.opts></jvm.opts>
   <jalopy.phase>disabled</jalopy.phase>

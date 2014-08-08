@@ -10,7 +10,7 @@
  <fileSets>
   <fileSet>
    <directory>.</directory>
-   <outputDirectory>geoserver-2.4-ENTERPRISE-SNAPSHOT/</outputDirectory>
+   <outputDirectory>geoserver-2.5-ENTERPRISE-SNAPSHOT/</outputDirectory>
    <includes>
     <include>pom.xml</include>
    </includes>
@@ -26,7 +26,7 @@
   </fileSet>
   <fileSet>
    <directory>target</directory>
-   <outputDirectory>geoserver-2.4-ENTERPRISE-SNAPSHOT</outputDirectory>
+   <outputDirectory>geoserver-2.5-ENTERPRISE-SNAPSHOT</outputDirectory>
    <includes>
     <include>VERSION.txt</include>
    </includes>
