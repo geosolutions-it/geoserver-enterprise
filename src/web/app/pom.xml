@@ -358,11 +358,6 @@
 					<artifactId>gs-jms-geoserver</artifactId>
 					<version>${project.version}</version>
 				</dependency>
-				<dependency>
-					<groupId>org.geoserver</groupId>
-					<artifactId>gs-jms-activeMQ</artifactId>
-					<version>${project.version}</version>
-				</dependency>
 			</dependencies>
 		</profile>
 		<!-- ======================================= -->
