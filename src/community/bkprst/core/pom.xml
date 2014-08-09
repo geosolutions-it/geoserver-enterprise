@@ -7,12 +7,12 @@
 	<!-- set parent pom to community pom -->
 	<parent>
 		<groupId>org.geoserver.community</groupId>
-		<artifactId>bkprst</artifactId>
+		<artifactId>gs-bkprst</artifactId>
 		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>bkprst-core</artifactId>
+	<artifactId>gs-bkprst-core</artifactId>
 	<packaging>jar</packaging>
 	<name>GeoServer Backup/Restore tool core module</name>
   <version>2.5-ENTERPRISE-SNAPSHOT</version>
@@ -20,11 +20,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
@@ -42,11 +42,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver.web</groupId>
-			<artifactId>web-core</artifactId>
+			<artifactId>gs-web-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver.web</groupId>
-			<artifactId>web-core</artifactId>
+			<artifactId>gs-web-core</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
@@ -54,33 +54,33 @@
 
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>restconfig</artifactId>
+			<artifactId>gs-restconfig</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>restconfig</artifactId>
+			<artifactId>gs-restconfig</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>rest</artifactId>
+			<artifactId>gs-rest</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>rest</artifactId>
+			<artifactId>gs-rest</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>wms</artifactId>
+			<artifactId>gs-wms</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>wms</artifactId>
+			<artifactId>gs-wms</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>

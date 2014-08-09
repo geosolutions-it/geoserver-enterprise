@@ -11,7 +11,7 @@
   </parent>
 
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>bkprst</artifactId>
+	<artifactId>gs-bkprst</artifactId>
 	<packaging>pom</packaging>
 	<name>GeoServer Backup/Restore tool</name>
 

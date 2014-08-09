@@ -9,14 +9,14 @@
 		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>wps-dwn-services</artifactId>
+	<artifactId>gs-wps-dwn-services</artifactId>
 	<packaging>pom</packaging>
 	<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	<name>WPS Download Services</name>
 
 	<modules>
-		<module>wps-cluster</module>
-		<module>wps-download</module>
+		<module>gs-wps-cluster</module>
+		<module>gs-wps-download</module>
 	</modules>
 
 </project>

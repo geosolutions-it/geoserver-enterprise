@@ -6,11 +6,11 @@
 
 	<parent>
 		<groupId>org.geoserver.community</groupId>
-		<artifactId>bkprst</artifactId>
+		<artifactId>gs-bkprst</artifactId>
 		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>bkprst-rest</artifactId>
+	<artifactId>gs-bkprst-rest</artifactId>
 	<packaging>jar</packaging>
 	<name>GeoServer Backup/Restore tool ReST interface</name>
 	<version>2.5-ENTERPRISE-SNAPSHOT</version>
@@ -23,20 +23,20 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver.community</groupId>
-			<artifactId>bkprst-core</artifactId>
+			<artifactId>gs-bkprst-core</artifactId>
 			<version>${gs.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>rest</artifactId>
+			<artifactId>gs-rest</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>

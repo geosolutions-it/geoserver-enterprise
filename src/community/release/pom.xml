@@ -9,7 +9,7 @@
   <version>2.5-ENTERPRISE-SNAPSHOT</version>
  </parent>
  <groupId>org.geoserver.community</groupId>
- <artifactId>release</artifactId>
+ <artifactId>gs-release</artifactId>
  <packaging>jar</packaging>
  <name>GeoServer Community Release Module</name>
  <dependencies>
@@ -25,17 +25,17 @@
    </dependency-->
    <dependency>
       <groupId>org.geoserver</groupId>
-      <artifactId>jms-activeMQ</artifactId>
+      <artifactId>gs-jms-activeMQ</artifactId>
      <version>${project.version}</version>
    </dependency> 
    <dependency>
       <groupId>org.geoserver</groupId>
-      <artifactId>jms-geoserver</artifactId>
+      <artifactId>gs-jms-geoserver</artifactId>
      <version>${project.version}</version>
    </dependency>  
    <dependency>
       <groupId>org.geoserver</groupId>
-      <artifactId>jms-commons</artifactId>
+      <artifactId>gs-jms-commons</artifactId>
      <version>${project.version}</version>
    </dependency>
  </dependencies>

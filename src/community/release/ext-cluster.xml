@@ -10,7 +10,7 @@
 	    <directory>cluster/jms-activeMQ/target/</directory>
 	    <outputDirectory>.</outputDirectory>
 	    <includes>
-	      <include>jms-activeMQ*.jar</include>
+	      <include>gs-jms-activeMQ*.jar</include>
 	    </includes>
 	    <excludes>
 	      <exclude>*-sources*</exclude>
@@ -21,9 +21,9 @@
 	      <directory>cluster/jms-activeMQ/target/dependency/</directory>
 	      <outputDirectory>.</outputDirectory>
 	      <includes>
-		<include>jms-activeMQ*.jar</include>
-		<include>jms-commons*.jar</include>
-		<include>jms-geoserver*.jar</include>
+		<include>gs-jms-activeMQ*.jar</include>
+		<include>gs-jms-commons*.jar</include>
+		<include>gs-jms-geoserver*.jar</include>
 		<include>jms-api*.jar</include>
 		<include>xbean-spring*.jar</include>
 		<include>spring-jms*.jar</include>
@@ -48,12 +48,8 @@
 		  <include>scala*.jar</include-->
 		  
 		<include>activemq-all.jar</include>
-		  <!--include>activemq-amqp*.jar</include-->
 		  <include>proton-*.jar</include>
 		  <include>bcpkix-*.jar</include>
-		  <!-- ALREADY IN GEOSERVER -->
-		  <!--include>bcprov-*.jar</include-->
-		  <!--include>jasypt*.jar</include-->
 		  <include>activemq-client*.jar</include>
 		    <include>geronimo-*.jar</include>
 		    <include>activemq-openwire-legacy*.jar</include>

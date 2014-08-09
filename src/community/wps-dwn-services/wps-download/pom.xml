@@ -5,12 +5,12 @@
 
 	<parent>
 		<groupId>org.geoserver.community</groupId>
-		<artifactId>wps-dwn-services</artifactId>
+		<artifactId>gs-wps-dwn-services</artifactId>
 		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>wps-download</artifactId>
+	<artifactId>gs-wps-download</artifactId>
 	<packaging>jar</packaging>
 	<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	<name>DownloadProcess</name>
@@ -29,12 +29,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver.extension</groupId>
-			<artifactId>wps-core</artifactId>
+			<artifactId>gs-wps-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver.community</groupId>
-			<artifactId>wps-cluster</artifactId>
+			<artifactId>gs-wps-cluster</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.community</groupId>
+			<artifactId>gs-wps-cluster</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -46,15 +52,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.geoserver.community</groupId>
-			<artifactId>wps-cluster</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>it.geosolutions.activemq</groupId>
-	<artifactId>activemqBroker</artifactId>
+	<artifactId>gs-activemqBroker</artifactId>
 	<!-- Use the same version as GeoServer here, at least for the moment -->
 	<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	<packaging>war</packaging>

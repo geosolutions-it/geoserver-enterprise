@@ -9,14 +9,14 @@
 		<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
-	<artifactId>gpxppio</artifactId>
+	<artifactId>gs-gpxppio</artifactId>
 	<packaging>jar</packaging>
 	<version>2.5-ENTERPRISE-SNAPSHOT</version>
 	<name>GPX PPIO for WPS</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.geoserver.extension</groupId>
-			<artifactId>wps-core</artifactId>
+			<artifactId>gs-wps-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -26,7 +26,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
+			<artifactId>gs-main</artifactId>
 			<version>${gs.version}</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>

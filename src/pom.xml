@@ -106,24 +106,8 @@
  <dependencyManagement>
   <dependencies>
     
-    <!-- UNABLE TO IMPORT COMMUNITY MODULES IN SNAPSHOT 
-    since they are never deployed on the mvn repo:
-    http://repo.opengeo.org/org/geoserver/community/
-    -->
-   <!--dependency>
-    <groupId>org.geoserver.community</groupId>
-    <artifactId>wcs2_0-eo</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver.community</groupId>
-    <artifactId>wcs2_0-eo</artifactId>
-    <version>${gs.version}</version>
-    <classifier>tests</classifier>
-   </dependency-->
-    
     <!-- ======================================== -->
-    <!-- JMS BASE -->
+    <!-- 			JMS BASE						  -->
     <!-- ======================================== -->
     <dependency>
       <groupId>javax.jms</groupId>
@@ -151,7 +135,7 @@
     </dependency>
     <dependency>
 	    <groupId>org.geoserver</groupId>
-	    <artifactId>restconfig</artifactId>
+	    <artifactId>gs-restconfig</artifactId>
 	    <version>${gs.version}</version>
     </dependency>
     <dependency>
@@ -161,69 +145,80 @@
 	    <scope>test</scope>
     </dependency>
    <!-- ======================================== -->
-   <!-- JMS BASE (END)-->
+   <!-- 		JMS BASE     					 -->
    <!-- ======================================== -->
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>platform</artifactId>
+    <artifactId>gs-platform</artifactId>
     <version>${gs.version}</version>
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>ows</artifactId>
+    <artifactId>gs-ows</artifactId>
     <version>${gs.version}</version>
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>ows</artifactId>
-    <version>${gs.version}</version>
-    <classifier>tests</classifier>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>main</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>main</artifactId>
+    <artifactId>gs-ows</artifactId>
     <version>${gs.version}</version>
     <classifier>tests</classifier>
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>wcs</artifactId>
+    <artifactId>gs-main</artifactId>
     <version>${gs.version}</version>
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>wcs1_0</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>wcs1_1</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>wfs</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>wms</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.geoserver</groupId>
-    <artifactId>wms</artifactId>
+    <artifactId>gs-main</artifactId>
     <version>${gs.version}</version>
     <classifier>tests</classifier>
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>gwc</artifactId>
+    <artifactId>gs-wcs</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wcs1_0</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wcs1_1</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wcs2_0</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wcs2_0</artifactId>
+    <version>${gs.version}</version>
+    <classifier>tests</classifier>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wfs</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wms</artifactId>
+    <version>${gs.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-wms</artifactId>
+    <version>${gs.version}</version>
+    <classifier>tests</classifier>
+   </dependency>
+   <dependency>
+    <groupId>org.geoserver</groupId>
+    <artifactId>gs-gwc</artifactId>
     <version>${gs.version}</version>
     <exclusions>
     	<exclusion>
@@ -234,14 +229,44 @@
    </dependency>
    <dependency>
     <groupId>org.geoserver</groupId>
-    <artifactId>rest</artifactId>
+    <artifactId>gs-rest</artifactId>
     <version>${gs.version}</version>
    </dependency>
-   <dependency>
-    <groupId>org.geoserver.web</groupId>
-    <artifactId>web-core</artifactId>
-    <version>${gs.version}</version>
-   </dependency>
+<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-core</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-wms</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-gwc</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-wfs</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-wcs</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geoserver.web</groupId>
+			<artifactId>gs-web-demo</artifactId>
+			<version>${gs.version}</version>
+		</dependency>
+		<dependency> 
+			<groupId>org.geoserver.web</groupId> 
+			<artifactId>gs-web-sec-jdbc</artifactId> 
+			<version>${gs.version}</version> 
+		</dependency>
    <dependency>
     <groupId>org.geotools</groupId>
     <artifactId>gt-geotools</artifactId>
@@ -1050,7 +1075,7 @@
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
-      <version>1.4.3</version>
+      <version>1.4.7</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
@@ -1065,7 +1090,12 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>11.0.1</version>
+      <version>17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>2.0.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>
@@ -1129,12 +1159,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>2.5</version>
+        <version>2.3</version>
       </plugin>
     </plugins>
   </pluginManagement>
