@@ -7,10 +7,10 @@
   
    <fileSets>
 	<fileSet>
-	    <directory>cluster/jms-activeMQ/target/</directory>
+	    <directory>cluster/jms-geoserver/target/</directory>
 	    <outputDirectory>.</outputDirectory>
 	    <includes>
-	      <include>gs-jms-activeMQ*.jar</include>
+	      <include>gs-jms-*.jar</include>
 	    </includes>
 	    <excludes>
 	      <exclude>*-sources*</exclude>
@@ -18,12 +18,10 @@
 	    </excludes>
 	</fileSet>
 	<fileSet>
-	      <directory>cluster/jms-activeMQ/target/dependency/</directory>
+	      <directory>cluster/jms-geoserver/target/dependency/</directory>
 	      <outputDirectory>.</outputDirectory>
 	      <includes>
-		<include>gs-jms-activeMQ*.jar</include>
-		<include>gs-jms-commons*.jar</include>
-		<include>gs-jms-geoserver*.jar</include>
+		<include>gs-jms*.jar</include>
 		<include>jms-api*.jar</include>
 		<include>xbean-spring*.jar</include>
 		<include>spring-jms*.jar</include>
@@ -35,11 +33,8 @@
 		  <!--include>spring-expression*.jar</include-->
 		  
 		<include>ant*.jar</include>
-		
 		<include>activemq*.jar</include>
-		
 		<include>activemq-broker*.jar</include>
-		
 		<include>activemq-kahadb-store*.jar</include>
 		
 		<!-- levelDB (version conflicts with css plugin) -->
