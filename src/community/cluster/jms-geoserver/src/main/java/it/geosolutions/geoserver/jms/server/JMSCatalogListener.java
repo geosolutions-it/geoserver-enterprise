@@ -23,8 +23,9 @@ import org.geoserver.catalog.event.CatalogListener;
 import org.geoserver.catalog.event.CatalogModifyEvent;
 import org.geoserver.catalog.event.CatalogPostModifyEvent;
 import org.geoserver.catalog.event.CatalogRemoveEvent;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
 import org.geotools.util.logging.Logging;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
  * JMS MASTER (Producer) Listener used to send GeoServer Catalog events over the JMS channel.
@@ -72,6 +73,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
         try {
             // check if we may publish also the file
+        	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
             final CatalogInfo info = event.getSource();
             if (info instanceof StyleInfo) {
                 final StyleInfo sInfo=((StyleInfo) info);
@@ -81,7 +83,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
                 // make sure we work fine with workspace specific styles
                 if(wInfo!=null){
                     styleFile=new File(
-                            GeoserverDataDirectory.getGeoserverDataDirectory()+
+                            loader.getBaseDirectory()+
                             File.separator+
                             "workspaces"+
                             File.separator+
@@ -92,7 +94,7 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
                             sInfo.getFilename());
                     
                 }else{
-                    styleFile=GeoserverDataDirectory.findStyleFile(sInfo.getFilename());
+                    styleFile=loader.find("styles/" + sInfo.getFilename());
                 }
                 // checks
                 if(!styleFile.exists()||!styleFile.canRead()||!styleFile.isFile()){
@@ -163,12 +165,13 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
 
         try {
             // check if we may publish also the file
+        	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
             final CatalogInfo info = event.getSource();
             if (info instanceof StyleInfo) {
                 // build local datadir file style path
                 final String fileName = File.separator + "styles" + File.separator
                         + ((StyleInfo) info).getFilename();
-                final File styleFile = new File(GeoserverDataDirectory.getGeoserverDataDirectory()
+                final File styleFile = new File(loader.getBaseDirectory()
                         .getCanonicalPath(), fileName);
 
                 // publish the style xml document

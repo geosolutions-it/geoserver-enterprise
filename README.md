@@ -19,4 +19,4 @@ Go to the source dir:
 
 build using maven:
 
-`mvn clean install -Pwps,dxf,kmlppio,gpxppio,wps-download`
+`mvn clean install -Pcluster,activemq,wps,dxf,kmlppio,gpxppio,wps-download`

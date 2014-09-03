@@ -25,7 +25,8 @@ import java.io.File;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.geoserver.catalog.Catalog;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -59,10 +60,10 @@ public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 			throw new IllegalStateException("Unable to load configuration");
 		} else if (!ReadOnlyConfiguration.isReadOnly(config)) {
 			try {
+				GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
 				final String fileName = File.separator + "styles"
 						+ File.separator + event.getPath().getName();
-				final File file = new File(GeoserverDataDirectory
-						.getGeoserverDataDirectory().getCanonicalPath(),
+				final File file = new File(loader.getBaseDirectory().getCanonicalPath(),
 						fileName);
 				event.writeTo(file);
 				return true;
