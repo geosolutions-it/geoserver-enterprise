@@ -42,9 +42,8 @@ public class WPSStorageCleaner extends TimerTask {
 
     public WPSStorageCleaner(GeoServerDataDirectory dataDirectory) throws IOException,
             ConfigurationException {
-
-        // get the default temporary storage for WPS
-        storage = dataDirectory.findOrCreateDir("temp/wps");        
+        // get the temporary storage for WPS
+        storage = dataDirectory.findOrCreateDir("temp/wps");
     }
     
     protected WPSStorageCleaner(File storage)throws IOException{

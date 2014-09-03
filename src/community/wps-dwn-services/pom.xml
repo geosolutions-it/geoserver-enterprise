@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.geoserver</groupId>
 		<artifactId>community</artifactId>
-		<version>2.6-ENTERPRISE-SNAPSHOT</version>
+		<version>2.7-ENTERPRISE-SNAPSHOT</version>
 	</parent>
 	<groupId>org.geoserver.community</groupId>
 	<artifactId>gs-wps-dwn-services</artifactId>
 	<packaging>pom</packaging>
-	<version>2.6-ENTERPRISE-SNAPSHOT</version>
+	<version>2.7-ENTERPRISE-SNAPSHOT</version>
 	<name>WPS Download Services</name>
 
 	<modules>

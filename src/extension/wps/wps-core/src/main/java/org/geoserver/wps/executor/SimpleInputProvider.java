@@ -38,7 +38,6 @@ import org.geoserver.ows.Request;
 import org.geoserver.ows.util.CaseInsensitiveMap;
 import org.geoserver.ows.util.KvpMap;
 import org.geoserver.ows.util.KvpUtils;
-import org.geoserver.wcs.CoverageCleanerCallback;
 import org.geoserver.wcs.WebCoverageService100;
 import org.geoserver.wcs.WebCoverageService111;
 import org.geoserver.wfs.WebFeatureService;
@@ -53,7 +52,6 @@ import org.geoserver.wps.ppio.ProcessParameterIO;
 import org.geoserver.wps.ppio.RawDataPPIO;
 import org.geoserver.wps.process.StringRawData;
 import org.geoserver.wps.resource.GridCoverageResource;
-import org.opengis.coverage.Coverage;
 import org.opengis.coverage.grid.GridCoverage;
 import org.springframework.context.ApplicationContext;
 
