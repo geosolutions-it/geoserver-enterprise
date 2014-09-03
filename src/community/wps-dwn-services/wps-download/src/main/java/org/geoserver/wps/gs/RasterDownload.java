@@ -15,13 +15,13 @@ import java.util.logging.Logger;
 
 import javax.imageio.stream.ImageOutputStream;
 
+import org.geoserver.catalog.CoverageDimensionCustomizerReader;
 import org.geoserver.catalog.CoverageInfo;
 import org.geoserver.data.util.CoverageUtils;
 import org.geoserver.wps.ppio.ComplexPPIO;
 import org.geoserver.wps.ppio.ProcessParameterIO;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
-import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.processing.Operations;
 import org.geotools.data.Parameter;
@@ -127,7 +127,9 @@ class RasterDownload {
 
             
             // get a reader for this CoverageInfo
-            final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) coverageInfo
+            /*final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) coverageInfo
+                    .getGridCoverageReader(null, null);*/
+            final CoverageDimensionCustomizerReader reader = (CoverageDimensionCustomizerReader) coverageInfo
                     .getGridCoverageReader(null, null);
             final ParameterValueGroup readParametersDescriptor = reader.getFormat()
                     .getReadParameters();
@@ -145,7 +147,7 @@ class RasterDownload {
             // read GridGeometry preparation
             if (roi != null) {
                 // set crs in roi manager
-                roiManager.useNativeCRS(reader.getCrs());
+                roiManager.useNativeCRS(reader.getCoordinateReferenceSystem());
                 roiManager.useTargetCRS(targetCRS);
                 
                 // create GridGeometry

@@ -21,7 +21,7 @@
     <name>Web Processing Service parent</name>
 
     <modules>
-      <module>gs-wps-core</module>
-      <module>gs-web-wps</module>
+      <module>wps-core</module>
+      <module>web-wps</module>
     </modules>
 </project>

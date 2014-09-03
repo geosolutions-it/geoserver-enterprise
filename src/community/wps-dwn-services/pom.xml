@@ -15,8 +15,8 @@
 	<name>WPS Download Services</name>
 
 	<modules>
-		<module>gs-wps-cluster</module>
-		<module>gs-wps-download</module>
+		<module>wps-cluster</module>
+		<module>wps-download</module>
 	</modules>
 
 </project>

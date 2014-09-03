@@ -8,9 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.geoserver.catalog.CoverageDimensionCustomizerReader;
 import org.geoserver.catalog.CoverageInfo;
 import org.geotools.coverage.grid.GridEnvelope2D;
-import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.operation.transform.AffineTransform2D;
 import org.geotools.resources.coverage.FeatureUtilities;
@@ -100,7 +100,7 @@ class RasterEstimator {
         }
         
         // get a reader for this CoverageInfo
-        final AbstractGridCoverage2DReader reader = (AbstractGridCoverage2DReader) coverageInfo.getGridCoverageReader(null, null);
+        final CoverageDimensionCustomizerReader reader = (CoverageDimensionCustomizerReader) coverageInfo.getGridCoverageReader(null, null);
 
         // read GridGeometry preparation
         final double areaRead;
