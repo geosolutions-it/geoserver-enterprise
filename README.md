@@ -7,7 +7,7 @@ The goal is to provide Long Term Support for the GeoServer Versions we are going
 
 Long story short, the mission of the GeoServer Enterprise is stability, only priority bug-fixes and carefully selected new feature will be added. A release will be performed at most every 2 months.
 
-The code lives in the supported branches (e.g., 2.5.x at the moment)
+The code lives in the supported branches (e.g., 2.6.x at the moment)
 
 Check the project wiki for more information.
 

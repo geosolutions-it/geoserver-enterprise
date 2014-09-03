@@ -9,10 +9,11 @@ import java.io.File;
 import org.geoserver.ows.URLMangler.URLType;
 import org.geoserver.ows.util.ResponseUtils;
 import org.geoserver.platform.ExtensionPriority;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.wps.resource.WPSResourceManager;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 /**
  * The Class DefaultClusterFilePublisherURLMangler.
@@ -45,8 +46,8 @@ public class DefaultClusterFilePublisherURLMangler implements ClusterFilePublish
     public String getPublishingURL(File file, String baseURL) throws Exception {
 
         // relativize to temp dir directory
-        String path = GeoserverDataDirectory.getGeoserverDataDirectory().toURI()
-                .relativize(file.toURI()).getPath();
+    	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
+        String path = loader.getBaseDirectory().toURI().relativize(file.toURI()).getPath();
         return ResponseUtils.buildURL(baseURL, path, null, URLType.RESOURCE);
     }
 

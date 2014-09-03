@@ -78,7 +78,7 @@ public class ClusterProcessManager extends DefaultProcessManager {
             Map<String, Object> inputs) throws ProcessException {
         // straight execution, no thread pooling, we're already running in the parent process thread
         final ProcessListener listener = new ProcessListener(new ExecutionStatus(processName,
-                executionId, ProcessState.RUNNING, 0));
+                executionId, ProcessState.RUNNING, 0, null));
         final ProcessFactory pf = Processors.createProcessFactory(processName);
         if (pf == null) {
             throw new WPSException("No such process: " + processName);

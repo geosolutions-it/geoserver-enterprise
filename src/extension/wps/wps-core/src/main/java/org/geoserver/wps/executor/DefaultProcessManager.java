@@ -35,15 +35,14 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
-        ApplicationListener<ApplicationEvent> {
+public class DefaultProcessManager implements ProcessManager, ExtensionPriority, ApplicationListener<ApplicationEvent> {
 
     ConcurrentHashMap<String, ExecutionStatusEx> executions = new ConcurrentHashMap<String, DefaultProcessManager.ExecutionStatusEx>();
 
     ThreadPoolExecutor synchService;
 
     ThreadPoolExecutor asynchService;
-
+    
     WPSResourceManager resourceManager;
 
     public DefaultProcessManager(WPSResourceManager resourceManager) {
@@ -51,12 +50,12 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
     }
 
     public void setMaxAsynchronousProcesses(int maxAsynchronousProcesses) {
-        if (asynchService == null) {
-            // create a fixed size pool. If we allow a delta between core and max
+        if(asynchService == null) {
+            // create a fixed size pool. If we allow a delta between core and max 
             // the pool will create new threads only if the queue is full, but the linked queue never is
-            asynchService = new ThreadPoolExecutor(maxAsynchronousProcesses,
-                    maxAsynchronousProcesses, 0L, TimeUnit.MILLISECONDS,
-                    new LinkedBlockingQueue<Runnable>());
+            asynchService = new ThreadPoolExecutor(maxAsynchronousProcesses, maxAsynchronousProcesses, 
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
         } else {
             asynchService.setCorePoolSize(maxAsynchronousProcesses);
             asynchService.setMaximumPoolSize(maxAsynchronousProcesses);
@@ -64,17 +63,18 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
     }
 
     public void setMaxSynchronousProcesses(int maxSynchronousProcesses) {
-        if (synchService == null) {
-            // create a fixed size pool. If we allow a delta between core and max
+        if(synchService == null) {
+            // create a fixed size pool. If we allow a delta between core and max 
             // the pool will create new threads only if the queue is full, but the linked queue never is
-            synchService = new ThreadPoolExecutor(maxSynchronousProcesses, maxSynchronousProcesses,
-                    0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            synchService = new ThreadPoolExecutor(maxSynchronousProcesses, maxSynchronousProcesses, 
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
         } else {
             synchService.setCorePoolSize(maxSynchronousProcesses);
             synchService.setMaximumPoolSize(maxSynchronousProcesses);
         }
     }
-
+    
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
@@ -97,8 +97,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
     public Map<String, Object> submitChained(String executionId, Name processName,
             Map<String, Object> inputs) throws ProcessException {
         // straight execution, no thread pooling, we're already running in the parent process thread
-        ProcessListener listener = new ProcessListener(new ExecutionStatus(processName,
-                executionId, ProcessState.RUNNING, 0));
+        ProcessListener listener = new ProcessListener(new ExecutionStatus(processName, executionId, ProcessState.RUNNING, 0, null));
         ProcessFactory pf = GeoServerProcessors.createProcessFactory(processName);
         if (pf == null) {
             throw new WPSException("No such process: " + processName);
@@ -122,7 +121,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         status.listener = listener;
         ProcessCallable callable = new ProcessCallable(inputs, status);
         Future<Map<String, Object>> future;
-        if (background) {
+        if(background) {
             future = asynchService.submit(callable);
         } else {
             future = synchService.submit(callable);
@@ -158,7 +157,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
                 return status.future.get(timeout, TimeUnit.MILLISECONDS);
             }
         } catch (Exception e) {
-            if (e instanceof ExecutionException && e.getCause() instanceof Exception) {
+            if(e instanceof ExecutionException && e.getCause() instanceof Exception) {
                 e = (Exception) e.getCause();
             }
             if (e instanceof ProcessException) {
@@ -203,7 +202,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         ProcessListener listener;
 
         ExecutionStatusEx status;
-
+        
         ThreadLocalsTransfer threadLocalTransfer;
 
         public ProcessCallable(Map<String, Object> inputs, ExecutionStatusEx status) {
@@ -217,7 +216,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
             try {
                 // transfer the thread locals to this execution context
                 threadLocalTransfer.apply();
-
+                
                 resourceManager.setCurrentExecutionId(status.getExecutionId());
                 status.setPhase(ProcessState.RUNNING);
                 ProcessListener listener = status.listener;
@@ -226,7 +225,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
                 if (pf == null) {
                     throw new WPSException("No such process: " + processName);
                 }
-
+    
                 // execute the process
                 Map<String, Object> result = null;
                 try {
@@ -234,8 +233,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
                     result = p.execute(inputs, listener);
                     if (listener.exception != null) {
                         status.setPhase(ProcessState.FAILED);
-                        throw new WPSException(
-                                "Process failed: " + listener.exception.getMessage(),
+                        throw new WPSException("Process failed: " + listener.exception.getMessage(),
                                 listener.exception);
                     }
                     return result;
@@ -265,11 +263,11 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         ProcessListener listener;
 
         public ExecutionStatusEx(Name processName, String executionId) {
-            super(processName, executionId, ProcessState.QUEUED, 0);
+            super(processName, executionId, ProcessState.QUEUED, 0, null);
         }
 
         public ExecutionStatus getStatus() {
-            return new ExecutionStatus(processName, executionId, phase, progress);
+            return new ExecutionStatus(processName, executionId, phase, progress, task);
         }
 
         @Override
@@ -320,6 +318,9 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         @Override
         public void setTask(InternationalString task) {
             this.task = task;
+            if(task != null) {
+                status.setTask(task.toString());
+            }
         }
 
         @Override
@@ -384,5 +385,7 @@ public class DefaultProcessManager implements ProcessManager, ExtensionPriority,
         }
 
     }
+
+   
 
 }

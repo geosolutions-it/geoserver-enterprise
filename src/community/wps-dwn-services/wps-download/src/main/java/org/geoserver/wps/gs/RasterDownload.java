@@ -18,6 +18,8 @@ import javax.imageio.stream.ImageOutputStream;
 import org.geoserver.catalog.CoverageDimensionCustomizerReader;
 import org.geoserver.catalog.CoverageInfo;
 import org.geoserver.data.util.CoverageUtils;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.wps.ppio.ComplexPPIO;
 import org.geoserver.wps.ppio.ProcessParameterIO;
 import org.geotools.coverage.grid.GridCoverage2D;
@@ -39,7 +41,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.util.ProgressListener;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 import com.vividsolutions.jts.geom.Geometry;
 /**
@@ -264,40 +265,42 @@ class RasterDownload {
         String extension = complexPPIO.getFileExtension();
 
         // writing the output to a temporary folder
+        GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
         final File output = File.createTempFile(coverageInfo.getName(), "." + extension,
-                GeoserverDataDirectory.findCreateConfigDir("temp"));
+        		loader.get("temp").dir());
         output.deleteOnExit();
         collector.addFile(output);//schedule for clean up
 
         // the limit ouutput stream will throw an exception if the process is trying to writr more than the max allowed bytes
         final FileImageOutputStreamExtImpl fileImageOutputStreamExtImpl = new FileImageOutputStreamExtImpl(
                 output);
-        final ImageOutputStream os;
-        if (limit > DownloadEstimatorProcess.NO_LIMIT) {
-            os = new LimitedImageOutputStream(fileImageOutputStreamExtImpl, limit) {
-
-                @Override
-                protected void raiseError(long pSizeMax, long pCount) throws IOException {
-                    IOException e = new IOException(
-                            "Download Exceeded the maximum HARD allowed size!");
-                    throw e;
-                }
-            };
-        } else {
-            os = fileImageOutputStreamExtImpl;
-        }
+        ImageOutputStream os = null;
         // write
         try {
-            complexPPIO.encode(gridCoverage, new OutputStreamAdapter(os));
-            os.flush();
+        	if (limit > DownloadEstimatorProcess.NO_LIMIT) {
+        		os = new LimitedImageOutputStream(fileImageOutputStreamExtImpl, limit) {
+
+        			@Override
+        			protected void raiseError(long pSizeMax, long pCount) throws IOException {
+        				IOException e = new IOException(
+        						"Download Exceeded the maximum HARD allowed size!");
+        				throw e;
+        			}
+        		};
+        	} else {
+        		os = fileImageOutputStreamExtImpl;
+        	}
+
+        	complexPPIO.encode(gridCoverage, new OutputStreamAdapter(os));
+        	os.flush();
         } finally {
-            try {
-                if (os != null) {
-                    os.close();
-                }
-            } catch (Exception e) {
-                LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
-            }
+        	try {
+        		if (os != null) {
+        			os.close();
+        		}
+        	} catch (Exception e) {
+        		LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
+        	}
         }
         return output;
     }

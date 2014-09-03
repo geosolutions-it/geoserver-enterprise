@@ -50,7 +50,7 @@ public class ClusterManagerProcess implements GSProcess {
          */
         public ExecutionStatusExt(Name processName, String executionId, ProcessState phase,
                 float progress, String result) {
-            super(processName, executionId, phase, progress);
+            super(processName, executionId, phase, progress, null);
             this.result = result;
         }
 

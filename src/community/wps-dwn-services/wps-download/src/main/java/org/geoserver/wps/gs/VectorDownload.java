@@ -14,6 +14,9 @@ import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 import org.geoserver.catalog.FeatureTypeInfo;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
+import org.geoserver.platform.resource.Resource;
 import org.geoserver.wps.ppio.ComplexPPIO;
 import org.geoserver.wps.ppio.ProcessParameterIO;
 import org.geotools.data.Parameter;
@@ -31,7 +34,6 @@ import org.opengis.filter.spatial.Intersects;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.util.ProgressListener;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 import com.vividsolutions.jts.geom.Geometry;
 /**
@@ -206,8 +208,9 @@ class VectorDownload {
         }
 
         // create output file
-        final File output = File.createTempFile(name, extension,
-                GeoserverDataDirectory.findCreateConfigDir("temp"));
+        GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
+        Resource temp = loader.get("temp");
+        final File output = File.createTempFile(name, extension, temp.dir());
         output.deleteOnExit();
         collector.addFile(output);//schedule for clean up
 
