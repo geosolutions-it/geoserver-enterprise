@@ -53,6 +53,10 @@ public abstract class BaseDAOTest extends GeoServerTestSupport {
         dataDirectory.copyTo(
                 BaseDAOTest.class.getClassLoader().getResourceAsStream(
                         "wps-cluster/wpsCluster.properties"), "wps-cluster/wpsCluster.properties");
+        
+        dataDirectory.copyTo(
+                BaseDAOTest.class.getClassLoader().getResourceAsStream(
+                        "wps-cluster/mail.properties"), "wps-cluster/mail.properties");
     }
 
     /**

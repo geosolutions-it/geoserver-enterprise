@@ -25,8 +25,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
+import org.geoserver.platform.GeoServerExtensions;
+import org.geoserver.platform.GeoServerResourceLoader;
 import org.geotools.util.logging.Logging;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -284,7 +285,8 @@ public class SendMail {
     public static File getSendMailTemplatesPath() throws IOException {
         // get the temporary storage for WPS
         try {
-            File storage = GeoserverDataDirectory.findCreateConfigDir("wps-cluster/templates");
+        	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
+            File storage = loader.get("wps-cluster/templates").dir(); // find or create
             return storage;
         } catch (Exception e) {
             throw new IOException("Could not find the data directory for WPS CLUSTER");

@@ -50,6 +50,8 @@ import org.geoserver.wps.ppio.BoundingBoxPPIO;
 import org.geoserver.wps.ppio.ComplexPPIO;
 import org.geoserver.wps.ppio.LiteralPPIO;
 import org.geoserver.wps.ppio.ProcessParameterIO;
+import org.geoserver.wps.ppio.RawDataPPIO;
+import org.geoserver.wps.process.StringRawData;
 import org.geoserver.wps.resource.GridCoverageResource;
 import org.opengis.coverage.Coverage;
 import org.opengis.coverage.grid.GridCoverage;
@@ -136,7 +138,12 @@ class SimpleInputProvider implements InputProvider {
                     value = ((LiteralPPIO) ppio).decode(literal.getValue());
                 } else if (data.getComplexData() != null) {
                     ComplexDataType complex = data.getComplexData();
-                    value = ((ComplexPPIO) ppio).decode(complex.getData().get(0));
+                    if (ppio instanceof RawDataPPIO) {
+                        String content = complex.getData().get(0).toString();
+                        return new StringRawData(content, complex.getMimeType());
+                    } else {
+                        value = ((ComplexPPIO) ppio).decode(complex.getData().get(0));
+                    }
                 } else if (data.getBoundingBoxData() != null) {
                     value = ((BoundingBoxPPIO) ppio).decode(data.getBoundingBoxData());
                 }

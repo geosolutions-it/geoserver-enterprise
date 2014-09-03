@@ -145,7 +145,7 @@ public class ClusterProcessManagerTest extends WPSTestSupport {
          * @param executionId the execution id
          */
         public ExecutionStatusExTest(Name processName, String executionId) {
-            super(processName, executionId, ProcessState.QUEUED, 0);
+            super(processName, executionId, ProcessState.QUEUED, 0, null);
         }
 
         /**
@@ -154,7 +154,7 @@ public class ClusterProcessManagerTest extends WPSTestSupport {
          * @return the status
          */
         public ExecutionStatus getStatus() {
-            return new ExecutionStatus(processName, executionId, phase, progress);
+            return new ExecutionStatus(processName, executionId, phase, progress, null);
         }
 
         /**

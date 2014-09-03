@@ -594,7 +594,7 @@ public class DownloadProcessTest extends GeoServerTestSupport {
                     );
         } catch (ProcessException e) {
             assertEquals(
-                    "java.io.IOException: Download Exceeded the maximum HARD allowed size!: Download Exceeded the maximum HARD allowed size!",
+                    "org.geotools.process.ProcessException: java.io.IOException: Download Exceeded the maximum HARD allowed size!: java.io.IOException: Download Exceeded the maximum HARD allowed size!",
                     e.getMessage() + (e.getCause() != null ? ": " + e.getCause().getMessage() : ""));
             return;
         }
@@ -646,7 +646,7 @@ public class DownloadProcessTest extends GeoServerTestSupport {
      */
     public void testDownloadPhysicalLimitsRaster() throws Exception {
         ProcessListener listener = new ProcessListener(new ExecutionStatus(null, "0",
-                ProcessState.RUNNING, 0));
+                ProcessState.RUNNING, 0, null));
 
         DownloadEstimatorProcess estimator = new DownloadEstimatorProcess(
                 DownloadEstimatorProcess.NO_LIMIT, DownloadEstimatorProcess.NO_LIMIT, 
@@ -674,7 +674,7 @@ public class DownloadProcessTest extends GeoServerTestSupport {
             Throwable e1 = listener.exception;
             assertNotNull(e1);
             assertEquals(
-                    "java.io.IOException: Download Exceeded the maximum HARD allowed size!: Download Exceeded the maximum HARD allowed size!",
+                    "org.geotools.process.ProcessException: java.io.IOException: Download Exceeded the maximum HARD allowed size!: java.io.IOException: Download Exceeded the maximum HARD allowed size!",
                     e.getMessage() + (e.getCause() != null ? ": " + e.getCause().getMessage() : ""));
         }
 
@@ -687,7 +687,7 @@ public class DownloadProcessTest extends GeoServerTestSupport {
      */
     public void testDownloadPhysicalLimitsVector() throws Exception {
         ProcessListener listener = new ProcessListener(new ExecutionStatus(null, "0",
-                ProcessState.RUNNING, 0));
+                ProcessState.RUNNING, 0, null));
 
         DownloadEstimatorProcess estimator = new DownloadEstimatorProcess(
                 DownloadEstimatorProcess.NO_LIMIT, 

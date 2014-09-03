@@ -12,13 +12,13 @@
     <parent>
         <groupId>org.geoserver.extension</groupId>
         <artifactId>gs-wps</artifactId>
-        <version>2.5-ENTERPRISE-SNAPSHOT</version>
+        <version>2.6-ENTERPRISE-SNAPSHOT</version>
     </parent>
 
     <groupId>org.geoserver.extension</groupId>
     <artifactId>gs-web-wps</artifactId>
     <packaging>jar</packaging>
-    <version>2.5-ENTERPRISE-SNAPSHOT</version>
+    <version>2.6-ENTERPRISE-SNAPSHOT</version>
     <name>Web Processing Service GUI</name>
 
     <dependencies>
