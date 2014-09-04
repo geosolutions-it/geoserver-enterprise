@@ -286,7 +286,7 @@ public class SendMail {
         // get the temporary storage for WPS
         try {
         	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
-            File storage = loader.get("wps-cluster/templates").dir(); // find or create
+            File storage = new File(loader.getBaseDirectory().getCanonicalPath(), "/wps-cluster/templates");
             return storage;
         } catch (Exception e) {
             throw new IOException("Could not find the data directory for WPS CLUSTER");

@@ -199,7 +199,7 @@ final class DownloadUtilities {
      */
     static File findStyle(StyleInfo style) throws IOException {
     	GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
-        File styleFile = loader.find("styles/" + style.getFilename()); //GeoserverDataDirectory.findStyleFile(style.getFilename());
+        File styleFile = new File(loader.getBaseDirectory().getCanonicalPath(), "/styles/" + style.getFilename()); //GeoserverDataDirectory.findStyleFile(style.getFilename());
         if (styleFile != null && styleFile.exists() && styleFile.canRead()&& styleFile.isFile())  {
             // the SLD file is public and avaialble, we can attach it to the download.
             return styleFile;
@@ -207,7 +207,7 @@ final class DownloadUtilities {
         else {
             // the SLD file is not public, most probably it is located under a workspace.
             // lets try to search for the file inside the same layer workspace folder ...
-            File workspaces = loader.get("workspaces").dir(); // find or create
+            File workspaces = new File(loader.getBaseDirectory().getCanonicalPath(), "/workspaces");
             styleFile = new File( new File( workspaces, style.getWorkspace().getName() +"/styles" ), style.getFilename() );
     
             if (!(styleFile.exists() && styleFile.canRead()&& styleFile.isFile() )) {
