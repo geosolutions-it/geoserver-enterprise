@@ -169,11 +169,22 @@ public class JMSCatalogListener extends JMSAbstractGeoServerProducer implements 
             final CatalogInfo info = event.getSource();
             if (info instanceof StyleInfo) {
                 // build local datadir file style path
-                final String fileName = File.separator + "styles" + File.separator
+                final String canonicalStyleFileName = File.separator + "styles" + File.separator
                         + ((StyleInfo) info).getFilename();
-                final File styleFile = new File(loader.getBaseDirectory()
-                        .getCanonicalPath(), fileName);
+                
+                File styleFile = new File(loader.getBaseDirectory().getCanonicalPath(), 
+                		canonicalStyleFileName);
 
+                if ( !styleFile.exists() ) {
+                	final String workspace = ((StyleInfo) info).getWorkspace().getName();
+                	final String styleFileName = File.separator + "workspaces" +
+                			File.separator + workspace +
+                	        File.separator + "styles" + File.separator + 
+                	        ((StyleInfo) info).getFilename();
+                	styleFile =  new File(loader.getBaseDirectory().getCanonicalPath(), 
+                			styleFileName);
+                }
+                
                 // publish the style xml document
                 jmsPublisher.publish(getTopic(), getJmsTemplate(), options, new DocumentFile(
                         styleFile));

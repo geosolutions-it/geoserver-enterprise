@@ -63,8 +63,18 @@ public class JMSCatalogStylesFileHandler extends DocumentFileHandler {
 				GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
 				final String fileName = File.separator + "styles"
 						+ File.separator + event.getPath().getName();
-				final File file = new File(loader.getBaseDirectory().getCanonicalPath(),
-						fileName);
+				File file = new File(loader.getBaseDirectory().getCanonicalPath(), fileName);
+				
+				if ( !file.exists() ) {
+					final String styleAbsolutePath = event.getPath().getAbsolutePath();
+					if ( styleAbsolutePath.indexOf("workspaces") > 0 ) {
+						final String styleFileName = File.separator + 
+								styleAbsolutePath.substring(styleAbsolutePath.indexOf("workspaces"));
+						file =  new File(loader.getBaseDirectory().getCanonicalPath(), 
+								styleFileName);
+					}
+				}
+				
 				event.writeTo(file);
 				return true;
 			} catch (Exception e) {
