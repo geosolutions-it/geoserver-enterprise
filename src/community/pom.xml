@@ -114,24 +114,7 @@
 				<module>cluster</module>
 			</modules>
 		</profile>
-
-		<!-- ======================================== -->
-		<!-- PBA -->
-		<!-- ======================================== -->
-		<profile>
-		  <id>kmlppio</id>
-		  <modules>
-			<module>kmlppio</module>
-		  </modules>
-		</profile>
-
-		<profile>
-		  <id>gpxppio</id>
-		  <modules>
-			<module>gpxppio</module>
-		  </modules>
-		</profile>
-
+        
 		<!-- ======================================== -->
 		<!-- WPS Download Services -->
 		<!-- ======================================== -->
@@ -144,20 +127,10 @@
 				</property>
 			</activation>
 			<modules>
-				<module>kmlppio</module>
-				<module>gpxppio</module>
 				<module>wps-dwn-services</module>
 			</modules>
 		</profile>
 		
   </profiles>
   
-  <!-- profiles for individual modules -->
-    <!-- profile>
-      <id>wps-raster-algebra</id>
-      <modules>
-        <module>wps-raster-algebra</module>
-      </modules>
-    </profile -->
-
 </project>
