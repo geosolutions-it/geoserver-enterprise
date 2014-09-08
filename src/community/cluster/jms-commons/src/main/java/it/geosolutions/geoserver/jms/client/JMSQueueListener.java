@@ -67,6 +67,14 @@ public class JMSQueueListener extends JMSApplicationListener implements
             throw new JMSException("Unable to handle incoming message, property \'"
                     + JMSConfiguration.INSTANCE_NAME_KEY + "\' not set.");
         }
+        
+        // FILTERING INCOMING MESSAGE
+        if (!message.propertyExists(JMSConfiguration.GROUP_KEY)) {
+            throw new JMSException("Unable to handle incoming message, property \'"
+                    + JMSConfiguration.GROUP_KEY + "\' not set.");
+        }
+        
+        
         // check if message comes from a master with the same name of this slave
         if (message.getStringProperty(JMSConfiguration.INSTANCE_NAME_KEY).equals(
                 config.getConfiguration(JMSConfiguration.INSTANCE_NAME_KEY))) {
@@ -77,6 +85,18 @@ public class JMSQueueListener extends JMSApplicationListener implements
             return;
         }
 
+        // check if message comes from a different group
+        final String group = message.getStringProperty(JMSConfiguration.GROUP_KEY);
+		final String localGroup = config.getConfiguration(JMSConfiguration.GROUP_KEY);
+		if (group.equals(
+                localGroup)) {
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Incoming message discarded: incoming group-->"+group+" is different from the local one-->"+localGroup);
+            }
+            // if so discard the message
+            return;
+        }
+        
         // check the property which define the SPI used (to serialize on the
         // server side).
         if (!message.propertyExists(JMSEventHandlerSPI.getKeyName()))

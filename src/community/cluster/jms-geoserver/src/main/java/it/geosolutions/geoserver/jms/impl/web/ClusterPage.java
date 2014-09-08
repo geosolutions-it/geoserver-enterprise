@@ -58,12 +58,19 @@ public class ClusterPage extends GeoServerSecuredPage {
         brokerURL.setType(String.class);
         form.add(brokerURL);
 
-        // add instance name setting
+        // add group name setting
         final TextField<String> instanceName = new TextField<String>(
                 JMSConfiguration.INSTANCE_NAME_KEY);
         // https://issues.apache.org/jira/browse/WICKET-2426
         instanceName.setType(String.class);
         form.add(instanceName);
+        
+        // add instance name setting
+        final TextField<String> group = new TextField<String>(
+                JMSConfiguration.GROUP_KEY);
+        // https://issues.apache.org/jira/browse/WICKET-2426
+        group.setType(String.class);
+        form.add(group);
 
         // add topic name setting
         final TextField<String> topicName = new TextField<String>(TopicConfiguration.TOPIC_NAME_KEY);

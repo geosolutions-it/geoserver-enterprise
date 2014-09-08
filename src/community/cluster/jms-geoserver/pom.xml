@@ -19,8 +19,9 @@
 	<properties>
 		<amq.version>5.9.0</amq.version>
 	</properties>
-	
+
 	<dependencies>
+
 		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>gs-jms-commons</artifactId>
@@ -42,7 +43,7 @@
 			<groupId>org.geoserver</groupId>
 			<artifactId>gs-restconfig</artifactId>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.geoserver</groupId>
 			<artifactId>gs-platform</artifactId>
@@ -52,17 +53,17 @@
 			<groupId>org.geoserver</groupId>
 			<artifactId>gs-rest</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.restlet</groupId>
 			<artifactId>org.restlet</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.geoserver.web</groupId>
 			<artifactId>gs-web-core</artifactId>
 		</dependency>
-		
+
 		<!-- commented out due to slf4j exclusion problems. take a look here: http://repo1.maven.org/maven2/org/apache/activemq/activemq-all/5.9.0/activemq-all-5.9.0.pom 
 			for explicit deps -->
 		<!--dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-all</artifactId> 
@@ -111,45 +112,17 @@
 			</exclusions>
 		</dependency>
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-camel</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-camel</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-jaas</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-jaas</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
@@ -171,175 +144,57 @@
 			</exclusions>
 		</dependency>
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-console</artifactId>
-			<version>${amq.version}</version>
-			
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-console</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-openwire-legacy</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-openwire-legacy</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-http</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-http</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency> -->
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-mqtt</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-mqtt</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
-		<!--dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-stomp</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!--dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-stomp</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
 		<!-- only 5.9.0 -->
-		<!--dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-amqp</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
-		
-		<!-- only 5.8.0
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-amq-store</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
- 		-->
+		<!--dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-amqp</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency -->
 
-		<!-- dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-leveldb-store</artifactId>
-			<version>${amq.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>ant</groupId>
-					<artifactId>ant</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
+		<!-- only 5.8.0 <dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-amq-store</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency> -->
+
+		<!-- dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-leveldb-store</artifactId> 
+			<version>${amq.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </exclusion> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId> 
+			<artifactId>log4j</artifactId> </exclusion> <exclusion> <groupId>ant</groupId> 
+			<artifactId>ant</artifactId> </exclusion> </exclusions> </dependency -->
 
 
 		<dependency>
@@ -370,11 +225,8 @@
 		</dependency>
 
 
-		<!--dependency>
-			<groupId>org.fusesource.hawtbuf</groupId>
-			<artifactId>hawtbuf</artifactId>
-			<version>1.9</version>
-		</dependency-->
+		<!--dependency> <groupId>org.fusesource.hawtbuf</groupId> <artifactId>hawtbuf</artifactId> 
+			<version>1.9</version> </dependency -->
 
 
 		<dependency>
@@ -445,7 +297,7 @@
 			<groupId>com.mockrunner</groupId>
 			<artifactId>mockrunner</artifactId>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 
 	</dependencies>
 

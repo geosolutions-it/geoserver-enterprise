@@ -32,6 +32,8 @@ final public class JMSConfiguration {
     public List<JMSConfigurationExt> exts;
 
     public static final String INSTANCE_NAME_KEY = "instanceName";
+    
+    public static final String GROUP_KEY = "group";
 
     /**
      * This file contains the configuration
@@ -110,6 +112,8 @@ final public class JMSConfiguration {
      * @throws IOException
      */
     public void initDefaults() throws IOException {
+    	configuration.put(GROUP_KEY, "geoserver-cluster");
+    	
         // set the name
         configuration.put(INSTANCE_NAME_KEY, UUID.randomUUID().toString());
         if (exts != null) {
@@ -186,8 +190,6 @@ final public class JMSConfiguration {
     public final static File getTempDir() {
         String tempPath = ApplicationProperties.getProperty(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE);
         if (tempPath == null) {
-            // tempPath = ApplicationProperties
-            // .getProperty(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE);
             return null;
         }
         File tempDir = new File(tempPath);

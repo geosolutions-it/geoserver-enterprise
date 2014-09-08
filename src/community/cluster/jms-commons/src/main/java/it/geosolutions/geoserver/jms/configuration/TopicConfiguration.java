@@ -23,9 +23,6 @@ final public class TopicConfiguration implements JMSConfigurationExt {
 
     public static final String DEFAULT_DURABLE_NAME = "true";
 
-    // @Autowired
-    // JMSPropertyPlaceholderConfigurer commonConfiguration;
-
     @Override
     public void initDefaults(JMSConfiguration config) throws IOException {
         String url = null;
