@@ -1254,8 +1254,8 @@
      <artifactId>maven-compiler-plugin</artifactId>
      <version>2.3.2</version>
      <configuration>
-       <source>1.6</source>
-       <target>1.6</target>
+       <source>1.7</source>
+       <target>1.7</target>
        <debug>true</debug>
        <encoding>UTF-8</encoding>
        <!-- 
@@ -1283,8 +1283,8 @@
     <version>2.12.3</version>
     <configuration>
      <runOrder>alphabetical</runOrder>
-     <source>1.5</source>
-     <target>1.5</target>
+     <source>1.7</source>
+     <target>1.7</target>
      <includes>
       <include>**/*Test.java</include>
      </includes>
@@ -1432,7 +1432,7 @@
     <artifactId>maven-javadoc-plugin</artifactId>
     <version>2.9</version>
     <configuration>
-     <source>1.5</source>
+     <source>1.7</source>
      <version>false</version>
      <noqualifier>all</noqualifier>
      <maxmemory>256M</maxmemory>
