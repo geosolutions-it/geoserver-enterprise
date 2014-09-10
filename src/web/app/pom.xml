@@ -597,31 +597,6 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>wps-download</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.geoserver.community</groupId>
-					<artifactId>gs-kmlppio</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.geoserver.community</groupId>
-					<artifactId>gs-gpxppio</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.geoserver.community</groupId>
-					<artifactId>gs-wps-cluster</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.geoserver.community</groupId>
-					<artifactId>gs-wps-download</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
 			<id>istyler</id>
 			<dependencies>
 				<dependency>
@@ -697,12 +672,12 @@
 				<dependency>
 					<groupId>org.geoserver.extension</groupId>
                     <artifactId>gs-wps-core</artifactId>
-					<version>${project.version}</version>
+					<version>${gs.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.geoserver.extension</groupId>
                     <artifactId>gs-web-wps</artifactId>
-					<version>${project.version}</version>
+					<version>${gs.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>

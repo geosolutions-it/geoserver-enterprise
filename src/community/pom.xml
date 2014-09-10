@@ -132,32 +132,6 @@
 		  </modules>
 		</profile>
 
-		<!-- ======================================== -->
-		<!-- WPS Download Services -->
-		<!-- ======================================== -->
-		<profile>
-			<id>wps-download</id>
-			<activation>
-				<property>
-					<name>all</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<modules>
-				<module>kmlppio</module>
-				<module>gpxppio</module>
-				<module>wps-dwn-services</module>
-			</modules>
-		</profile>
 		
   </profiles>
-  
-  <!-- profiles for individual modules -->
-    <!-- profile>
-      <id>wps-raster-algebra</id>
-      <modules>
-        <module>wps-raster-algebra</module>
-      </modules>
-    </profile -->
-
 </project>
