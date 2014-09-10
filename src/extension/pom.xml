@@ -77,15 +77,7 @@
       <id>release</id>
       <modules>
       </modules>
-    </profile>
-
-    <profile>
-      <id>wps</id>
-      <modules>
-        <module>wps</module>
-      </modules>
-    </profile>
-	
+    </profile>	
   </profiles>
 
 </project>
