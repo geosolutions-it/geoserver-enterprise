@@ -90,7 +90,10 @@ public class ClusterResource extends ReflectiveResource {
 			} else if (key.equals(ReadOnlyConfiguration.READ_ONLY_KEY)) {
 				// ReadOnly
 				controller.setReadOnly(Boolean.getBoolean(value));
-			}
+			}else if (key.equals(JMSConfiguration.GROUP_KEY)) {
+				// group
+				controller.setGroup(value);
+			} 
 		}
 		// SAVE to disk
 		controller.save();

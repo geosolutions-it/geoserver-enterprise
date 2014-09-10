@@ -45,6 +45,11 @@ public class Controller {
 		Assert.notNull(name, "Unable to setup a null name");
 		config.putConfiguration(JMSConfiguration.INSTANCE_NAME_KEY, name);
 	}
+	
+	public void setGroup(final String group) {
+		Assert.notNull(group, "Unable to setup a null group");
+		config.putConfiguration(JMSConfiguration.GROUP_KEY, group);
+	}
 
 	public void setBrokerURL(final String url) {
 		Assert.notNull(url, "Unable to setup a null Broker URL");

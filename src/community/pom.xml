@@ -116,10 +116,10 @@
 		</profile>
         
 		<!-- ======================================== -->
-		<!-- WPS Download Services -->
+		<!-- WPS Asynch Module -->
 		<!-- ======================================== -->
 		<profile>
-			<id>wps-download</id>
+			<id>wps-cluster</id>
 			<activation>
 				<property>
 					<name>all</name>
@@ -127,7 +127,7 @@
 				</property>
 			</activation>
 			<modules>
-				<module>wps-dwn-services</module>
+				<module>wps-cluster</module>
 			</modules>
 		</profile>
 		

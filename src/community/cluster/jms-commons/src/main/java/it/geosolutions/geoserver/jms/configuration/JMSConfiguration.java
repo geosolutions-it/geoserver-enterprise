@@ -26,7 +26,9 @@ import org.springframework.web.util.WebUtils;
  * 
  */
 final public class JMSConfiguration {
-    protected static final java.util.logging.Logger LOGGER = Logging.getLogger(JMSConfiguration.class);
+    public static final String DEFAULT_GROUP = "geoserver-cluster";
+
+	protected static final java.util.logging.Logger LOGGER = Logging.getLogger(JMSConfiguration.class);
 
     @Autowired
     public List<JMSConfigurationExt> exts;
@@ -112,7 +114,8 @@ final public class JMSConfiguration {
      * @throws IOException
      */
     public void initDefaults() throws IOException {
-    	configuration.put(GROUP_KEY, "geoserver-cluster");
+    	// set the group
+    	configuration.put(GROUP_KEY, DEFAULT_GROUP);
     	
         // set the name
         configuration.put(INSTANCE_NAME_KEY, UUID.randomUUID().toString());
