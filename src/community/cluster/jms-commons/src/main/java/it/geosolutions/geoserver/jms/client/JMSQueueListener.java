@@ -87,9 +87,8 @@ public class JMSQueueListener extends JMSApplicationListener implements
 
         // check if message comes from a different group
         final String group = message.getStringProperty(JMSConfiguration.GROUP_KEY);
-		final String localGroup = config.getConfiguration(JMSConfiguration.GROUP_KEY);
-		if (group.equals(
-                localGroup)) {
+        final String localGroup = config.getConfiguration(JMSConfiguration.GROUP_KEY);
+        if (!group.equals(localGroup)) {
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("Incoming message discarded: incoming group-->"+group+" is different from the local one-->"+localGroup);
             }
