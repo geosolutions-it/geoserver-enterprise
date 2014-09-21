@@ -74,6 +74,7 @@ final public class JMSContainer extends DefaultMessageListenerContainer implemen
         // set to topic
         setPubSubDomain(true);
         
+        
         // set subscription durability
         setSubscriptionDurable(Boolean.parseBoolean(config.getConfiguration(TopicConfiguration.DURABLE_KEY).toString()));
         

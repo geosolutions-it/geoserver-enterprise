@@ -118,9 +118,7 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 	public ConnectionFactory getConnectionFactory(Properties configuration) {
 		final String _brokerURI = config
 				.getConfiguration(BrokerConfiguration.BROKER_URL_KEY);
-
 		final boolean changed = checkBrokerURI(_brokerURI);
-
 		if (LOGGER.isLoggable(Level.INFO)) {
 			LOGGER.info("Using brokerURI: " + brokerURI);
 		}
@@ -129,7 +127,8 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 			// need to be initialized
 			cf = new PooledConnectionFactory(brokerURI);
 
-		} else if (changed) {
+		} else {
+		    if (changed) {
 			// clear pending connections
 			try {
 				destroyConnectionFactory();
@@ -139,8 +138,9 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 			// create a new connection
 			cf = new PooledConnectionFactory(brokerURI);
 			// cf.start();
-		}
+		    }
 
+                }
 		return cf;
 	}
 
@@ -230,6 +230,8 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 			brokerName = configuration
 					.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
 			brokerService.setBrokerName(brokerName);
+			brokerService.setUseLocalHostBrokerName(false);
+			brokerService.setVmConnectorURI(new URI("vm://"+brokerName));
 		} else {
 			if (LOGGER.isLoggable(Level.WARNING)) {
 				LOGGER.warning("The embedded brokerURI service already exists, probably it is already started");
@@ -308,7 +310,6 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
 	@PostConstruct
 	private void init() {
 		// // times to test (connection)

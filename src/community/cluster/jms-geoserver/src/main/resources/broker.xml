@@ -26,12 +26,11 @@
 		<constructor-arg index="0" type="Resource">
 			<value>embedded-broker.properties</value>
 		</constructor-arg>
-		<constructor-arg index="1" type="JMSConfiguration"
-			ref="JMSConfiguration" />
+		<constructor-arg index="1" type="JMSConfiguration" ref="JMSConfiguration" />
 
 	</bean>
 
-	<broker id="broker" persistent="${activemq.broker.persistent}"
+	<broker id="broker" persistent="${activemq.broker.persistent}" 
 		useJmx="${activemq.jmx.useJmx}" xmlns="http://activemq.apache.org/schema/core"
 		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
 		startAsync="false" start="false">
@@ -43,16 +42,6 @@
 			<managementContext createConnector="${activemq.jmx.createConnector}"
 				connectorPort="${activemq.jmx.port}" connectorHost="${activemq.jmx.host}" />
 		</managementContext>
-
-		<!-- For better performances use VM cursor and small memory limit. For 
-			more information, see: http://activemq.apache.org/message-cursors.html Also, 
-			if your producer is "hanging", it's probably due to producer flow control. 
-			For more information, see: http://activemq.apache.org/producer-flow-control.html -->
-
-		<networkConnectors xmlns="http://activemq.apache.org/schema/core">
-			<networkConnector
-				uri="${activemq.transportConnectors.server.discoveryURI}" />
-		</networkConnectors>
 
 		<destinationInterceptors>
 			<virtualDestinationInterceptor>
@@ -101,6 +90,10 @@
 			<transportConnector name="openwire"
 				uri="${activemq.transportConnectors.server.uri}" discoveryUri="${activemq.transportConnectors.server.discoveryURI}" />
 		</transportConnectors>
+		<networkConnectors xmlns="http://activemq.apache.org/schema/core">
+			<networkConnector
+				uri="${activemq.transportConnectors.server.discoveryURI}" />
+		</networkConnectors>
 
 		<!-- destroy the spring context on shutdown to stop jetty -->
 		<shutdownHooks>

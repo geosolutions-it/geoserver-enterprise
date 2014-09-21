@@ -44,9 +44,7 @@ public class JMSPropertyPlaceholderConfigurer extends
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		File properties = new File(config.getConfiguration(
-				EmbeddedBrokerConfiguration.EMBEDDED_BROKER_PROPERTIES_KEY)
-				.toString());
+		File properties = new File(config.getConfiguration(EmbeddedBrokerConfiguration.EMBEDDED_BROKER_PROPERTIES_KEY).toString());
 		if (!properties.isAbsolute() && !properties.isFile()) {
 			// try to resolve as absolute
 			properties = new File(JMSConfiguration.getConfigPathDir(),
