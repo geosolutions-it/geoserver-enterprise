@@ -227,8 +227,7 @@ public class JMSActiveMQFactory extends JMSFactory implements InitializingBean {
 
 			// override the name of the brokerURI using the instance name which
 			// should be unique within the network
-			brokerName = configuration
-					.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
+			brokerName = configuration.getProperty(JMSConfiguration.INSTANCE_NAME_KEY);
 			brokerService.setBrokerName(brokerName);
 			brokerService.setUseLocalHostBrokerName(false);
 			brokerService.setVmConnectorURI(new URI("vm://"+brokerName));

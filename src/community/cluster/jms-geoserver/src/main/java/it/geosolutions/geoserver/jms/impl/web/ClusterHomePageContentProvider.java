@@ -20,7 +20,7 @@ public class ClusterHomePageContentProvider implements GeoServerHomePageContentP
     public Component getPageBodyComponent(String id) {
         GeoServerSecurityManager secMgr = GeoServerExtensions.bean(GeoServerSecurityManager.class);
         if (secMgr.checkAuthenticationForAdminRole()) { 
-            return new NodeLinkPanel(id, config);
+            return new NodePanel(id, config);
         }
         return new WebMarkupContainer(id);
     }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.PropertiesPersister;
 
 public class JMSPropertyPlaceholderConfigurer extends
 		PropertyPlaceholderConfigurer implements InitializingBean {
@@ -38,23 +39,93 @@ public class JMSPropertyPlaceholderConfigurer extends
 		return localProperties;
 	}
 
-	public Properties getMergedProperties() throws IOException {
-		return mergeProperties();
-	}
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		File properties = new File(config.getConfiguration(EmbeddedBrokerConfiguration.EMBEDDED_BROKER_PROPERTIES_KEY).toString());
 		if (!properties.isAbsolute() && !properties.isFile()) {
 			// try to resolve as absolute
-			properties = new File(JMSConfiguration.getConfigPathDir(),
-					properties.getPath());
+			properties = new File(JMSConfiguration.getConfigPathDir(),properties.getPath());
 			if (!properties.isFile()) {
 				// copy the defaults
-				IOUtils.copy(defaults.getInputStream(), properties);
+				IOUtils.copy(defaults.getFile(), properties);
 			}
 		}
 		final Resource res = new FileSystemResource(properties);
 		super.setLocation(res);
+		
+		// make sure the activemq.base is set to a valuable default 
+		final Properties props=new Properties();
+		props.setProperty("activemq.base", (String)config.getConfiguration("CLUSTER_CONFIG_DIR"));
+		props.setProperty("instanceName", (String)config.getConfiguration("instanceName"));
+		setProperties(props);
 	}
+
+    @Override
+    protected String resolvePlaceholder(String placeholder, Properties props,
+            int systemPropertiesMode) {
+        // TODO Auto-generated method stub
+        return super.resolvePlaceholder(placeholder, props, systemPropertiesMode);
+    }
+
+    @Override
+    protected String resolvePlaceholder(String placeholder, Properties props) {
+        // TODO Auto-generated method stub
+        return super.resolvePlaceholder(placeholder, props);
+    }
+
+    @Override
+    protected String resolveSystemProperty(String key) {
+        // TODO Auto-generated method stub
+        return super.resolveSystemProperty(key);
+    }
+
+    @Override
+    protected void convertProperties(Properties props) {
+        // TODO Auto-generated method stub
+        super.convertProperties(props);
+    }
+
+    @Override
+    protected String convertProperty(String propertyName, String propertyValue) {
+        // TODO Auto-generated method stub
+        return super.convertProperty(propertyName, propertyValue);
+    }
+
+    @Override
+    protected String convertPropertyValue(String originalValue) {
+        // TODO Auto-generated method stub
+        return super.convertPropertyValue(originalValue);
+    }
+
+    @Override
+    protected void loadProperties(Properties props) throws IOException {
+        // TODO Auto-generated method stub
+        super.loadProperties(props);
+    }
+
+    @Override
+    protected Properties mergeProperties() throws IOException {
+        // TODO Auto-generated method stub
+        return super.mergeProperties();
+    }
+
+    @Override
+    public void setProperties(Properties properties) {
+        // TODO Auto-generated method stub
+        super.setProperties(properties);
+    }
+
+    @Override
+    public void setPropertiesArray(Properties[] propertiesArray) {
+        // TODO Auto-generated method stub
+        super.setPropertiesArray(propertiesArray);
+    }
+
+    @Override
+    public void setPropertiesPersister(PropertiesPersister propertiesPersister) {
+        // TODO Auto-generated method stub
+        super.setPropertiesPersister(propertiesPersister);
+    }
+
+   
 }

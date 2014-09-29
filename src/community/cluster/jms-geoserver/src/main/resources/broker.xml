@@ -19,8 +19,8 @@
 		file -->
 	<bean id="activemq.propertyPlaceholderConfigurer"
 		class="it.geosolutions.geoserver.jms.impl.utils.JMSPropertyPlaceholderConfigurer">
-		<!-- class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="searchSystemEnvironment" value="true" />
 		<property name="ignoreUnresolvablePlaceholders" value="false" />
 		<property name="ignoreResourceNotFound" value="true" />
 		<constructor-arg index="0" type="Resource">
@@ -33,7 +33,7 @@
 	<broker id="broker" persistent="${activemq.broker.persistent}" 
 		useJmx="${activemq.jmx.useJmx}" xmlns="http://activemq.apache.org/schema/core"
 		dataDirectory="${activemq.base}" tmpDataDirectory="${activemq.base}/tmp"
-		startAsync="false" start="false">
+		startAsync="false" start="false" brokerName="${instanceName}">
 
 		<!-- The managementContext is used to configure how ActiveMQ is exposed 
 			in JMX. By default, ActiveMQ uses the MBean server that is started by the 
@@ -59,9 +59,6 @@
 
 		    <kahaDB directory="${activemq.base}/kahadb"
 				lockKeepAlivePeriod="0" />
-		    
-			<!-- levelDB directory="${activemq.base}/leveldb"
-				lockKeepAlivePeriod="0" /-->
 
 			<!-- <jdbcPersistenceAdapter dataDirectory="activemq-data" dataSource="#postgres-ds" 
 				lockKeepAlivePeriod="0" /> -->

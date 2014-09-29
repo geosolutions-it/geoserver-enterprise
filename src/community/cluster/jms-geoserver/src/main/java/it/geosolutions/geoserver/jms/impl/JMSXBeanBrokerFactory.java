@@ -14,7 +14,8 @@ import org.springframework.core.io.Resource;
 
 public class JMSXBeanBrokerFactory extends XBeanBrokerFactory implements ApplicationContextAware {
 	
-	private ApplicationContext context;
+        private ApplicationContext context;
+	
 
 	protected ApplicationContext createApplicationContext(String uri) throws MalformedURLException {
         Resource resource = Utils.resourceFromString(uri);

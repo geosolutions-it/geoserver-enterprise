@@ -30,13 +30,13 @@ import org.springframework.util.Assert;
 public class Controller {
 
 	@Autowired
-	public JMSConfiguration config;
+	JMSConfiguration config;
 
 	@Autowired
-	public ReadOnlyGeoServerLoader loader;
+	ReadOnlyGeoServerLoader loader;
 
 	@Autowired
-	public ApplicationContext ctx;
+	ApplicationContext ctx;
 
 	@Autowired
 	JMSContainer container;
